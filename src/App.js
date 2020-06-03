@@ -1,21 +1,21 @@
 import React from 'react';
-import {HashRouter, Route, Switch} from 'react-router-dom'
-
+import {HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import Student from './views/students/Student';
+import PageNotFound from './views/PageNotFound'
 import Home from './views/home/Home'
-import Student from './views/students/Student'
-import Administer from './views/administers/Administer'
-import Expert from './views/experts/Expert'
+import './App.css'
+
 
 function App() {
   return (
-    <HashRouter>
+    <Router>
       <Switch>
-        <Route exact path = '/' component = { Home }></Route>
-        <Route exact path = '/student' component = { Student }></Route>
-        <Route exact path = '/administer' component = { Administer }></Route>
-        <Route exact path = '/expert' component = { Expert }></Route>
+        <Route path='/' component={Home} exact></Route>
+        <Route path='/student' component={Student}></Route>
+        <Route path='/error' component={PageNotFound}></Route>
+        <Redirect to='/error'></Redirect>
       </Switch>
-    </HashRouter>
+    </Router>
   );
 }
 
