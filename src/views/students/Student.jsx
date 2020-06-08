@@ -8,7 +8,7 @@ export default class Student extends React.Component {
 
   render() {
     return (
-      isLogin() ? (
+      
         <MyLayout>
         <Switch>
           {
@@ -25,9 +25,7 @@ export default class Student extends React.Component {
           }
         </Switch>
       </MyLayout>
-      ) : <Redirect to = '/login'></Redirect>
-      
-      
+
     )
   }
 }

@@ -17,6 +17,10 @@ export function getRole() {
   return localStorage.getItem('role')
 }
 
+export function getRequestRole(){
+  //Request["role"]
+}
+
 export function setRole(role) {
   localStorage.setItem('role', role)
 }

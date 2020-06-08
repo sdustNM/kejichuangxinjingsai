@@ -4,12 +4,23 @@ import { Form, Input, Button, Card, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { getRole, setToken } from '../../utils/auth'
 import './login.css'
+import axios from 'axios'
 
 class Login extends React.Component {
 
   onFinish = values => {
     console.log('Received values of form: ', values);
-    setToken(values.username)
+   // e.preventDefault();
+    axios.post('http://localhost:5000/api/Authentication/RequestToken', {
+      username: values.username,
+      password: values.password
+    }).then(res => {
+      localStorage.setItem('example-jwt-jwt', res.data);
+      this.props.history.push('/student')
+    }).catch(() => this.setState({
+
+      error: true
+    }));
   }
 
   render() {
