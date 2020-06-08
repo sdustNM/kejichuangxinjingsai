@@ -1,64 +1,88 @@
 import React from 'react'
-import { List, Button } from 'antd'
+import { Link } from 'react-router-dom'
+import { List, Card, Typography } from 'antd'
 
+import { FileTextOutlined } from '@ant-design/icons'
+const { Text } = Typography
+const icon = <FileTextOutlined style={{ fontSize: 24 }}></FileTextOutlined>
 
-const data = [
-  {
-    id: 1,
-    avatar: null,
-    title: '通知1',
-    description: "科大公告防疫专题关于征集2020年度国家社科基金中华学术外译项目选题的通知"
-  },
-  {
-    id: 2,
-    avatar: null,
-    title: '通知2',
-    description: "关于申报青岛市第三十四次社会科学优秀成果奖的通知"
-  },
-  {
-    id: 3,
-    avatar: null,
-    title: '通知3',
-    description: "关于教职工个人核对养老保险参保信息的通知"
-  },
-  {
-    id: 4,
-    avatar: null,
-    title: '通知4',
-    description: "关于做好新提拔科级干部任前谈话、到岗和工作交接等事项的通知"
-  },
-];
+const data = [];
+for (let i = 0; i < 23; i++) {
+  data.push({
+    id: i + 1,
+    title: <h3>关于教职工个人核对养老保险参保信息的通知{i}</h3>,
+    avatar: icon,
+    extra: <Text type="secondary">发布时间：(YYYY-MM-DD hh:mm:ss)</Text>
+  });
+}
 
 class NoticeList extends React.Component {
 
-  
+  constructor(props) {
+    super(props)
+    this.state = {
+      noticeList: [],
+      total: data.length,
+      currentPage: 1,
+      pageSize: 5
+    }
+  }
+
+  componentDidMount() {
+    this.refreshNoticeList(this.state.currentPage, this.state.pageSize);
+  }
+
+  refreshNoticeList = (currentPage, pageSize) => {
+    this.setState({
+      noticeList: data.slice(
+        (currentPage - 1) * pageSize,
+        Math.min(currentPage * pageSize, data.length))
+    })
+  }
+
+  pageChange = (currentPage, pageSize) => {
+    this.setState({
+      currentPage,
+      pageSize
+    })
+    this.refreshNoticeList(currentPage, pageSize);
+  }
+
+
   render() {
     return (
       <div>
-        <List
-          // style={{ backgroundColor: '#adc6ff' }}
-          // header={<div >Header</div>}
-          // footer={<div>Footer</div>}
-          bordered
-          itemLayout="horizontal"
-          dataSource={data}
-          renderItem={item => (
-            <List.Item
-              
-              key={item.id}
-              actions={[
-                <Button
-                  type="primary"
-                  key={`a-${item.id}`}>
-                  详情
-              </Button>]}
-            >
-              <List.Item.Meta
-                {...item}
-              />
-            </List.Item>
-          )}
-        />
+        <Card>
+          <List
+            itemLayout="horizontal"
+            pagination={{
+              pageSize: this.state.pageSize,
+              pageSizeOptions: ['5', '10', '20', '50'],
+              total: this.state.total,
+              showSizeChanger: true,
+              showQuickJumper: true,
+              showTotal: total => `共 ${total} 条`,
+              onChange: this.pageChange,
+              onShowSizeChange: this.pageChange,
+
+            }}
+            dataSource={this.state.noticeList}
+            renderItem={item => (
+              <Link key={item.id} to={'/notice/'+ item.id}>
+                <List.Item
+                  key={'item_'+item.id}
+                  extra={item.extra}
+                >
+                  <List.Item.Meta
+                    title={item.title}
+                    avatar={item.avatar}
+                  />
+                </List.Item>
+              </Link>
+            )}
+
+          />
+        </Card>
       </div>
     )
   }

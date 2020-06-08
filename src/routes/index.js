@@ -23,34 +23,41 @@
 // }]
 import React from 'react'
 import {
-  HomeTwoTone,
-  ProfileTwoTone,
-  SmileTwoTone
+  HomeOutlined,
+  ProfileOutlined,
+  SmileOutlined
 } from '@ant-design/icons';
 import JoinedList from "../views/students/JoinedList";
 import CompititionList from "../views/students/CompetitionList";
 import NoticeList from "../views/students/NoticeList";
+import Notice from '../views/students/Notice';
 
 export const studentRoutes = [{
-  path: '/',
+  path: '/student/',
   component: NoticeList,
   exact: true,
   isShow: true,
   title: '首页',
-  icon: <HomeTwoTone />
+  icon: <HomeOutlined />
 },{
-  path: '/competitions',
+  path: '/student/competitions',
   component: CompititionList,
   exact: true,
   isShow: true,
   title: '竞赛信息',
-  icon: <ProfileTwoTone />
+  icon: <ProfileOutlined />
 },
 {
-  path: '/joined',
+  path: '/student/joined',
   component: JoinedList,
   isShow: true,
   title: '我的竞赛',
-  icon: <SmileTwoTone />
-},
-]
+  icon: <SmileOutlined />
+},{
+  path: '/student/notice/:id',
+  component: Notice,
+  exact: true,
+  isShow: false,
+  title: '',
+  icon: <ProfileOutlined />
+}]

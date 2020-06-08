@@ -1,5 +1,5 @@
 import React from 'react'
-import{ withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Layout, Menu, Space } from 'antd'
 import { studentRoutes } from '../../routes'
 
@@ -32,8 +32,10 @@ class MyLayout extends React.Component {
               {
                 routes.map(route => {
                   return (
-                    <Menu.Item key={route.path} onClick={p => this.props.history.push(p.key)}>
-                      {route.icon}<span style={{color: '#1890ff'}}>{route.title}</span>
+                    <Menu.Item
+                      key={route.path}
+                      onClick={p => this.props.history.push(p.key)}>
+                      {route.icon}{route.title}
                     </Menu.Item>
                   )
                 })
@@ -54,7 +56,7 @@ class MyLayout extends React.Component {
             <Content
               className="site-layout-background"
               style={{
-                padding: 24,
+                padding: 0,
                 margin: 0,
                 minHeight: 280,
                 background: '#fff'
