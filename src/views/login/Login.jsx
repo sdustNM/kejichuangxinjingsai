@@ -15,7 +15,7 @@ class Login extends React.Component {
       username: values.username,
       password: values.password
     }).then(res => {
-      localStorage.setItem('example-jwt-jwt', res.data);
+      sessionStorage.setItem('example-jwt-jwt', res.data);
       this.props.history.push('/student')
     }).catch(() => this.setState({
 

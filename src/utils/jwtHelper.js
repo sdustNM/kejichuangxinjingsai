@@ -1,8 +1,8 @@
 export const getJwt = () => {
-  return 'bearer ' + localStorage.getItem('example-jwt-jwt');
+  return 'bearer ' + sessionStorage.getItem('example-jwt-jwt');
 };
 export const getJwtUser = () => {
-  let jwtInfo= localStorage.getItem('example-jwt-jwt');
+  let jwtInfo= sessionStorage.getItem('example-jwt-jwt');
   if (jwtInfo)
   {
     let user =  (JSON.parse(decodeURIComponent(escape(window.atob(jwtInfo.split('.')[1])))))
