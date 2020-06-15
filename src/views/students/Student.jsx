@@ -1,8 +1,8 @@
 import React from 'react'
 import MyLayout from '../../components/frame/MyLayout'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { studentRoutes } from '../../routes'
-import { isLogin } from '../../utils/auth'
+
 
 export default class Student extends React.Component {
 

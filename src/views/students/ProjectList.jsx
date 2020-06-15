@@ -1,6 +1,6 @@
 import React from 'react';
 
-class JoinedList extends React.Component {
+class ProjectList extends React.Component {
   render() {
     return (
       <h1>我的比赛</h1>
@@ -9,4 +9,4 @@ class JoinedList extends React.Component {
 }
 
 
-export default JoinedList;
+export default ProjectList;

@@ -2,18 +2,18 @@ import React from 'react';
 import { Redirect } from 'react-router-dom'
 import { Form, Input, Button, Card, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { getRole, setToken } from '../../utils/auth'
 import './login.css'
 import axios from 'axios'
 
 class Login extends React.Component {
 
   onFinish = values => {
-    console.log('Received values of form: ', values);
-   // e.preventDefault();
-    axios.post('http://localhost:5000/api/Authentication/RequestToken', {
+    console.log(this.props.location.state.entryID)
+    // e.preventDefault();
+    axios.post('http://192.168.34.201:4000/api/login', {
       username: values.username,
-      password: values.password
+      password: values.password,
+      entryID: this.props.location.state.entryID
     }).then(res => {
       sessionStorage.setItem('example-jwt-jwt', res.data);
       this.props.history.push('/student')
@@ -24,7 +24,7 @@ class Login extends React.Component {
   }
 
   render() {
-    return getRole() ? (
+    return this.props.location.state ? (
       <div className='container'>
         <Card
           title='系统登录'
@@ -65,7 +65,7 @@ class Login extends React.Component {
           </Form>
         </Card>
       </div>
-    ) : (<Redirect to="/"/>)
+    ) : (<Redirect to="/" />)
   }
 }
 

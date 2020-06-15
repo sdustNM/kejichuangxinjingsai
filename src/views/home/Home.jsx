@@ -29,11 +29,12 @@ export default class Home extends React.Component {
                   backgroundColor: '#ffffff',
                   opacity: 0.6
                 }}
+                onClick = {() => this.props.history.push({pathname:'/login',state:{entryID: 3}})}
                 hoverable
                 cover={<ContactsTwoTone twoToneColor='#52c41a' style={{ fontSize: 84 }} />}
               >
                 <Meta
-                  title={<h4 style={{ color: '#52c41a', fontWeight: 'bold' }}>学生入口</h4>}
+                  title={<h4 style={{ color: '#52c41a', fontWeight: 'bold' }}>参赛入口</h4>}
                   style={{
                     textAlign: 'center'
                   }} />
@@ -45,6 +46,7 @@ export default class Home extends React.Component {
                   backgroundColor: '#ffffff',
                   opacity: 0.6
                 }}
+                onClick = {() => this.props.history.push({pathname:'/login',state:{entryID: 2}})}
                 hoverable
                 cover={<ContactsTwoTone twoToneColor='#096dd9' style={{ fontSize: 84 }} />}
               >
@@ -61,6 +63,7 @@ export default class Home extends React.Component {
                   backgroundColor: '#ffffff',
                   opacity: 0.6
                 }}
+                onClick = {() => this.props.history.push({pathname:'/login',state:{entryID: 1}})}
                 hoverable
                 cover={<ContactsTwoTone twoToneColor='#faad14' style={{ fontSize: 84 }} />}
               >

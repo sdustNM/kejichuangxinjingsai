@@ -1,26 +1,15 @@
-export function getToken() {
-  return localStorage.getItem('token')
+const getRole = () => {
+  return '1'
 }
 
-export function setToken(token) {
-  localStorage.setItem('token', token)
+export const isStudent = () => {
+  return getRole() === '3'
 }
 
-export function isLogin() {
-  if(localStorage.getItem('token')) {
-    return true
-  }
-  return false
+export const isExpert = () => {
+  return getRole() === '2'
 }
 
-export function getRole() {
-  return localStorage.getItem('role')
-}
-
-export function getRequestRole(){
-  //Request["role"]
-}
-
-export function setRole(role) {
-  localStorage.setItem('role', role)
+export const isAdminister = () => {
+  return getRole() === '1'
 }

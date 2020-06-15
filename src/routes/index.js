@@ -1,36 +1,25 @@
 
-// export const mainRoutes = [{
-//   key: 'home',
-//   path: '/',
-//   component: Home,
-//   exact: true
-// }, {
-//   key: 'studentLogin',
-//   path: '/student/login',
-//   component: StudentLogin
-// }, {
-//   key: 'administerLogin',
-//   path: '/administer/login',
-//   component: AdministerLogin
-// }, {
-//   key: 'expertLogin',
-//   path: '/expert/login',
-//   component: ExpertLogin
-// }, {
-//   key: 'pageNotFound',
-//   path: '/error',
-//   component: PageNotFound
-// }]
 import React from 'react'
+
 import {
   HomeOutlined,
   ProfileOutlined,
   SmileOutlined
 } from '@ant-design/icons';
-import JoinedList from "../views/students/JoinedList";
+
+import ProjectList from "../views/students/ProjectList";
 import CompititionList from "../views/students/CompetitionList";
 import NoticeList from "../views/students/NoticeList";
 import Notice from '../views/students/Notice';
+
+import CompetitionManager from '../views/administers/CompetitionManager'
+import CompetitionEdit from '../views/administers/CompetitionEdit'
+import ProjectManager from '../views/administers/ProjectManager'
+import ProjectDetail from '../views/administers/ProjectDetail'
+import AdministerManager from '../views/administers/AdministerManager';
+import DepartmentManager from '../views/administers/DepartmentManager';
+import TeacherManager from '../views/administers/TeacherManager';
+import StudentManager from '../views/administers/StudentManager';
 
 export const studentRoutes = [{
   path: '/student/',
@@ -39,7 +28,7 @@ export const studentRoutes = [{
   isShow: true,
   title: '首页',
   icon: <HomeOutlined />
-},{
+}, {
   path: '/student/competitions',
   component: CompititionList,
   exact: true,
@@ -48,12 +37,12 @@ export const studentRoutes = [{
   icon: <ProfileOutlined />
 },
 {
-  path: '/student/joined',
-  component: JoinedList,
+  path: '/student/projects',
+  component: ProjectList,
   isShow: true,
   title: '我的竞赛',
   icon: <SmileOutlined />
-},{
+}, {
   path: '/student/notice/:id',
   component: Notice,
   exact: true,
@@ -61,3 +50,40 @@ export const studentRoutes = [{
   title: '',
   icon: <ProfileOutlined />
 }]
+
+export const administerRoutes = [{
+  path: '/administer/',
+  component: CompetitionManager,
+  exact: true
+}, {
+  path: '/administer/competitions',
+  component: CompetitionManager,
+  exact: true
+}, {
+  path: '/administer/competitionEdit',
+  component: CompetitionEdit
+}, {
+  path: '/administer/projects',
+  component: ProjectManager,
+  exact: true
+}, {
+  path: '/administer/projectDetail',
+  component: ProjectDetail
+},{
+  path: '/administer/administers',
+  component: AdministerManager,
+  exact: true
+},{
+  path: '/administer/departments',
+  component: DepartmentManager,
+  exact: true
+},{
+  path: '/administer/teachers',
+  component: TeacherManager,
+  exact: true
+},{
+  path: '/administer/students',
+  component: StudentManager,
+  exact: true
+}]
+
