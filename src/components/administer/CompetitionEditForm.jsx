@@ -31,6 +31,7 @@ class CompetitionEditForm extends React.Component {
         department: item.department,
         type: item.type,
         submitTime: [moment(item.start, 'YYYY-MM-DD'), moment(item.end, 'YYYY-MM-DD')],
+        appraiseTime: [moment(item.start, 'YYYY-MM-DD'), moment(item.end, 'YYYY-MM-DD')],
         description: item.description
       })
     }
@@ -80,6 +81,12 @@ class CompetitionEditForm extends React.Component {
           label="参赛时间"
           name="submitTime"
           rules={[{ required: true, message: '参赛时间不能为空!' }]}
+        >
+          <RangePicker />
+        </Form.Item>
+        <Form.Item
+          label="评审时间"
+          name="appraiseTime"
         >
           <RangePicker />
         </Form.Item>
