@@ -1,12 +1,31 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { Layout, Menu, Space } from 'antd'
+import { Layout, Menu, Space,Dropdown, Avatar } from 'antd'
 import { studentRoutes } from '../../routes'
-
+import {getJwtUser,removeJwt} from '../../utils/jwtHelper'
 import logo from './logo.png'
+import './MyLayout.css'
 const { Header, Content, Sider, Footer } = Layout;
 const routes = studentRoutes.filter(route => route.isShow)
 class MyLayout extends React.Component {
+
+
+
+
+  popMenu=()=>
+  {
+    return (
+    <Menu  onClick={p=>{
+      if (p.key==="logout"){
+        removeJwt();
+        this.props.history.push("/login");
+      }
+    }}>
+      <Menu.Item key="notice">通知中心</Menu.Item>
+      <Menu.Item key="logout">退出</Menu.Item>
+    </Menu>
+    );
+  }
 
   render() {
     return (
@@ -21,6 +40,13 @@ class MyLayout extends React.Component {
               }}>大学生科技创新竞赛</span>
             </Space>
           </div>
+          <Dropdown overlay={this.popMenu}>
+            <div>
+              <Avatar>U</Avatar>
+              <span style={{color:'#fff'}}>{ `${getJwtUser().role}[${getJwtUser().username}]` }</span>
+              
+            </div>
+          </Dropdown>
         </Header>
         <Layout>
           <Sider width={200} className="site-layout-background">

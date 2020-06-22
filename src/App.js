@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
-import Student from './views/students/Student';
+
 import PageNotFound from './views/common/PageNotFound'
 import Login from './views/login/Login'
 import Home from './views/home/Home'
@@ -8,6 +8,7 @@ import './App.css'
 import AuthComponent from './utils/AuthComponent';
 import getUserTest from './views/getUserTest';
 import Administer from './views/administers/Administer';
+import Student from './views/students/Student';
 
 function App() {
   return (
