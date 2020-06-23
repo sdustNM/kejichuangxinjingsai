@@ -1,15 +1,17 @@
 export const getJwt = () => {
-  console.log(sessionStorage.getItem('example-jwt-jwt'))
-  return 'bearer ' + sessionStorage.getItem('example-jwt-jwt');
+  return 'bearer ' + sessionStorage.getItem('myjwt');
 };
 export const getJwtUser = () => {
-  let jwtInfo= sessionStorage.getItem('example-jwt-jwt');
-  if (jwtInfo)
+  let jwtInfo= sessionStorage.getItem('myjwt');
+  if (jwtInfo!=="null")
   {
     let user =  (JSON.parse(decodeURIComponent(escape(window.atob(jwtInfo.split('.')[1])))))
-    console.log(user);
     let name="";
     let role="";
+    let username="";
+    let departmentNo="";
+    let department="";
+  
     for (var item in user) {
       if ((item.search("/claims/name")) >= 0) {
         name = user[item];
@@ -17,9 +19,21 @@ export const getJwtUser = () => {
       if ((item.search("/claims/role")) >= 0) {
         role = user[item];
       }
+      if ((item.search("userData"))>=0){
+        let extraData=user[item].split(',');
+        username=extraData[0];
+        departmentNo=extraData[1];
+        department=extraData[2];
+      }
     }
   
-    return  {"name":name,"role":role};
+    return {
+      "name": name,
+      "role": role,
+      "username": username,
+      "department": department,
+      "departmentNo": departmentNo
+    };
 
   }
   else 
@@ -28,3 +42,8 @@ export const getJwtUser = () => {
   }
 
 };
+
+
+export const removeJwt=()=>{
+  sessionStorage.removeItem("myjwt");
+}

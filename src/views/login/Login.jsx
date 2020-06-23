@@ -15,11 +15,9 @@ class Login extends React.Component {
       password: values.password,
       entryID: this.props.location.state.entryID
     }).then(res => {
-      if (res.data.result) {
-        sessionStorage.setItem('example-jwt-jwt', res.data.data);
-        this.props.history.push('/student')
-
-      }
+      console.log(res.data.data)
+      sessionStorage.setItem('myjwt', res.data.data);
+      this.props.history.push('/student')
     }).catch(() => this.setState({
 
       error: true

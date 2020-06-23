@@ -45,7 +45,6 @@ class AuthComponent extends Component {
       //this.props.history.push('/login');
       return <Redirect to="/login" />
     }
-    //console.log("my:"+JSON.stringify(user));
     return this.props.children;
   }
 }
