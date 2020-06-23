@@ -9,7 +9,7 @@ import logo from './logo.png'
 import './MyLayout.css'
 import { isStudent ,isAdminister, isExpert, getRoleName, getRole } from '../../utils/auth'
 import { get } from '../../utils/request'
-
+import '../../utils/config'
 const { Header, Content, Sider, Footer } = Layout;
 const {SubMenu} =Menu;
 
@@ -23,6 +23,7 @@ class MyLayout extends React.Component {
     <Menu  onClick={p=>{
       if (p.key==="logout"){
         removeJwt();
+        global.constants.userInfo=null;
         this.props.history.push("/login");
       }
     }}>
@@ -34,7 +35,6 @@ class MyLayout extends React.Component {
 
   render() {
     let currentMenu= isStudent()? studentMenus: (isAdminister()? administerMenus:{});
-    console.log(currentMenu);
    const menus = currentMenu? currentMenu.filter(m => m.isShow):[];
 
     return (
@@ -52,7 +52,7 @@ class MyLayout extends React.Component {
           <Dropdown overlay={this.popMenu}>
             <div>
               <Avatar>U</Avatar>
-              <span style={{color:'#fff'}}>{ `${getRole()}[${getJwtUser().username}]` }</span>
+              <span style={{color:'#fff'}}>{ `${getRoleName()}[${getJwtUser().username}]` }</span>
               
             </div>
           </Dropdown>

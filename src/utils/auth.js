@@ -10,14 +10,13 @@ export const getRoleName=()=>{
 }
 
 export const isStudent = () => {
-  return getRole() === '学生'
+  return getRoleName() === '学生'
 }
 
 export const isExpert = () => {
-  return getRole() === '专家'
+  return getRoleName() === '专家'
 }
 
 export const isAdminister = () => {
-  console.log(getRole())
-  return getRole() === "管理员"
+  return getRoleName() === "管理员"
 }

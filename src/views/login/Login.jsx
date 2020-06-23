@@ -20,10 +20,10 @@ class Login extends React.Component {
       // console.log(res.data.data)
       if (r.result) {
         sessionStorage.setItem('myjwt', r.data);
-        if (getRole() === "学生") {
+        if (getRoleName() === "学生") {
           this.props.history.push('/student')
         }
-        else if (getRole() === "管理员") {
+        else if (getRoleName() === "管理员") {
           this.props.history.push('/administer')
         }
         else {
