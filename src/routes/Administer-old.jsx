@@ -2,10 +2,10 @@ import React from 'react'
 import { Layout, Space, Menu } from 'antd'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import logo from '../../components/frame/logo.png'
-import { isAdminister } from '../../utils/auth'
+import { isAdminister } from '../utils/auth'
 
 import { administerRoutes } from '../../routes/index'
-import NoPermission from '../common/NoPermission'
+import NoPermission from '../views/common/NoPermission'
 const { Header, Content, Sider, Footer } = Layout
 const { SubMenu } = Menu
 
