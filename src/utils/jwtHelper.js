@@ -3,9 +3,15 @@ export const getJwt = () => {
 };
 export const getJwtUser = () => {
   let jwtInfo= sessionStorage.getItem('myjwt');
-  if (jwtInfo!=="null")
+  if (jwtInfo!=="null" && jwtInfo!==null)
   {
-    let user =  (JSON.parse(decodeURIComponent(escape(window.atob(jwtInfo.split('.')[1])))))
+    // console.log("dddd");
+    // console.log(jwtInfo.split('.')[1])
+
+    let s= escape(window.atob(jwtInfo.split('.')[1]))
+    let s1=decodeURIComponent(s)
+    let user =  (JSON.parse(s1))
+    console.log(user)
     let name="";
     let role="";
     let username="";
