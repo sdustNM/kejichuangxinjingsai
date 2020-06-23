@@ -7,11 +7,13 @@ import {administerMenus} from '../../routes/AdministerMenu'
 import {getJwtUser,removeJwt} from '../../utils/jwtHelper'
 import logo from './logo.png'
 import './MyLayout.css'
-import { isStudent ,isAdminister, isExpert } from '../../utils/auth'
+import { isStudent ,isAdminister, isExpert, getRoleName, getRole } from '../../utils/auth'
+import { get } from '../../utils/request'
+
 const { Header, Content, Sider, Footer } = Layout;
 const {SubMenu} =Menu;
-let currentMenu= isStudent()? studentMenus: (isAdminister()? administerMenus:null);
-const menus = currentMenu.filter(m => m.isShow)
+
+
 
 class MyLayout extends React.Component {
 
@@ -31,6 +33,10 @@ class MyLayout extends React.Component {
   }
 
   render() {
+    let currentMenu= isStudent()? studentMenus: (isAdminister()? administerMenus:{});
+    console.log(currentMenu);
+   const menus = currentMenu? currentMenu.filter(m => m.isShow):[];
+
     return (
       <Layout>
         <Header className="header" style={{ backgroundColor: '#1890ff' }}>
@@ -46,7 +52,7 @@ class MyLayout extends React.Component {
           <Dropdown overlay={this.popMenu}>
             <div>
               <Avatar>U</Avatar>
-              <span style={{color:'#fff'}}>{ `${getJwtUser().role}[${getJwtUser().username}]` }</span>
+              <span style={{color:'#fff'}}>{ `${getRole()}[${getJwtUser().username}]` }</span>
               
             </div>
           </Dropdown>

@@ -1,10 +1,11 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom'
-import { Form, Input, Button, Card, Checkbox } from 'antd';
+import { Form, Input, Button, Card, Checkbox,message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { getJwt, getJwtUser } from '../../utils/jwtHelper'
 import './login.css'
 import axios from 'axios'
+import { getRoleName,getRole } from '../../utils/auth';
 
 class Login extends React.Component {
 
@@ -15,11 +16,25 @@ class Login extends React.Component {
       password: values.password,
       entryID: this.props.location.state.entryID
     }).then(res => {
-      console.log(res.data.data)
-      sessionStorage.setItem('myjwt', res.data.data);
-      this.props.history.push('/student')
+        let r=res.data;
+      // console.log(res.data.data)
+      if (r.result) {
+        sessionStorage.setItem('myjwt', r.data);
+        if (getRole() === "学生") {
+          this.props.history.push('/student')
+        }
+        else if (getRole() === "管理员") {
+          this.props.history.push('/administer')
+        }
+        else {
+          this.props.history.push('/Expert')
+        }
+      }
+      else 
+      {
+        message.error(r.message);
+      }
     }).catch(() => this.setState({
-
       error: true
     }));
   }
