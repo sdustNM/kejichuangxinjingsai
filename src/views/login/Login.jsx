@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect } from 'react-router-dom'
 import { Form, Input, Button, Card, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { getJwt, getJwtUser } from '../../utils/jwtHelper'
 import './login.css'
 import axios from 'axios'
 
@@ -15,9 +14,22 @@ class Login extends React.Component {
       password: values.password,
       entryID: this.props.location.state.entryID
     }).then(res => {
-      console.log(res.data.data)
-      sessionStorage.setItem('myjwt', res.data.data);
-      this.props.history.push('/student')
+      if (res.data.result) {
+        sessionStorage.setItem('myjwt', res.data.data);
+        if (this.props.location.state.entryID === 1) {
+          this.props.history.push('/administer')
+        } else if (this.props.location.state.entryID === 2) {
+          this.props.history.push('/expert')
+        } else {
+          this.props.history.push('/student')
+        }
+      }
+      else{
+        alert(res.data.message) 
+        this.props.history.push('/')
+      }
+
+
     }).catch(() => this.setState({
 
       error: true
