@@ -7,8 +7,8 @@ import Home from './views/home/Home'
 import './App.css'
 import AuthComponent from './utils/AuthComponent';
 import getUserTest from './views/getUserTest';
-import Administer from './views/administers/Administer';
-import Student from './views/students/Student';
+import AdministerRoutes from './routes/AdministerRoutes';
+import Student from './routes/StudentRoutes';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Route path='/' component={Home} exact></Route>
         <Route path='/login' component={Login} exact></Route>
         <Route path='/error' component={PageNotFound} exact></Route>
-        <Route path='/administer' component={Administer}></Route>
+        <Route path='/administer' component={AdministerRoutes}></Route>
         <AuthComponent>
           <Route path='/student' component={Student}></Route>
           <Route path="/getUserTest" component={getUserTest}></Route>

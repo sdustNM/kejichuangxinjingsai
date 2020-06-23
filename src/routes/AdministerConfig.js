@@ -7,10 +7,6 @@ import {
   SmileOutlined
 } from '@ant-design/icons';
 
-import ProjectList from "../views/students/ProjectList";
-import CompititionList from "../views/students/CompetitionList";
-import NoticeList from "../views/students/NoticeList";
-import Notice from '../views/students/Notice';
 
 import CompetitionManager from '../views/administers/CompetitionManager'
 import CompetitionEdit from '../views/administers/CompetitionEdit'
@@ -21,43 +17,21 @@ import DepartmentManager from '../views/administers/DepartmentManager';
 import TeacherManager from '../views/administers/TeacherManager';
 import StudentManager from '../views/administers/StudentManager';
 
-export const studentRoutes = [{
-  path: '/student/',
-  component: NoticeList,
-  exact: true,
-  isShow: true,
-  title: '首页',
-  icon: <HomeOutlined />
-}, {
-  path: '/student/competitions',
-  component: CompititionList,
-  exact: true,
-  isShow: true,
-  title: '竞赛信息',
-  icon: <ProfileOutlined />
-},
-{
-  path: '/student/projects',
-  component: ProjectList,
-  isShow: true,
-  title: '我的竞赛',
-  icon: <SmileOutlined />
-}, {
-  path: '/student/notice/:id',
-  component: Notice,
-  exact: true,
-  isShow: false,
-  title: '',
-  icon: <ProfileOutlined />
-}]
 
-export const administerRoutes = [{
+
+export const administerConfig = [
+  {
   path: '/administer/',
   component: CompetitionManager,
+  isShow:true,
+  title:'学生竞赛',
   exact: true
-}, {
+}, 
+{
   path: '/administer/competitions',
   component: CompetitionManager,
+  isShow:true,
+  title:'学生竞赛',
   exact: true
 }, {
   path: '/administer/competitionEdit',
