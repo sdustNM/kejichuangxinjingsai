@@ -47,7 +47,7 @@ class AuthComponent extends Component {
     }
     return this.props.children;
 
-//to do 
+//to do master
 
   }
 }
