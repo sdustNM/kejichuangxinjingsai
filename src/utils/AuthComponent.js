@@ -46,6 +46,9 @@ class AuthComponent extends Component {
       return <Redirect to="/login" />
     }
     return this.props.children;
+
+//to do 
+
   }
 }
 
