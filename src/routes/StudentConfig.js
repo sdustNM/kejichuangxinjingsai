@@ -31,3 +31,5 @@ export const studentConfig = [{
 
 
   //to do wc
+
+  /// to do wc2
