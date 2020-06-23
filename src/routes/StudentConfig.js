@@ -28,3 +28,6 @@ export const studentConfig = [{
     component: Notice,
     exact: true,
   }]
+
+
+  //to do wc
