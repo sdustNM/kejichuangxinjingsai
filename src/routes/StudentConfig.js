@@ -30,6 +30,4 @@ export const studentConfig = [{
   }]
 
 
-  //to do wc
-
-  /// to do wc2
+  //to do wcgit
