@@ -10,7 +10,7 @@ const data = [];
 for (let i = 0; i < 23; i++) {
   data.push({
     id: i + 1,
-    title: <h3>关于教职工个人核对养老保险参保信息的通知{i}</h3>,
+    title: '关于教职工个人核对养老保险参保信息的通知' + i,
     avatar: icon,
     extra: <Text type="secondary">发布时间：(YYYY-MM-DD hh:mm:ss)</Text>
   });

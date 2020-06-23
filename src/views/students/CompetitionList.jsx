@@ -1,6 +1,5 @@
 import React from 'react';
-import { Table, Space, Button } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { Table, Button } from 'antd';
 
 const data = []
 for (let i = 1; i <= 46; i++) {
@@ -14,8 +13,7 @@ for (let i = 1; i <= 46; i++) {
   })
 }
 
-class CompetitionManager extends React.Component {
-
+class CompititionList extends React.Component {
   state = {
     dataSource: [],
     total: data.length,
@@ -83,35 +81,20 @@ class CompetitionManager extends React.Component {
         title: '操作',
         key: 'action',
         render: (text, record) => (
-          <Space size="middle">
-            <Button
+          <Button
               type='primary'
               size='small'
               shape='round'
               onClick={() => {
-                this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.key } })
+                this.props.history.push({ pathname: '/administer/competition', state: { id: record.key } })
               }}
-            >修改</Button>
-            <Button
-              type='danger'
-              size='small'
-              shape='round'
-            >删除</Button>
-          </Space>
+            >详情</Button>
         ),
       },
     ];
     const { dataSource, pageSize, total, loading } = this.state;
     return (
       <div>
-        <Button
-          type='dashed'
-          style={{ margin: 20 }}
-          onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit' }) }}
-        >
-          <PlusCircleOutlined />添加
-        </Button>
-
         <Table
           dataSource={dataSource}
           columns={columns}
@@ -133,4 +116,5 @@ class CompetitionManager extends React.Component {
   }
 }
 
-export default CompetitionManager;
+
+export default CompititionList;

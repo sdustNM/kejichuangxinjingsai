@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from 'antd'
 import CompetitionEditForm from '../../components/administer/CompetitionEditForm'
-import CompetitionEditExpert from '../../components/administer/CompetitionEditExpert'
+import CompetitionExpertList from '../../components/administer/CompetitionExpertList'
 import CompetitionEditAppendix from '../../components/administer/CompetitionEditAppendix'
 
 
@@ -60,7 +60,7 @@ class CompetitionEdit extends React.Component {
 
     const contentList = {
       tab1: <CompetitionEditForm item={this.state.competitionItem}></CompetitionEditForm>,
-      tab2: <CompetitionEditExpert></CompetitionEditExpert>,
+      tab2: <CompetitionExpertList></CompetitionExpertList>,
       tab3: <CompetitionEditAppendix></CompetitionEditAppendix>
     };
     return (

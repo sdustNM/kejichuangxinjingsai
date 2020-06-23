@@ -1,4 +1,5 @@
 export const getJwt = () => {
+  console.log(sessionStorage.getItem('example-jwt-jwt'))
   return 'bearer ' + sessionStorage.getItem('example-jwt-jwt');
 };
 export const getJwtUser = () => {
@@ -9,7 +10,6 @@ export const getJwtUser = () => {
     console.log(user);
     let name="";
     let role="";
-  
     for (var item in user) {
       if ((item.search("/claims/name")) >= 0) {
         name = user[item];

@@ -24,7 +24,6 @@ class CompetitionEditForm extends React.Component {
 
   componentDidUpdate() {
     const { item } = this.props
-    console.log(item)
     if (item) {
       this.formRef.current.setFieldsValue({
         name: item.name,

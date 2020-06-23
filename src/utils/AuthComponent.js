@@ -27,7 +27,7 @@ class AuthComponent extends Component {
     this.setState({
           user: getJwtUser()
         })
-    console.log("jwtUser:"+JSON.stringify(getJwtUser()));
+    //console.log("jwtUser:"+JSON.stringify(getJwtUser()));
 
   }
 
@@ -45,7 +45,7 @@ class AuthComponent extends Component {
       //this.props.history.push('/login');
       return <Redirect to="/login" />
     }
-    console.log("my:"+JSON.stringify(user));
+    //console.log("my:"+JSON.stringify(user));
     return this.props.children;
   }
 }
