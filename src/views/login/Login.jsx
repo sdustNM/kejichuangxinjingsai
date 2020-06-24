@@ -1,9 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom'
-import { Form, Input, Button, Card, Checkbox } from 'antd';
+import { Form, Input, Button, Card, Checkbox,message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.css'
 import axios from 'axios'
+import { getRoleName,getRole } from '../../utils/auth';
 
 class Login extends React.Component {
 
@@ -14,6 +15,7 @@ class Login extends React.Component {
       password: values.password,
       entryID: this.props.location.state.entryID
     }).then(res => {
+<<<<<<< HEAD
       if (res.data.result) {
         sessionStorage.setItem('myjwt', res.data.data);
         if (this.props.location.state.entryID === 1) {
@@ -30,8 +32,27 @@ class Login extends React.Component {
       }
 
 
+=======
+        let r=res.data;
+      // console.log(res.data.data)
+      if (r.result) {
+        sessionStorage.setItem('myjwt', r.data);
+        if (getRoleName() === "学生") {
+          this.props.history.push('/student')
+        }
+        else if (getRoleName() === "管理员") {
+          this.props.history.push('/administer')
+        }
+        else {
+          this.props.history.push('/Expert')
+        }
+      }
+      else 
+      {
+        message.error(r.message);
+      }
+>>>>>>> cafe972d4993e52a37813869aa05391d41973176
     }).catch(() => this.setState({
-
       error: true
     }));
   }

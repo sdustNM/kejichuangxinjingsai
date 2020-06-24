@@ -17,8 +17,9 @@ function App() {
         <Route path='/' component={Home} exact></Route>
         <Route path='/login' component={Login} exact></Route>
         <Route path='/error' component={PageNotFound} exact></Route>
-        <Route path='/administer' component={AdministerRoutes}></Route>
+        
         <AuthComponent>
+          <Route path='/administer' component={AdministerRoutes}></Route>
           <Route path='/student' component={Student}></Route>
           <Route path="/getUserTest" component={getUserTest}></Route>
         </AuthComponent>
