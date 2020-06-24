@@ -2,6 +2,7 @@ import React from 'react'
 import { Row, Col, Card } from 'antd'
 import banner from './banner.png'
 import { ContactsTwoTone } from '@ant-design/icons'
+
 const { Meta } = Card;
 
 
@@ -10,6 +11,7 @@ const bgStyle = {
   height: '100%',
   background: `url(${banner}) no-repeat center center fixed`,
   backgroundSize: 'cover',
+  position: ''
 }
 export default class Home extends React.Component {
 
@@ -18,10 +20,7 @@ export default class Home extends React.Component {
       <div style={bgStyle}>
         <div
           className="site-card-wrapper"
-          style={{
-            top:300,
-            left:50
-          }}>
+        >
           <Row justify="start" gutter={16}>
             <Col span={4}>
               <Card
