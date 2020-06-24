@@ -16,6 +16,7 @@ import AdministerManager from '../views/administers/AdministerManager';
 import DepartmentManager from '../views/administers/DepartmentManager';
 import TeacherManager from '../views/administers/TeacherManager';
 import StudentManager from '../views/administers/StudentManager';
+import CompetitionManagerXiao from '../views/administers/CompetitionManagerXiao'
 
 
 
@@ -28,10 +29,10 @@ export const administerConfig = [
   exact: true
 }, 
 {
-  path: '/administer/competitions',
-  component: CompetitionManager,
+  path: '/administer/competitions/xiao',
+  component: CompetitionManagerXiao,
   isShow:true,
-  title:'学生竞赛',
+  title:'校级竞赛',
   exact: true
 }, {
   path: '/administer/competitionEdit',
