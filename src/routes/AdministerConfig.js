@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 
 
-import CompetitionManager from '../views/administers/CompetitionManager'
+import CompetitionManager from '../views/administers/CompetitionManager-old'
 import CompetitionEdit from '../views/administers/CompetitionEdit'
 import ProjectManager from '../views/administers/ProjectManager'
 import ProjectDetail from '../views/administers/ProjectDetail'
@@ -17,6 +17,8 @@ import DepartmentManager from '../views/administers/DepartmentManager';
 import TeacherManager from '../views/administers/TeacherManager';
 import StudentManager from '../views/administers/StudentManager';
 import CompetitionManagerXiao from '../views/administers/CompetitionManagerXiao'
+import ExpertManager from '../views/administers/ExpertManager';
+import CompetitionManagerYuan from '../views/administers/CompetitionManagerYuan';
 
 
 
@@ -34,7 +36,13 @@ export const administerConfig = [
   isShow:true,
   title:'校级竞赛',
   exact: true
-}, {
+},{
+  path: '/administer/competitions/yuan',
+  component: CompetitionManagerYuan,
+  isShow:true,
+  title:'院级竞赛',
+  exact: true
+},  {
   path: '/administer/competitionEdit',
   component: CompetitionEdit
 }, {
@@ -60,5 +68,11 @@ export const administerConfig = [
   path: '/administer/students',
   component: StudentManager,
   exact: true
-}]
+},{
+  path: '/administer/Experts',
+  component: ExpertManager,
+  exact: true
+}
+
+]
 

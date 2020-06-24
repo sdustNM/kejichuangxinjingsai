@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Space, Button } from 'antd';
+import { Table, Space, Button ,AutoComplete,Row } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
 
 const data = []
@@ -13,14 +13,25 @@ for (let i = 1; i <= 46; i++) {
     state: '待定'
   })
 }
+const options = [
+  {
+    value: '能源学院',
+  },
+  {
+    value: '安全学院',
+  },
+  {
+    value: '计算机学院',
+  },
+]; 
 
-class CompetitionManagerXiao extends React.Component {
+class CompetitionManagerYuan extends React.Component {
 
   state = {
     dataSource: [],
     total: data.length,
     currentPage: 1,
-    pageSize: 10,
+    pageSize: 5,
     loading: false
   }
 
@@ -53,6 +64,20 @@ class CompetitionManagerXiao extends React.Component {
   }
 
   render() {
+    const Complete = () => (
+      <AutoComplete
+        style={{
+          width: 200,
+          padding:20,
+        }}
+        options={options}
+        placeholder="try to type `b`"
+        filterOption={(inputValue, option) =>
+          option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+        }
+      />
+    );
+
     const columns = [
       {
         title: '比赛编号',
@@ -104,17 +129,19 @@ class CompetitionManagerXiao extends React.Component {
     const { dataSource, pageSize, total, loading } = this.state;
     return (
       <div>
+        <Row  align="middle">
+        <span style={{paddingLeft:20}}>学院</span> <Complete />   
         <Button
           type='dashed'
-          style={{ margin: 20 }}
+         
           onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit' }) }}
         >
           <PlusCircleOutlined />添加
         </Button>
-
+        </Row>
         <Table
           dataSource={dataSource}
-          columns={columns}
+          columns={columns}   
           pagination={{
             pageSize: pageSize,
             pageSizeOptions: ['5', '10', '20', '50'],
@@ -126,11 +153,11 @@ class CompetitionManagerXiao extends React.Component {
             onShowSizeChange: this.showSizeChange,
           }}
           loading={loading}
-         
+          scroll={{ y: 320 }}
         />
       </div>
     )
   }
 }
 
-export default CompetitionManagerXiao;
+export default CompetitionManagerYuan;
