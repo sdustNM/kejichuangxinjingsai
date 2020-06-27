@@ -15,8 +15,8 @@ class Login extends React.Component {
       password: values.password,
       entryID: this.props.location.state.entryID
     }).then(res => {
-
-      let r = res.data
+        let r=res.data;
+      // console.log(res.data.data)
       if (r.result) {
         sessionStorage.setItem('myjwt', r.data);
         if (getRoleName() === "学生") {
