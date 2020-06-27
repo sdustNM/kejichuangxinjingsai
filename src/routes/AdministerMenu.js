@@ -3,7 +3,6 @@ import React from 'react'
 
 import {
   HomeOutlined,
-  ProfileOutlined,
   SmileOutlined
 } from '@ant-design/icons';
 
@@ -13,6 +12,7 @@ import AdministerManager from '../views/administers/AdministerManager';
 import DepartmentManager from '../views/administers/DepartmentManager';
 import TeacherManager from '../views/administers/TeacherManager';
 import StudentManager from '../views/administers/StudentManager';
+import ProjectManager from '../views/administers/ProjectManager';
 
 
 
@@ -24,7 +24,13 @@ export const administerMenus = [
   title:'学生竞赛',
   icon: <HomeOutlined />
 },
-
+{
+  component: ProjectManager,
+  path: '/administer/projects',
+  isShow:true,
+  title:'学生项目',
+  icon: <HomeOutlined />
+},
 {
     component: null,
     isShow:true,

@@ -9,7 +9,6 @@ import {
 import ProjectList from "../views/students/ProjectList";
 import CompititionList from "../views/students/CompetitionList";
 import NoticeList from "../views/students/NoticeList";
-import Notice from '../views/students/Notice';
 
 export const studentMenus = [{
     component: NoticeList,

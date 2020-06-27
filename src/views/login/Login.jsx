@@ -4,7 +4,7 @@ import { Form, Input, Button, Card, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.css'
 import axios from 'axios'
-import { getRoleName, getRole } from '../../utils/auth';
+import { getRoleName } from '../../utils/auth';
 
 class Login extends React.Component {
 

@@ -86,20 +86,12 @@ class CompetitionExpertList extends React.Component {
         render: (text, record) => (
           <Space>
             <Button
-              type='primary'
-              size='small'
-              shape='round'
-              onClick={record => { this.modify(record.key) }}
-            >
-              添加
-            </Button>
-            <Button
               type='danger'
               size='small'
               shape='round'
               onClick={record => { this.delete(record.key) }}
             >
-              删除
+              移除
             </Button>
           </Space>
         ),
