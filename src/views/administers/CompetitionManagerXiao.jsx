@@ -43,21 +43,24 @@ class CompetitionManagerXiao extends React.Component {
       currentPage,
       pageSize
     }).then(res => {
-      console.log(res)
+      //console.log(res)
       if (res.data.result) {
-        let data = []
-        JSON.parse(res.data.data).list.map(item =>
-          data.push({
+        let list = []
+        let data = JSON.parse(res.data.data)
+        data.list.map(item =>
+          list.push({
             id: item.id,
             key: item.id,
             name: item.name,
-            department: item.department,
+            fromUnit: item.fromUnit,
             category: item.category,
             state: '待定'
           })
         )
+        console.log(data)
         this.setState({
-          dataSource: data
+          dataSource: list,
+          _total: data.totalNum
         })
       }
 
@@ -79,8 +82,8 @@ class CompetitionManagerXiao extends React.Component {
       },
       {
         title: '组织单位',
-        dataIndex: 'department',
-        key: 'department',
+        dataIndex: 'fromUnit',
+        key: 'fromUnit',
       },
       {
         title: '比赛类型',
@@ -114,7 +117,7 @@ class CompetitionManagerXiao extends React.Component {
         ),
       },
     ];
-    const { dataSource, pageSize, total, loading } = this.state;
+    const { dataSource, pageSize, _total, loading } = this.state;
     return (
       <div>
         <Button
@@ -134,7 +137,7 @@ class CompetitionManagerXiao extends React.Component {
             showSizeChanger: true,
             showQuickJumper: true,
             total: _total,
-            showTotal: {(total, range) => `${range[0]}-${range[1]} of ${total} items`},
+            showTotal: (total, range) => `第${range[0]}-${range[1]}条 共${total}条`,
             onChange: this.pageChange,
             onShowSizeChange: this.showSizeChange,
           }}

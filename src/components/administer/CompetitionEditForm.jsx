@@ -1,7 +1,8 @@
 import React from 'react'
 import { Form, Input, Button, DatePicker, Space } from 'antd'
 import moment from "moment"
-import { getCompetitionByID, modifyCompetition } from '../../services/adminCompetition'
+import { getCompetitionByID, setCompetition } from '../../services/adminCompetition'
+import { getDeptID } from '../../utils/auth'
 
 const { RangePicker } = DatePicker
 const { TextArea } = Input
@@ -30,7 +31,7 @@ class CompetitionEditForm extends React.Component {
           let appraiseEnd = !item.appraiseEnd ? null : moment(item.appraiseEnd, 'YYYY-MM-DD')
           this.formRef.current.setFieldsValue({
             name: item.name,
-            department: item.department,
+            fromUnit: item.fromUnit,
             submitTime: [submitStart, submitEnd],
             appraiseTime: [appraiseStart, appraiseEnd],
             description: item.description
@@ -44,12 +45,12 @@ class CompetitionEditForm extends React.Component {
 
   onFinish = value => {
     //console.log(value)
-    const { item } = this.props
+    const { id } = this.props
     let competitionItem = {
-      id: !item ? '' : item.id,
       name: value.name,
-      category: value.type,
-      deparntment: value.department,
+      department: getDeptID(),
+      category: '校级',
+      fromUnit: value.fromUnit,
       submitStart: value.submitTime[0] && value.submitTime[0].format('YYYY-MM-DD'),
       submitEnd: value.submitTime[1] && value.submitTime[1].format('YYYY-MM-DD'),
       appraiseStart: value.appraiseTime && value.appraiseTime[0] && value.appraiseTime[0].format('YYYY-MM-DD'),
@@ -57,8 +58,9 @@ class CompetitionEditForm extends React.Component {
       description: value.description,
       remark: value.remark
     }
+    competitionItem.id = id || null
     console.log(competitionItem)
-    modifyCompetition(competitionItem).then(res => {
+    setCompetition(competitionItem).then(res => {
       if (res.data.result) {
         this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: res.data.data } })
       }
@@ -83,7 +85,7 @@ class CompetitionEditForm extends React.Component {
 
         <Form.Item
           label="组织单位"
-          name="department"
+          name="fromUnit"
           rules={[{ required: true, message: '比赛组织单位不能为空!' }]}
         >
           <Input />

@@ -8,7 +8,7 @@ export function getCompetitionByID(id) {
   return get('/administer/getCompetitionByID', { id })
 }
 
-export function modifyCompetition(competition) {
+export function setCompetition(competition) {
   return post('/administer/setCompetition', competition)
 }
 
