@@ -7,42 +7,48 @@ import {
 } from '@ant-design/icons';
 
 
-import CompetitionManager from '../views/administers/CompetitionManager'
-import AdministerManager from '../views/administers/AdministerManager';
-import DepartmentManager from '../views/administers/DepartmentManager';
-import TeacherManager from '../views/administers/TeacherManager';
-import StudentManager from '../views/administers/StudentManager';
 import ProjectManager from '../views/administers/ProjectManager';
 
 
 
 export const administerMenus = [
-{
-  component: CompetitionManager,
-  path: '/administer/competitions',
-  isShow:true,
-  title:'学生竞赛',
-  icon: <HomeOutlined />
-},
-{
-  component: ProjectManager,
-  path: '/administer/projects',
-  isShow:true,
-  title:'学生项目',
-  icon: <HomeOutlined />
-},
-{
+  {
+    component: null,
+    path: 'competitions',
+    isShow: true,
+    title: '学生竞赛',
+    icon: <HomeOutlined />,
+    sub: [{
+      isShow: true,
+      title: '校级竞赛',
+      path: '/administer/competitions/xiao',
+      icon: <SmileOutlined />,
+    }, {
+      path: '/administer/competitions/yuan',
+      isShow: true,
+      title: '院级竞赛',
+      icon: <SmileOutlined />,
+    }]
+  },
+  {
+    component: ProjectManager,
+    path: '/administer/projects',
+    isShow: true,
+    title: '学生项目',
+    icon: <HomeOutlined />
+  },
+  {
     component: null,
     path: 'systemManage',
-    isShow:true,
-    title:'系统管理',
+    isShow: true,
+    title: '系统管理',
     icon: <HomeOutlined />,
-    sub: [ {
+    sub: [{
       isShow: true,
       title: '学院信息',
       path: '/administer/departments',
       icon: <SmileOutlined />,
-    },{
+    }, {
       path: '/administer/administers',
       isShow: true,
       title: '学院管理员信息',
@@ -55,7 +61,7 @@ export const administerMenus = [
     }, {
       isShow: true,
       title: '教师信息',
-        path: '/administer/teachers',
+      path: '/administer/teachers',
       icon: <SmileOutlined />,
     }, {
       isShow: true,

@@ -1,5 +1,4 @@
 
-import CompetitionManager from '../views/administers/CompetitionManager'
 import CompetitionEdit from '../views/administers/CompetitionEdit'
 import ProjectManager from '../views/administers/ProjectManager'
 import ProjectDetail from '../views/administers/ProjectDetail'
@@ -14,13 +13,13 @@ import CompetitionManagerYuan from '../views/administers/CompetitionManagerYuan'
 
 
 export const administerConfig = [
-  {
-  path: '/administer/',
-  component: CompetitionManager,
-  isShow:true,
-  title:'学生竞赛',
-  exact: true
-}, 
+//   {
+//   path: '/administer/',
+//   component: CompetitionManager,
+//   isShow:true,
+//   title:'学生竞赛',
+//   exact: true
+// }, 
 {
   path: '/administer/competitions/xiao',
   component: CompetitionManagerXiao,

@@ -1,6 +1,7 @@
 import React from 'react'
-import { Form, Input, Button, Radio, DatePicker, Space } from 'antd'
+import { Form, Input, Button, DatePicker, Space } from 'antd'
 import moment from "moment"
+import { getCompetitionByID, modifyCompetition } from '../../services/adminCompetition'
 
 const { RangePicker } = DatePicker
 const { TextArea } = Input
@@ -17,28 +18,51 @@ class CompetitionEditForm extends React.Component {
 
   formRef = React.createRef();
 
-  componentDidUpdate(prevProps, prevState) {
-    const { item } = this.props
-    if (item) {
-
-      let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD')
-      let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD')
-      let appraiseStart = !item.appraiseStart ? null : moment(item.appraiseStart, 'YYYY-MM-DD')
-      let appraiseEnd = !item.appraiseEnd ? null : moment(item.appraiseEnd, 'YYYY-MM-DD')
-      this.formRef.current.setFieldsValue({
-        name: item.name,
-        department: item.department,
-        type: item.type,
-        submitTime: [submitStart, submitEnd],
-        appraiseTime: [appraiseStart, appraiseEnd],
-        description: item.description
+  componentDidUpdate() {
+    const { id } = this.props
+    if (id) {
+      getCompetitionByID(id).then(res => {
+        if (res.data.result) {
+          let item = JSON.parse(res.data.data)
+          let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD')
+          let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD')
+          let appraiseStart = !item.appraiseStart ? null : moment(item.appraiseStart, 'YYYY-MM-DD')
+          let appraiseEnd = !item.appraiseEnd ? null : moment(item.appraiseEnd, 'YYYY-MM-DD')
+          this.formRef.current.setFieldsValue({
+            name: item.name,
+            department: item.department,
+            submitTime: [submitStart, submitEnd],
+            appraiseTime: [appraiseStart, appraiseEnd],
+            description: item.description
+          })
+        }
       })
+
+
     }
   }
 
   onFinish = value => {
-    console.log(value)
-    
+    //console.log(value)
+    const { item } = this.props
+    let competitionItem = {
+      id: !item ? '' : item.id,
+      name: value.name,
+      category: value.type,
+      deparntment: value.department,
+      submitStart: value.submitTime[0] && value.submitTime[0].format('YYYY-MM-DD'),
+      submitEnd: value.submitTime[1] && value.submitTime[1].format('YYYY-MM-DD'),
+      appraiseStart: value.appraiseTime && value.appraiseTime[0] && value.appraiseTime[0].format('YYYY-MM-DD'),
+      appraiseEnd: value.appraiseTime && value.appraiseTime[1] && value.appraiseTime[1].format('YYYY-MM-DD'),
+      description: value.description,
+      remark: value.remark
+    }
+    console.log(competitionItem)
+    modifyCompetition(competitionItem).then(res => {
+      if (res.data.result) {
+        this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: res.data.data } })
+      }
+    })
   }
 
   render() {
@@ -64,17 +88,7 @@ class CompetitionEditForm extends React.Component {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          label="比赛级别"
-          name="type"
-          rules={[{ required: true, message: '请选择比赛级别!' }]}
-        >
-          <Radio.Group >
-            <Radio value='学院'>学院</Radio>
-            <Radio value='学校晋级'>学校晋级</Radio>
-            <Radio value='学校海选'>学校海选</Radio>
-          </Radio.Group>
-        </Form.Item>
+        
         <Form.Item
           label="参赛时间"
           name="submitTime"
@@ -106,11 +120,11 @@ class CompetitionEditForm extends React.Component {
         </Form.Item>
         <Form.Item {...tailLayout}>
           <Space>
-          <Button type="primary" htmlType="submit">
-            {!this.props.item || !this.props.item.id ? '创建' : '修改'}
-          </Button>
-          <Button type="primary" onClick={() => this.props.history.goBack()}>
-            取消
+            <Button type="primary" htmlType="submit">
+              {!this.props.item || !this.props.item.id ? '创建' : '修改'}
+            </Button>
+            <Button type="primary" onClick={() => this.props.history.goBack()}>
+              取消
           </Button>
           </Space>
         </Form.Item>

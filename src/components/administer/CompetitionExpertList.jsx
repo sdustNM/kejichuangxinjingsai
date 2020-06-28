@@ -5,25 +5,6 @@ import CompetitionEditExpert from './CompetitionEditExpert';
 
 import { PlusCircleOutlined } from '@ant-design/icons'
 
-const data = [
-  {
-    key: '991823',
-    name: '王翀',
-    gender: '男',
-    unit: '山东科技大学'
-  },
-  {
-    key: '99572',
-    name: '滕腾',
-    gender: '男',
-    unit: '山东科技大学'
-  }
-];
-
-
-
-
-
 class CompetitionExpertList extends React.Component {
   constructor(props) {
     super(props)
@@ -36,10 +17,9 @@ class CompetitionExpertList extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      dataSource: data,
-      visible: false
-    })
+    const id = this.props.id
+    console.log(id)
+    //this.fetch({ pagination })
   }
 
   showModal = () => {
