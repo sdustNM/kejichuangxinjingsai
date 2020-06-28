@@ -1,10 +1,3 @@
-import React from 'react'
-
-import {
-  HomeOutlined,
-  ProfileOutlined,
-  SmileOutlined
-} from '@ant-design/icons';
 
 import ProjectList from "../views/students/ProjectList";
 import CompititionList from "../views/students/CompetitionList";

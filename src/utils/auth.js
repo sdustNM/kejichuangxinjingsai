@@ -4,6 +4,11 @@ export const getRole = () => {
   return getJwtUser()===null?"":getJwtUser().role;
 }
 
+export const getDeptID = () => {
+  return getJwtUser()===null?"":getJwtUser().departmentNo;
+  
+}
+
 const roleNames=['管理员','专家','学生']
 export const getRoleName=()=>{
   return roleNames[getRole()-1]

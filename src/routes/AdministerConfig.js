@@ -1,14 +1,5 @@
 
-import React from 'react'
-
-import {
-  HomeOutlined,
-  ProfileOutlined,
-  SmileOutlined
-} from '@ant-design/icons';
-
-
-import CompetitionManager from '../views/administers/CompetitionManager-old'
+import CompetitionManager from '../views/administers/CompetitionManager'
 import CompetitionEdit from '../views/administers/CompetitionEdit'
 import ProjectManager from '../views/administers/ProjectManager'
 import ProjectDetail from '../views/administers/ProjectDetail'

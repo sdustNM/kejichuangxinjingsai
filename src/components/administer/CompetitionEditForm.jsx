@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, Radio, DatePicker } from 'antd'
+import { Form, Input, Button, Radio, DatePicker, Space } from 'antd'
 import moment from "moment"
 
 const { RangePicker } = DatePicker
@@ -14,23 +14,23 @@ const tailLayout = {
 };
 
 class CompetitionEditForm extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      id: ''
-    }
-  }
+
   formRef = React.createRef();
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     const { item } = this.props
     if (item) {
+
+      let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD')
+      let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD')
+      let appraiseStart = !item.appraiseStart ? null : moment(item.appraiseStart, 'YYYY-MM-DD')
+      let appraiseEnd = !item.appraiseEnd ? null : moment(item.appraiseEnd, 'YYYY-MM-DD')
       this.formRef.current.setFieldsValue({
         name: item.name,
         department: item.department,
         type: item.type,
-        submitTime: [moment(item.start, 'YYYY-MM-DD'), moment(item.end, 'YYYY-MM-DD')],
-        appraiseTime: [moment(item.start, 'YYYY-MM-DD'), moment(item.end, 'YYYY-MM-DD')],
+        submitTime: [submitStart, submitEnd],
+        appraiseTime: [appraiseStart, appraiseEnd],
         description: item.description
       })
     }
@@ -38,11 +38,10 @@ class CompetitionEditForm extends React.Component {
 
   onFinish = value => {
     console.log(value)
-    console.log(this.props.item.id)
+    
   }
 
   render() {
-    console.log(this.props)
     return (
       <Form
         {...layout}
@@ -96,19 +95,24 @@ class CompetitionEditForm extends React.Component {
         >
           <TextArea
             placeholder="请输入比赛描述"
-            autoSize={{ minRows: 3, maxRows: 5 }} 
+            autoSize={{ minRows: 3, maxRows: 5 }}
           />
         </Form.Item>
         <Form.Item
           label="备注"
-          name="remark" 
+          name="remark"
         >
           <Input placeholder='备注' />
         </Form.Item>
         <Form.Item {...tailLayout}>
+          <Space>
           <Button type="primary" htmlType="submit">
-            Submit
-        </Button>
+            {!this.props.item || !this.props.item.id ? '创建' : '修改'}
+          </Button>
+          <Button type="primary" onClick={() => this.props.history.goBack()}>
+            取消
+          </Button>
+          </Space>
         </Form.Item>
       </Form>
     )

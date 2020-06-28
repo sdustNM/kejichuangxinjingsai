@@ -7,8 +7,7 @@ import {administerMenus} from '../../routes/AdministerMenu'
 import {getJwtUser,removeJwt} from '../../utils/jwtHelper'
 import logo from './logo.png'
 import './MyLayout.css'
-import { isStudent ,isAdminister, isExpert, getRoleName, getRole } from '../../utils/auth'
-import { get } from '../../utils/request'
+import { isStudent ,isAdminister, getRoleName } from '../../utils/auth'
 import '../../utils/config'
 const { Header, Content, Sider, Footer } = Layout;
 const {SubMenu} =Menu;
