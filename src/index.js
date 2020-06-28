@@ -4,8 +4,25 @@ import App from './App'
 import * as serviceWorker from './serviceWorker';
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
-
 import 'antd/dist/antd.css'
+
+// redux 使用举例
+// import store from  './redux/store'
+// import {counterAddAction} from './redux/action/counter_action'
+// import { loadPostsAction} from './redux/action/post_action';
+
+
+// console.log(store);
+// console.log(store.getState())
+
+// store.dispatch(counterAddAction);
+// store.dispatch(loadPostsAction)
+
+// setTimeout(() => {
+// console.log(store);
+// console.log(store.getState())
+// }, 1000);
+
 
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
