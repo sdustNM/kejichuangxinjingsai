@@ -4,7 +4,7 @@ import CompetitionEditForm from '../../components/administer/CompetitionEditForm
 import CompetitionExpertList from '../../components/administer/CompetitionExpertList'
 import CompetitionEditAppendix from '../../components/administer/CompetitionEditAppendix'
 
-
+import { getCompetitionByID } from '../../services/adminCompetition'
 
 class CompetitionEdit extends React.Component {
   constructor(props) {
@@ -20,19 +20,28 @@ class CompetitionEdit extends React.Component {
   componentDidMount() {
     if (this.props.history.location.state && this.props.history.location.state.id) {
       let itemID = this.props.history.location.state.id
-      this.setState({
-        id: itemID,
-        competitionItem: {
-          id: itemID,
-          name: '比赛名称',
-          department: '山东科技大学',
-          type: '学校海选',
-          start: '2020-06-10',
-          end: '2020-06-20',
-          description: '比赛描述',
-          remark: '备注'
+      //console.log(itemID)
+      getCompetitionByID(itemID).then(res => {
+        if (res.data.result) {
+          let data = JSON.parse(res.data.data)
+          this.setState({
+            id: itemID,
+            competitionItem: {
+              id: data.id,
+              name: data.name,
+              department: data.department,
+              type: data.category,
+              submitStart: data.submitStart,
+              submitEnd: data.submitEnd,
+              appraiseStart: data.appraiseStart,
+              appraiseEnd: data.appraiseEnd,
+              description: data.description,
+              remark: data.remark
+            }
+          })
         }
       })
+
     }
   }
 
@@ -59,7 +68,7 @@ class CompetitionEdit extends React.Component {
     ];
 
     const contentList = {
-      tab1: <CompetitionEditForm item={this.state.competitionItem}></CompetitionEditForm>,
+      tab1: <CompetitionEditForm item={this.state.competitionItem} history={this.props.history}></CompetitionEditForm>,
       tab2: <CompetitionExpertList></CompetitionExpertList>,
       tab3: <CompetitionEditAppendix></CompetitionEditAppendix>
     };

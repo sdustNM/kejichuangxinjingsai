@@ -1,24 +1,15 @@
 import React from 'react';
 import { Table, Space, Button } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
+import { getCompetitionList } from '../../services/adminCompetition'
+import { getDeptID } from '../../utils/auth'
 
-const data = []
-for (let i = 1; i <= 46; i++) {
-  data.push({
-    id: i,
-    key: i,
-    name: '比赛' + i,
-    department: '测试部门',
-    type: i % 2 === 0 ? '学校海选' : '学校晋级',
-    state: '待定'
-  })
-}
+
 
 class CompetitionManager extends React.Component {
 
   state = {
     dataSource: [],
-    total: data.length,
     currentPage: 1,
     pageSize: 5,
     loading: false
@@ -45,11 +36,27 @@ class CompetitionManager extends React.Component {
   }
 
   refresh = (currentPage, pageSize) => {
-    this.setState({
-      dataSource: data.slice(
-        (currentPage - 1) * pageSize,
-        Math.min(currentPage * pageSize, data.length))
+    let deptID = getDeptID()
+    getCompetitionList(deptID).then(res => {
+      if (res.data.result) {
+        let data = []
+        JSON.parse(res.data.data).map(item => 
+          data.push({
+            id: item.id,
+            key: item.id,
+            name: item.name,
+            department: item.department,
+            category: item.category,
+            state: '待定'
+          })
+        )
+        this.setState({
+          dataSource: data
+        })
+      }
+
     })
+
   }
 
   render() {
@@ -71,8 +78,8 @@ class CompetitionManager extends React.Component {
       },
       {
         title: '比赛类型',
-        dataIndex: 'type',
-        key: 'type',
+        dataIndex: 'category',
+        key: 'category',
       },
       {
         title: '比赛状态',
@@ -89,7 +96,7 @@ class CompetitionManager extends React.Component {
               size='small'
               shape='round'
               onClick={() => {
-                this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.key } })
+                this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id } })
               }}
             >修改</Button>
             <Button
@@ -118,10 +125,8 @@ class CompetitionManager extends React.Component {
           pagination={{
             pageSize: pageSize,
             pageSizeOptions: ['5', '10', '20', '50'],
-            total: total,
             showSizeChanger: true,
             showQuickJumper: true,
-            showTotal: total => `共 ${total} 条`,
             onChange: this.pageChange,
             onShowSizeChange: this.showSizeChange,
           }}

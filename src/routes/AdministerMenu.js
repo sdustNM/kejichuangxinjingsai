@@ -33,6 +33,7 @@ export const administerMenus = [
 },
 {
     component: null,
+    path: 'systemManage',
     isShow:true,
     title:'系统管理',
     icon: <HomeOutlined />,

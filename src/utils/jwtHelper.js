@@ -14,7 +14,7 @@ export const getJwtUser = () => {
       // let user =  (JSON.parse(s1))
       if (decryToken.token) {
         let user = decryToken.data
-        console.log(user)
+        //console.log(user)
         let name = "";
         let role = "";
         let username = "";

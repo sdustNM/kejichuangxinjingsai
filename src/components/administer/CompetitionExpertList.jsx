@@ -1,5 +1,6 @@
 import React from 'react'
-import { Table, Space, Button, Divider } from 'antd'
+import { Table, Button, Divider, 
+  Popconfirm, message  } from 'antd'
 import CompetitionEditExpert from './CompetitionEditExpert';
 
 import { PlusCircleOutlined } from '@ant-design/icons'
@@ -41,22 +42,24 @@ class CompetitionExpertList extends React.Component {
     })
   }
 
-  modify = id => {
+  showModal = () => {
     this.setState({
-      expertID: id,
-      visible: true
-    })
-  }
-
-  delete = id => {
-
-  }
+      visible: true,
+    });
+  };
 
   hideModal = () => {
     this.setState({
       visible: false
     })
   }
+
+  confirm = (e) => {
+    //移除操作
+    console.log(e)
+    message.success('Click on Yes');
+  }
+  
 
   render() {
     const columns = [
@@ -84,7 +87,12 @@ class CompetitionExpertList extends React.Component {
         title: '操作',
         key: 'action',
         render: (text, record) => (
-          <Space>
+          <Popconfirm
+            title="Are you sure delete this task?"
+            onConfirm={this.confirm}
+            okText="Yes"
+            cancelText="No"
+          >
             <Button
               type='danger'
               size='small'
@@ -93,14 +101,14 @@ class CompetitionExpertList extends React.Component {
             >
               移除
             </Button>
-          </Space>
+          </Popconfirm>
         ),
       },
     ];
     const { dataSource, visible, editItem } = this.state
     return (
       <div>
-        <Button type='default'>
+        <Button type='default' onClick={this.showModal}>
           <PlusCircleOutlined />添加
         </Button>
         <Divider />
@@ -108,7 +116,11 @@ class CompetitionExpertList extends React.Component {
           dataSource={dataSource}
           columns={columns}
         />
-        <CompetitionEditExpert visible={visible} item={editItem} hideModal={this.hideModal}></CompetitionEditExpert>
+        <CompetitionEditExpert 
+        visible={visible} 
+        item={editItem} 
+        hideModal={this.hideModal}
+        ></CompetitionEditExpert>
       </div>
     )
   }
