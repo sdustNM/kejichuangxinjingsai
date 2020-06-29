@@ -11,6 +11,7 @@ class CompetitionExpertList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      deptID: 0,
       dataSource: [],
       expertID: '',
       editItem: {},
@@ -20,7 +21,8 @@ class CompetitionExpertList extends React.Component {
 
   componentDidMount() {
     getExpertsInCompetition({
-      id: this.props.id
+      id: this.props.id,
+      departmentNo: this.state.deptID
     }).then(res => {
       console.log(res)
       // if (res.data.result) {
