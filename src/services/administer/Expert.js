@@ -1,5 +1,5 @@
-import { get } from '../../utils/request'
+import { post } from '../../utils/request'
 
 export function getExpertFuzzy(params){
-  return get('/administer/getExpertFuzzy')
+  return post('/administer/getExpertsByFuzzy', params)
 }

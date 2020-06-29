@@ -30,27 +30,29 @@ class ExpertManager extends React.Component {
       currentPage,
       pageSize
     }).then(res => {
-      console.log(res)
-      // if (res.data.result) {
-      //   let list = []
-      //   let data = JSON.parse(res.data.data)
-      //   data.list.map(item =>
-      //     list.push({
-      //       id: item.id,
-      //       key: item.id,
-      //       name: item.name,
-      //       fromUnit: item.fromUnit,
-      //       category: item.category,
-      //       state: '待定'
-      //     })
-      //   )
-      //   //console.log(data)
-      //   this.setState({
-      //     departmentList: data.departmentList,
-      //     dataSource: list,
-      //     _total: data.totalNum
-      //   })
-      // }
+      //console.log(res)
+      if (res.data.result) {
+        let list = []
+        let data = JSON.parse(res.data.data)
+        data.map(item =>
+          list.push({
+            id: item.id,
+            key: item.id,
+            name: item.name,
+            gender: item.gender,
+            sfzh: item.sfzh,
+            unit: item.unit,
+            tel1: item.tel1,
+            tel2: item.tel2
+          })
+        )
+        console.log(data)
+        this.setState({
+          departmentList: data.departmentList,
+          dataSource: list,
+          _total: data.totalNum
+        })
+      }
 
     })
   }
@@ -102,7 +104,7 @@ class ExpertManager extends React.Component {
         title: '操作',
         key: 'action',
         render: (text, record) => (
-          <Space size="middle">
+          <Space>
             <Button
               type='primary'
               size='small'
