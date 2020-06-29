@@ -1,4 +1,13 @@
 
+import React from 'react'
+
+import {
+  HomeOutlined,
+  ProfileOutlined,
+  SmileOutlined
+} from '@ant-design/icons';
+
+
 import CompetitionEdit from '../views/administers/CompetitionEdit'
 import ProjectManager from '../views/administers/ProjectManager'
 import ProjectDetail from '../views/administers/ProjectDetail'
@@ -7,19 +16,19 @@ import DepartmentManager from '../views/administers/DepartmentManager';
 import TeacherManager from '../views/administers/TeacherManager';
 import StudentManager from '../views/administers/StudentManager';
 import CompetitionManagerXiao from '../views/administers/CompetitionManagerXiao'
-import ExpertManager from '../views/administers/ExpertManager';
 import CompetitionManagerYuan from '../views/administers/CompetitionManagerYuan';
+import ExpertManager_List from '../views/administers/ExpertManager_List';
 
 
 
 export const administerConfig = [
-//   {
-//   path: '/administer/',
-//   component: CompetitionManager,
-//   isShow:true,
-//   title:'学生竞赛',
-//   exact: true
-// }, 
+  {
+  path: '/administer/competitions/xiao',
+  component: CompetitionManagerXiao,
+  isShow:true,
+  title:'学生竞赛',
+  exact: true
+}, 
 {
   path: '/administer/competitions/xiao',
   component: CompetitionManagerXiao,
@@ -60,7 +69,7 @@ export const administerConfig = [
   exact: true
 },{
   path: '/administer/Experts',
-  component: ExpertManager,
+  component: ExpertManager_List,
   exact: true
 }
 
