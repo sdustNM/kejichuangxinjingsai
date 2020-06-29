@@ -1,15 +1,16 @@
 import React from 'react';
-import { Table, Space, Button } from 'antd';
+import { Table, Space, Button, Select } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getCompetitionList } from '../../services/adminCompetition'
+import { getCompetitionList } from '../../services/administer/Competition'
 import { getDeptID } from '../../utils/auth'
 
-
+const { Option } = Select
 
 class CompetitionManagerXiao extends React.Component {
 
   state = {
     dataSource: [],
+    departmentList: [],
     currentPage: 1,
     pageSize: 5,
     loading: false,
@@ -57,8 +58,9 @@ class CompetitionManagerXiao extends React.Component {
             state: '待定'
           })
         )
-        console.log(data)
+        //console.log(data)
         this.setState({
+          departmentList: data.departmentList,
           dataSource: list,
           _total: data.totalNum
         })
@@ -118,16 +120,20 @@ class CompetitionManagerXiao extends React.Component {
       },
     ];
     const { dataSource, pageSize, _total, loading } = this.state;
+    //console.log(this.state.departmentList)
     return (
       <div>
         <Button
           type='dashed'
           style={{ margin: 20 }}
-          onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit' }) }}
+          onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: null } }) }}
         >
           <PlusCircleOutlined />添加
         </Button>
-
+        <Select defaultValue="0" style={{ width: 200 }} >
+          {this.state.departmentList.map(
+            item => <Option key={'department_' + item.id} value={item.id} disabled={item.id !== '0'}>{item.name}</Option>)}
+        </Select>
         <Table
           dataSource={dataSource}
           columns={columns}
