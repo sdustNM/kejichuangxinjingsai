@@ -2,7 +2,7 @@
 import {get} from '../../utils/request'
 
  const  getDepartmentListRequest=()=>{
-    return get('http://jsonplaceholder.typicode.com/posts')
+    return get('/administer/getDepartmentList')
   }
  
  export const loadDepartmentListAction= async (dispatch)=>{
