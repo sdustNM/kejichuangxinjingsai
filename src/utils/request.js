@@ -25,9 +25,7 @@ instance.interceptors.response.use(function (response) {
 });
 
 export function get(url, params) {
-  return instance.get(url, {
-    params
-  })
+  return instance.get(url, {params})
 }
 
 export function post(url, data){

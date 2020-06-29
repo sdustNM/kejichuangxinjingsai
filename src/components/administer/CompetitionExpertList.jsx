@@ -5,6 +5,8 @@ import CompetitionEditExpert from './CompetitionEditExpert';
 
 import { PlusCircleOutlined } from '@ant-design/icons'
 
+import { getExpertsInCompetition } from '../../services/administer/Competition'
+
 class CompetitionExpertList extends React.Component {
   constructor(props) {
     super(props)
@@ -17,27 +19,49 @@ class CompetitionExpertList extends React.Component {
   }
 
   componentDidMount() {
-    const id = this.props.id
-    console.log(id)
-    //this.fetch({ pagination })
-  }
+    getExpertsInCompetition({
+      id: this.props.id
+    }).then(res => {
+      console.log(res)
+      // if (res.data.result) {
+      //   let list = []
+      //   let data = JSON.parse(res.data.data)
+      //   data.list.map(item =>
+      //     list.push({
+      //       id: item.id,
+      //       key: item.id,
+      //       name: item.name,
+      //       fromUnit: item.fromUnit,
+      //       category: item.category,
+      //       state: '待定'
+      //     })
+      //   )
+      //   //console.log(data)
+      //   this.setState({
+      //     departmentList: data.departmentList,
+      //     dataSource: list,
+      //     _total: data.totalNum
+      //   })
+      // }
 
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  hideModal = () => {
-    this.setState({
-      visible: false
     })
   }
 
-  confirm = (e) => {
+  // showModal = () => {
+  //   this.setState({
+  //     visible: true,
+  //   });
+  // };
+
+  // hideModal = () => {
+  //   this.setState({
+  //     visible: false
+  //   })
+  // }
+
+  delete = id => {
     //移除操作
-    console.log(e)
-    message.success('Click on Yes');
+    message.success(id);
   }
   
 
