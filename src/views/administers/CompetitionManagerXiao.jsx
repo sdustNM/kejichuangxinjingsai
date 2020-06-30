@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Space, Button, Select } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getCompetitionList } from '../../services/administer/Competition'
+import { getCompetitionList } from '../../services/administer/competition'
 import { getDeptID } from '../../utils/auth'
 
 const { Option } = Select

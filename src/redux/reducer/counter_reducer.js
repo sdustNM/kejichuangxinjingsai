@@ -8,6 +8,6 @@ export const counterReducer=(state={count:1},action)=>{
         default:
           return state;
     }
-    return state;
+    //return state;
   }
   

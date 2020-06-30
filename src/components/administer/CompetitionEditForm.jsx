@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Input, Button, DatePicker, Space, message } from 'antd'
 import moment from "moment"
-import { getCompetitionByID, setCompetition } from '../../services/administer/Competition'
+import { getCompetitionByID, setCompetition } from '../../services/administer/competition'
 import { getDeptID } from '../../utils/auth'
 
 const { RangePicker } = DatePicker
