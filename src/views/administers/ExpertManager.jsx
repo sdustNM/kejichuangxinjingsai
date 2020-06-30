@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Space, Button, Input } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getExpertFuzzy } from '../../services/administer/Expert'
+import { getExpertsByFuzzy } from '../../services/administer/expert'
 
 class ExpertManager extends React.Component {
   state = {
@@ -23,7 +23,7 @@ class ExpertManager extends React.Component {
   fetch = () => {
     const { id, name, sfzh, currentPage, pageSize } = this.state
     console.log(this.state)
-    getExpertFuzzy({
+    getExpertsByFuzzy({
       id,
       name,
       sfzh,

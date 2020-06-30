@@ -8,7 +8,7 @@ import TeacherManager from '../views/administers/TeacherManager';
 import StudentManager from '../views/administers/StudentManager';
 import CompetitionManagerXiao from '../views/administers/CompetitionManagerXiao'
 import CompetitionManagerYuan from '../views/administers/CompetitionManagerYuan';
-import ExpertManager_List from '../views/administers/ExpertManager_List';
+import ExpertManager from '../views/administers/ExpertManager';
 
 
 
@@ -60,7 +60,7 @@ export const administerConfig = [
   exact: true
 },{
   path: '/administer/Experts',
-  component: ExpertManager_List,
+  component: ExpertManager,
   exact: true
 }
 

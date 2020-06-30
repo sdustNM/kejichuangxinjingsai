@@ -16,6 +16,15 @@ export function getExpertsInCompetition(params){
   return get('/administer/getExpertsInCompetition', params)
 }
 
+//为比赛添加评审专家
+export function addExpertForCompetition(params){
+  return post('/administer/addExpertForCompetition', params)
+}
+//为比赛移除评审专家
+export function removeExpertFromCompetition(params){
+  return post('/administer/removeExpertFromCompetition', params)
+}
+
 
 
 

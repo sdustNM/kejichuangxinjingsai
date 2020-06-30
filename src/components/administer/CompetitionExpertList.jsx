@@ -1,12 +1,12 @@
 import React from 'react'
 import {
   Table, Button, Divider,
-  Popconfirm, message
+  Popconfirm, message, Modal
 } from 'antd'
 import CompetitionEditExpert from './CompetitionEditExpert';
 
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getExpertsInCompetition } from '../../services/administer/competition'
+import { getExpertsInCompetition, removeExpertFromCompetition } from '../../services/administer/competition'
 
 class CompetitionExpertList extends React.Component {
   constructor(props) {
@@ -14,19 +14,21 @@ class CompetitionExpertList extends React.Component {
     this.state = {
       deptID: 0,
       dataSource: [],
-      expertID: '',
-      editItem: {},
       visible: false
     }
   }
 
   componentDidMount() {
+    this.refresh() 
+  }
+
+  refresh = () => {
     //console.log(this.props.id, this.state.deptID)
     getExpertsInCompetition({
       id: this.props.id,
       departmentNo: this.state.deptID
     }).then(res => {
-      console.log(res)
+      //console.log(res)
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
@@ -44,30 +46,45 @@ class CompetitionExpertList extends React.Component {
         )
         //console.log(data)
         this.setState({
-          departmentList: data.departmentList,
           dataSource: list,
-          _total: data.totalNum
         })
       }
 
     })
   }
 
-  // showModal = () => {
-  //   this.setState({
-  //     visible: true,
-  //   });
-  // };
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
 
-  // hideModal = () => {
-  //   this.setState({
-  //     visible: false
-  //   })
-  // }
+  hideModal = () => {
+    this.setState({
+      visible: false
+    })
+    this.refresh()
+  }
 
-  delete = id => {
+  remove = expertID => {
     //移除操作
-    message.success(id);
+    let params = {
+      expertID,
+      competitionID: this.props.id,
+      department: this.state.deptID
+    }
+    console.log(params)
+    removeExpertFromCompetition(params).then(
+      res => {
+        if(res.data.result){
+          message.success('移除成功！', 1)
+          this.refresh()
+        }
+        else{
+          message.error(res.data.message, 1)
+        }
+      }
+    )
   }
 
 
@@ -113,16 +130,15 @@ class CompetitionExpertList extends React.Component {
         key: 'action',
         render: (text, record) => (
           <Popconfirm
-            title="Are you sure delete this task?"
-            onConfirm={this.confirm}
-            okText="Yes"
-            cancelText="No"
+            title={`确认将${record.name}移除当前竞赛评审组?`}
+            onConfirm={() => {this.remove(record.id)}}
+            okText="确认"
+            cancelText="取消"
           >
             <Button
               type='danger'
               size='small'
               shape='round'
-              onClick={record => { this.delete(record.key) }}
             >
               移除
             </Button>
@@ -130,7 +146,7 @@ class CompetitionExpertList extends React.Component {
         ),
       },
     ];
-    const { dataSource, visible, editItem } = this.state
+    const { deptID, dataSource, visible } = this.state
     return (
       <div>
         <Button type='default' onClick={this.showModal}>
@@ -141,11 +157,19 @@ class CompetitionExpertList extends React.Component {
           dataSource={dataSource}
           columns={columns}
         />
-        <CompetitionEditExpert
+        <Modal
+          width={960}
+          title="选择专家"
           visible={visible}
-          item={editItem}
-          hideModal={this.hideModal}
-        ></CompetitionEditExpert>
+          onCancel={this.hideModal}
+          footer={[
+            <Button key='close' onClick={this.hideModal}>
+              关闭
+            </Button>
+          ]}
+        >
+          <CompetitionEditExpert competitionID={this.props.id} departmentID={deptID} expertList={dataSource}></CompetitionEditExpert>
+        </Modal>
       </div>
     )
   }

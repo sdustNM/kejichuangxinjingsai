@@ -1,21 +1,94 @@
 import React from 'react'
-import { Modal, Button, Input, Divider, Table, Popconfirm } from 'antd'
-//import { getExpertFuzzy } from '../../services/adminCompetition'
-
+import { Button, Input, Space, Table, Popconfirm, message } from 'antd'
+import { getExpertsByFuzzy } from '../../services/administer/expert'
+import { addExpertForCompetition } from '../../services/administer/competition'
 class CompetitionEditExpert extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
+      id: '',
+      name: '',
+      sfzh: '',
       dataSource: [],
+      departmentList: [],
+      currentPage: 1,
+      pageSize: 5,
+      loading: false,
+      _total: 0
     }
+  }
+  componentDidMount() {
+    this.fetch()
+  }
+
+  fetch = () => {
+    const { id, name, sfzh, currentPage, pageSize } = this.state
+    //console.log(this.state)
+    getExpertsByFuzzy({
+      id,
+      name,
+      sfzh,
+      currentPage,
+      pageSize
+    }).then(res => {
+      //console.log(res)
+      if (res.data.result) {
+        let list = []
+        let data = JSON.parse(res.data.data)
+        data.map(item =>
+          list.push({
+            id: item.id,
+            key: item.id,
+            name: item.name,
+            gender: item.gender,
+            sfzh: item.sfzh,
+            unit: item.unit,
+            tel1: item.tel1,
+            tel2: item.tel2
+          })
+        )
+        //console.log(data)
+        this.setState({
+          departmentList: data.departmentList,
+          dataSource: list,
+          _total: data.totalNum
+        })
+      }
+
+    })
+  }
+
+  add = (expertID) => {  
+    let params = {
+      expertID,
+      competitionID: this.props.competitionID,
+      department: this.props.departmentID
+    }
+    console.log(params)
+    addExpertForCompetition(params).then(
+      res => {
+        if(res.data.result){
+          message.success('添加成功！', 1)
+        }
+        else{
+          message.error(res.data.message, 1)
+        }
+      }
+    )
+  }
+
+  changeValue = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
   render() {
     const columns = [
       {
-        title: 'ID',
-        dataIndex: 'key',
-        key: 'ID'
+        title: '编号',
+        dataIndex: 'id',
+        key: 'id'
       },
       {
         title: '姓名',
@@ -28,6 +101,11 @@ class CompetitionEditExpert extends React.Component {
         key: 'gender'
       },
       {
+        title: '身份证号',
+        dataIndex: 'sfzh',
+        key: 'sfzh'
+      },
+      {
         title: '单位',
         dataIndex: 'unit',
         key: 'unit'
@@ -37,43 +115,51 @@ class CompetitionEditExpert extends React.Component {
         key: 'action',
         render: (text, record) => (
           <Popconfirm
-            title="Are you sure delete this task?"
-            onConfirm={this.confirm}
-            okText="Yes"
-            cancelText="No"
+            title={`确认将${record.name}添加为当前竞赛的评审人员?`}
+            onConfirm={() => this.add(record.id)}
+            okText="确认"
+            cancelText="取消"
           >
             <Button
               type='primary'
               size='small'
               shape='round'
-              onClick={record => { this.delete(record.key) }}
             >
-              添加
+              选择
             </Button>
           </Popconfirm>
         ),
       },
     ];
+    const { id, name, sfzh, dataSource, pageSize, _total, loading } = this.state;
     return (
-      <Modal
-        title="专家列表"
-        visible={this.props.visible}
-        footer={[
-          <Button key="cancel" type="primary" onClick={this.props.hideModal}>
-            关闭
-          </Button>,
-        ]}
-      >
-        <div style={{ marginBottom: 16 }}>
-          <Input addonBefore="编号" />
-          <Input addonBefore="姓名" />
-        </div>
-        <Divider />
+      <div >
+        <Space
+          style={{ marginBottom: 20 }}
+        >
+          <Input addonBefore='编号' name='id' value={id} onChange={this.changeValue} />
+          <Input addonBefore='姓名' name='name' value={name} onChange={this.changeValue} />
+          <Input addonBefore='身份证号' name='sfzh' value={sfzh} onChange={this.changeValue} />
+          <Button type='primary' onClick={this.fetch}>搜索</Button>
+        </Space>
         <Table
-          dataSource={this.state.dataSource}
+          dataSource={dataSource}
           columns={columns}
+          pagination={{
+            pageSize: pageSize,
+            pageSizeOptions: ['5', '10', '20', '50'],
+            showSizeChanger: true,
+            showQuickJumper: true,
+            total: _total,
+            showTotal: (total, range) => `第${range[0]}-${range[1]}条 共${total}条`,
+            onChange: this.pageChange,
+            onShowSizeChange: this.showSizeChange,
+          }}
+          loading={loading}
+          scroll={{ y: 320 }}
         />
-      </Modal>
+      </div>
+
     )
   }
 
