@@ -2,15 +2,19 @@
 import {get} from '../../utils/request'
 
  const  getDepartmentListRequest=()=>{
-    return get('/administer/getDepartmentList')
+    setTimeout(() => {
+      console.log("开始读取")
+      return get('/administer/getDepartmentList')
+    }, 2000);
+    
   }
  
- export const loadDepartmentListAction= async (dispatch)=>{
-    const res= await getDepartmentListRequest();
+ export const loadDepartmentListAction= (dispatch)=>{
+    const res=  getDepartmentListRequest();
     dispatch({
       type:'LOAD_POST',
       payload:res.data
     })
-    
+    console.log("派发完成")
   }
   

@@ -20,6 +20,7 @@ import { loadDepartmentListAction} from './redux/action/departmentList_action';
 store.dispatch(loadDepartmentListAction);
 
 setTimeout(() => {
+    console.log('last');
 console.log(store);
 console.log(store.getState())
 }, 1000);
