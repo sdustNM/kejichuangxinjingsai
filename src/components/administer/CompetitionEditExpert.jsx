@@ -1,20 +1,6 @@
 import React from 'react'
 import { Modal, Button, Input, Divider, Table, Popconfirm } from 'antd'
-
-// const data = [
-//   {
-//     key: '991823',
-//     name: '王翀',
-//     gender: '男',
-//     unit: '山东科技大学'
-//   },
-//   {
-//     key: '99572',
-//     name: '滕腾',
-//     gender: '男',
-//     unit: '山东科技大学'
-//   }
-// ];
+//import { getExpertFuzzy } from '../../services/adminCompetition'
 
 class CompetitionEditExpert extends React.Component {
 

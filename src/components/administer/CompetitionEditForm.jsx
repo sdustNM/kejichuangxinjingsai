@@ -1,7 +1,7 @@
 import React from 'react'
-import { Form, Input, Button, DatePicker, Space } from 'antd'
+import { Form, Input, Button, DatePicker, Space, message } from 'antd'
 import moment from "moment"
-import { getCompetitionByID, setCompetition } from '../../services/adminCompetition'
+import { getCompetitionByID, setCompetition } from '../../services/administer/Competition'
 import { getDeptID } from '../../utils/auth'
 
 const { RangePicker } = DatePicker
@@ -19,7 +19,33 @@ class CompetitionEditForm extends React.Component {
 
   formRef = React.createRef();
 
-  componentDidUpdate() {
+  // componentDidUpdate() {
+  //   console.log(this.props)
+  //   const { id } = this.props
+  //   if (id) {
+  //     getCompetitionByID(id).then(res => {
+  //       if (res.data.result) {
+  //         let item = JSON.parse(res.data.data)
+  //         let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD')
+  //         let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD')
+  //         let appraiseStart = !item.appraiseStart ? null : moment(item.appraiseStart, 'YYYY-MM-DD')
+  //         let appraiseEnd = !item.appraiseEnd ? null : moment(item.appraiseEnd, 'YYYY-MM-DD')
+  //         this.formRef.current.setFieldsValue({
+  //           name: item.name,
+  //           fromUnit: item.fromUnit,
+  //           submitTime: [submitStart, submitEnd],
+  //           appraiseTime: [appraiseStart, appraiseEnd],
+  //           description: item.description
+  //         })
+  //       }
+  //     })
+
+
+  //   }
+  // }
+
+  componentDidMount() {
+    //console.log(this.props)
     const { id } = this.props
     if (id) {
       getCompetitionByID(id).then(res => {
@@ -62,7 +88,9 @@ class CompetitionEditForm extends React.Component {
     console.log(competitionItem)
     setCompetition(competitionItem).then(res => {
       if (res.data.result) {
-        this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: res.data.data } })
+        message.success(!id ? '创建成功！' : '修改成功！')
+        //console.log(res.data)
+        this.props.createID(res.data.data)
       }
     })
   }
@@ -123,9 +151,9 @@ class CompetitionEditForm extends React.Component {
         <Form.Item {...tailLayout}>
           <Space>
             <Button type="primary" htmlType="submit">
-              {!this.props.item || !this.props.item.id ? '创建' : '修改'}
+              {!this.props.id ? '创建' : '修改'}
             </Button>
-            <Button type="primary" onClick={() => this.props.history.goBack()}>
+            <Button type="primary" onClick={() => this.props.history.push('/administer/competitions/xiao')}>
               取消
           </Button>
           </Space>
