@@ -30,7 +30,7 @@ class ExpertManager extends React.Component {
       currentPage,
       pageSize
     }).then(res => {
-      //console.log(res)
+      console.log(res)
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
@@ -137,7 +137,7 @@ class ExpertManager extends React.Component {
         <Button
           type='dashed'
           style={{ marginLeft: 20 }}
-          onClick={() => { }}
+          onClick={this.fetch}
         >
           <PlusCircleOutlined />添加
         </Button>

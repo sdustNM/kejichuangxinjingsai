@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 
 // redux 使用举例
 import store from  './store'
