@@ -40,3 +40,5 @@ export function put(url, data){
 export function del(url){
   return instance.delete(url)
 }
+
+

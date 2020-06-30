@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import 'antd/dist/antd.css'
+import getDepartmentList from './redux/common'
 
 // redux 使用举例
 //import store from  './redux/store'
@@ -17,13 +18,19 @@ import 'antd/dist/antd.css'
 
 // store.dispatch(counterAddAction);
 // store.dispatch(loadPostsAction)
-// store.dispatch(loadDepartmentListAction);
 
-setTimeout(() => {
-    console.log('last');
-console.log(store);
-console.log(store.getState())
-}, 1000);
+// store.dispatch(loadDepartmentListAction);
+//     console.log('last');
+//     console.log(store);
+//     console.log(store.getState())
+
+//获取部门列表:
+//import getDepartmentList from './redux/common'
+getDepartmentList().then(res => {
+    if (res.length !== 0) {
+        console.log(res)
+    }
+})
 
 
 ReactDOM.render(
