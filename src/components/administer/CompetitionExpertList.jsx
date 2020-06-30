@@ -1,11 +1,12 @@
 import React from 'react'
-import { Table, Button, Divider, 
-  Popconfirm, message  } from 'antd'
+import {
+  Table, Button, Divider,
+  Popconfirm, message
+} from 'antd'
 import CompetitionEditExpert from './CompetitionEditExpert';
 
 import { PlusCircleOutlined } from '@ant-design/icons'
-
-import { getExpertsInCompetition } from '../../services/administer/Competition'
+import { getExpertsInCompetition } from '../../services/administer/competition'
 
 class CompetitionExpertList extends React.Component {
   constructor(props) {
@@ -20,31 +21,34 @@ class CompetitionExpertList extends React.Component {
   }
 
   componentDidMount() {
+    //console.log(this.props.id, this.state.deptID)
     getExpertsInCompetition({
       id: this.props.id,
       departmentNo: this.state.deptID
     }).then(res => {
       console.log(res)
-      // if (res.data.result) {
-      //   let list = []
-      //   let data = JSON.parse(res.data.data)
-      //   data.list.map(item =>
-      //     list.push({
-      //       id: item.id,
-      //       key: item.id,
-      //       name: item.name,
-      //       fromUnit: item.fromUnit,
-      //       category: item.category,
-      //       state: '待定'
-      //     })
-      //   )
-      //   //console.log(data)
-      //   this.setState({
-      //     departmentList: data.departmentList,
-      //     dataSource: list,
-      //     _total: data.totalNum
-      //   })
-      // }
+      if (res.data.result) {
+        let list = []
+        let data = JSON.parse(res.data.data)
+        data.map(item =>
+          list.push({
+            id: item.id,
+            key: item.id,
+            name: item.name,
+            unit: item.unit,
+            gender: item.gender,
+            sfzh: item.sfzh,
+            tel1: item.Tel1,
+            tel2: item.Tel2
+          })
+        )
+        //console.log(data)
+        this.setState({
+          departmentList: data.departmentList,
+          dataSource: list,
+          _total: data.totalNum
+        })
+      }
 
     })
   }
@@ -65,7 +69,7 @@ class CompetitionExpertList extends React.Component {
     //移除操作
     message.success(id);
   }
-  
+
 
   render() {
     const columns = [
@@ -85,9 +89,24 @@ class CompetitionExpertList extends React.Component {
         key: 'gender'
       },
       {
+        title: '身份证号',
+        dataIndex: 'sfzh',
+        key: 'sfzh'
+      },
+      {
         title: '单位',
         dataIndex: 'unit',
         key: 'unit'
+      },
+      {
+        title: '联系电话1',
+        dataIndex: 'tel1',
+        key: 'tel1'
+      },
+      {
+        title: '联系电话2',
+        dataIndex: 'tel2',
+        key: 'tel2'
       },
       {
         title: '操作',
@@ -122,10 +141,10 @@ class CompetitionExpertList extends React.Component {
           dataSource={dataSource}
           columns={columns}
         />
-        <CompetitionEditExpert 
-        visible={visible} 
-        item={editItem} 
-        hideModal={this.hideModal}
+        <CompetitionEditExpert
+          visible={visible}
+          item={editItem}
+          hideModal={this.hideModal}
         ></CompetitionEditExpert>
       </div>
     )

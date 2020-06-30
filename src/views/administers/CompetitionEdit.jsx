@@ -8,9 +8,7 @@ class CompetitionEdit extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: null,
-      competitionItem: null,
-      experts: null,
+      id: props.history.location.state && this.props.history.location.state.id,
       key: 'tab1'
     }
   }
@@ -36,12 +34,12 @@ class CompetitionEdit extends React.Component {
       {
         key: 'tab2',
         tab: '评审专家',
-        disabled: this.state.id === ''
+        disabled: !this.state.id
       },
       {
         key: 'tab3',
         tab: '比赛说明',
-        disabled: this.state.id === ''
+        disabled: !this.state.id
       }
     ];
 
