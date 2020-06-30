@@ -86,7 +86,7 @@ class CompetitionExpertList extends React.Component {
       }
     )
   }
-  
+
 
   render() {
     const columns = [
@@ -106,9 +106,24 @@ class CompetitionExpertList extends React.Component {
         key: 'gender'
       },
       {
+        title: '身份证号',
+        dataIndex: 'sfzh',
+        key: 'sfzh'
+      },
+      {
         title: '单位',
         dataIndex: 'unit',
         key: 'unit'
+      },
+      {
+        title: '联系电话1',
+        dataIndex: 'tel1',
+        key: 'tel1'
+      },
+      {
+        title: '联系电话2',
+        dataIndex: 'tel2',
+        key: 'tel2'
       },
       {
         title: '操作',
