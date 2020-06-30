@@ -1,18 +1,20 @@
-import React from 'react';
-import { Table, Space, Button } from 'antd';
+import React from 'react'
+
+import { Table, Space, Button, Row } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getCompetitionList } from '../../services/adminCompetition'
+import { getExpertList } from '../../services/DataManager'
 import { getDeptID } from '../../utils/auth'
 
 
 
-class CompetitionManager extends React.Component {
 
+class ExpertManager_List extends React.Component {
   state = {
     dataSource: [],
     currentPage: 1,
     pageSize: 5,
-    loading: false
+    loading: false,
+    _total: 0
   }
 
   componentDidMount() {
@@ -37,21 +39,29 @@ class CompetitionManager extends React.Component {
 
   refresh = (currentPage, pageSize) => {
     let deptID = getDeptID()
-    getCompetitionList(deptID).then(res => {
+    getExpertList({
+      id: deptID,
+      currentPage,
+      pageSize
+    }).then(res => {
+      //console.log(res)
       if (res.data.result) {
-        let data = []
-        JSON.parse(res.data.data).map(item => 
-          data.push({
+        let list = []
+        let data = JSON.parse(res.data.data)
+        data.list.map(item =>
+          list.push({
             id: item.id,
             key: item.id,
             name: item.name,
-            department: item.department,
+            fromUnit: item.fromUnit,
             category: item.category,
             state: '待定'
           })
         )
+        console.log(data)
         this.setState({
-          dataSource: data
+          dataSource: list,
+          _total: data.totalNum
         })
       }
 
@@ -62,29 +72,39 @@ class CompetitionManager extends React.Component {
   render() {
     const columns = [
       {
-        title: '比赛编号',
+        title: '专家ID',
         dataIndex: 'id',
         key: 'id'
       },
       {
-        title: '比赛名称',
+        title: '专家姓名',
         dataIndex: 'name',
         key: 'name'
       },
       {
-        title: '组织单位',
-        dataIndex: 'department',
-        key: 'department',
+        title: '身份证号',
+        dataIndex: 'sfzh',
+        key: 'sfzh',
       },
       {
-        title: '比赛类型',
-        dataIndex: 'category',
-        key: 'category',
+        title: '性别',
+        dataIndex: 'gender',
+        key: 'gender',
       },
       {
-        title: '比赛状态',
-        key: 'state',
-        dataIndex: 'state',
+        title: '工作单位',
+        key: 'unit',
+        dataIndex: 'unit',
+      },
+      {
+        title: '办公电话',
+        key: 'Tel1',
+        dataIndex: 'Tel1',
+      },
+      {
+        title: '移动电话',
+        key: 'Tel2',
+        dataIndex: 'Tel2',
       },
       {
         title: '操作',
@@ -104,13 +124,17 @@ class CompetitionManager extends React.Component {
               size='small'
               shape='round'
             >删除</Button>
+            <Button type="primary"
+              onClick={() => this.ResetPwd()}>
+              重置密码 </Button>
           </Space>
         ),
       },
     ];
-    const { dataSource, pageSize, total, loading } = this.state;
+    const { dataSource, pageSize, _total, loading } = this.state;
     return (
       <div>
+        <Row> </Row>
         <Button
           type='dashed'
           style={{ margin: 20 }}
@@ -127,6 +151,8 @@ class CompetitionManager extends React.Component {
             pageSizeOptions: ['5', '10', '20', '50'],
             showSizeChanger: true,
             showQuickJumper: true,
+            total: _total,
+            showTotal: (total, range) => `第${range[0]}-${range[1]}条 共${total}条`,
             onChange: this.pageChange,
             onShowSizeChange: this.showSizeChange,
           }}
@@ -138,4 +164,6 @@ class CompetitionManager extends React.Component {
   }
 }
 
-export default CompetitionManager;
+export default ExpertManager_List
+
+

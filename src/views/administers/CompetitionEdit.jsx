@@ -8,30 +8,24 @@ class CompetitionEdit extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: props.history.location.state.id,
+      id: null,
       competitionItem: null,
       experts: null,
       key: 'tab1'
     }
   }
 
-  // componentDidMount() {
-  //   if (this.props.history.location.state && this.props.history.location.state.id) {
-  //     this.setState({
-  //       id: this.props.history.location.state.id
-  //     })
-  //   }
-  // }
+  componentDidMount() {
+    if (this.props.history.location.state && this.props.history.location.state.id) {
+      this.setState({
+        id: this.props.history.location.state.id
+      })
+    }
+  }
 
   onTabChange = (key, type) => {
     this.setState({ [type]: key });
   };
-
-  createID = newID => {
-    this.setState({
-      id: newID
-    })
-  }
 
   render() {
     const tabList = [
@@ -51,13 +45,11 @@ class CompetitionEdit extends React.Component {
       }
     ];
 
-    let contentList = {
-      tab1: <CompetitionEditForm id={this.state.id} history={this.props.history} createID={this.createID}></CompetitionEditForm>,
+    const contentList = {
+      tab1: <CompetitionEditForm id={this.state.id} history={this.props.history}></CompetitionEditForm>,
       tab2: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>,
       tab3: <CompetitionEditAppendix></CompetitionEditAppendix>
-    }
-    //console.log(contentList)
-    //console.log(this.state.id)
+    };
     return (
       <Card
         style={{ width: '100%' }}
