@@ -3,6 +3,7 @@ import { Table, Space, Button, Select } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { getCompetitionList } from '../../services/administer/competition'
 import { getDeptID } from '../../utils/auth'
+import getDepartmentList from '../../redux/common'
 
 const { Option } = Select
 
@@ -18,6 +19,13 @@ class CompetitionManagerXiao extends React.Component {
   }
 
   componentDidMount() {
+    getDepartmentList().then(res => {
+      let departmentList = JSON.parse(res)
+      console.log(departmentList)
+      if (departmentList.length !== 0) {
+          this.setState({ departmentList })
+      }
+  })
     this.refresh(this.state.currentPage, this.state.pageSize);
   }
 
@@ -60,7 +68,6 @@ class CompetitionManagerXiao extends React.Component {
         )
         //console.log(data)
         this.setState({
-          departmentList: data.departmentList,
           dataSource: list,
           _total: data.totalNum
         })

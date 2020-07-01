@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import 'antd/dist/antd.css'
-import getDepartmentList from './redux/common'
+//import getDepartmentList from './redux/common'
 
 // redux 使用举例
 //import store from  './redux/store'
@@ -26,11 +26,11 @@ import getDepartmentList from './redux/common'
 
 //获取部门列表:
 //import getDepartmentList from './redux/common'
-getDepartmentList().then(res => {
-    if (res.length !== 0) {
-        console.log(res)
-    }
-})
+// getDepartmentList().then(res => {
+//     if (res.length !== 0) {
+//         console.log(res)
+//     }
+// })
 
 
 ReactDOM.render(
