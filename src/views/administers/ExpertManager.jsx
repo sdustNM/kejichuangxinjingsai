@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Space, Button, Input } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getExpertFuzzy } from '../../services/administer/Expert'
+import { getExpertsByFuzzy } from '../../services/administer/expert'
 
 class ExpertManager extends React.Component {
   state = {
@@ -23,14 +23,14 @@ class ExpertManager extends React.Component {
   fetch = () => {
     const { id, name, sfzh, currentPage, pageSize } = this.state
     console.log(this.state)
-    getExpertFuzzy({
+    getExpertsByFuzzy({
       id,
       name,
       sfzh,
       currentPage,
       pageSize
     }).then(res => {
-      //console.log(res)
+      console.log(res)
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
@@ -137,7 +137,7 @@ class ExpertManager extends React.Component {
         <Button
           type='dashed'
           style={{ marginLeft: 20 }}
-          onClick={() => { }}
+          onClick={this.fetch}
         >
           <PlusCircleOutlined />添加
         </Button>

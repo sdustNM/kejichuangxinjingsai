@@ -33,20 +33,20 @@ class CompetitionEdit extends React.Component {
       },
       {
         key: 'tab2',
-        tab: '评审专家',
+        tab: '比赛说明',
         disabled: !this.state.id
       },
       {
         key: 'tab3',
-        tab: '比赛说明',
+        tab: '评审专家',
         disabled: !this.state.id
       }
     ];
 
     const contentList = {
       tab1: <CompetitionEditForm id={this.state.id} history={this.props.history}></CompetitionEditForm>,
-      tab2: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>,
-      tab3: <CompetitionEditAppendix></CompetitionEditAppendix>
+      tab2: <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
+      tab3: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>
     };
     return (
       <Card

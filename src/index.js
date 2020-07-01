@@ -30,11 +30,11 @@ import {persistor} from './redux/store';
 
 //获取部门列表:
 //import getDepartmentList from './redux/common'
-getDepartmentList().then(res => {
-    if (res.length !== 0) {
-        console.log(res)
-    }
-})
+// getDepartmentList().then(res => {
+//     if (res.length !== 0) {
+//         console.log(res)
+//     }
+// })
 
 
 ReactDOM.render(
