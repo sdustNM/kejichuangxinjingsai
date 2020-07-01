@@ -6,6 +6,10 @@ import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import 'antd/dist/antd.css'
 import getDepartmentList from './redux/common'
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/lib/integration/react';
+import store from './redux/store';
+import {persistor} from './redux/store';
 
 // redux 使用举例
 //import store from  './redux/store'
@@ -34,10 +38,15 @@ getDepartmentList().then(res => {
 
 
 ReactDOM.render(
-  <ConfigProvider locale={zhCN}>
-    <App />
+    <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+  <ConfigProvider locale={zhCN} >
+     
+          <App />
+       
   </ConfigProvider>
-  ,
+  </PersistGate>
+    </Provider>,
   document.getElementById('root')
 );
 

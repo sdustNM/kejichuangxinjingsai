@@ -1,16 +1,17 @@
 import {createStore,compose,applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
-import {rootReducers} from './reducer/index'
-
+import myPersistReducer from './reducer/index'
+import {persistStore} from 'redux-persist';
 
 
 const store=createStore(
-    rootReducers,
+  myPersistReducer,
     compose(
       applyMiddleware(...[thunk]),  //需要使用的中间件数组
     )
     );
   
+ export const  persistor = persistStore(store)  
 export default store;
 
 
