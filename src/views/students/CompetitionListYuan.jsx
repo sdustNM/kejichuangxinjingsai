@@ -1,31 +1,20 @@
 import React from 'react';
-import { Table, Space, Button, Select } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { Table, Button } from 'antd';
+
 import { getCompetitionList } from '../../services/administer/competition'
 import { getDeptID } from '../../utils/auth'
-import getDepartmentList from '../../redux/common'
 
-const { Option } = Select
 
-class CompetitionManagerXiao extends React.Component {
-
+class CompititionListYuan extends React.Component {
   state = {
     dataSource: [],
-    departmentList: [],
+    _total: 0,
     currentPage: 1,
     pageSize: 5,
-    loading: false,
-    _total: 0
+    loading: false
   }
 
   componentDidMount() {
-    getDepartmentList().then(res => {
-      let departmentList = JSON.parse(res)
-      console.log(departmentList)
-      if (departmentList.length !== 0) {
-          this.setState({ departmentList })
-      }
-  })
     this.refresh(this.state.currentPage, this.state.pageSize);
   }
 
@@ -64,7 +53,7 @@ class CompetitionManagerXiao extends React.Component {
             name: item.name,
             fromUnit: item.fromUnit,
             category: item.category,
-            state: '待定'
+            submitTime: item.submitStart + '至' +item.submitEnd
           })
         )
         //console.log(data)
@@ -75,73 +64,54 @@ class CompetitionManagerXiao extends React.Component {
       }
 
     })
-
   }
 
   render() {
     const columns = [
-      {
-        title: '比赛编号',
-        dataIndex: 'id',
-        key: 'id'
-      },
+      // {
+      //   title: '比赛编号',
+      //   dataIndex: 'id',
+      //   key: 'id'
+      // }, 
       {
         title: '比赛名称',
         dataIndex: 'name',
-        key: 'name'
-      },
-      {
-        title: '组织单位',
-        dataIndex: 'fromUnit',
-        key: 'fromUnit',
-      },
-      {
+        key: 'name',
+        width: 150
+      }, {
         title: '比赛类型',
         dataIndex: 'category',
         key: 'category',
-      },
-      {
-        title: '比赛状态',
-        key: 'state',
-        dataIndex: 'state',
-      },
-      {
+        width: 100
+      }, {
+        title: '组织单位',
+        dataIndex: 'fromUnit',
+        key: 'fromUnit',
+        width: 150
+      }, {
+        title: '参赛时间',
+        dataIndex: 'submitTime',
+        key: 'submitTime',
+        width: 200
+      }, {
         title: '操作',
         key: 'action',
+        width: 150,
         render: (text, record) => (
-          <Space size="middle">
-            <Button
-              type='primary'
-              size='small'
-              shape='round'
-              onClick={() => {
-                this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id } })
-              }}
-            >修改</Button>
-            <Button
-              type='danger'
-              size='small'
-              shape='round'
-            >删除</Button>
-          </Space>
+          <Button
+            type='primary'
+            size='small'
+            shape='round'
+            onClick={() => {
+              this.props.history.push({ pathname: '/student/competition', state: { id: record.key } })
+            }}
+          >详情</Button>
         ),
       },
     ];
     const { dataSource, pageSize, _total, loading } = this.state;
-    //console.log(this.state.departmentList)
     return (
       <div>
-        <Button
-          type='dashed'
-          style={{ margin: 20 }}
-          onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: null } }) }}
-        >
-          <PlusCircleOutlined />添加
-        </Button>
-        <Select defaultValue="0" style={{ width: 200 }} >
-          {this.state.departmentList.map(
-            item => <Option key={'department_' + item.id} value={item.id} disabled={item.id !== '0'}>{item.name}</Option>)}
-        </Select>
         <Table
           dataSource={dataSource}
           columns={columns}
@@ -163,4 +133,5 @@ class CompetitionManagerXiao extends React.Component {
   }
 }
 
-export default CompetitionManagerXiao;
+
+export default CompititionListYuan;

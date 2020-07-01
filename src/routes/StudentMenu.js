@@ -6,26 +6,41 @@ import {
   SmileOutlined
 } from '@ant-design/icons';
 
-import ProjectList from "../views/students/ProjectList";
-import CompititionList from "../views/students/CompetitionList";
-import NoticeList from "../views/students/NoticeList";
+// import ProjectList from "../views/students/ProjectList";
+// import CompititionListXiao from "../views/students/CompetitionListXiao";
+// import CompititionListYuan from "../views/students/CompetitionListYuan";
+// import NoticeList from "../views/students/NoticeList";
 
 export const studentMenus = [{
-    component: NoticeList,
-    exact: true,
+  path: '/student/noticeList',
+  //component: NoticeList,
+  exact: true,
+  isShow: true,
+  title: '通知公告',
+  icon: <HomeOutlined />
+}, {
+  path: '/student/competitionList',
+  //component: null,
+  exact: true,
+  isShow: true,
+  title: '竞赛信息',
+  icon: <ProfileOutlined />,
+  sub: [{
     isShow: true,
-    title: '首页',
-    icon: <HomeOutlined />
+    title: '校级竞赛',
+    path: '/student/competitionListXiao',
+    icon: <SmileOutlined />,
   }, {
-    component: CompititionList,
-    exact: true,
+    path: '/student/competitionListYuan',
     isShow: true,
-    title: '竞赛信息',
-    icon: <ProfileOutlined />
-  },
-  {
-    component: ProjectList,
-    isShow: true,
-    title: '我的竞赛',
-    icon: <SmileOutlined />
+    title: '院级竞赛',
+    icon: <SmileOutlined />,
   }]
+},
+{
+  path: '/student/projectList',
+  //component: ProjectList,
+  isShow: true,
+  title: '我的竞赛',
+  icon: <SmileOutlined />
+}]

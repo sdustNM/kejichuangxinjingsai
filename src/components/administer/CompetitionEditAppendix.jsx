@@ -18,21 +18,23 @@ class CompetitionEditAppendix extends React.Component {
     
   }
 
-  handleChange = (file, fileList) => {
-    console.log(file, fileList)
+  handleChange = info => {
+    console.log(info.file.status)
+    let fileList = [...info.fileList];
+    console.log(fileList)
     fileList = fileList.map(file => {
       if (file.response) {
-        // Component will show file.url as link
         file.url = file.response.url;
       }
       return file;
     });
-    this.setState({fileList})
+     this.setState({fileList})
   }
 
   render() {
     const props = {
       action: '',
+      data: {id: this.props.id},
       onChange: this.handleChange,
       fileList: this.state.fileList
     }

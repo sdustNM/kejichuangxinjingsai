@@ -13,13 +13,7 @@ import ExpertManager from '../views/administers/ExpertManager';
 
 
 export const administerConfig = [
-  {
-  path: '/administer/competitions/xiao',
-  component: CompetitionManagerXiao,
-  isShow:true,
-  title:'学生竞赛',
-  exact: true
-}, 
+  
 {
   path: '/administer/competitions/xiao',
   component: CompetitionManagerXiao,
