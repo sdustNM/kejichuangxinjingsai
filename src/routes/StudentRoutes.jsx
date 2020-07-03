@@ -2,19 +2,19 @@ import React from 'react'
 import MyLayout from '../components/frame/MyLayout'
 import { Route, Switch } from 'react-router-dom'
 import { studentConfig } from './StudentConfig'
-
+import { isStudent } from '../utils/auth'
+import NoPermission from '../views/common/NoPermission'
 
 export default class Student extends React.Component {
 
   render() {
     return (
-      
-        <MyLayout>
+      isStudent() ? (<MyLayout>
         <Switch>
           {
             studentConfig.map(route => {
               return (
-                <Route 
+                <Route
                   key={route.path}
                   path={route.path}
                   component={route.component}
@@ -25,7 +25,8 @@ export default class Student extends React.Component {
           }
           {/* <Redirect to ="/404" /> */}
         </Switch>
-      </MyLayout>
+      </MyLayout>) : <NoPermission></NoPermission>
+        
 
     )
   }

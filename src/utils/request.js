@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { getJwt } from './jwtHelper'
 
+export const appRoot = 'http://192.168.34.201:4000'
+
 const instance = axios.create({
   baseURL: 'http://192.168.34.201:4000/api',
   //baseURL: 'http://localhost:5000/api',
@@ -37,8 +39,8 @@ export function put(url, data){
   return instance.put(url, data)
 }
 
-export function del(url){
-  return instance.delete(url)
+export function del(url,params){
+  return instance.delete(url, {params})
 }
 
 

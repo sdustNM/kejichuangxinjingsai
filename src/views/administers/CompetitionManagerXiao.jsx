@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Space, Button, Select } from 'antd';
+import { Table, Space, Button, Select, Input } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { getCompetitionList } from '../../services/administer/competition'
 import { getDeptID } from '../../utils/auth'
@@ -15,18 +15,19 @@ class CompetitionManagerXiao extends React.Component {
     currentPage: 1,
     pageSize: 5,
     loading: false,
-    _total: 0
+    _total: 0,
+    comName: ''
   }
 
   componentDidMount() {
     getDepartmentList().then(res => {
       let departmentList = JSON.parse(res)
-      console.log(departmentList)
+      //console.log(departmentList)
       if (departmentList.length !== 0) {
-          this.setState({ departmentList })
+        this.setState({ departmentList })
       }
-  })
-    this.refresh(this.state.currentPage, this.state.pageSize);
+    })
+    this.refresh();
   }
 
   pageChange = (currentPage, pageSize) => {
@@ -34,7 +35,7 @@ class CompetitionManagerXiao extends React.Component {
       currentPage,
       pageSize
     })
-    this.refresh(currentPage, pageSize);
+    this.refresh();
   }
   showSizeChange = (current, pageSize) => {
 
@@ -42,16 +43,19 @@ class CompetitionManagerXiao extends React.Component {
       current: 1,
       pageSize
     })
-    this.refresh(1, pageSize);
+    this.refresh();
   }
 
-  refresh = (currentPage, pageSize) => {
-    let deptID = getDeptID()
-    getCompetitionList({
-      id: deptID,
-      currentPage,
-      pageSize
-    }).then(res => {
+  refresh = () => {
+    
+    let params = {
+      DepartmentId: getDeptID(),
+      comName: this.state.comName,
+      currentPage: this.state.currentPage,
+      pageSize: this.state.pageSize
+    }
+    //console.log(params)
+    getCompetitionList(params).then(res => {
       //console.log(res)
       if (res.data.result) {
         let list = []
@@ -75,7 +79,12 @@ class CompetitionManagerXiao extends React.Component {
       }
 
     })
+  }
 
+  changeValue = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
 
   render() {
@@ -127,21 +136,25 @@ class CompetitionManagerXiao extends React.Component {
         ),
       },
     ];
-    const { dataSource, pageSize, _total, loading } = this.state;
+    const { dataSource, pageSize, _total, loading, comName } = this.state;
     //console.log(this.state.departmentList)
     return (
       <div>
-        <Button
-          type='dashed'
-          style={{ margin: 20 }}
-          onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: null } }) }}
-        >
-          <PlusCircleOutlined />添加
+        <Space>
+          <Button
+            type='dashed'
+            style={{ margin: 20 }}
+            onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: null } }) }}
+          >
+            <PlusCircleOutlined />添加
         </Button>
-        <Select defaultValue="0" style={{ width: 200 }} >
-          {this.state.departmentList.map(
-            item => <Option key={'department_' + item.id} value={item.id} disabled={item.id !== '0'}>{item.name}</Option>)}
-        </Select>
+          <Select defaultValue="0" style={{ width: 200 }} >
+            {this.state.departmentList.map(
+              item => <Option key={'department_' + item.id} value={item.id} disabled={item.id !== '0'}>{item.name}</Option>)}
+          </Select>
+          <Input addonBefore='比赛名称' name='comName' value={comName} onChange={this.changeValue} />
+          <Button type='primary' onClick={this.refresh}>搜索</Button>
+        </Space>
         <Table
           dataSource={dataSource}
           columns={columns}
