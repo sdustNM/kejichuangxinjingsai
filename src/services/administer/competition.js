@@ -1,7 +1,7 @@
 import { get, post } from '../../utils/request'
 
 export function getCompetitionList(params) {
-  return get('/administer/getCompetitionSimpleListByDepartment', params)
+  return get('/administer/getCompetitionSimpleListByFuzzy', params)
 }
 
 export function getCompetitionByID(id) {

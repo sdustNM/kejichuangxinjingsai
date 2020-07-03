@@ -4,14 +4,14 @@ import store from  './store'
 import {get} from '../utils/request'
 
  const  getDepartmentListRequest=()=>{
-      return get('/administer/getDepartmentList')
+      return get('/Common/getDepartmentList')
    }
  
   
 const getDepartmentList = async () => {
 
-  console.log(store.getState())
-  if (!store.getState().departmentList || !store.getState().departmentList.list || store.getState().departmentList.list.length == 0) {
+  //console.log(store.getState())
+  if (!store.getState().departmentList || !store.getState().departmentList.list || store.getState().departmentList.list.length === 0) {
     console.log("start get...");
     const res = await getDepartmentListRequest()
     if (res) {

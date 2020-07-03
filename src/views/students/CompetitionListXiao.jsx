@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, Space, Input } from 'antd';
 
 import { getCompetitionList } from '../../services/administer/competition'
 
@@ -10,11 +10,12 @@ class CompititionListXiao extends React.Component {
     _total: 0,
     currentPage: 1,
     pageSize: 5,
-    loading: false
+    loading: false,
+    comName: ''
   }
 
   componentDidMount() {
-    this.refresh(this.state.currentPage, this.state.pageSize);
+    this.refresh();
   }
 
   pageChange = (currentPage, pageSize) => {
@@ -22,7 +23,7 @@ class CompititionListXiao extends React.Component {
       currentPage,
       pageSize
     })
-    this.refresh(currentPage, pageSize);
+    this.refresh();
   }
   showSizeChange = (current, pageSize) => {
 
@@ -30,17 +31,20 @@ class CompititionListXiao extends React.Component {
       current: 1,
       pageSize
     })
-    this.refresh(1, pageSize);
+    this.refresh();
   }
 
-  refresh = (currentPage, pageSize) => {
-    let deptID = 0
-    getCompetitionList({
-      id: deptID,
-      currentPage,
-      pageSize
-    }).then(res => {
-      //console.log(res)
+  refresh = () => {
+    let params = {
+      DepartmentId: '0',
+      comName: this.state.comName,
+      currentPage: this.state.currentPage,
+      pageSize: this.state.pageSize
+    }
+
+    //console.log(params)
+    getCompetitionList(params).then(res => {
+      console.log(res)
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
@@ -52,7 +56,7 @@ class CompititionListXiao extends React.Component {
             name: item.name,
             fromUnit: item.fromUnit,
             category: item.category,
-            submitTime: item.submitStart + '至' +item.submitEnd
+            submitTime: item.submitStart + '至' + item.submitEnd
           })
         )
         //console.log(data)
@@ -62,6 +66,11 @@ class CompititionListXiao extends React.Component {
         })
       }
 
+    })
+  }
+  changeValue = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
     })
   }
 
@@ -108,9 +117,13 @@ class CompititionListXiao extends React.Component {
         ),
       },
     ];
-    const { dataSource, pageSize, _total, loading } = this.state;
+    const { dataSource, pageSize, _total, loading, comName } = this.state;
     return (
       <div>
+        <Space style={{margin:20}}>
+          <Input addonBefore='比赛名称' name='comName' value={comName} onChange={this.changeValue} />
+          <Button type='primary' onClick={this.refresh}>搜索</Button>
+        </Space>
         <Table
           dataSource={dataSource}
           columns={columns}
