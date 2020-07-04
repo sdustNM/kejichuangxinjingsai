@@ -44,7 +44,7 @@ class CompititionListXiao extends React.Component {
 
     //console.log(params)
     getCompetitionList(params).then(res => {
-      console.log(res)
+      //console.log(res)
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
