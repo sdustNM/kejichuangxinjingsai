@@ -1,15 +1,17 @@
 import React from 'react'
-import { Card } from 'antd'
+import { Card,Row,Space } from 'antd'
 import CompetitionEditForm from '../../components/administer/CompetitionEditForm'
 import CompetitionExpertList from '../../components/administer/CompetitionExpertList'
 import CompetitionEditAppendix from '../../components/administer/CompetitionEditAppendix'
+import './CompetitionEdit.css'
 
 class CompetitionEdit extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       id: props.history.location.state && this.props.history.location.state.id,
-      key: 'tab1'
+      key: 'tab1',
+      comName: props.history.location.state && this.props.history.location.state.comName,
     }
   }
 
@@ -49,6 +51,12 @@ class CompetitionEdit extends React.Component {
       tab3: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>
     };
     return (
+
+      <div> <Row justify="center" className="CompetitionTitle" align="middle"> 
+        <Space><h3 className="titleItem">比赛编号：{this.state.id} </h3>
+        <h3 className="titleItem">比赛名称：{this.state.comName}</h3>
+        </Space>
+        </Row>
       <Card
         style={{ width: '100%' }}
         title={this.state.id < 0 ? '创建比赛' : this.state.name}
@@ -58,8 +66,9 @@ class CompetitionEdit extends React.Component {
           this.onTabChange(key, 'key');
         }}
       >
-        {contentList[this.state.key]}
+         {contentList[this.state.key]}
       </Card>
+      </div>
     )
   }
 }

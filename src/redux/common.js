@@ -8,10 +8,10 @@ import {get} from '../utils/request'
    }
  
   
-const getDepartmentList = async () => {
+const getDepartmentList = async (readAlways=false) => {
 
   //console.log(store.getState())
-  if (!store.getState().departmentList || !store.getState().departmentList.list || store.getState().departmentList.list.length === 0) {
+  if (readAlways || !store.getState().departmentList || !store.getState().departmentList.list || store.getState().departmentList.list.length === 0) {
     console.log("start get...");
     const res = await getDepartmentListRequest()
     if (res) {

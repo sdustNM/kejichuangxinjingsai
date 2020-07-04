@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Space, Button, Select, Input } from 'antd';
+import { Table, Space, Button, Select, Input,Row } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { getCompetitionList } from '../../services/administer/competition'
 import { getDeptID } from '../../utils/auth'
@@ -124,7 +124,8 @@ class CompetitionManagerXiao extends React.Component {
               size='small'
               shape='round'
               onClick={() => {
-                this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id } })
+                console.log("record.name:",record.name)
+                this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id,comName:record.name } })
               }}
             >修改</Button>
             <Button
@@ -140,6 +141,7 @@ class CompetitionManagerXiao extends React.Component {
     //console.log(this.state.departmentList)
     return (
       <div>
+
         <Space>
           <Button
             type='dashed'

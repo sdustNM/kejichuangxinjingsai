@@ -3,7 +3,7 @@ import CompetitionEdit from '../views/administers/CompetitionEdit'
 import ProjectManager from '../views/administers/ProjectManager'
 import ProjectDetail from '../views/administers/ProjectDetail'
 import AdministerManager from '../views/administers/AdministerManager';
-import DepartmentManager from '../views/administers/DepartmentManager';
+import DepartmentManager from '../views/administers/Department/DepartmentManager';
 import TeacherManager from '../views/administers/TeacherManager';
 import StudentManager from '../views/administers/StudentManager';
 import CompetitionManagerXiao from '../views/administers/CompetitionManagerXiao'
