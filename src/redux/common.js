@@ -4,7 +4,7 @@ import store from  './store'
 import {get} from '../utils/request'
 
  const  getDepartmentListRequest=()=>{
-      return get('/Common/getDepartmentList')
+      return get('/common/getDepartmentList')
    }
  
   
