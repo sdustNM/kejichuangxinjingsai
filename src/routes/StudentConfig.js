@@ -4,6 +4,7 @@ import NoticeList from "../views/students/NoticeList"
 import Notice from '../views/students/Notice'
 import CompetitionListXiao from '../views/students/CompetitionListXiao'
 import CompetitionListYuan from '../views/students/CompetitionListYuan'
+import Competition from "../views/students/Competition"
 
 export const studentConfig = [{
     path: '/student/',
@@ -27,6 +28,11 @@ export const studentConfig = [{
   }, {
     path: '/student/notice',
     component: Notice,
+    exact: true,
+  },
+  {
+    path: '/student/competition',
+    component: Competition,
     exact: true,
   }]
 

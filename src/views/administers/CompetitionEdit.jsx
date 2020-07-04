@@ -25,6 +25,10 @@ class CompetitionEdit extends React.Component {
     this.setState({ [type]: key });
   };
 
+  create = id => {
+    this.setState({id})
+  }
+
   render() {
     const tabList = [
       {
@@ -44,7 +48,7 @@ class CompetitionEdit extends React.Component {
     ];
 
     const contentList = {
-      tab1: <CompetitionEditForm id={this.state.id} history={this.props.history}></CompetitionEditForm>,
+      tab1: <CompetitionEditForm id={this.state.id} createID={this.create} history={this.props.history}></CompetitionEditForm>,
       tab2: <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
       tab3: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>
     };
