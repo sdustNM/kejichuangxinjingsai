@@ -1,9 +1,9 @@
 import React from 'react';
 import { Table, Space, Button, Select, Input,Row } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getCompetitionList } from '../../services/administer/competition'
-import { getDeptID } from '../../utils/auth'
-import getDepartmentList from '../../redux/common'
+import { getCompetitionList } from '../../../services/administer/competition'
+import { getDeptID } from '../../../utils/auth'
+import getDepartmentList from '../../../redux/common'
 
 const { Option } = Select
 

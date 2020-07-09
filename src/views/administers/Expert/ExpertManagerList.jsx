@@ -1,9 +1,10 @@
 import React from 'react'
-import { Table, Space, Button, Input } from 'antd';
+import { Table, Space, Button, Input,Modal } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getExpertsByFuzzy } from '../../services/administer/expert'
+import { getExpertsByFuzzy } from '../../../services/administer/expert'
+import ExpertManagerEdit from './ExpertManagerEdit';
 
-class ExpertManager extends React.Component {
+class ExpertManagerList extends React.Component {
   state = {
     id: '',
     name: '',
@@ -13,13 +14,26 @@ class ExpertManager extends React.Component {
     currentPage: 1,
     pageSize: 5,
     loading: false,
-    _total: 0
+    _total: 0,
+    visible:false
   }
 
   componentDidMount() {
     this.fetch()
   }
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  };
 
+  hideModal = () => {
+    this.setState({
+      visible: false
+    })
+    this.fetch()
+  }
+  
   fetch = () => {
     const { id, name, sfzh, currentPage, pageSize } = this.state
     console.log(this.state)
@@ -110,7 +124,7 @@ class ExpertManager extends React.Component {
               size='small'
               shape='round'
               onClick={() => {
-
+               this.showModal()
               }}
             >修改</Button>
             <Button
@@ -122,7 +136,7 @@ class ExpertManager extends React.Component {
         ),
       },
     ];
-    const { id, name, sfzh, dataSource, pageSize, _total, loading } = this.state;
+    const { id, name, sfzh, dataSource, pageSize, _total, loading,visible } = this.state;
     return (
       <div>
 
@@ -157,9 +171,23 @@ class ExpertManager extends React.Component {
           loading={loading}
           scroll={{ y: 320 }}
         />
+        <Modal
+          width={600}
+          title="修改专家信息"
+          visible={visible}
+          onCancel={this.hideModal}
+          destroyOnClose={true}
+          footer={[
+            <Button key='close' onClick={this.hideModal}>
+              关闭
+            </Button>
+          ]}
+        >
+          <ExpertManagerEdit expertID={this.state.id} hideModal={this.hideModal}></ExpertManagerEdit>
+        </Modal>
       </div>
     )
   }
 }
 
-export default ExpertManager
+export default ExpertManagerList

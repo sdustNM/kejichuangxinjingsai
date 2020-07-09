@@ -1,8 +1,8 @@
 import React from 'react'
 import { Card,Row,Space } from 'antd'
-import CompetitionEditForm from '../../components/administer/CompetitionEditForm'
-import CompetitionExpertList from '../../components/administer/CompetitionExpertList'
-import CompetitionEditAppendix from '../../components/administer/CompetitionEditAppendix'
+import CompetitionEditForm from './CompetitionEditForm'
+import CompetitionExpertList from './CompetitionExpertList'
+import CompetitionEditAppendix from './CompetitionEditAppendix'
 import './CompetitionEdit.css'
 
 class CompetitionEdit extends React.Component {
