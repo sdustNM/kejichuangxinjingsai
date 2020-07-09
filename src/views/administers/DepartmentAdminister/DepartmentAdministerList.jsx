@@ -13,7 +13,8 @@ class DepartmentAdministerList extends React.Component {
     loading: false,
     _total: 0,
     visible: false,
-    departmentId: -1
+    departmentId: -1,
+
   }
 
   componentDidMount() {
@@ -81,7 +82,7 @@ class DepartmentAdministerList extends React.Component {
         key: 'action',
         render: (text, record) => (
           <Space>
-            {record.list}
+            <span style={{color:'blue'}}>{record.list}</span>
             <Button
               type='dash'
               size='small'

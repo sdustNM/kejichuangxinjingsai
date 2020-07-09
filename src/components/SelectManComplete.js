@@ -1,15 +1,22 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {Input,AutoComplete} from 'antd'
 import {getTeachersByFuzzy} from '../services/administer/deparmentAdminister'
 
-const mockVal = (str, repeat = 1) => ({
-    value: str.repeat(repeat),
-  });
-
+//使用Demo:
+//<SelectManComplete chooseMan={this.chooseMan} initValue={'991823'} />
+//在父组件中添加：
+// chooseMan=(man)=>{
+//   this.setState(
+//     {
+//       administerID:man
+//     }
+//   )
+// }
 
 const SelectManComplete = (props) => {
     const [value, setValue] = useState('');
     const [options, setOptions] = useState([]);
+    const [db,setDb]=useState([]);
   
     const onSearch = searchText => {
         if (searchText.length > 1) {
@@ -18,8 +25,8 @@ const SelectManComplete = (props) => {
                     let r=[]
                     if (res.data.result) {
                        let  data=JSON.parse(res.data.data)
-                        console.log(data)
-                        r=data.map(item=>{
+                       setDb(data)
+                       r=data.map(item=>{
                             return {
                                 value: item.id,
                                 label: (<div
@@ -39,17 +46,35 @@ const SelectManComplete = (props) => {
                     setOptions(r)
                 })
         }
-    };
+    }
+
+    useEffect(() => {
+      console.log("selectman"+"init")
+      props.initValue && getTeachersByFuzzy({"searchTxt":props.initValue}).then(res=>{
+        if (res.data.result) {
+          
+          let  data=JSON.parse(res.data.data)
+          console.log(data)
+          if (data.length===1){   //只有一条记录
+            setValue(`${data[0].id}-${data[0].name}`)
+          }
+        }
+      })     
+    
+    }, [])
 
     const onSelect = data => {
-      console.log('onSelect', data);
+      console.log("select"+data)
+      let finded= db.find(a=>a.id===data)
+      finded && setValue(`${finded.id}-${finded.name}`);
+      props.chooseMan(data)
     };
   
     const onChange = data => {
-        console.log(data)
-        setValue(data);
-        console.log(props)
-        props.chooseMan(data)
+        // console.log(data)
+         setValue(data);
+        // console.log(props)
+        // props.chooseMan(data)
     };
   
     return (
