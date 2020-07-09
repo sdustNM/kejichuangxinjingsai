@@ -5,6 +5,7 @@ import Notice from '../views/students/Notice'
 import CompetitionListXiao from '../views/students/CompetitionListXiao'
 import CompetitionListYuan from '../views/students/CompetitionListYuan'
 import Competition from "../views/students/Competition"
+import Project from "../views/students/Project"
 
 export const studentConfig = [{
     path: '/student/',
@@ -25,6 +26,9 @@ export const studentConfig = [{
   {
     path: '/student/projectList',
     component: ProjectList,
+  },{
+    path: '/student/project',
+    component: Project
   }, {
     path: '/student/notice',
     component: Notice,

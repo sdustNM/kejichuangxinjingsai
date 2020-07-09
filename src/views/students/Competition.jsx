@@ -1,14 +1,17 @@
 import React from 'react';
-import { Descriptions, message, Card } from 'antd'
+import { Descriptions, message, Card, List, Button } from 'antd'
 import { getCompetitionByID } from '../../services/administer/competition'
+import { getCompetitionFilesByComId } from '../../services/administer/appendix'
 import { FileTextOutlined } from '@ant-design/icons'
+import { appRoot } from '../../utils/request'
 
 class Competition extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       competition: {
-      }
+      },
+      fileList: []
     }
   }
 
@@ -40,14 +43,35 @@ class Competition extends React.Component {
         })
       }
     })
+    getCompetitionFilesByComId({ comId: id }).then(res => {
+      if (res.data.result) {
+        this.setState({
+          fileList: JSON.parse(res.data.data)
+        })
+      }
+    })
   }
 
   render() {
     const { competition } = this.state
+    const title = (
+      <div>
+        <span>
+          <FileTextOutlined />比赛详情
+          </span>
+        <Button
+          type='primary'
+          style={{ float: 'right' }}
+          onClick={() => this.props.history.push({ pathname: '/student/Project', state: { id: null, competitionID: competition.id, competitionName: competition.name} })}
+        >
+          报名
+            </Button>
+      </div>
+    )
     return (
       <div>
         <Card
-          title={<span><FileTextOutlined />比赛详情</span>}
+          title={title}
           headStyle={{ backgroundColor: '#ccf0ff', fontSize: 16 }}
         >
           <Descriptions
@@ -59,7 +83,25 @@ class Competition extends React.Component {
             <Descriptions.Item label="报名结束">{competition.submitEnd}</Descriptions.Item>
             <Descriptions.Item label="比赛说明">{competition.description}</Descriptions.Item>
             <Descriptions.Item label="备注">{competition.remark}</Descriptions.Item>
+            <Descriptions.Item label="附件"></Descriptions.Item>
           </Descriptions>
+          <Card>
+            <List
+              size="small"
+              //bordered
+              dataSource={this.state.fileList}
+              renderItem={item => (
+                <List.Item>
+                  <a
+                    href={appRoot + item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.name}
+                  </a>
+                </List.Item>)}
+            />
+          </Card>
         </Card>
       </div>
     )
