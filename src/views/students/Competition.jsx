@@ -1,5 +1,5 @@
 import React from 'react';
-import { Descriptions, message, Card, List, Button } from 'antd'
+import { Descriptions, message, Card, List, Button, Space } from 'antd'
 import { getCompetitionByID } from '../../services/administer/competition'
 import { getCompetitionFilesByComId } from '../../services/administer/appendix'
 import { FileTextOutlined } from '@ant-design/icons'
@@ -11,7 +11,8 @@ class Competition extends React.Component {
     this.state = {
       competition: {
       },
-      fileList: []
+      fileList: [],
+      isAttend: false
     }
   }
 
@@ -54,25 +55,24 @@ class Competition extends React.Component {
 
   render() {
     const { competition } = this.state
-    const title = (
-      <div>
-        <span>
-          <FileTextOutlined />比赛详情
-          </span>
+    const extra = (
+      <Space>
+        <span style={{color: 'red'}}>
+          {this.state.isAttend || <span>未参赛</span>}
+        </span>
         <Button
           type='primary'
-          style={{ float: 'right' }}
           onClick={() => this.props.history.push({ pathname: '/student/Project', state: { id: null, competitionID: competition.id, competitionName: competition.name} })}
         >
-          报名
-            </Button>
-      </div>
+          {this.state.isAttend ? '进入比赛':'参加比赛'}
+        </Button>
+      </Space>
     )
     return (
       <div>
         <Card
-          title={title}
-          headStyle={{ backgroundColor: '#ccf0ff', fontSize: 16 }}
+          title={<span><FileTextOutlined />比赛详情</span>}
+          extra={extra}
         >
           <Descriptions
             title={`${competition.name}(${competition.id})`}

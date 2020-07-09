@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Form, Input, Button, Space } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import SelectManComplete from '../../components/SelectManComplete';
 const { TextArea } = Input
 const layout = {
   labelCol: { span: 4 },
@@ -14,10 +15,12 @@ const layoutWithOutLabel = {
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
+
 class Project extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      isReadOnly: true,
       competitionName: props.location.state.cometitionName
     }
   }
@@ -73,7 +76,7 @@ class Project extends React.Component {
 
   render() {
     const state = this.props.location.state
-    console.log(state)
+    const { isReadOnly } = this.state
     return (
       <Card title={this.state.competitionName}>
         <Form
@@ -88,14 +91,14 @@ class Project extends React.Component {
             name="projectName"
             rules={[{ required: true, message: '比赛作品名称不能为空!' }]}
           >
-            <Input />
+            <Input readOnly={isReadOnly} />
           </Form.Item>
           <Form.Item
             label="指导老师"
             name="teacher"
             rules={[{ required: true, message: '指导老师姓名名称不能为空!' }]}
           >
-            <Input />
+            <SelectManComplete></SelectManComplete>
           </Form.Item>
           <Form.List name="names">
             {(fields, { add, remove }) => {
@@ -141,7 +144,7 @@ class Project extends React.Component {
                       }}
                       style={{ width: '60%' }}
                     >
-                      <PlusOutlined /> Add field
+                      <PlusOutlined /> 添加合作者
                 </Button>
                   </Form.Item>
                 </div>

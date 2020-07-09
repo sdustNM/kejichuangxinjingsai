@@ -111,7 +111,7 @@ class CompititionListXiao extends React.Component {
             size='small'
             shape='round'
             onClick={() => {
-              this.props.history.push({ pathname: '/student/competition', state: { id: record.key } })
+              this.props.history.push({ pathname: '/student/competition', state: { id: record.id } })
             }}
           >详情</Button>
         ),
