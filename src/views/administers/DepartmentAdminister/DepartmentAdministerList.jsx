@@ -1,11 +1,11 @@
 import React from 'react'
 import { Table, Space, Button, Divider, Popconfirm, message, Modal } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import getDepartmentList from '../../../redux/common';
-import DepartmentEdit from './DepartmentEdit'
-import {deleteDepartment} from '../../../services/administer/department'
+import {getDepartmentAdministerList} from '../../../services/administer/deparmentAdminister'
+import DepartmentAdministerEdit from './DepartmentAdministerEdit'
 
-class DeparmentManager extends React.Component {
+
+class DepartmentAdministerList extends React.Component {
   state = {
     dataSource: [],
     currentPage: 1,
@@ -21,25 +21,29 @@ class DeparmentManager extends React.Component {
   }
 
   fetch = () => {
-    console.log(this.state)
-    getDepartmentList(true).then(res => JSON.parse(res))
-      .then(data => {
-        let list = data.map((item) => {
-          return {
-            "id": item.id,
-            "name": item.name,
-            "key": item.id
-          }
 
-        })
-        console.log(data)
-        if (data && data.length > 0) {
-          this.setState({
-            dataSource: list,
-            _total: data.length
+    getDepartmentAdministerList()
+      .then(res => {
+        console.log(res)
+        if (res.data.result) {
+          let json=JSON.parse(res.data.data)
+          let list = json.map((item) => {
+            return {
+              "id": item.id,
+              "name": item.name,
+              "key": item.id,
+              "list": item.list
+            }
+
           })
-        }
 
+          if (json && json.length > 0) {
+            this.setState({
+              dataSource: list,
+              _total: json.length
+            })
+          }
+        }
       })
   }
 
@@ -56,28 +60,16 @@ class DeparmentManager extends React.Component {
     })
     this.fetch()
   }
-
-  delete=(id)=>{
-    deleteDepartment(id).then(res=>{
-      if(res.data.result)
-      message.success("删除成功")
-      this.fetch()
-    })
-
-  }
-
-  changeValue = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
+  
 
   render() {
     const columns = [
       {
         title: '编号',
         dataIndex: 'id',
-        key: 'id'
+        key: 'id',
+        width:100,
+        padding:100
       },
       {
         title: '名称',
@@ -85,34 +77,24 @@ class DeparmentManager extends React.Component {
         key: 'name'
       },
       {
-        title: '操作',
+        title: '指定管理员',
         key: 'action',
         render: (text, record) => (
           <Space>
+            {record.list}
             <Button
+              type='dash'
               size='small'
               shape='round'
               onClick={() => {
                 this.setState({
-                  departmentId: record.id,
-                  visible: !visible
-                })
-              }}
-            >修改</Button>
-            <Popconfirm
-              title={`确认将${record.name}删除吗?`}
-              onConfirm={() => { this.delete({ "id": record.id}) }}
-              okText="确认"
-              cancelText="取消"
-            >
-              <Button
-                type='danger'
-                size='small'
-                shape='round'
-              >
-                删除
-            </Button>
-            </Popconfirm>
+                    departmentId: record.id,
+                    visible: !visible,
+                  });
+                }
+              }
+            >选择</Button>
+
           </Space>
         ),
       },
@@ -120,14 +102,7 @@ class DeparmentManager extends React.Component {
     const { dataSource, pageSize, _total, loading, visible } = this.state;
     return (
       <div>
-        <Space direction="vertical" style={{padding:10}}>
-        <Button
-          type='dashed'
-          style={{ marginLeft: 20}}
-          onClick={() => { }}
-        >
-          <PlusCircleOutlined />云端导入
-        </Button>
+
         <Table
           dataSource={dataSource}
           columns={columns}
@@ -146,21 +121,21 @@ class DeparmentManager extends React.Component {
         />
         <Modal
           width={600}
-          title="修改部门信息"
+          title="选择管理员"
           visible={visible}
           onCancel={this.hideModal}
+          destroyOnClose={true}
           footer={[
             <Button key='close' onClick={this.hideModal}>
               关闭
             </Button>
           ]}
         >
-          <DepartmentEdit departmentId={this.state.departmentId} hideModal={this.hideModal}></DepartmentEdit>
+          <DepartmentAdministerEdit departmentId={this.state.departmentId} hideModal={this.hideModal}></DepartmentAdministerEdit>
         </Modal>
-        </Space>
       </div>
     )
   }
 }
 
-export default DeparmentManager
+export default DepartmentAdministerList
