@@ -3,6 +3,7 @@ import { Card,Row,Space } from 'antd'
 import CompetitionEditForm from './CompetitionEditForm'
 import CompetitionExpertList from './CompetitionExpertList'
 import CompetitionEditAppendix from './CompetitionEditAppendix'
+import CompetitionStatus from './CompetitionStatus'
 import './CompetitionEdit.css'
 
 class CompetitionEdit extends React.Component {
@@ -35,24 +36,41 @@ class CompetitionEdit extends React.Component {
     const tabList = [
       {
         key: 'tab1',
-        tab: '基本信息',
+        tab: '项目状态',
       },
       {
         key: 'tab2',
-        tab: '比赛说明',
-        disabled: !this.state.id
+        tab: '基本信息',
       },
       {
         key: 'tab3',
+        tab: '比赛附件',
+        disabled: !this.state.id
+      },
+      {
+        key: 'tab4',
         tab: '评审专家',
+        disabled: !this.state.id
+      },
+      {
+        key: 'tab5',
+        tab: '学院推荐',
+        disabled: !this.state.id
+      },
+      {
+        key: 'tab6',
+        tab: '校级推荐',
         disabled: !this.state.id
       }
     ];
 
     const contentList = {
-      tab1: <CompetitionEditForm id={this.state.id} createID={this.create} history={this.props.history}></CompetitionEditForm>,
-      tab2: <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
-      tab3: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>
+      tab1: <CompetitionStatus id={this.state.id}></CompetitionStatus>,
+      tab2: <CompetitionEditForm id={this.state.id} createID={this.create} history={this.props.history}></CompetitionEditForm>,
+      tab3: <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
+      tab4: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>,
+      tab5: <CompetitionStatus id={this.state.id}></CompetitionStatus>,
+      tab6: <CompetitionStatus id={this.state.id}></CompetitionStatus>
     };
     return (
 
