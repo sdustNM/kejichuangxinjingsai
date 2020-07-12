@@ -14,7 +14,6 @@ class DepartmentAdministerList extends React.Component {
     _total: 0,
     visible: false,
     departmentId: -1,
-
   }
 
   componentDidMount() {
