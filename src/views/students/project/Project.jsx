@@ -1,7 +1,10 @@
 import React from 'react';
-import { Card, Form, Input, Button, Space } from 'antd'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import SelectManComplete from '../../components/SelectManComplete';
+import { Card, Form, Input, Button, Space, Upload } from 'antd'
+import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import SelectManComplete from '../../../components/SelectManComplete';
+import { getJwt } from '../../../utils/jwtHelper'
+import { appRoot } from '../../../utils/request'
+
 const { TextArea } = Input
 const layout = {
   labelCol: { span: 4 },
@@ -20,8 +23,10 @@ class Project extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      isReadOnly: true,
-      competitionName: props.location.state.cometitionName
+      teacher: '',
+      mainList: [],
+      videoList: [],
+      textList: []
     }
   }
   formRef = React.createRef();
@@ -74,9 +79,62 @@ class Project extends React.Component {
     // })
   }
 
+  setTeacher = data => {
+    this.setState({
+      teacher: data
+    })
+    console.log(data)
+  }
+
+  handleChangeVideo = info => {
+    console.log(info)
+    let videoFileList = [...info.fileList];
+
+    videoFileList = videoFileList.map(file => {
+      if (file.response) {
+        let data = JSON.parse(file.response.data)
+        file.url = appRoot + data.url
+        file.id = data.id
+      }
+      return file;
+    });
+
+    this.setState({ videoFileList });
+  }
+
+  handleRemoveVideo = file => {
+    // deleteCompetitionFile({ id: file.id }).then(res => {
+    //   if (res.data.result) {
+    //     console.log(res.data.result)
+    //     //console.log(fileList)
+    //   }
+    // })
+  }
+
+
   render() {
     const state = this.props.location.state
-    const { isReadOnly } = this.state
+    const { isReadOnly, teacher, videoFileList, textFileList } = this.state
+    const propsVideo = {
+      //action: 'http://192.168.34.201:4000/api/Appendix/UploadCompetitionFile',
+      data: { id: this.props.id },
+      headers: {
+        authorization: getJwt(),
+      },
+      onChange: this.handleChange,
+      onRemove: this.handleRemove,
+      fileList: videoFileList
+    }
+    const propsText = {
+      //action: 'http://192.168.34.201:4000/api/Appendix/UploadCompetitionFile',
+      data: { id: this.props.id },
+      headers: {
+        authorization: getJwt(),
+      },
+      onChange: this.handleChange,
+      onRemove: this.handleRemove,
+      fileList: textFileList
+    }
     return (
       <Card title={this.state.competitionName}>
         <Form
@@ -96,9 +154,9 @@ class Project extends React.Component {
           <Form.Item
             label="指导老师"
             name="teacher"
-            rules={[{ required: true, message: '指导老师姓名名称不能为空!' }]}
+          //rules={[{ required: true, message: '指导老师不能为空!' }]}
           >
-            <SelectManComplete></SelectManComplete>
+            <SelectManComplete chooseMan={this.setTeacher} name="teacher" value={teacher}></SelectManComplete>
           </Form.Item>
           <Form.List name="names">
             {(fields, { add, remove }) => {
@@ -167,14 +225,34 @@ class Project extends React.Component {
           >
             <Input placeholder='备注' />
           </Form.Item>
+          <Form.Item
+            label="视频附件"
+            name="video"
+          >
+            <Upload {...propsVideo}>
+              <Button>
+                <UploadOutlined />
+                Upload
+              </Button>
+            </Upload>
+          </Form.Item>
+          
+          <Card title='文档附件'>
+            <Upload {...propsText}>
+              <Button>
+                <UploadOutlined />
+                Upload
+              </Button>
+            </Upload>
+          </Card>
           <Form.Item {...tailLayout}>
             <Space>
               <Button type="primary" htmlType="submit">
-                {!this.props.id ? '创建' : '修改'}
+                {!state.id ? '创建' : '修改'}
               </Button>
-              <Button type="primary" onClick={() => this.props.history.push('/administer/competitions/xiao')}>
+              <Button type="primary" onClick={() => this.props.history.push({ pathname: '/student/competitions', state: { id: state.competitionID } })}>
                 取消
-          </Button>
+              </Button>
             </Space>
           </Form.Item>
         </Form>

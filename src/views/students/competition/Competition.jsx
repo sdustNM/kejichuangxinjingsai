@@ -12,7 +12,7 @@ class Competition extends React.Component {
       competition: {
       },
       fileList: [],
-      isAttend: false
+      projectID: 0
     }
   }
 
@@ -24,6 +24,7 @@ class Competition extends React.Component {
     }
 
     const id = this.props.location.state.id
+    //获取竞赛基本信息
     getCompetitionByID(id).then(res => {
       if (res.data.result) {
         const data = JSON.parse(res.data.data)
@@ -44,6 +45,7 @@ class Competition extends React.Component {
         })
       }
     })
+    //获取竞赛附件
     getCompetitionFilesByComId({ comId: id }).then(res => {
       if (res.data.result) {
         this.setState({
@@ -51,6 +53,9 @@ class Competition extends React.Component {
         })
       }
     })
+    //获取用户是否参赛
+    
+
   }
 
   render() {

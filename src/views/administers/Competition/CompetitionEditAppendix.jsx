@@ -75,8 +75,9 @@ class CompetitionEditAppendix extends React.Component {
     return (
       <Upload {...props}>
         <Button>
-          <UploadOutlined /> Upload
-    </Button>
+          <UploadOutlined />
+          Upload
+        </Button>
       </Upload>
     )
   }

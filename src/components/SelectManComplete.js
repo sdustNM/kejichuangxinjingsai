@@ -78,8 +78,7 @@ const SelectManComplete = (props) => {
   };
 
   return (
-    <>
-      <AutoComplete
+    <AutoComplete
         allowClear
         dropdownMatchSelectWidth={252}
         value={value}
@@ -93,7 +92,6 @@ const SelectManComplete = (props) => {
         placeholder="选择人员"
       >  <Input.Search size="large" placeholder="input here" enterButton />
       </AutoComplete>
-    </>
   );
 };
 
