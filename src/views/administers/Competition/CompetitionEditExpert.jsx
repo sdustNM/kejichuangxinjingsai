@@ -19,11 +19,34 @@ class CompetitionEditExpert extends React.Component {
     }
   }
   componentDidMount() {
-    this.fetch()
+    this.fetch(this.state.currentPage, this.state.pageSize)
   }
 
-  fetch = () => {
-    const { id, name, sfzh, currentPage, pageSize } = this.state
+  pageChange = (currentPage, pageSize) => {
+    this.setState({
+      currentPage,
+      pageSize
+    })
+    this.fetch(currentPage, pageSize);
+  }
+  showSizeChange = (current, pageSize) => {
+
+    this.setState({
+      currentPage: 1,
+      pageSize
+    })
+    this.fetch(1, pageSize);
+  }
+
+  search = () => {
+    this.setState({
+      currentPage: 1,
+    })
+    this.fetch(1, this.state.pageSize)
+  }
+
+  fetch = (currentPage, pageSize) => {
+    const { id, name, sfzh } = this.state
     //console.log(this.state)
     getExpertsByFuzzy({
       id,
@@ -36,7 +59,7 @@ class CompetitionEditExpert extends React.Component {
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
-        data.map(item =>
+        data.list.map(item =>
           list.push({
             id: item.id,
             key: item.id,
@@ -140,7 +163,7 @@ class CompetitionEditExpert extends React.Component {
           <Input addonBefore='编号' name='id' value={id} onChange={this.changeValue} />
           <Input addonBefore='姓名' name='name' value={name} onChange={this.changeValue} />
           <Input addonBefore='身份证号' name='sfzh' value={sfzh} onChange={this.changeValue} />
-          <Button type='primary' onClick={this.fetch}>搜索</Button>
+          <Button type='primary' onClick={this.search}>搜索</Button>
         </Space>
         <Table
           dataSource={dataSource}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Space, Button, Input,Modal } from 'antd';
+import { Table, Space, Button, Input, Modal } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { getExpertsByFuzzy } from '../../../services/administer/expert'
 import ExpertManagerEdit from './ExpertManagerEdit';
@@ -20,7 +20,7 @@ class ExpertManagerList extends React.Component {
   }
 
   componentDidMount() {
-    this.fetch()
+    this.fetch(this.state.currentPage, this.state.pageSize)
   }
   showModal = (id) => {
     this.setState({
@@ -33,11 +33,34 @@ class ExpertManagerList extends React.Component {
     this.setState({
       visible: false
     })
-    this.fetch()
+    this.fetch(this.state.currentPage, this.state.pageSize)
   }
-  
-  fetch = () => {
-    const { id, name, sfzh, currentPage, pageSize } = this.state
+
+  pageChange = (currentPage, pageSize) => {
+    this.setState({
+      currentPage,
+      pageSize
+    })
+    this.fetch(currentPage, pageSize);
+  }
+  showSizeChange = (current, pageSize) => {
+
+    this.setState({
+      currentPage: 1,
+      pageSize
+    })
+    this.fetch(1, pageSize);
+  }
+
+  search = () => {
+    this.setState({
+      currentPage: 1,
+    })
+    this.fetch(1, this.state.pageSize)
+  }
+
+  fetch = (currentPage, pageSize) => {
+    const { id, name, sfzh } = this.state
     console.log(this.state)
     getExpertsByFuzzy({
       id,
@@ -153,7 +176,7 @@ class ExpertManagerList extends React.Component {
         ),
       },
     ];
-    const { id, name, sfzh, dataSource, pageSize, _total, loading,visible } = this.state;
+    const { id, name, sfzh, dataSource, pageSize, _total, loading, visible } = this.state;
     return (
       <div>
 
@@ -163,12 +186,12 @@ class ExpertManagerList extends React.Component {
           <Input addonBefore='编号' name='id' value={id} onChange={this.changeValue} />
           <Input addonBefore='姓名' name='name' value={name} onChange={this.changeValue} />
           <Input addonBefore='身份证号' name='sfzh' value={sfzh} onChange={this.changeValue} />
-          <Button type='primary' onClick={this.fetch}>搜索</Button>
+          <Button type='primary' onClick={this.search}>搜索</Button>
         </Space>
         <Button
           type='dashed'
           style={{ marginLeft: 20 }}
-          onClick={this.fetch}
+          onClick={this.showModal}
         >
           <PlusCircleOutlined />添加
         </Button>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Button, Space, Input } from 'antd';
 
-import { getCompetitionList } from '../../services/administer/competition'
+import { getCompetitionList } from '../../../services/administer/competition'
 
 
 class CompititionListXiao extends React.Component {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table, Button } from 'antd';
 
-import { getCompetitionList } from '../../services/administer/competition'
-import { getDeptID } from '../../utils/auth'
+import { getCompetitionList } from '../../../services/administer/competition'
+import { getDeptID } from '../../../utils/auth'
 
 
 class CompititionListYuan extends React.Component {

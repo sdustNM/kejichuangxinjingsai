@@ -1,9 +1,11 @@
 import React from 'react';
 import { Descriptions, message, Card, List, Button, Space } from 'antd'
-import { getCompetitionByID } from '../../services/administer/competition'
-import { getCompetitionFilesByComId } from '../../services/administer/appendix'
+import { getCompetitionByID } from '../../../services/administer/competition'
+import { getCompetitionFilesByComId } from '../../../services/administer/appendix'
 import { FileTextOutlined } from '@ant-design/icons'
-import { appRoot } from '../../utils/request'
+import { appRoot } from '../../../utils/request'
+import { getSimpleProjectList } from '../../../services/project';
+import { getUserID } from '../../../utils/auth';
 
 class Competition extends React.Component {
   constructor(props) {
@@ -12,7 +14,7 @@ class Competition extends React.Component {
       competition: {
       },
       fileList: [],
-      isAttend: false
+      projectID: 0
     }
   }
 
@@ -24,10 +26,11 @@ class Competition extends React.Component {
     }
 
     const id = this.props.location.state.id
+    //获取竞赛基本信息
     getCompetitionByID(id).then(res => {
       if (res.data.result) {
         const data = JSON.parse(res.data.data)
-        console.log(data)
+        //console.log(data)
         this.setState({
           competition: {
             id: data.id,
@@ -44,6 +47,7 @@ class Competition extends React.Component {
         })
       }
     })
+    //获取竞赛附件
     getCompetitionFilesByComId({ comId: id }).then(res => {
       if (res.data.result) {
         this.setState({
@@ -51,20 +55,39 @@ class Competition extends React.Component {
         })
       }
     })
+    //获取用户是否参赛
+    const params = {
+      competitionID: id, 
+      sno: getUserID()
+    }
+    getSimpleProjectList(params).then(res => {
+      if (res.data.result) {
+        const list = JSON.parse(res.data.data).list
+        //console.log(list)
+        if(list.length > 0){
+          console.log(list[0].Id)
+          this.setState({
+            projectID: list[0].Id
+          })
+        }
+        
+      }
+    })
+
   }
 
   render() {
-    const { competition } = this.state
+    const { projectID, competition } = this.state
     const extra = (
       <Space>
         <span style={{color: 'red'}}>
-          {this.state.isAttend || <span>未参赛</span>}
+          {!projectID ? <span>未参赛</span> : ''}
         </span>
         <Button
           type='primary'
-          onClick={() => this.props.history.push({ pathname: '/student/Project', state: { id: null, competitionID: competition.id, competitionName: competition.name} })}
+          onClick={() => this.props.history.push({ pathname: '/student/Project', state: { id: projectID, competitionID: competition.id, competitionName: competition.name} })}
         >
-          {this.state.isAttend ? '进入比赛':'参加比赛'}
+          {projectID ? '进入比赛':'参加比赛'}
         </Button>
       </Space>
     )
