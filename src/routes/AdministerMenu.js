@@ -34,7 +34,7 @@ export const administerMenus = [
     component: ProjectManager,
     path: '/administer/projects',
     isShow: true,
-    title: '学生项目',
+    title: '参赛作品',
     icon: <HomeOutlined />
   },
   {

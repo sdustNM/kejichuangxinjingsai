@@ -15,15 +15,17 @@ class ExpertManagerList extends React.Component {
     pageSize: 5,
     loading: false,
     _total: 0,
-    visible:false
+    visible:false,
+    expertId:''
   }
 
   componentDidMount() {
     this.fetch()
   }
-  showModal = () => {
+  showModal = (id) => {
     this.setState({
       visible: true,
+      expertId:id
     });
   };
 
@@ -48,7 +50,7 @@ class ExpertManagerList extends React.Component {
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
-        data.map(item =>
+        data.list.map(item =>
           list.push({
             id: item.id,
             key: item.id,
@@ -56,10 +58,11 @@ class ExpertManagerList extends React.Component {
             gender: item.gender,
             sfzh: item.sfzh,
             unit: item.unit,
-            tel1: item.tel1,
-            tel2: item.tel2
+            tel1: item.Tel1,
+            tel2: item.Tel2
           })
         )
+        console.log("wchere")
         console.log(data)
         this.setState({
           departmentList: data.departmentList,
@@ -70,7 +73,21 @@ class ExpertManagerList extends React.Component {
 
     })
   }
+  pageChange = (currentPage, pageSize) => {
+    this.setState({
+      currentPage,
+      pageSize
+    })
+    this.fetch();
+  }
+  showSizeChange = (current, pageSize) => {
 
+    this.setState({
+      current: 1,
+      pageSize
+    })
+    this.fetch();
+  }
   changeValue = (e) => {
     this.setState({
       [e.target.name]: e.target.value
@@ -124,7 +141,7 @@ class ExpertManagerList extends React.Component {
               size='small'
               shape='round'
               onClick={() => {
-               this.showModal()
+               this.showModal(record.id)
               }}
             >修改</Button>
             <Button
@@ -183,7 +200,7 @@ class ExpertManagerList extends React.Component {
             </Button>
           ]}
         >
-          <ExpertManagerEdit expertID={this.state.id} hideModal={this.hideModal}></ExpertManagerEdit>
+          <ExpertManagerEdit id={this.state.expertId} hideModal={this.hideModal}></ExpertManagerEdit>
         </Modal>
       </div>
     )
