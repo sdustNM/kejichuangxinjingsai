@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, Form, Input, Button, Space, Upload } from 'antd'
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import SelectManComplete from '../../../components/SelectManComplete';
-import { getJwt } from '../../../utils/jwtHelper'
-import { appRoot } from '../../../utils/request'
+import { getProjectInfoByID, setProjectInfo } from '../../../services/project'
+import { getUserID } from '../../../utils/auth';
 
 const { TextArea } = Input
 const layout = {
@@ -23,6 +23,8 @@ class Project extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      id: props.location.state.id,
+      competitionID: props.location.state.competitionID,
       teacher: '',
       mainList: [],
       videoList: [],
@@ -31,9 +33,26 @@ class Project extends React.Component {
   }
   formRef = React.createRef();
   componentDidMount() {
-    //console.log(this.props)
-    // const { id } = this.props
-    // if (id) {
+    console.log(this.state.id)
+    if (this.state.id) {
+      getProjectInfoByID({ id: this.state.id }).then(res => {
+        if (res.data.result) {
+          const item = JSON.parse(res.data.data)
+          console.log(item)
+          this.formRef.current.setFieldsValue({
+            projectName: item.projectName,
+            cooperators: item.ProjectCooperator.split(','),
+            description: item.projectDes
+          })
+          this.setState({
+            teacher: item.projectTeacher
+          })
+        }
+      })
+    }
+
+
+    //if (id) {
     //   getCompetitionByID(id).then(res => {
     //     if (res.data.result) {
     //       let item = JSON.parse(res.data.data)
@@ -55,21 +74,19 @@ class Project extends React.Component {
 
   onFinish = value => {
     console.log(value)
-    // const { id } = this.props
-    // let competitionItem = {
-    //   name: value.name,
-    //   department: getDeptID(),
-    //   category: '校级',
-    //   fromUnit: value.fromUnit,
-    //   submitStart: value.submitTime[0] && value.submitTime[0].format('YYYY-MM-DD'),
-    //   submitEnd: value.submitTime[1] && value.submitTime[1].format('YYYY-MM-DD'),
-    //   appraiseStart: value.appraiseTime && value.appraiseTime[0] && value.appraiseTime[0].format('YYYY-MM-DD'),
-    //   appraiseEnd: value.appraiseTime && value.appraiseTime[1] && value.appraiseTime[1].format('YYYY-MM-DD'),
-    //   description: value.description,
-    //   remark: value.remark
-    // }
-    // competitionItem.id = id || null
-    // console.log(competitionItem)
+    const { id, competitionID, teacher } = this.state
+    const projectItem = {
+      id: id,
+      competitionId: competitionID,
+      sno: getUserID(),
+      projectName: value.projectName,
+      projectDes: value.description,
+      projectTeacher: teacher,
+      projectCooperator: value.cooperators.join(',')
+    }
+    setProjectInfo(projectItem).then(res => {
+      console.log(res)
+    })
     // setCompetition(competitionItem).then(res => {
     //   if (res.data.result) {
     //     message.success(!id ? '创建成功！' : '修改成功！')
@@ -83,60 +100,13 @@ class Project extends React.Component {
     this.setState({
       teacher: data
     })
-    console.log(data)
   }
-
-  handleChangeVideo = info => {
-    console.log(info)
-    let videoFileList = [...info.fileList];
-
-    videoFileList = videoFileList.map(file => {
-      if (file.response) {
-        let data = JSON.parse(file.response.data)
-        file.url = appRoot + data.url
-        file.id = data.id
-      }
-      return file;
-    });
-
-    this.setState({ videoFileList });
-  }
-
-  handleRemoveVideo = file => {
-    // deleteCompetitionFile({ id: file.id }).then(res => {
-    //   if (res.data.result) {
-    //     console.log(res.data.result)
-    //     //console.log(fileList)
-    //   }
-    // })
-  }
-
 
   render() {
-    const state = this.props.location.state
-    const { isReadOnly, teacher, videoFileList, textFileList } = this.state
-    const propsVideo = {
-      //action: 'http://192.168.34.201:4000/api/Appendix/UploadCompetitionFile',
-      data: { id: this.props.id },
-      headers: {
-        authorization: getJwt(),
-      },
-      onChange: this.handleChange,
-      onRemove: this.handleRemove,
-      fileList: videoFileList
-    }
-    const propsText = {
-      //action: 'http://192.168.34.201:4000/api/Appendix/UploadCompetitionFile',
-      data: { id: this.props.id },
-      headers: {
-        authorization: getJwt(),
-      },
-      onChange: this.handleChange,
-      onRemove: this.handleRemove,
-      fileList: textFileList
-    }
+    const { teacher, id, competitionID, competitionName } = this.state
+    console.log(teacher)
     return (
-      <Card title={this.state.competitionName}>
+      <Card title={competitionName}>
         <Form
           {...layout}
           ref={this.formRef}
@@ -149,16 +119,17 @@ class Project extends React.Component {
             name="projectName"
             rules={[{ required: true, message: '比赛作品名称不能为空!' }]}
           >
-            <Input readOnly={isReadOnly} />
+            <Input />
           </Form.Item>
+
           <Form.Item
             label="指导老师"
             name="teacher"
-          //rules={[{ required: true, message: '指导老师不能为空!' }]}
           >
-            <SelectManComplete chooseMan={this.setTeacher} name="teacher" value={teacher}></SelectManComplete>
+            <SelectManComplete  initValue={teacher}></SelectManComplete>
           </Form.Item>
-          <Form.List name="names">
+
+          <Form.List name="cooperators">
             {(fields, { add, remove }) => {
               return (
                 <div>
@@ -209,6 +180,7 @@ class Project extends React.Component {
               );
             }}
           </Form.List>
+
           <Form.Item
             label="作品描述"
             name="description"
@@ -219,43 +191,26 @@ class Project extends React.Component {
               autoSize={{ minRows: 3, maxRows: 5 }}
             />
           </Form.Item>
+
           <Form.Item
             label="备注"
             name="remark"
           >
             <Input placeholder='备注' />
           </Form.Item>
-          <Form.Item
-            label="视频附件"
-            name="video"
-          >
-            <Upload {...propsVideo}>
-              <Button>
-                <UploadOutlined />
-                Upload
-              </Button>
-            </Upload>
-          </Form.Item>
-          
-          <Card title='文档附件'>
-            <Upload {...propsText}>
-              <Button>
-                <UploadOutlined />
-                Upload
-              </Button>
-            </Upload>
-          </Card>
+
           <Form.Item {...tailLayout}>
             <Space>
               <Button type="primary" htmlType="submit">
-                {!state.id ? '创建' : '修改'}
+                {!id ? '创建' : '修改'}
               </Button>
-              <Button type="primary" onClick={() => this.props.history.push({ pathname: '/student/competitions', state: { id: state.competitionID } })}>
+              <Button type="primary" onClick={() => this.props.history.push({ pathname: '/student/competition', state: { id: competitionID } })}>
                 取消
               </Button>
             </Space>
           </Form.Item>
         </Form>
+        
       </Card>
     )
   }

@@ -27,7 +27,7 @@ class CompetitionManagerXiao extends React.Component {
         this.setState({ departmentList })
       }
     })
-    this.refresh();
+    this.refresh(this.state.currentPage, this.state.pageSize);
   }
 
   pageChange = (currentPage, pageSize) => {
@@ -35,24 +35,24 @@ class CompetitionManagerXiao extends React.Component {
       currentPage,
       pageSize
     })
-    this.refresh();
+    this.refresh(currentPage, pageSize);
   }
   showSizeChange = (current, pageSize) => {
 
     this.setState({
-      current: 1,
+      currentPage: 1,
       pageSize
     })
-    this.refresh();
+    this.refresh(1, pageSize);
   }
 
-  refresh = () => {
+  refresh = (currentPage, pageSize) => {
     
     let params = {
       DepartmentId: getDeptID(),
       comName: this.state.comName,
-      currentPage: this.state.currentPage,
-      pageSize: this.state.pageSize
+      currentPage,
+      pageSize
     }
     //console.log(params)
     getCompetitionList(params).then(res => {

@@ -14,7 +14,8 @@ import { getTeachersByFuzzy } from '../services/administer/deparmentAdminister'
 // }
 
 const SelectManComplete = (props) => {
-  const [value, setValue] = useState('');
+
+  const [value, setValue] = useState(props.initValue);
   const [options, setOptions] = useState([]);
   const [db, setDb] = useState([]);
 
@@ -49,7 +50,7 @@ const SelectManComplete = (props) => {
   }
 
   useEffect(() => {
-    console.log("selectman" + "init")
+    console.log(props.initValue)
     props.initValue && getTeachersByFuzzy({ "searchTxt": props.initValue }).then(res => {
       if (res.data.result) {
 
@@ -61,7 +62,7 @@ const SelectManComplete = (props) => {
       }
     })
 
-  }, [])
+  })
 
   const onSelect = data => {
     console.log("select" + data)

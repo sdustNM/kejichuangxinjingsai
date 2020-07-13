@@ -1,11 +1,11 @@
-
-import ProjectList from "../views/students/ProjectList"
+import Project from "../views/students/project/Project"
+import ProjectList from "../views/students/project/ProjectList"
 import NoticeList from "../views/students/NoticeList"
 import Notice from '../views/students/Notice'
-import CompetitionListXiao from '../views/students/CompetitionListXiao'
-import CompetitionListYuan from '../views/students/CompetitionListYuan'
-import Competition from "../views/students/Competition"
-import Project from "../views/students/Project"
+import CompetitionListXiao from '../views/students/competition/CompetitionListXiao'
+import CompetitionListYuan from '../views/students/competition/CompetitionListYuan'
+import Competition from "../views/students/competition/Competition"
+
 
 export const studentConfig = [{
     path: '/student/',
