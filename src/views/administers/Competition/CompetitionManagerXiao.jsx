@@ -16,7 +16,8 @@ class CompetitionManagerXiao extends React.Component {
     pageSize: 5,
     loading: false,
     _total: 0,
-    comName: ''
+    comName: '',
+    isPublished: true
   }
 
   componentDidMount() {
@@ -53,9 +54,9 @@ class CompetitionManagerXiao extends React.Component {
     this.refresh(1)
   }
   refresh = (currentPage, pageSize) => {
-    
-    currentPage=currentPage?currentPage:this.state.currentPage;
-    pageSize=pageSize?pageSize:this.state.pageSize;
+
+    currentPage = currentPage ? currentPage : this.state.currentPage;
+    pageSize = pageSize ? pageSize : this.state.pageSize;
 
 
     let params = {
@@ -90,9 +91,9 @@ class CompetitionManagerXiao extends React.Component {
 
     })
   }
-  search=()=>{
+  search = () => {
     this.setState({
-      currentPage:1
+      currentPage: 1
     })
     this.refresh(1)
   }
@@ -104,6 +105,7 @@ class CompetitionManagerXiao extends React.Component {
   }
 
   render() {
+    const { isPublished } = this.state
     const columns = [
       {
         title: '比赛编号',
@@ -136,12 +138,20 @@ class CompetitionManagerXiao extends React.Component {
         render: (text, record) => (
           <Space size="middle">
             <Button
+              type={isPublished ? 'danger' : 'primary'}
+              size='small'
+              shape='round'
+              onClick={this.publish}
+            >
+              {isPublished ? '关闭' : '发布'}
+            </Button>
+            <Button
               type='primary'
               size='small'
               shape='round'
               onClick={() => {
-                console.log("record.name:",record.name)
-                this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id,comName:record.name } })
+                console.log("record.name:", record.name)
+                this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id, comName: record.name } })
               }}
             >修改</Button>
             <Button
