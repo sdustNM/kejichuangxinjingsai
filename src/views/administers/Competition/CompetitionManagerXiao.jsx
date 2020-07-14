@@ -46,6 +46,12 @@ class CompetitionManagerXiao extends React.Component {
     this.refresh(1, pageSize);
   }
 
+  search = () => {
+    this.setState({
+      currentPage: 1
+    })
+    this.refresh(1)
+  }
   refresh = (currentPage, pageSize) => {
     
     currentPage=currentPage?currentPage:this.state.currentPage;
