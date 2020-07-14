@@ -15,3 +15,11 @@ export function modifyExpert(params){
 export function getExpertById(params){
   return get('/administer/getExpertById', params)
 }
+
+export function delExpert(params){
+  return get('/administer/delExpert',params)
+}
+
+export function ImportExpertFromRemoteTeacher(){
+  return get('/DBOperation/ImportExpertFromRemoteTeacher',null);
+}

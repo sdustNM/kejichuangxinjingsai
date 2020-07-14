@@ -1,22 +1,22 @@
 import React from 'react'
 import { Table, Space, Button, Input, Modal,Popconfirm,message } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons'
-import { getExpertsByFuzzy,delExpert,ImportExpertFromRemoteTeacher } from '../../../services/administer/expert'
-import ExpertManagerEdit from './ExpertManagerEdit';
+import {getSimpleProjectList} from '../../../services/project/index'
 import { CheckCircleTwoTone  } from '@ant-design/icons';
 
-class ExpertManagerList extends React.Component {
+class ProjectList extends React.Component {
   state = {
     id: '',
     name: '',
-    sfzh: '',
+    expertId: '',
+    studentId:'',
+    competitionId:'',
     dataSource: [],
     currentPage: 1,
-    pageSize: 5,
+    pageSize: 10,
     loading: false,
     _total: 0,
     visible: false,
-    expertId: ''
+
   }
 
   componentDidMount() {
@@ -64,31 +64,30 @@ class ExpertManagerList extends React.Component {
     console.log(this.state)
     if (!currentPage) currentPage=this.state.currentPage
     if (!pageSize) pageSize=this.state.pageSize
-    getExpertsByFuzzy({
+    getSimpleProjectList({
       id,
       name,
-      sfzh,
+      competitionId,
+      studentId,
+      expertId,
       currentPage,
       pageSize
     }).then(res => {
-      console.log(res)
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
-        data.list.map(item =>
-          list.push({
-            id: item.id,
-            key: item.id,
-            name: item.name,
-            gender: item.gender,
-            sfzh: item.sfzh,
-            unit: item.unit,
-            tel1: item.Tel1,
-            tel2: item.Tel2
-          })
-        )
-        console.log("wchere")
-        console.log(data)
+        data.list.array.forEach(item => {
+            list.push({
+                id: item.id,
+                key: item.id,
+                name: item.name,
+                gender: item.gender,
+                sfzh: item.sfzh,
+                unit: item.unit,
+                tel1: item.Tel1,
+                tel2: item.Tel2
+              })
+        });
         this.setState({
           dataSource: list,
           _total: data.totalNum
@@ -122,21 +121,6 @@ class ExpertManagerList extends React.Component {
       
     })
   }
-
-  del = expertID => {
-    delExpert({"id":expertID}).then(
-      res => {
-        if(res.data.result){
-          message.success('删除成功！', 1)
-          this.refresh()
-        }
-        else{
-          message.error(res.data.message, 1)
-        }
-      }
-    )
-  }
-
 
   changeValue = (e) => {
     this.setState({
@@ -212,7 +196,7 @@ class ExpertManagerList extends React.Component {
         ),
       },
     ];
-    const { id, name, sfzh, dataSource, pageSize, _total, loading, visible } = this.state;
+    const { id, name, expertId, dataSource, pageSize, _total, loading, visible } = this.state;
     return (
       <div>
 
@@ -220,23 +204,12 @@ class ExpertManagerList extends React.Component {
           style={{ margin: 20 }}
         >
           <Input addonBefore='编号' name='id' value={id} onChange={this.changeValue} />
-          <Input addonBefore='姓名' name='name' value={name} onChange={this.changeValue} />
-          <Input addonBefore='身份证号' name='sfzh' value={sfzh} onChange={this.changeValue} />
+          <Input addonBefore='作品名称' name='name' value={name} onChange={this.changeValue} />
+          <Input addonBefore='竞赛' name='competitionId' value={competitionId} onChange={this.changeValue} />
+          <Input addonBefore='学生' name='studentId' value={studentId} onChange={this.changeValue} />
+          <Input addonBefore='专家' name='ExpertId' value={expertId} onChange={this.changeValue} />
           <Button type='primary' onClick={this.search}>搜索</Button>
-          <Button
-          
-          style={{ marginLeft: 20 }}
-          onClick={() => { this.showModal() }}
-        >
-          <PlusCircleOutlined />添加
-        </Button>
-        <Button
-          type='dashed'
-          style={{ marginLeft: 20 }}
-          onClick={() => { this.importExpertFromTeacher() }}
-        >
-          <PlusCircleOutlined />云端同步
-        </Button>
+
         </Space>
        
         <Table
@@ -253,11 +226,11 @@ class ExpertManagerList extends React.Component {
             onShowSizeChange: this.showSizeChange,
           }}
           loading={loading}
-        //scroll={{ y: 320 }}
+          scroll={{ y: 640 }}
         />
         <Modal
           width={600}
-          title={this.state.expertId?"修改专家信息":"添加专家信息"}
+          title="作品信息"
           visible={visible}
           onCancel={this.hideModal}
           destroyOnClose={true}
@@ -267,11 +240,11 @@ class ExpertManagerList extends React.Component {
             </Button>
           ]}
         >
-          <ExpertManagerEdit id={this.state.expertId} hideModal={this.hideModal}></ExpertManagerEdit>
+          {/* <ExpertManagerEdit id={this.state.expertId} hideModal={this.hideModal}></ExpertManagerEdit> */}
         </Modal>
       </div>
     )
   }
 }
 
-export default ExpertManagerList
+export default ProjectList

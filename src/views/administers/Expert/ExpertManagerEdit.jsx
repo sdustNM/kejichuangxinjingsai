@@ -11,6 +11,9 @@ const tailLayout = {
 
 class ExpertManagerEdit extends React.Component {
 
+  state={
+      readonly:{readOnly:false}
+  }
   formRef = React.createRef();
   componentDidMount() {
     console.log(this.props)
@@ -31,7 +34,9 @@ class ExpertManagerEdit extends React.Component {
 
         }
       })
-  
+      this.setState({
+        readonly:{readOnly:true}
+      })
 
     }
   }
@@ -52,6 +57,9 @@ class ExpertManagerEdit extends React.Component {
               message.success('修改成功！')
               this.props.hideModal()
             }
+            else {
+                message.error(res.data.message)
+            }
           })
     }
     else {
@@ -60,6 +68,9 @@ class ExpertManagerEdit extends React.Component {
               message.success('创建成功！')
               this.props.hideModal()
             }
+            else {
+                message.error(res.data.message)
+            }
           })
     }
    
@@ -67,6 +78,8 @@ class ExpertManagerEdit extends React.Component {
   }
 
   render() {
+    const {readonly} = this.state
+
     return (
       <Form
         {...layout}
@@ -77,10 +90,8 @@ class ExpertManagerEdit extends React.Component {
         <Form.Item
           label="专家ID"
           name="expertId"
-          rules={[{ required: true, message: '专家ID不能为空!' }]}
-          readOnly
         >
-          <Input placeholder='请输入专家ID' />
+          <Input  {...readonly}  placeholder='专家ID不填写时，系统会自动生成' />
         </Form.Item>
 
         <Form.Item
