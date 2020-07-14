@@ -58,7 +58,7 @@ class Competition extends React.Component {
     //获取用户是否参赛
     const params = {
       competitionID: id, 
-      sno: getUserID()
+      studentId: getUserID()
     }
     getSimpleProjectList(params).then(res => {
       if (res.data.result) {

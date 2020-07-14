@@ -46,8 +46,14 @@ class CompetitionManagerXiao extends React.Component {
     this.refresh(1, pageSize);
   }
 
+  search = () => {
+    this.setState({
+      currentPage: 1
+    })
+    this.refresh(1)
+  }
   refresh = (currentPage, pageSize) => {
-    
+
     let params = {
       DepartmentId: getDeptID(),
       comName: this.state.comName,
@@ -155,7 +161,7 @@ class CompetitionManagerXiao extends React.Component {
               item => <Option key={'department_' + item.id} value={item.id} disabled={item.id !== '0'}>{item.name}</Option>)}
           </Select>
           <Input addonBefore='比赛名称' name='comName' value={comName} onChange={this.changeValue} />
-          <Button type='primary' onClick={this.refresh}>搜索</Button>
+          <Button type='primary' onClick={this.search}>搜索</Button>
         </Space>
         <Table
           dataSource={dataSource}

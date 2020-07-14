@@ -4,6 +4,7 @@ import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/i
 import SelectManComplete from '../../../components/SelectManComplete';
 import { getProjectInfoByID, setProjectInfo } from '../../../services/project'
 import { getUserID } from '../../../utils/auth';
+import AppendixUpload from './AppendixUpload';
 
 const { TextArea } = Input
 const layout = {
@@ -28,12 +29,12 @@ class Project extends React.Component {
       teacher: '',
       mainList: [],
       videoList: [],
-      textList: []
+      bzList: []
     }
   }
   formRef = React.createRef();
   componentDidMount() {
-    console.log(this.state.id)
+    //console.log(this.state.id)
     if (this.state.id) {
       getProjectInfoByID({ id: this.state.id }).then(res => {
         if (res.data.result) {
@@ -51,25 +52,6 @@ class Project extends React.Component {
       })
     }
 
-
-    //if (id) {
-    //   getCompetitionByID(id).then(res => {
-    //     if (res.data.result) {
-    //       let item = JSON.parse(res.data.data)
-    //       let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD')
-    //       let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD')
-    //       let appraiseStart = !item.appraiseStart ? null : moment(item.appraiseStart, 'YYYY-MM-DD')
-    //       let appraiseEnd = !item.appraiseEnd ? null : moment(item.appraiseEnd, 'YYYY-MM-DD')
-    //       this.formRef.current.setFieldsValue({
-    //         name: item.name,
-    //         fromUnit: item.fromUnit,
-    //         submitTime: [submitStart, submitEnd],
-    //         appraiseTime: [appraiseStart, appraiseEnd],
-    //         description: item.description
-    //       })
-    //     }
-    //   })
-    // }
   }
 
   onFinish = value => {
@@ -126,7 +108,7 @@ class Project extends React.Component {
             label="指导老师"
             name="teacher"
           >
-            <SelectManComplete  initValue={teacher}></SelectManComplete>
+            <SelectManComplete initValue={teacher}></SelectManComplete>
           </Form.Item>
 
           <Form.List name="cooperators">
@@ -210,7 +192,30 @@ class Project extends React.Component {
             </Space>
           </Form.Item>
         </Form>
-        
+        <Card title='项目附件'>
+          <AppendixUpload
+            projectID={this.state.id}
+            fileType='main'
+            maxNum={1}
+            fileList={this.state.mainList}
+          ></AppendixUpload>
+        </Card>
+        <Card title='视频附件'>
+          <AppendixUpload
+            projectID={this.state.id}
+            fileType='video'
+            maxNum={1}
+            fileList={this.state.videoList}
+          ></AppendixUpload>
+        </Card>
+        <Card title='补充附件'>
+          <AppendixUpload
+            projectID={this.state.id}
+            fileType='bz'
+            maxNum={3}
+            fileList={this.state.bzList}
+          ></AppendixUpload>
+        </Card>
       </Card>
     )
   }
