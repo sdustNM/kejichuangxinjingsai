@@ -98,17 +98,20 @@ class Competition extends React.Component {
           extra={extra}
         >
           <Descriptions
+            bordered
+            size='middle'
             title={`${competition.name}(${competition.id})`}
-            column={1}>
+            column={2}>
             <Descriptions.Item label="组织单位">{competition.fromUnit}</Descriptions.Item>
             <Descriptions.Item label="比赛级别">{competition.category}选拔</Descriptions.Item>
             <Descriptions.Item label="报名开始">{competition.submitStart}</Descriptions.Item>
             <Descriptions.Item label="报名结束">{competition.submitEnd}</Descriptions.Item>
-            <Descriptions.Item label="比赛说明">{competition.description}</Descriptions.Item>
-            <Descriptions.Item label="备注">{competition.remark}</Descriptions.Item>
-            <Descriptions.Item label="附件"></Descriptions.Item>
-          </Descriptions>
-          <Card>
+            <Descriptions.Item label="学院评审开始">{competition.submitStart}</Descriptions.Item>
+            <Descriptions.Item label="学院评审结束">{competition.submitEnd}</Descriptions.Item>
+            <Descriptions.Item label="学校评审开始">{competition.submitStart}</Descriptions.Item>
+            <Descriptions.Item label="学校评审结束">{competition.submitEnd}</Descriptions.Item>
+            <Descriptions.Item label="比赛描述" span={2}>{competition.description}</Descriptions.Item>
+            <Descriptions.Item label="附件">
             <List
               size="small"
               //bordered
@@ -124,7 +127,8 @@ class Competition extends React.Component {
                   </a>
                 </List.Item>)}
             />
-          </Card>
+            </Descriptions.Item>
+          </Descriptions>
         </Card>
       </div>
     )
