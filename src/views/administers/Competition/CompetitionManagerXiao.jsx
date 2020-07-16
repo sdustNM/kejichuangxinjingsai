@@ -91,13 +91,11 @@ class CompetitionManagerXiao extends React.Component {
 
     })
   }
-  search = () => {
-    this.setState({
-      currentPage: 1
-    })
-    this.refresh(1)
-  }
 
+  publish = id => {
+
+  }
+  
   changeValue = (e) => {
     this.setState({
       [e.target.name]: e.target.value
@@ -141,7 +139,7 @@ class CompetitionManagerXiao extends React.Component {
               type={isPublished ? 'danger' : 'primary'}
               size='small'
               shape='round'
-              onClick={this.publish}
+              onClick={() => this.publish(record.id)}
             >
               {isPublished ? '关闭' : '发布'}
             </Button>
@@ -150,7 +148,7 @@ class CompetitionManagerXiao extends React.Component {
               size='small'
               shape='round'
               onClick={() => {
-                console.log("record.name:", record.name)
+                //console.log("record.name:", record.name)
                 this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id, comName: record.name } })
               }}
             >修改</Button>

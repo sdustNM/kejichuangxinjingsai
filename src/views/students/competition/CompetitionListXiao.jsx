@@ -15,7 +15,7 @@ class CompititionListXiao extends React.Component {
   }
 
   componentDidMount() {
-    this.refresh();
+    this.refresh(this.state.currentPage, this.state.pageSize);
   }
 
   pageChange = (currentPage, pageSize) => {
@@ -23,32 +23,40 @@ class CompititionListXiao extends React.Component {
       currentPage,
       pageSize
     })
-    this.refresh();
+    this.refresh(currentPage, pageSize);
   }
   showSizeChange = (current, pageSize) => {
 
     this.setState({
-      current: 1,
+      currentPage: 1,
       pageSize
     })
-    this.refresh();
+    this.refresh(1, pageSize);
   }
+search = () => {
+  this.setState({
+    currentPage: 1
+  })
+  this.refresh(1)
+}
+  refresh = (currentPage, pageSize) => {
+    currentPage = currentPage ? currentPage : this.state.currentPage;
+    pageSize = pageSize ? pageSize : this.state.pageSize;
 
-  refresh = () => {
     let params = {
       DepartmentId: '0',
       comName: this.state.comName,
-      currentPage: this.state.currentPage,
-      pageSize: this.state.pageSize
+      currentPage,
+      pageSize
     }
 
-    //console.log(params)
+    console.log(params)
     getCompetitionList(params).then(res => {
-      //console.log(res)
+      console.log(res)
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
-        //console.log(data)
+        console.log(data)
         data.list.map(item =>
           list.push({
             id: item.id,
@@ -122,7 +130,7 @@ class CompititionListXiao extends React.Component {
       <div>
         <Space style={{margin:20}}>
           <Input addonBefore='比赛名称' name='comName' value={comName} onChange={this.changeValue} />
-          <Button type='primary' onClick={this.refresh}>搜索</Button>
+          <Button type='primary' onClick={this.search}>搜索</Button>
         </Space>
         <Table
           dataSource={dataSource}

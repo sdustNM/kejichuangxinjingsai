@@ -1,5 +1,5 @@
 import React from 'react'
-import { Upload, Button } from 'antd';
+import { Upload, Button, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { getJwt } from '../../../utils/jwtHelper'
 import { getCompetitionFilesByComId, deleteCompetitionFile } from '../../../services/administer/appendix'
@@ -55,7 +55,10 @@ class CompetitionEditAppendix extends React.Component {
     deleteCompetitionFile({ id: file.id }).then(res => {
       if (res.data.result) {
         console.log(res.data.result)
-        //console.log(fileList)
+        message.success('附件“' + file.name + '”删除成功！')
+      }
+      else{
+        message.warning('附件“' + file.name + '”删除失败！')
       }
     })
   }
