@@ -16,7 +16,8 @@ class CompetitionManagerXiao extends React.Component {
     pageSize: 5,
     loading: false,
     _total: 0,
-    comName: ''
+    comName: '',
+    isPublished: true
   }
 
   componentDidMount() {
@@ -101,6 +102,7 @@ class CompetitionManagerXiao extends React.Component {
   }
 
   render() {
+    const { dataSource, pageSize, _total, loading, comName, isPublished } = this.state;
     const columns = [
       {
         title: '比赛编号',
@@ -158,7 +160,7 @@ class CompetitionManagerXiao extends React.Component {
         ),
       },
     ];
-    const { dataSource, pageSize, _total, loading, comName } = this.state;
+    
     //console.log(this.state.departmentList)
     return (
       <div>
