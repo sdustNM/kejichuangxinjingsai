@@ -1,15 +1,15 @@
 
-import CompetitionEdit from '../views/administers/Competition/CompetitionEdit'
-import ProjectManager from '../views/administers/ProjectManager'
-import ProjectDetail from '../views/administers/ProjectDetail'
-import DepartmentManager from '../views/administers/Department/DepartmentManager';
-import TeacherManager from '../views/administers/TeacherManager';
-import StudentManager from '../views/administers/StudentManager';
-import CompetitionManagerXiao from '../views/administers/Competition/CompetitionManagerXiao'
-import CompetitionManagerYuan from '../views/administers/Competition/CompetitionManagerYuan';
-import ExpertManagerList from '../views/administers/Expert/ExpertManagerList';
-import ExpertManagerEdit from '../views/administers/Expert/ExpertManagerEdit';
-import DepartmentAdministerList from '../views/administers/DepartmentAdminister/DepartmentAdministerList'
+import CompetitionEdit from '../views/Competition/CompetitionEdit'
+import ProjectManager from '../views/SysManage/ProjectManager'
+import ProjectDetail from '../views/SysManage/ProjectDetail'
+import DepartmentManager from '../views/SysManage/Department/DepartmentManager';
+import TeacherManager from '../views/SysManage/TeacherManager';
+import StudentManager from '../views/SysManage/StudentManager';
+import CompetitionManagerXiao from '../views/Competition/CompetitionManagerXiao'
+import CompetitionManagerYuan from '../views/Competition/CompetitionManagerYuan';
+import ExpertManagerList from '../views/SysManage/Expert/ExpertManagerList';
+import ExpertManagerEdit from '../views/SysManage/Expert/ExpertManagerEdit';
+import DepartmentAdministerList from '../views/SysManage/DepartmentAdminister/DepartmentAdministerList'
 
 
 

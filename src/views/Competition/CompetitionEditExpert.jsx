@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Input, Space, Table, Popconfirm, message } from 'antd'
-import { getExpertsByFuzzy } from '../../../services/administer/expert'
-import { addExpertForCompetition } from '../../../services/administer/competition'
+import { getExpertsByFuzzy } from '../../services/administer/expert'
+import { addExpertForCompetition } from '../../services/administer/competition'
 class CompetitionEditExpert extends React.Component {
 
   constructor(props) {
