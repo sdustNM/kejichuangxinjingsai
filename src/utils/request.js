@@ -12,6 +12,7 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
   config.headers['authorization'] = getJwt();
+  config.headers['Access-Control-Allow-Origin'] = '*';
   return config;
 }, function (error) {
   // 对请求错误做些什么
