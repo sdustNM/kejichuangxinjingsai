@@ -5,23 +5,48 @@ import { getDeptID } from '../../../utils/auth'
 
 const { TextArea } = Input
 
-class CompetitionEditForm extends React.Component {
+class CompetitionInfo extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      competition: null,
+      fileList: []
+    }
+    
+  }
   componentDidMount() {
-    //console.log(this.props)
     const { id } = this.props
     if (id) {
-      getCompetitionByID(id).then(res => {
-        if (res.data.result) {
-          let item = JSON.parse(res.data.data)
-          let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD HH:mm')
-          let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD HH:mm')
-          let yuan_appraiseStart = !item.yuan_appraiseStart ? null : moment(item.yuan_appraiseStart, 'YYYY-MM-DD HH:mm')
-          let yuan_appraiseEnd = !item.yuan_appraiseEnd ? null : moment(item.yuan_appraiseEnd, 'YYYY-MM-DD HH:mm')
-          let appraiseStart = !item.appraiseStart ? null : moment(item.appraiseStart, 'YYYY-MM-DD HH:mm')
-          let appraiseEnd = !item.appraiseEnd ? null : moment(item.appraiseEnd, 'YYYY-MM-DD HH:mm')
+      //获取竞赛基本信息
+    getCompetitionByID(id).then(res => {
+      if (res.data.result) {
+        const data = JSON.parse(res.data.data)
+        //console.log(data)
+        this.setState({
+          competition: {
+            id: data.id,
+            name: data.name,
+            fromUnit: data.fromUnit,
+            category: data.category,
+            submitStart: data.submitStart,
+            submitEnd: data.submitEnd,
+            appraiseStart: data.appraiseStart,
+            appraiseEnd: data.appraiseEnd,
+            description: data.description,
+            remark: data.remark,
+          }
+        })
+      }
+    })
 
-        }
-      })
+    //获取竞赛附件
+    getCompetitionFilesByComId({ comId: id }).then(res => {
+      if (res.data.result) {
+        this.setState({
+          fileList: JSON.parse(res.data.data)
+        })
+      }
+    })
 
 
     }
@@ -29,38 +54,40 @@ class CompetitionEditForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <Descriptions
-          title={`${competition.name}(${competition.id})`}
-          column={1}>
-          <Descriptions.Item label="组织单位">{competition.fromUnit}</Descriptions.Item>
-          <Descriptions.Item label="比赛级别">{competition.category}选拔</Descriptions.Item>
-          <Descriptions.Item label="报名开始">{competition.submitStart}</Descriptions.Item>
-          <Descriptions.Item label="报名结束">{competition.submitEnd}</Descriptions.Item>
-          <Descriptions.Item label="比赛说明">{competition.description}</Descriptions.Item>
-          <Descriptions.Item label="备注">{competition.remark}</Descriptions.Item>
-          <Descriptions.Item label="附件"></Descriptions.Item>
-        </Descriptions>
-        <Card>
-          <List
-            size="small"
-            //bordered
-            dataSource={this.state.fileList}
-            renderItem={item => (
-              <List.Item>
-                <a
-                  href={appRoot + item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {item.name}
-                </a>
-              </List.Item>)}
-          />
-        </Card>
-      </div>
+      <Descriptions
+            bordered
+            size='middle'
+            title={`${competition.name}(${competition.id})`}
+            column={2}>
+            <Descriptions.Item label="组织单位">{competition.fromUnit}</Descriptions.Item>
+            <Descriptions.Item label="比赛级别">{competition.category}选拔</Descriptions.Item>
+            <Descriptions.Item label="报名开始">{competition.submitStart}</Descriptions.Item>
+            <Descriptions.Item label="报名结束">{competition.submitEnd}</Descriptions.Item>
+            <Descriptions.Item label="学院评审开始">{competition.submitStart}</Descriptions.Item>
+            <Descriptions.Item label="学院评审结束">{competition.submitEnd}</Descriptions.Item>
+            <Descriptions.Item label="学校评审开始">{competition.submitStart}</Descriptions.Item>
+            <Descriptions.Item label="学校评审结束">{competition.submitEnd}</Descriptions.Item>
+            <Descriptions.Item label="比赛描述" span={2}>{competition.description}</Descriptions.Item>
+            <Descriptions.Item label="附件">
+            <List
+              size="small"
+              //bordered
+              dataSource={this.state.fileList}
+              renderItem={item => (
+                <List.Item>
+                  <a
+                    href={appRoot + item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.name}
+                  </a>
+                </List.Item>)}
+            />
+            </Descriptions.Item>
+          </Descriptions>
     )
   }
 }
 
-export default CompetitionEditForm
+export default CompetitionInfo

@@ -50,13 +50,13 @@ search = () => {
       pageSize
     }
 
-    console.log(params)
+    //console.log(params)
     getCompetitionList(params).then(res => {
-      console.log(res)
+      //console.log(res)
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
-        console.log(data)
+        //console.log(data)
         data.list.map(item =>
           list.push({
             id: item.id,
