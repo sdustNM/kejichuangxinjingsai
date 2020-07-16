@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Card } from 'antd'
 import banner from './banner.png'
 import { ContactsTwoTone } from '@ant-design/icons'
-import './home.css'
+import './Home.css'
 const { Meta } = Card;
 
 

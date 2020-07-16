@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 
 
-import ProjectManager from '../views/administers/ProjectManager';
+import ProjectManager from '../views/SysManage/ProjectManager';
 
 
 

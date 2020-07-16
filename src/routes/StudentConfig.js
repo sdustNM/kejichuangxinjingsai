@@ -1,10 +1,10 @@
-import Project from "../views/students/project/Project"
-import ProjectList from "../views/students/project/ProjectList"
-import NoticeList from "../views/students/NoticeList"
-import Notice from '../views/students/Notice'
-import CompetitionListXiao from '../views/students/competition/CompetitionListXiao'
-import CompetitionListYuan from '../views/students/competition/CompetitionListYuan'
-import Competition from "../views/students/competition/Competition"
+import Project from "../views/Project/Project"
+import ProjectList from "../views/Project/ProjectList"
+import NoticeList from "../views/Common/NoticeList"
+import Notice from '../views/Common/Notice'
+import CompetitionListXiao from '../views/Competition/Students/CompetitionListXiao'
+import CompetitionListYuan from '../views/Competition/Students/CompetitionListYuan'
+import Competition from "../views/Competition/Students/Competition"
 
 
 export const studentConfig = [{

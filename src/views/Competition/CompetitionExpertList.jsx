@@ -6,7 +6,7 @@ import {
 import CompetitionEditExpert from './CompetitionEditExpert';
 
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getExpertsInCompetition, removeExpertFromCompetition } from '../../../services/administer/competition'
+import { getExpertsInCompetition, removeExpertFromCompetition } from '../../services/administer/competition'
 
 class CompetitionExpertList extends React.Component {
   constructor(props) {

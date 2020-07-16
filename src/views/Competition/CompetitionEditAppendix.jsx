@@ -1,9 +1,9 @@
 import React from 'react'
 import { Upload, Button, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { getJwt } from '../../../utils/jwtHelper'
-import { getCompetitionFilesByComId, deleteCompetitionFile } from '../../../services/administer/appendix'
-import { appRoot } from '../../../utils/request'
+import { getJwt } from '../../utils/jwtHelper'
+import { getCompetitionFilesByComId, deleteCompetitionFile } from '../../services/administer/appendix'
+import { appRoot } from '../../utils/request'
 
 class CompetitionEditAppendix extends React.Component {
 

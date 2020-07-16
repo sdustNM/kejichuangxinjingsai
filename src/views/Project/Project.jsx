@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, Form, Input, Button, Space, Upload } from 'antd'
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import SelectManComplete from '../../../components/SelectManComplete';
-import { getProjectInfoByID, setProjectInfo } from '../../../services/project'
-import { getUserID } from '../../../utils/auth';
+import SelectManComplete from '../../components/SelectManComplete';
+import { getProjectInfoByID, setProjectInfo } from '../../services/project'
+import { getUserID } from '../../utils/auth';
 import AppendixUpload from './AppendixUpload';
 
 const { TextArea } = Input

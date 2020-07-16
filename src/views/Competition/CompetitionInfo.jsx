@@ -1,7 +1,7 @@
 import React from 'react'
 import { Descriptions } from 'antd'
-import { getCompetitionByID } from '../../../services/administer/competition'
-import { getDeptID } from '../../../utils/auth'
+import { getCompetitionByID } from '../../services/administer/competition'
+import { getDeptID } from '../../utils/auth'
 
 const { TextArea } = Input
 

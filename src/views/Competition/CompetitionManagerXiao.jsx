@@ -1,9 +1,9 @@
 import React from 'react';
 import { Table, Space, Button, Select, Input } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getCompetitionList } from '../../../services/administer/competition'
-import { getDeptID } from '../../../utils/auth'
-import getDepartmentList from '../../../redux/common'
+import { getCompetitionList } from '../../services/administer/competition'
+import { getDeptID } from '../../utils/auth'
+import getDepartmentList from '../../redux/common'
 
 const { Option } = Select
 
@@ -16,7 +16,8 @@ class CompetitionManagerXiao extends React.Component {
     pageSize: 5,
     loading: false,
     _total: 0,
-    comName: ''
+    comName: '',
+    isPublished:true
   }
 
   componentDidMount() {
@@ -158,7 +159,7 @@ class CompetitionManagerXiao extends React.Component {
         ),
       },
     ];
-    const { dataSource, pageSize, _total, loading, comName } = this.state;
+    const { dataSource, pageSize, _total, loading, comName,isPublished } = this.state;
     //console.log(this.state.departmentList)
     return (
       <div>

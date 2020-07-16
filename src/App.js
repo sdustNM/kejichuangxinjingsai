@@ -1,9 +1,9 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
-import PageNotFound from './views/common/PageNotFound'
-import Login from './views/login/Login'
-import Home from './views/home/Home'
+import PageNotFound from './views/Common/PageNotFound'
+import Login from './views/Login/Login'
+import Home from './views/Common/Home'
 import './App.css'
 import AuthComponent from './utils/AuthComponent';
 import getUserTest from './views/getUserTest';
