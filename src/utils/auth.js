@@ -12,9 +12,11 @@ export const getDeptID = () => {
   return getJwtUser()===null?"":getJwtUser().departmentNo
 }
 
-const roleNames=['管理员','专家','学生']
+const roleNames=['管理员','专家','学生','校级管理员']
 export const getRoleName=()=>{
-  return roleNames[getRole()-1]
+  let roleID=getRole();
+  if (roleID===1 &&  getDeptID()==="0") return  roleNames[3]
+  else   return roleNames[getRole()-1]
 }
 
 export const isStudent = () => {
@@ -27,4 +29,8 @@ export const isExpert = () => {
 
 export const isAdminister = () => {
   return getRoleName() === "管理员"
+}
+
+export const isSuperAdminister = () => {
+  return getRoleName() === "校级管理员"
 }

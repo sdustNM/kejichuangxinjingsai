@@ -14,28 +14,46 @@ import ProjectManager from '../views/administers/ProjectManager';
 export const administerMenus = [
   {
     component: null,
-    path: 'competitions',
+    path: 'competitionsXiao',
     isShow: true,
-    title: '学生竞赛',
+    title: '校级竞赛',
     icon: <HomeOutlined />,
     sub: [{
       isShow: true,
-      title: '校级竞赛',
+      title: '比赛列表',
       path: '/administer/competitions/xiao',
       icon: <SmileOutlined />,
     }, {
-      path: '/administer/competitions/yuan',
+      component: ProjectManager,
+      path: '/administer/RecommendedProjects',
       isShow: true,
-      title: '院级竞赛',
-      icon: <SmileOutlined />,
-    }]
+      title: '推荐作品',
+      icon: <SmileOutlined />
+    }, {
+      component: ProjectManager,
+      path: '/administer/projects',
+      isShow: true,
+      title: '学院作品',
+      icon: <SmileOutlined />
+    },]
   },
   {
-    component: ProjectManager,
-    path: '/administer/projects',
+    component: null,
+    path: 'competitionsYuan',
     isShow: true,
-    title: '参赛作品',
-    icon: <HomeOutlined />
+    title: '学院竞赛',
+    icon: <HomeOutlined />,
+    sub: [{
+      isShow: true,
+      title: '比赛列表',
+      path: '/administer/competitions/yuan',
+      icon: <SmileOutlined />,
+    }, {
+      path: '/administer/projects',
+      isShow: true,
+      title: '参赛作品',
+      icon: <SmileOutlined />,
+    }]
   },
   {
     component: null,
