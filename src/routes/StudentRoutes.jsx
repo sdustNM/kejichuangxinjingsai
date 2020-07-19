@@ -3,7 +3,7 @@ import MyLayout from '../components/frame/MyLayout'
 import { Route, Switch } from 'react-router-dom'
 import { studentConfig } from './StudentConfig'
 import { isStudent } from '../utils/auth'
-import NoPermission from '../views/common/NoPermission'
+import NoPermission from '../views/Common/NoPermission'
 
 export default class Student extends React.Component {
 
