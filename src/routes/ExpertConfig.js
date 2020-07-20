@@ -1,4 +1,4 @@
-import CompetitionList from "../views/experts/CompetitionList";
+import CompetitionList from "../views/Experts/CompetitionList";
 
 export const expertConfig = [{
     path: '/expert/',

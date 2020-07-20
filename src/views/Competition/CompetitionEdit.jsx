@@ -19,7 +19,14 @@ class CompetitionEdit extends React.Component {
   componentDidMount() {
     if (this.props.history.location.state && this.props.history.location.state.id) {
       this.setState({
-        id: this.props.history.location.state.id
+        id: this.props.history.location.state.id,
+        key: 'tab1'
+      })
+    }
+    else 
+    {
+      this.setState({
+        key: 'tab2'
       })
     }
   }
