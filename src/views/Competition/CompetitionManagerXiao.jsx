@@ -17,7 +17,7 @@ class CompetitionManagerXiao extends React.Component {
     loading: false,
     _total: 0,
     comName: '',
-    isPublished: true
+    // isPublished: true
   }
 
   componentDidMount() {
@@ -91,10 +91,7 @@ class CompetitionManagerXiao extends React.Component {
     })
   }
 
-  publish = id => {
-
-  }
-  
+ 
   changeValue = (e) => {
     this.setState({
       [e.target.name]: e.target.value
@@ -102,7 +99,7 @@ class CompetitionManagerXiao extends React.Component {
   }
 
   render() {
-    const { dataSource, pageSize, _total, loading, comName, isPublished } = this.state;
+    const { dataSource, pageSize, _total, loading, comName } = this.state;
     const columns = [
       {
         title: '比赛编号',
@@ -134,14 +131,14 @@ class CompetitionManagerXiao extends React.Component {
         key: 'action',
         render: (text, record) => (
           <Space size="middle">
-            <Button
+            {/* <Button
               type={isPublished ? 'danger' : 'primary'}
               size='small'
               shape='round'
               onClick={() => this.publish(record.id)}
             >
               {isPublished ? '关闭' : '发布'}
-            </Button>
+            </Button> */}
             <Button
               type='primary'
               size='small'
@@ -150,7 +147,7 @@ class CompetitionManagerXiao extends React.Component {
                 //console.log("record.name:", record.name)
                 this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id, comName: record.name } })
               }}
-            >修改</Button>
+            >详细</Button>
             <Button
               type='danger'
               size='small'

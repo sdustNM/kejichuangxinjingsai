@@ -54,8 +54,8 @@ class CompetitionEditForm extends React.Component {
           //console.log(item)
           let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD HH:mm')
           let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD HH:mm')
-          let yuan_appraiseStart = !item.yuan_appraiseStart ? null : moment(item.yuan_appraiseStart, 'YYYY-MM-DD HH:mm')
-          let yuan_appraiseEnd = !item.yuan_appraiseEnd ? null : moment(item.yuan_appraiseEnd, 'YYYY-MM-DD HH:mm')
+          let yuan_appraiseStart = !item.yuan_AppraiseStart ? null : moment(item.yuan_AppraiseStart, 'YYYY-MM-DD HH:mm')
+          let yuan_appraiseEnd = !item.yuan_AppraiseEnd ? null : moment(item.yuan_AppraiseEnd, 'YYYY-MM-DD HH:mm')
           let appraiseStart = !item.appraiseStart ? null : moment(item.appraiseStart, 'YYYY-MM-DD HH:mm')
           let appraiseEnd = !item.appraiseEnd ? null : moment(item.appraiseEnd, 'YYYY-MM-DD HH:mm')
           this.formRef.current.setFieldsValue({
@@ -83,8 +83,8 @@ class CompetitionEditForm extends React.Component {
       fromUnit: value.fromUnit,
       submitStart: value.submitTime[0] && value.submitTime[0].format('YYYY-MM-DD HH:mm'),
       submitEnd: value.submitTime[1] && value.submitTime[1].format('YYYY-MM-DD HH:mm'),
-      yuan_appraiseStart: value.yuan_appraiseTime && value.yuan_appraiseTime[0] && value.yuan_appraiseTime[0].format('YYYY-MM-DD HH:mm'),
-      yuan_appraiseEnd: value.yuan_appraiseTime && value.yuan_appraiseTime[1] && value.yuan_appraiseTime[1].format('YYYY-MM-DD HH:mm'),
+      yuan_AppraiseStart: value.yuan_appraiseTime && value.yuan_appraiseTime[0] && value.yuan_appraiseTime[0].format('YYYY-MM-DD HH:mm'),
+      yuan_AppraiseEnd: value.yuan_appraiseTime && value.yuan_appraiseTime[1] && value.yuan_appraiseTime[1].format('YYYY-MM-DD HH:mm'),
       appraiseStart: value.appraiseTime && value.appraiseTime[0] && value.appraiseTime[0].format('YYYY-MM-DD HH:mm'),
       appraiseEnd: value.appraiseTime && value.appraiseTime[1] && value.appraiseTime[1].format('YYYY-MM-DD HH:mm'),
       description: value.description,
