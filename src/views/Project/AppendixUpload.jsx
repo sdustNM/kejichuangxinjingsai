@@ -3,11 +3,12 @@ import { Upload, Button, message } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import { appRoot } from '../../utils/request'
 import { getJwt } from '../../utils/jwtHelper'
-import { getProjectFilesByProjectId, deleteProjectFile } from '../../services/project'
+import { deleteProjectFile } from '../../services/project'
 
 class AppendixUpload extends React.Component {
   constructor(props) {
     super(props)
+
     this.state = {
       id: props.projectID,
       type: props.fileType,
@@ -15,15 +16,26 @@ class AppendixUpload extends React.Component {
       fileList: []
     }
   }
-  componentDidMount() {
-    // const fileList = this.props.fileList.map(file => {
-    //   file.uid = id + '_' + file.id;
-    //   file.url = appRoot + file.url
-    //   return file;
-    // })
-    // this.setState({ fileList })
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!nextProps.fileList)
+      return null
+    const fileList = nextProps.fileList.map(file => {
+      file.uid = nextProps.projectID + '_' + file.id;
+      file.url = appRoot + file.url
+      return file;
+    })
+    return { fileList }
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //   if(!nextProps.fileList) return
+  //   const fileList = nextProps.fileList.map(file => {
+  //     file.uid = this.props.projectID + '_' + file.id;
+  //     file.url = appRoot + file.url
+  //     return file;
+  //   })
+  //   this.setState({ fileList })
+  // }
   beforeUpload = (file, fileList) => {
     console.log(this.state.fileList, this.state.maxNum)
     if (this.state.fileList.length >= this.state.maxNum) {
@@ -37,7 +49,7 @@ class AppendixUpload extends React.Component {
     console.log(info)
     let fileList = [...info.fileList];
 
-    if(fileList.length > this.state.maxNum){
+    if (fileList.length > this.state.maxNum) {
       fileList = fileList.slice(0, this.state.maxNum)
     }
     fileList = fileList.map(file => {
@@ -55,20 +67,22 @@ class AppendixUpload extends React.Component {
     if (file.status === 'error') return
     deleteProjectFile({ id: file.id }).then(res => {
       if (res.data.result) {
-        //console.log(res.data.result)
-        //console.log(fileList)
         message.success('服务器端删除成功！')
+        //console.log(file.id, this.state.fileList)
+        const fileList = this.state.fileList.filter(item => item.id != file.id)
+        this.setState({ fileList })
       }
     })
   }
   render() {
-    const { id, type, maxNum } = this.state
+    const { id, type } = this.state
     const props = {
       action: appRoot + '/api/Appendix/UploadProjectFile',
       data: { id: id, FileType: type },
       headers: {
         authorization: getJwt(),
       },
+      disabled: !id,
       beforeUpload: this.beforeUpload,
       onChange: this.handleChange,
       onRemove: this.handleRemove,

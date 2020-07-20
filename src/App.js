@@ -9,6 +9,7 @@ import AuthComponent from './utils/AuthComponent';
 import getUserTest from './views/getUserTest';
 import AdministerRoutes from './routes/AdministerRoutes';
 import Student from './routes/StudentRoutes';
+import ExpertRoutes from './routes/ExpertRoutes';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <AuthComponent>
           <Route path='/administer' component={AdministerRoutes}></Route>
           <Route path='/student' component={Student}></Route>
+          <Route path='/expert' component={ExpertRoutes}></Route>
           <Route path="/getUserTest" component={getUserTest}></Route>
         </AuthComponent>
         <Redirect to='/error'></Redirect>

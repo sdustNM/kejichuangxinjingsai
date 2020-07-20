@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, Form, Input, Button, Space, Upload } from 'antd'
-import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { Card, Form, Input, Button, Space, Alert} from 'antd'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import SelectManComplete from '../../components/SelectManComplete';
 import { getProjectInfoByID, setProjectInfo } from '../../services/project'
 import { getUserID } from '../../utils/auth';
@@ -46,7 +46,10 @@ class Project extends React.Component {
             description: item.projectDes
           })
           this.setState({
-            teacher: item.projectTeacher
+            teacher: item.projectTeacher,
+            mainList: item.AppendixMain,
+            videoList: item.AppendixVideo,
+            bzList: item.Appendixbz
           })
         }
       })
@@ -85,113 +88,118 @@ class Project extends React.Component {
   }
 
   render() {
-    const { teacher, id, competitionID, competitionName } = this.state
-    console.log(teacher)
+    const { teacher, id, competitionID } = this.state
+    //console.log(teacher)
     return (
-      <Card title={competitionName}>
-        <Form
-          {...layout}
-          ref={this.formRef}
-          name="control-ref"
-          onFinish={this.onFinish}
-        >
-
-          <Form.Item
-            label="作品名称"
-            name="projectName"
-            rules={[{ required: true, message: '比赛作品名称不能为空!' }]}
+      <div>
+        <Card title='作品基本信息'>
+          <Form
+            {...layout}
+            ref={this.formRef}
+            name="control-ref"
+            onFinish={this.onFinish}
           >
-            <Input />
-          </Form.Item>
 
-          <Form.Item
-            label="指导老师"
-            name="teacher"
-          >
-            <SelectManComplete initValue={teacher}></SelectManComplete>
-          </Form.Item>
+            <Form.Item
+              label="作品名称"
+              name="projectName"
+              rules={[{ required: true, message: '比赛作品名称不能为空!' }]}
+            >
+              <Input />
+            </Form.Item>
 
-          <Form.List name="cooperators">
-            {(fields, { add, remove }) => {
-              return (
-                <div>
-                  {fields.map((field, index) => (
-                    <Form.Item
-                      {...(index === 0 ? layout : layoutWithOutLabel)}
-                      label={index === 0 ? '合作者' : ''}
-                      required={false}
-                      key={field.key}
-                    >
+            <Form.Item
+              label="指导老师"
+              name="teacher"
+            >
+              <SelectManComplete initValue={teacher}></SelectManComplete>
+            </Form.Item>
+
+            <Form.List name="cooperators">
+              {(fields, { add, remove }) => {
+                return (
+                  <div>
+                    {fields.map((field, index) => (
                       <Form.Item
-                        {...field}
-                        validateTrigger={['onChange', 'onBlur']}
-                        rules={[
-                          {
-                            required: true,
-                            whitespace: true,
-                            message: "请输入合作者姓名或删除",
-                          },
-                        ]}
-                        noStyle
+                        {...(index === 0 ? layout : layoutWithOutLabel)}
+                        label={index === 0 ? '合作者' : ''}
+                        required={false}
+                        key={field.key}
                       >
-                        <Input placeholder="合作者姓名" style={{ width: '60%' }} />
+                        <Form.Item
+                          {...field}
+                          validateTrigger={['onChange', 'onBlur']}
+                          rules={[
+                            {
+                              required: true,
+                              whitespace: true,
+                              message: "请输入合作者姓名或删除",
+                            },
+                          ]}
+                          noStyle
+                        >
+                          <Input placeholder="合作者姓名" style={{ width: '60%' }} />
+                        </Form.Item>
+                        {fields.length > 1 ? (
+                          <MinusCircleOutlined
+                            className="dynamic-delete-button"
+                            style={{ margin: '0 8px' }}
+                            onClick={() => {
+                              remove(field.name);
+                            }}
+                          />
+                        ) : null}
                       </Form.Item>
-                      {fields.length > 1 ? (
-                        <MinusCircleOutlined
-                          className="dynamic-delete-button"
-                          style={{ margin: '0 8px' }}
-                          onClick={() => {
-                            remove(field.name);
-                          }}
-                        />
-                      ) : null}
-                    </Form.Item>
-                  ))}
-                  <Form.Item {...layoutWithOutLabel}>
-                    <Button
-                      type="dashed"
-                      onClick={() => {
-                        add();
-                      }}
-                      style={{ width: '60%' }}
-                    >
-                      <PlusOutlined /> 添加合作者
+                    ))}
+                    <Form.Item {...layoutWithOutLabel}>
+                      <Button
+                        type="dashed"
+                        onClick={() => {
+                          add();
+                        }}
+                        style={{ width: '60%' }}
+                      >
+                        <PlusOutlined /> 添加合作者
                 </Button>
-                  </Form.Item>
-                </div>
-              );
-            }}
-          </Form.List>
+                    </Form.Item>
+                  </div>
+                );
+              }}
+            </Form.List>
 
-          <Form.Item
-            label="作品描述"
-            name="description"
-            rules={[{ required: true, message: '品描述不能为空!' }]}
-          >
-            <TextArea
-              placeholder="请输入比赛描述"
-              autoSize={{ minRows: 3, maxRows: 5 }}
-            />
-          </Form.Item>
+            <Form.Item
+              label="作品描述"
+              name="description"
+              rules={[{ required: true, message: '品描述不能为空!' }]}
+            >
+              <TextArea
+                placeholder="请输入比赛描述"
+                autoSize={{ minRows: 3, maxRows: 5 }}
+              />
+            </Form.Item>
 
-          <Form.Item
-            label="备注"
-            name="remark"
-          >
-            <Input placeholder='备注' />
-          </Form.Item>
+            <Form.Item
+              label="备注"
+              name="remark"
+            >
+              <Input placeholder='备注' />
+            </Form.Item>
 
-          <Form.Item {...tailLayout}>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                {!id ? '创建' : '修改'}
+            <Form.Item {...tailLayout}>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  {!id ? '创建' : '修改'}
+                </Button>
+                <Button type="primary" onClick={() => this.props.history.push({ pathname: '/student/competition', state: { id: competitionID } })}>
+                  取消
               </Button>
-              <Button type="primary" onClick={() => this.props.history.push({ pathname: '/student/competition', state: { id: competitionID } })}>
-                取消
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
+              </Space>
+            </Form.Item>
+          </Form>
+        </Card>
+
+        <Alert message="* 作品基本信息保存后才可以上传附件" type="info" />
+
         <Card title='项目附件'>
           <AppendixUpload
             projectID={this.state.id}
@@ -216,7 +224,7 @@ class Project extends React.Component {
             fileList={this.state.bzList}
           ></AppendixUpload>
         </Card>
-      </Card>
+      </div>
     )
   }
 }

@@ -50,12 +50,12 @@ const SelectManComplete = (props) => {
   }
 
   useEffect(() => {
-    console.log(props.initValue)
+    //console.log(props.initValue)
     props.initValue && getTeachersByFuzzy({ "searchTxt": props.initValue }).then(res => {
       if (res.data.result) {
 
         let data = JSON.parse(res.data.data)
-        console.log(data)
+        //console.log(data)
         if (data.length === 1) {   //只有一条记录
           setValue(`${data[0].id}-${data[0].name}`)
         }
@@ -65,7 +65,7 @@ const SelectManComplete = (props) => {
   })
 
   const onSelect = data => {
-    console.log("select" + data)
+    //console.log("select" + data)
     let finded = db.find(a => a.id === data)
     finded && setValue(`${finded.id}-${finded.name}`);
     props.chooseMan(data)
