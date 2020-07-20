@@ -19,31 +19,6 @@ class CompetitionEditForm extends React.Component {
 
   formRef = React.createRef();
 
-  // componentDidUpdate() {
-  //   console.log(this.props)
-  //   const { id } = this.props
-  //   if (id) {
-  //     getCompetitionByID(id).then(res => {
-  //       if (res.data.result) {
-  //         let item = JSON.parse(res.data.data)
-  //         let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD')
-  //         let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD')
-  //         let appraiseStart = !item.appraiseStart ? null : moment(item.appraiseStart, 'YYYY-MM-DD')
-  //         let appraiseEnd = !item.appraiseEnd ? null : moment(item.appraiseEnd, 'YYYY-MM-DD')
-  //         this.formRef.current.setFieldsValue({
-  //           name: item.name,
-  //           fromUnit: item.fromUnit,
-  //           submitTime: [submitStart, submitEnd],
-  //           appraiseTime: [appraiseStart, appraiseEnd],
-  //           description: item.description
-  //         })
-  //       }
-  //     })
-
-
-  //   }
-  // }
-
   componentDidMount() {
     //console.log(this.props)
     const { id } = this.props
@@ -51,11 +26,11 @@ class CompetitionEditForm extends React.Component {
       getCompetitionByID(id).then(res => {
         if (res.data.result) {
           let item = JSON.parse(res.data.data)
-          //console.log(item)
+          console.log(item)
           let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD HH:mm')
           let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD HH:mm')
-          let yuan_appraiseStart = !item.yuan_appraiseStart ? null : moment(item.yuan_appraiseStart, 'YYYY-MM-DD HH:mm')
-          let yuan_appraiseEnd = !item.yuan_appraiseEnd ? null : moment(item.yuan_appraiseEnd, 'YYYY-MM-DD HH:mm')
+          let yuan_appraiseStart = !item.yuan_AppraiseStart ? null : moment(item.yuan_AppraiseStart, 'YYYY-MM-DD HH:mm')
+          let yuan_appraiseEnd = !item.yuan_AppraiseEnd ? null : moment(item.yuan_AppraiseEnd, 'YYYY-MM-DD HH:mm')
           let appraiseStart = !item.appraiseStart ? null : moment(item.appraiseStart, 'YYYY-MM-DD HH:mm')
           let appraiseEnd = !item.appraiseEnd ? null : moment(item.appraiseEnd, 'YYYY-MM-DD HH:mm')
           this.formRef.current.setFieldsValue({
@@ -83,8 +58,8 @@ class CompetitionEditForm extends React.Component {
       fromUnit: value.fromUnit,
       submitStart: value.submitTime[0] && value.submitTime[0].format('YYYY-MM-DD HH:mm'),
       submitEnd: value.submitTime[1] && value.submitTime[1].format('YYYY-MM-DD HH:mm'),
-      yuan_appraiseStart: value.yuan_appraiseTime && value.yuan_appraiseTime[0] && value.yuan_appraiseTime[0].format('YYYY-MM-DD HH:mm'),
-      yuan_appraiseEnd: value.yuan_appraiseTime && value.yuan_appraiseTime[1] && value.yuan_appraiseTime[1].format('YYYY-MM-DD HH:mm'),
+      yuan_AppraiseStart: value.yuan_appraiseTime && value.yuan_appraiseTime[0] && value.yuan_appraiseTime[0].format('YYYY-MM-DD HH:mm'),
+      yuan_AppraiseEnd: value.yuan_appraiseTime && value.yuan_appraiseTime[1] && value.yuan_appraiseTime[1].format('YYYY-MM-DD HH:mm'),
       appraiseStart: value.appraiseTime && value.appraiseTime[0] && value.appraiseTime[0].format('YYYY-MM-DD HH:mm'),
       appraiseEnd: value.appraiseTime && value.appraiseTime[1] && value.appraiseTime[1].format('YYYY-MM-DD HH:mm'),
       description: value.description,
@@ -95,7 +70,7 @@ class CompetitionEditForm extends React.Component {
     setCompetition(competitionItem).then(res => {
       if (res.data.result) {
         message.success(!id ? '创建成功！' : '修改成功！')
-        //console.log(res.data)
+        console.log(res.data)
         this.props.createID(res.data.data)
       }
     })
