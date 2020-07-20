@@ -4,6 +4,7 @@ import { Layout, Menu, Space,Dropdown, Avatar } from 'antd'
 
 import {studentMenus} from '../../routes/StudentMenu'
 import {administerMenus} from '../../routes/AdministerMenu'
+import {expertMenus} from '../../routes/ExpertMenu'
 import {getJwtUser,removeJwt} from '../../utils/jwtHelper'
 import logo from './logo.png'
 import './MyLayout.css'
@@ -33,7 +34,7 @@ class MyLayout extends React.Component {
   }
 
   render() {
-    let currentMenu= isStudent()? studentMenus: (isAdminister()? administerMenus:{});
+    let currentMenu= isStudent()? studentMenus: (isAdminister()? administerMenus:expertMenus);
    const menus = currentMenu? currentMenu.filter(m => m.isShow):[];
 
     return (

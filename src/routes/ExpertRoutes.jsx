@@ -1,18 +1,18 @@
 import React from 'react'
 import MyLayout from '../components/frame/MyLayout'
 import { Route, Switch } from 'react-router-dom'
-import { studentConfig } from './StudentConfig'
-import { isStudent } from '../utils/auth'
+import { expertConfig } from './ExpertConfig'
+import { isExpert } from '../utils/auth'
 import NoPermission from '../views/Common/NoPermission'
 
-export default class Student extends React.Component {
+export default class ExpertRoutes extends React.Component {
 
   render() {
     return (
-      isStudent() ? (<MyLayout>
+      isExpert() ? (<MyLayout>
         <Switch>
           {
-            studentConfig.map(route => {
+            expertConfig.map(route => {
               return (
                 <Route
                   key={route.path}
