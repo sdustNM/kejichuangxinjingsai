@@ -17,7 +17,7 @@ class CompetitionList extends React.Component {
       //console.log(res)
       if (res.data.result) {
         const comList = JSON.parse(res.data.data)
-        console.log()
+        console.log(comList)
         this.setState({
           xiao_comList: comList.filter(item => item.category === '校级'),
           yuan_comList: comList.filter(item => item.category === '院级')
@@ -32,7 +32,10 @@ class CompetitionList extends React.Component {
           {this.state.xiao_comList.map(competition =>
             <Competition
               key={competition.id}
-              competition={competition}></Competition>)}
+              competition={competition}
+              history={this.props.history}
+            >
+            </Competition>)}
         </Card>
         <Card title='学院比赛'>
 

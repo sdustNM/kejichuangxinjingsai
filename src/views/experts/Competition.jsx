@@ -20,9 +20,11 @@ class Competition extends React.Component {
   }
   render() {
     const { competition } = this.state
+    console.log(competition)
     const extra = (
       <Button
         type='primary'
+        onClick={() => {this.props.history.push({ pathname: '/expert/projectList', state: { id: competition.id } })}}
       >进入评分</Button>
     )
     return (
@@ -37,26 +39,27 @@ class Competition extends React.Component {
           column={2}>
           <Descriptions.Item label="组织单位">{competition.fromUnit}</Descriptions.Item>
           <Descriptions.Item label="比赛级别">{competition.category}选拔</Descriptions.Item>
-          <Descriptions.Item label="学院评审开始">{competition.submitStart}</Descriptions.Item>
-          <Descriptions.Item label="学院评审结束">{competition.submitEnd}</Descriptions.Item>
-          <Descriptions.Item label="学校评审开始">{competition.submitStart}</Descriptions.Item>
-          <Descriptions.Item label="学校评审结束">{competition.submitEnd}</Descriptions.Item>
+          {competition.statusId === '1' ? <Descriptions.Item label="学院评审开始">{competition.submitStart}</Descriptions.Item> : <Descriptions.Item label="学校评审开始">{competition.submitStart}</Descriptions.Item>}
+          {competition.statusId === '1' ? <Descriptions.Item label="学院评审结束">{competition.submitEnd}</Descriptions.Item> : <Descriptions.Item label="学校评审结束">{competition.submitEnd}</Descriptions.Item>}
+
           <Descriptions.Item label="附件">
-            {!this.state.fileList || !this.state.fileList.length ? '' : (<List
-              size="small"
-              //bordered
-              dataSource={this.state.fileList}
-              renderItem={item => (
-                <List.Item>
-                  <a
-                    href={appRoot + item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {item.name}
-                  </a>
-                </List.Item>)}
-            />)}
+            {!competition.appendixList || !competition.appendixList.length ? '' : (
+              <List
+                size="small"
+                //bordered
+                dataSource={competition.appendixList}
+                renderItem={item => (
+                  <List.Item>
+                    <a
+                      href={appRoot + item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {item.name}
+                    </a>
+                  </List.Item>)}
+              />
+            )}
 
           </Descriptions.Item>
         </Descriptions>
