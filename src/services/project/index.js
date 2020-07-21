@@ -21,3 +21,7 @@ export function getProjectFilesByProjectId(params){
 export function deleteProjectFile(params){
   return get('/Appendix/deleteProjectFile', params)
 }
+
+export function getFullProjectList(params){
+  return get('/administer/getFullProjectList', params)
+}
