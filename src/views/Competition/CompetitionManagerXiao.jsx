@@ -22,7 +22,7 @@ class CompetitionManagerXiao extends React.Component {
 
   componentDidMount() {
     getDepartmentList().then(res => {
-      let departmentList = JSON.parse(res)
+      let departmentList = JSON.parse(res).filter(item => item.id == '0')
       //console.log(departmentList)
       if (departmentList.length !== 0) {
         this.setState({ departmentList })
@@ -53,13 +53,13 @@ class CompetitionManagerXiao extends React.Component {
     })
     this.refresh(1)
   }
-  refresh = (currentPage, pageSize) => {
-    
-    currentPage=currentPage?currentPage:this.state.currentPage;
-    pageSize=pageSize?pageSize:this.state.pageSize;
+  refresh = (currentPage, pageSize, deptID) => {
 
+    currentPage = currentPage ? currentPage : this.state.currentPage
+    pageSize = pageSize ? pageSize : this.state.pageSize
+    deptID = deptID ? deptID : this.state.department
     let params = {
-      DepartmentId: getDeptID(),
+      DepartmentId: deptID,
       comName: this.state.comName,
       currentPage,
       pageSize
@@ -91,7 +91,13 @@ class CompetitionManagerXiao extends React.Component {
     })
   }
 
- 
+  handleDeptChange = value => {
+    this.setState({
+      department: value
+    })
+    this.refresh(this.state.currentPage, this.state.pageSize, value)
+  }
+
   changeValue = (e) => {
     this.setState({
       [e.target.name]: e.target.value
@@ -157,7 +163,7 @@ class CompetitionManagerXiao extends React.Component {
         ),
       },
     ];
-    
+
     //console.log(this.state.departmentList)
     return (
       <div>
@@ -170,9 +176,13 @@ class CompetitionManagerXiao extends React.Component {
           >
             <PlusCircleOutlined />添加
         </Button>
-          <Select defaultValue="0" style={{ width: 200 }} >
+          <Select
+            defaultValue='0'
+            style={{ width: 200 }}
+            onChange={this.handleDeptChange}
+          >
             {this.state.departmentList.map(
-              item => <Option key={'department_' + item.id} value={item.id} disabled={item.id !== '0'}>{item.name}</Option>)}
+              item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
           </Select>
           <Input addonBefore='比赛名称' name='comName' value={comName} onChange={this.changeValue} />
           <Button type='primary' onClick={this.search}>搜索</Button>
