@@ -22,13 +22,14 @@ class ProjectList extends React.Component {
       competitionId: this.state.competitionID,
       //expertId: getUserID()
     }
-    console.log(params)
+    //console.log(params)
     getSimpleProjectListForExpert(params).then(res => {
-      console.log(res)
+      //console.log(res)
       if (res.data.result) {
-        const list = JSON.parse(res.data.data).map(item => {
+        let list = JSON.parse(res.data.data)
+        //console.log(JSON.parse(res.data.data))
+        list = list.map(item => {
           item.key = 'project_' + item.Id
-          item.score = 9.5
           return item
         })
         console.log(list)
@@ -63,11 +64,16 @@ class ProjectList extends React.Component {
         key: 'ProjectCooperator',
       },
       {
-        title: '评分',
+        title: '分数',
+        key: 'ExpertScore',
+        render: (text, record) => 
+        {return record.ExpertScore && <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>{record.ExpertScore}</Avatar>}    
+      },
+      {
+        title: '操作',
         key: 'action',
         render: (text, record) => (
           <div>
-            {record.score && <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>{record.score}</Avatar>}
             <Button
             type='primary'
             size='small'
