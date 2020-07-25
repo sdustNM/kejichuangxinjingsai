@@ -26,7 +26,7 @@ class CompetitionEditForm extends React.Component {
       getCompetitionByID(id).then(res => {
         if (res.data.result) {
           let item = JSON.parse(res.data.data)
-          console.log(item)
+          //console.log(item)
           let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD HH:mm')
           let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD HH:mm')
           let yuan_appraiseStart = !item.yuan_AppraiseStart ? null : moment(item.yuan_AppraiseStart, 'YYYY-MM-DD HH:mm')

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'antd'
+import { Table, Button, Avatar } from 'antd'
 import { getUserID } from '../../utils/auth'
 import { getSimpleProjectListForExpert } from '../../services/project';
 
@@ -7,7 +7,7 @@ class ProjectList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      competitionID: props.state && props.state.id,
+      competitionID: props.location.state && props.location.state.id,
       dataSource: [],
       loading: false
     }
@@ -19,13 +19,16 @@ class ProjectList extends React.Component {
 
   refresh = () => {
     const params = {
-      competitionID: this.props.location.state.id,
-      expertId: getUserID()
+      competitionId: this.state.competitionID,
+      //expertId: getUserID()
     }
+    console.log(params)
     getSimpleProjectListForExpert(params).then(res => {
+      console.log(res)
       if (res.data.result) {
         const list = JSON.parse(res.data.data).map(item => {
           item.key = 'project_' + item.Id
+          item.score = 9.5
           return item
         })
         console.log(list)
@@ -60,18 +63,22 @@ class ProjectList extends React.Component {
         key: 'ProjectCooperator',
       },
       {
-        title: '操作',
+        title: '评分',
         key: 'action',
         render: (text, record) => (
-          <Button
+          <div>
+            {record.score && <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>{record.score}</Avatar>}
+            <Button
             type='primary'
             size='small'
             shape='round'
             onClick={() => {
               //console.log("record.name:", record.name)
-              this.props.history.push({ pathname: '/expert/project', state: { id: record.id } })
+              this.props.history.push({ pathname: '/expert/project', state: { id: record.Id, score:record.score } })
             }}
           >评分</Button>
+          </div>
+          
         ),
       },
     ];

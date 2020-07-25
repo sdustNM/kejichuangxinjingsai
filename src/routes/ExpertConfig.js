@@ -1,5 +1,6 @@
 import CompetitionList from "../views/Experts/CompetitionList";
 import ProjectList from "../views/Experts/ProjectList";
+import ProjectScore from "../views/Experts/ProjectScore";
 
 export const expertConfig = [{
     path: '/expert/',
@@ -13,7 +14,7 @@ export const expertConfig = [{
   },
   {
     path: '/expert/project',
-    component: CompetitionList,
+    component: ProjectScore,
     exact: true,
   }]
 
