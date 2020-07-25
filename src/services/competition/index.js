@@ -4,3 +4,14 @@ import { get } from '../../utils/request'
 export function getCompetitionFullListByCurrentExpert(params){
   return get('/administer/getCompetitionFullListByCurrentExpert', params)
 }
+
+
+export function getCompetitionState(params)
+{
+  return get('/getCompetitionState', params)
+}
+
+
+export function startCompetition(params){
+  return get('/CompetitionOperation/startCompetition', params)
+}
