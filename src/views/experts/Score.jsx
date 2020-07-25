@@ -8,14 +8,23 @@ class Score extends React.Component {
     super(props)
     this.state = {
       id: props.projectID
-    }
+    } 
+    this.formRef = React.createRef();
   }
-  formRef = React.createRef();
+  
 
   componentDidMount() {
     if (this.state.id) {
       getProjectScore({ ProjectId: this.state.id }).then(res => {
         console.log(res)
+        if(res.data.result){
+          console.log(res.data.data)
+          const item = JSON.parse(res.data.data)
+          this.formRef.current.setFieldsValue({
+            score: item.Score,
+            remark: item.Remark
+          })
+        }
       })
     }
   }
@@ -48,6 +57,7 @@ class Score extends React.Component {
     return (
       <Form
         {...layout}
+        ref={this.formRef}
         name="score"
         onFinish={this.onFinish}
         //onFinishFailed={this.onFinishFailed}
