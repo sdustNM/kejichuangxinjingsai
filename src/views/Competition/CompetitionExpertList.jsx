@@ -7,12 +7,13 @@ import CompetitionEditExpert from './CompetitionEditExpert';
 
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { getExpertsInCompetition, removeExpertFromCompetition } from '../../services/administer/competition'
+import { getDeptID } from '../../utils/auth';
 
 class CompetitionExpertList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      deptID: 0,
+      deptID: getDeptID(),
       dataSource: [],
       visible: false
     }
