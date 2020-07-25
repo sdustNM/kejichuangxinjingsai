@@ -5,7 +5,8 @@ import CompetitionExpertList from './CompetitionExpertList'
 import CompetitionEditAppendix from './CompetitionEditAppendix'
 import CompetitionStatus from './CompetitionStatus'
 import './CompetitionEdit.css'
-import RecommendProject from '../Project/RecommendProject'
+import RecommendProject_Yuan from '../Project/RecommendProject_Yuan'
+import RecommendProject_Xiao from '../Project/RecommendProject_Xiao'
 
 class CompetitionEdit extends React.Component {
   constructor(props) {
@@ -77,8 +78,8 @@ class CompetitionEdit extends React.Component {
       tab2: <CompetitionEditForm id={this.state.id} createID={this.create} history={this.props.history}></CompetitionEditForm>,
       tab3: <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
       tab4: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>,
-      tab5: <RecommendProject id={this.state.id}></RecommendProject>,
-      tab6: <CompetitionStatus id={this.state.id}></CompetitionStatus>
+      tab5: <RecommendProject_Yuan id={this.state.id}></RecommendProject_Yuan>,
+      tab6: <RecommendProject_Xiao id={this.state.id}></RecommendProject_Xiao>
     };
     return (
 

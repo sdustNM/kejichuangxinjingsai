@@ -7,7 +7,7 @@ class ProjectList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      competitionID: props.state && props.state.id,
+      competitionID: props.location.state && props.location.state.id,
       dataSource: [],
       loading: false
     }
@@ -19,10 +19,12 @@ class ProjectList extends React.Component {
 
   refresh = () => {
     const params = {
-      competitionID: this.state.competitionID,
-      expertId: getUserID()
+      competitionId: this.state.competitionID,
+      //expertId: getUserID()
     }
+    console.log(params)
     getSimpleProjectListForExpert(params).then(res => {
+      console.log(res)
       if (res.data.result) {
         const list = JSON.parse(res.data.data).map(item => {
           item.key = 'project_' + item.Id
@@ -72,7 +74,7 @@ class ProjectList extends React.Component {
             shape='round'
             onClick={() => {
               //console.log("record.name:", record.name)
-              this.props.history.push({ pathname: '/expert/project', state: { id: record.Id } })
+              this.props.history.push({ pathname: '/expert/project', state: { id: record.Id, score:record.score } })
             }}
           >评分</Button>
           </div>

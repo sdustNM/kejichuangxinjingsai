@@ -1,10 +1,10 @@
 import React from 'react'
-import { Button, Space, Table, Avatar } from 'antd'
+import { Button, Space, Table, Avatar, message } from 'antd'
 
-import { getRecommendedProjectList_yuan, setProjectRecommend_yuan, cancelProjectRecommend_yuan } from '../../services/projectRecommend'
+import { getRecommendedProjectList_xiao, setProjectRecommend_xiao, cancelProjectRecommend_xiao } from '../../services/projectRecommend'
 import { getDeptID } from '../../utils/auth'
 
-class RecommendProject extends React.Component {
+class RecommendProject_Xiao extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -16,12 +16,14 @@ class RecommendProject extends React.Component {
 
   componentDidMount() {
     //根据比赛ID获取项目列表
+    this.getProjectList(this.state.competitionID)
+  }
+
+  getProjectList = competitionID => {
     const params = {
-      competitionId: this.state.competitionID,
-      deparmentId: getDeptID()
+      competitionId: competitionID,
     }
-    console.log(params)
-    getRecommendedProjectList_yuan(params).then(res => {
+    getRecommendedProjectList_xiao(params).then(res => {
       if (res.data.result) {
         console.log(JSON.parse(res.data.data))
         const projectList = JSON.parse(res.data.data).map(item => {
@@ -30,11 +32,11 @@ class RecommendProject extends React.Component {
             id: item.Id,
             name: item.ProjectName,
             sname: item.StudentName,
-            score: item.LastScoreYuan,
-            recommended: item.RecommendedYuan
+            score: item.LastScoreXiao,
+            recommended: item.RecommendedXiao
           }
         })
-        console.log(projectList)
+        //console.log(projectList)
         this.setState({
           dataSource: projectList
         })
@@ -43,10 +45,30 @@ class RecommendProject extends React.Component {
   }
 
   setRecommend = id => {
-    setProjectRecommend_yuan({
+    setProjectRecommend_xiao({
       ProjectId: id
     }).then(res => {
-      console.log(res)
+      if(res.data.result){
+        message.success('作品推荐成功！')
+        this.getProjectList(this.state.competitionID, this.state.deptID)
+      }
+      else{
+        message.warning('作品推荐失败！')
+      }
+    })
+  }
+
+  cancelRecommend = id => {
+    cancelProjectRecommend_xiao({
+      ProjectId: id
+    }).then(res => {
+      if(res.data.result){
+        message.success('取消推荐成功！')
+        this.getProjectList(this.state.competitionID, this.state.deptID)
+      }
+      else{
+        message.warning('取消推荐失败！')
+      }
     })
   }
 
@@ -123,4 +145,4 @@ class RecommendProject extends React.Component {
   }
 }
 
-export default RecommendProject
+export default RecommendProject_Xiao
