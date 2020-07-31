@@ -47,7 +47,7 @@ class CompetitionEditExpert extends React.Component {
 
   fetch = (currentPage, pageSize) => {
     const { id, name, sfzh } = this.state
-    //console.log(this.state)
+    console.log(this.state)
     getExpertsByFuzzy({
       id,
       name,

@@ -1,22 +1,22 @@
 import { getJwtUser } from "./jwtHelper"
 
 export const getRole = () => {
-  return getJwtUser()===null?"":getJwtUser().role;
+  return getJwtUser() === null ? "" : getJwtUser().role;
 }
 
 export const getUserID = () => {
-  return getJwtUser()===null?"":getJwtUser().name
+  return getJwtUser() === null ? "" : getJwtUser().name
 }
 
 export const getDeptID = () => {
-  return getJwtUser()===null?"":getJwtUser().departmentNo
+  return getJwtUser() === null ? "" : getJwtUser().departmentNo
 }
 
-const roleNames=['管理员','专家','学生','校级管理员']
-export const getRoleName=()=>{
-  let roleID=getRole();
-  if (roleID===1 &&  getDeptID()==="0") return  roleNames[3]
-  else   return roleNames[getRole()-1]
+const roleNames = ['管理员', '专家', '学生', '校级管理员']
+export const getRoleName = () => {
+  let roleID = getRole();
+  if (roleID == 1 && getDeptID() == 0) return roleNames[3]
+  else return roleNames[getRole() - 1]
 }
 
 export const isStudent = () => {

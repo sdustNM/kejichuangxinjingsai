@@ -26,14 +26,15 @@ class Competition extends React.Component {
       competitionID: this.state.id,
       studentId: getUserID()
     }
+    //console.log(params)
     getSimpleProjectList(params).then(res => {
       if (res.data.result) {
         const list = JSON.parse(res.data.data).list
-        //console.log(list)
+        console.log(list)
         if (list.length > 0) {
           //console.log(list[0].Id)
           this.setState({
-            projectID: list[0].Id
+            projectID: list[0].x.Id
           })
         }
 
@@ -43,6 +44,7 @@ class Competition extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     const { projectID, id } = this.state
     const extra = (
       <Space>

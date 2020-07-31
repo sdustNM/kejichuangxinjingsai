@@ -34,10 +34,14 @@ class ProjectScore extends React.Component {
   render() {
     //console.log(this.state.projectID)
     const { score, projectID, visible } = this.state
+    const scoreStyle = {
+      color: 'red',
+      fontSize: 20
+    }
     return (
       <div>
         <Card
-          title={`分数：${score}`}
+          title={<span style={scoreStyle}>{score}</span>}
           extra={<Button
             type='primary'
             onClick={this.showModal}

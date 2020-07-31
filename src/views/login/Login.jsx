@@ -4,7 +4,7 @@ import { Form, Input, Button, Card, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.css'
 import axios from 'axios'
-import { getRoleName } from '../../utils/auth';
+import { isStudent, isExpert } from '../../utils/auth';
 
 class Login extends React.Component {
 
@@ -15,21 +15,18 @@ class Login extends React.Component {
       password: values.password,
       entryID: this.props.location.state.entryID
     }).then(res => {
-        let r=res.data;
+      let r = res.data;
       // console.log(res.data.data)
       if (r.result) {
         sessionStorage.setItem('myjwt', r.data);
-        if (getRoleName() === "学生") {
+        if (isStudent()) {
           this.props.history.push('/student')
-        }
-        else if (getRoleName() === "管理员") {
+        } else if (isExpert()) {
+          this.props.history.push('/Expert')
+        } else {
           this.props.history.push('/administer')
         }
-        else {
-          this.props.history.push('/Expert')
-        }
-      }
-      else {
+      } else {
         message.error(r.message);
       }
     }).catch(() => this.setState({

@@ -80,7 +80,7 @@ class ProjectList extends React.Component {
             shape='round'
             onClick={() => {
               //console.log("record.name:", record.name)
-              this.props.history.push({ pathname: '/expert/project', state: { id: record.Id, score:record.score } })
+              this.props.history.push({ pathname: '/expert/project', state: { id: record.Id, score:record.ExpertScore } })
             }}
           >评分</Button>
           </div>

@@ -49,7 +49,7 @@ class CompetitionInfo extends React.Component {
 
   render() {
     const { competition } = this.state
-    console.log(competition)
+    //console.log(competition)
     return (
       <Descriptions
         bordered
