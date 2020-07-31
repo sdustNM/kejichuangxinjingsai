@@ -1,7 +1,8 @@
 import React from 'react'
-import { Steps, Popover } from 'antd';
+import { Steps, Popover,Button,Space,Row,message } from 'antd';
 import {useState,useEffect} from 'react'
-
+import {getCompetitionState} from '../../services/competition/index'
+import {startCompetition} from '../../services/competition/index'
 const { Step } = Steps;
 
 const CompetitionStatus=(props)=>{
@@ -19,9 +20,34 @@ const customDot = (dot, { status, index }) => (
   </Popover>
 );
 useEffect(() => {
-  var tt=global.constants.XiaoCompetitionStatus.filter(x=>x.a==="学院公示")[0].b
-  setcIndex(tt)
-}, [])
+  console.log(props.id);
+  getCompetitionState({"id":props.id}).then(res=>{
+    if (res.data.result)
+    {
+      var currentStatus= res.data.data;
+      var temp=global.constants.XiaoCompetitionStatusMatch.filter(x=>x.a===currentStatus)[0];
+      if (temp) var tt=temp.b
+      
+      console.log(tt)
+      setcIndex(tt)
+    }
+  });
+
+})
+
+const handleStartCompetition=()=>
+{
+   startCompetition({"id":props.id}).then(res=>{
+     if (res.data.result)
+     {
+       message.success(res.data.data)
+       setcIndex(1)
+     }
+     else {
+       message.error(res.data.message)
+     }
+   })
+}
 
 const getStepState=(index)=>
 {
@@ -30,6 +56,7 @@ const getStepState=(index)=>
 
 return (
   <div style={{paddingTop:50}}>
+      <Space direction="vertical">
   <Steps current={cIndex} progressDot={customDot}>
     {global.constants.XiaoCompetitionStatus.map(item=>{
       return (
@@ -38,6 +65,9 @@ return (
 
     })}
   </Steps>
+  <Row style={{marginTop:20, paddingLeft:50}}><Button type="primary" onClick={handleStartCompetition}>发布比赛</Button></Row>
+    
+  </Space>
   </div>)
 }
 
