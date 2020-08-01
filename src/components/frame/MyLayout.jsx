@@ -8,7 +8,7 @@ import {expertMenus} from '../../routes/ExpertMenu'
 import {getJwtUser,removeJwt} from '../../utils/jwtHelper'
 import logo from './logo.png'
 import './MyLayout.css'
-import { isStudent ,isAdminister, getRoleName } from '../../utils/auth'
+import { isStudent ,isExpert, getRoleName } from '../../utils/auth'
 import '../../utils/config'
 const { Header, Content, Sider, Footer } = Layout;
 const {SubMenu} =Menu;
@@ -34,7 +34,7 @@ class MyLayout extends React.Component {
   }
 
   render() {
-    let currentMenu= isStudent()? studentMenus: (isAdminister()? administerMenus:expertMenus);
+    let currentMenu= isStudent()? studentMenus: (isExpert()? expertMenus: administerMenus);
    const menus = currentMenu? currentMenu.filter(m => m.isShow):[];
 
     return (

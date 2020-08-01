@@ -13,20 +13,23 @@ class AppendixUpload extends React.Component {
       id: props.projectID,
       type: props.fileType,
       maxNum: props.maxNum,
-      fileList: []
+      fileList: null
     }
   }
   static getDerivedStateFromProps(nextProps, prevState) {
-
-    if(!nextProps.fileList) return null
-    const fileList = nextProps.fileList.map(file => {
-      file.uid = nextProps.projectID + '_' + file.id;
-      file.url = appRoot + file.url
-      return file;
-    })
-    return { 
+    if(prevState.fileList != null) return null
+    let fileList = []
+    if (nextProps.fileList) {
+      fileList = nextProps.fileList.map(file => {
+        file.uid = nextProps.projectID + '_' + file.id;
+        file.url = appRoot + file.url
+        return file;
+      })
+    }
+    return {
       fileList,
-      id: nextProps.projectID}
+      id: nextProps.projectID
+    }
   }
 
   // componentWillReceiveProps(nextProps) {
