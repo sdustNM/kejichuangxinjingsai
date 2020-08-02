@@ -5,7 +5,7 @@ import SelectManComplete from '../../../components/SelectManComplete';
 import { getProjectInfoByID, setProjectInfo } from '../../../services/project'
 import { getUserID } from '../../../utils/auth';
 import AppendixUpload from './AppendixUpload';
-import ProjectResult from '../ProjectResult';
+import ProjectResult from './ProjectResult_student';
 
 const { TextArea } = Input
 const layout = {

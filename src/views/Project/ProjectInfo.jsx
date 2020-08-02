@@ -6,13 +6,13 @@ import AppendixList from './AppendixList';
 
 class ProjectInfo extends React.Component {
   render() {
-    const { project } = this.props
+    const { project, size } = this.props
     //console.log(project)
     return (
-      <Card title={`${project.name}(${project.id})`}>
+      <Card title={project.name}>
         <Descriptions
           bordered
-          size='middle'
+          size={size || 'middle'}
           column={2}>
           <Descriptions.Item label="作者">{project.sno}</Descriptions.Item>
           <Descriptions.Item label="指导老师">{project.teacher}</Descriptions.Item>

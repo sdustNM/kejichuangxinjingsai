@@ -1,9 +1,10 @@
 import React from 'react'
-import { Button, Space, Table, Avatar, Select, message } from 'antd'
+import { Button, Space, Table, Avatar, Select, message, Modal } from 'antd'
 import { SearchOutlined, LikeTwoTone, StopTwoTone } from '@ant-design/icons'
 import { getRecommendedProjectList_yuan, setProjectRecommend_yuan, cancelProjectRecommend_yuan } from '../../../services/projectRecommend'
 import { getDeptID } from '../../../utils/auth'
 import getDepartmentList from '../../../redux/common'
+import ProjectInfo_administer from './ProjectInfo_administer'
 
 const { Option } = Select
 
@@ -15,7 +16,9 @@ class RecommendProject_Yuan extends React.Component {
       dataSource: [],
       loading: false,
       departmentList: [],
-      deptID: ''
+      deptID: '',
+      visible: false,
+      projectID: null
     }
   }
 
@@ -55,7 +58,7 @@ class RecommendProject_Yuan extends React.Component {
     //console.log(params)
     getRecommendedProjectList_yuan(params).then(res => {
       if (res.data.result) {
-        console.log(JSON.parse(res.data.data))
+        //console.log(JSON.parse(res.data.data))
         const projectList = JSON.parse(res.data.data).map(item => {
           return {
             key: 'project_' + item.Id,
@@ -72,6 +75,13 @@ class RecommendProject_Yuan extends React.Component {
           dataSource: projectList
         })
       }
+    })
+  }
+
+  showProject = projectID => {
+    this.setState({
+      visible: true,
+      projectID,
     })
   }
 
@@ -111,7 +121,7 @@ class RecommendProject_Yuan extends React.Component {
   }
 
   render() {
-    const { dataSource, loading } = this.state
+    const { dataSource, loading, visible, projectID } = this.state
     const columns = [
       {
         title: '作品编号',
@@ -154,7 +164,7 @@ class RecommendProject_Yuan extends React.Component {
               type='default'
               size='small'
               shape='round'
-              //onClick={}
+              onClick={() => this.showProject(record.id)}
               icon={<SearchOutlined />}
             >
               查看
@@ -204,9 +214,19 @@ class RecommendProject_Yuan extends React.Component {
           dataSource={dataSource}
           columns={columns}
           loading={loading}
-          //scroll={{ y: 320 }}
+        //scroll={{ y: 320 }}
         //size='small'
         />
+        <Modal
+          title="评分"
+          visible={visible}
+          onCancel={() => this.setState({visible: false})}
+          footer={[]}
+          width={800}
+          destroyOnClose
+        >
+          <ProjectInfo_administer projectID={projectID} ></ProjectInfo_administer>
+        </Modal>
       </div>
 
     )

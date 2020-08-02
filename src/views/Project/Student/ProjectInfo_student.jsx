@@ -1,6 +1,6 @@
 import React from 'react'
 import ProjectInfo from '../ProjectInfo'
-import ProjectResult from '../ProjectResult'
+import ProjectResult from './ProjectResult_student'
 import { Card } from 'antd'
 import { getProjectInfoByID } from '../../../services/project'
 
