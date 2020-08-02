@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Button, Avatar } from 'antd'
-import { getUserID } from '../../utils/auth'
+//import { getUserID } from '../../utils/auth'
 import { getSimpleProjectListForExpert } from '../../services/project';
 
 class ProjectList extends React.Component {

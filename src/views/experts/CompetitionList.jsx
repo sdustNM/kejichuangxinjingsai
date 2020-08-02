@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card } from 'antd'
+import { Card, Empty } from 'antd'
 
 import { getCompetitionFullListByCurrentExpert } from '../../services/competition'
 import Competition from './Competition'
@@ -29,6 +29,7 @@ class CompetitionList extends React.Component {
     return (
       <div>
         <Card title='学校比赛'>
+          {!this.state.xiao_comList.length && <Empty />}
           {this.state.xiao_comList.map(competition =>
             <Competition
               key={competition.id}
@@ -38,7 +39,7 @@ class CompetitionList extends React.Component {
             </Competition>)}
         </Card>
         <Card title='学院比赛'>
-
+        {!this.state.yuan_comList.length && <Empty />}
         </Card>
       </div>
     )

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Card, Button, Modal, Input, InputNumber } from 'antd'
+import { Card, Button, Modal } from 'antd'
 import ProjectInfo from '../Project/ProjectInfo'
 import Score from './Score'
-const { TextArea } = Input
+import { getProjectInfoByID } from '../../services/project'
 
 class ProjectScore extends React.Component {
 
@@ -10,6 +10,7 @@ class ProjectScore extends React.Component {
     super(props)
     this.state = {
       projectID: props.location.state.id,
+      project: {},
       score: props.location.state.score,
       visible: false
     }
@@ -17,6 +18,7 @@ class ProjectScore extends React.Component {
 
   setScore = score => {
     this.setState({ score })
+    this.props.history.push({ pathname: '/expert/project', state: { id: this.state.projectID, score} })
     this.hideModal()
   }
 
@@ -31,12 +33,37 @@ class ProjectScore extends React.Component {
     })
   }
 
+  componentDidMount() {
+    const projectID = !!this.props.location.state && this.props.location.state.id
+    if (projectID) {
+      getProjectInfoByID({ id: projectID }).then(res => {
+        if (res.data.result) {
+          const item = JSON.parse(res.data.data)
+          console.log(item)
+          this.setState({
+            project: {
+              id: item.id,
+              name: item.projectName,
+              sno: item.sno,
+              teacher: item.projectTeacherName,
+              cooperator: item.ProjectCooperator,
+              description: item.projectDes,
+              mainList: item.AppendixMain,
+              videoList: item.AppendixVideo,
+              bzList: item.Appendixbz
+            }
+          })
+        }
+      })
+    }
+  }
+
   render() {
-    //console.log(this.state.projectID)
-    const { score, projectID, visible } = this.state
+    console.log(this.state)
+    const { score, project, projectID, visible } = this.state
     const scoreStyle = {
       color: 'red',
-      fontSize: 20
+      fontSize: 32
     }
     return (
       <div>
@@ -46,7 +73,7 @@ class ProjectScore extends React.Component {
             type='primary'
             onClick={this.showModal}
           >打分</Button>}>
-          <ProjectInfo projectID={projectID}></ProjectInfo>
+          <ProjectInfo project={project}></ProjectInfo>
         </Card>
         <Modal
           title="评分"

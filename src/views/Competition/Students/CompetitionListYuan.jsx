@@ -36,6 +36,7 @@ class CompititionListYuan extends React.Component {
 
   refresh = (currentPage, pageSize) => {
     let deptID = getDeptID()
+    console.log(deptID)
     getCompetitionList({
       id: deptID,
       currentPage,

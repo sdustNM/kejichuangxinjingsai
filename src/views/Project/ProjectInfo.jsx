@@ -1,44 +1,12 @@
 import React from 'react';
 import { Descriptions, Card } from 'antd'
 
-import { getProjectInfoByID } from '../../services/project'
+
 import AppendixList from './AppendixList';
 
 class ProjectInfo extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      project: {}
-    }
-  }
-
-  componentDidMount() {
-    const { projectID } = this.props
-    if (projectID) {
-      getProjectInfoByID({ id: projectID }).then(res => {
-        if (res.data.result) {
-          const item = JSON.parse(res.data.data)
-          //console.log(item)
-          this.setState({
-            project: {
-              id: item.id,
-              name: item.projectName,
-              sno: item.sno,
-              teacher: item.projectTeacherName,
-              cooperator: item.ProjectCooperator,
-              description: item.projectDes,
-              mainList: item.AppendixMain,
-              videoList: item.AppendixVideo,
-              bzList: item.Appendixbz
-            }
-          })
-        }
-      })
-    }
-  }
-
   render() {
-    const { project } = this.state
+    const { project } = this.props
     //console.log(project)
     return (
       <Card title={`${project.name}(${project.id})`}>

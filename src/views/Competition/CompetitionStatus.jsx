@@ -20,7 +20,7 @@ const customDot = (dot, { status, index }) => (
   </Popover>
 );
 useEffect(() => {
-  console.log(props.id);
+  //console.log(props.id);
   getCompetitionState({"id":props.id}).then(res=>{
     if (res.data.result)
     {
@@ -28,7 +28,7 @@ useEffect(() => {
       var temp=global.constants.XiaoCompetitionStatusMatch.filter(x=>x.a===currentStatus)[0];
       if (temp) var tt=temp.b
       
-      console.log(tt)
+      //console.log(tt)
       setcIndex(tt)
     }
   });
