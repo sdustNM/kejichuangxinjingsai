@@ -49,9 +49,10 @@ class ProjectList extends React.Component {
       currentPage,
       pageSize,
       studentId: getUserID(),
-
+      competitionName: this.state.comName,
+      projectName: this.state.proName
     }
-    //console.log(params)
+    console.log(params)
     getSimpleProjectList(params).then(res => {
       if (res.data.result) {
         //console.log(res)
