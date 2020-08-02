@@ -2,7 +2,7 @@ import React from 'react'
 import { Steps, Popover,Button,Space,Row,message } from 'antd';
 import {useState,useEffect} from 'react'
 import {getCompetitionState} from '../../services/competition/index'
-import {startCompetition} from '../../services/competition/index'
+import {startCompetition,yuanNotice,endCompetition} from '../../services/competitionState/index'
 const { Step } = Steps;
 
 const CompetitionStatus=(props)=>{
@@ -41,12 +41,38 @@ const handleStartCompetition=()=>
      if (res.data.result)
      {
        message.success(res.data.data)
-       setcIndex(1)
+       setcIndex(0)
      }
      else {
        message.error(res.data.message)
      }
    })
+}
+
+const handleYuanNotice=()=>{
+  yuanNotice({"id":props.id}).then(res=>{
+    if (res.data.result)
+    {
+      message.success(res.data.data)
+      setcIndex(0)
+    }
+    else {
+      message.error(res.data.message)
+    }
+  })
+}
+
+const handleEndCompetition=()=>{
+  endCompetition({"id":props.id}).then(res=>{
+    if (res.data.result)
+    {
+      message.success(res.data.data)
+      setcIndex(0)
+    }
+    else {
+      message.error(res.data.message)
+    }
+  })
 }
 
 const getStepState=(index)=>
@@ -55,19 +81,37 @@ const getStepState=(index)=>
 }
 
 return (
-  <div style={{paddingTop:50}}>
-      <Space direction="vertical">
-  <Steps current={cIndex} progressDot={customDot}>
-    {global.constants.XiaoCompetitionStatus.map(item=>{
-      return (
-        <Step description={getStepState(item.b)} key={item.a} title={item.a} />
-      )
+  <div style={{ paddingTop: 50 }}>
+    <Space direction="vertical">
+      <Steps current={cIndex} progressDot={customDot}>
+        {global.constants.XiaoCompetitionStatus.map(item => {
+          return (
+            <Step description={getStepState(item.b)} key={item.a} title={item.a} />
+          )
 
-    })}
-  </Steps>
-  <Row style={{marginTop:20, paddingLeft:50}}><Button type="primary" onClick={handleStartCompetition}>发布比赛</Button></Row>
-    
-  </Space>
+        })}
+      </Steps>
+      <Row style={{ marginTop: 20, paddingLeft: 50 }}>
+        <Space>
+          <Button type="primary" onClick={handleStartCompetition}>正式发布比赛</Button>
+          说明：发布比赛后，学生可以查看比赛信息，提交项目作品。
+       </Space>
+      </Row>
+      <Row style={{ marginTop: 20, paddingLeft: 50 }}>
+        <Space>
+          <Button type="primary" onClick={handleYuanNotice}>学院评比公示</Button>
+          说明：学院公示后，学生可以查看本人作品得分及推荐信息，同时允许进行作品编辑。
+       </Space>
+      </Row>
+
+      <Row style={{ marginTop: 20, paddingLeft: 50 }}>
+        <Space>
+          <Button type="primary" onClick={handleEndCompetition}>项目公示及结束</Button>
+          说明：学校公示后，学生可以查看本人作品最终得分及推荐信息，项目结束。
+       </Space>
+      </Row>
+
+    </Space>
   </div>)
 }
 
