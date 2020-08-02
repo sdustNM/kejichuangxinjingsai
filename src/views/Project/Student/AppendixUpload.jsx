@@ -1,9 +1,9 @@
 import React from 'react'
 import { Upload, Button, message } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import { appRoot } from '../../utils/request'
-import { getJwt } from '../../utils/jwtHelper'
-import { deleteProjectFile } from '../../services/project'
+import { appRoot } from '../../../utils/request'
+import { getJwt } from '../../../utils/jwtHelper'
+import { deleteProjectFile } from '../../../services/project'
 
 class AppendixUpload extends React.Component {
   constructor(props) {

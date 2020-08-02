@@ -1,59 +1,29 @@
 import React from 'react'
-import { Button, Space, Table, Avatar, Select, message } from 'antd'
+import { Button, Space, Table, Avatar, message } from 'antd'
 import { SearchOutlined, LikeTwoTone, StopTwoTone } from '@ant-design/icons'
-import { getRecommendedProjectList_yuan, setProjectRecommend_yuan, cancelProjectRecommend_yuan } from '../../services/projectRecommend'
-import { getDeptID } from '../../utils/auth'
-import getDepartmentList from '../../redux/common'
+import { getRecommendedProjectList_xiao, setProjectRecommend_xiao, cancelProjectRecommend_xiao } from '../../../services/projectRecommend'
 
-const { Option } = Select
 
-class RecommendProject_Yuan extends React.Component {
+class RecommendProject_Xiao extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       competitionID: props.id,
       dataSource: [],
-      loading: false,
-      departmentList: [],
-      deptID: ''
+      loading: false
     }
   }
 
   componentDidMount() {
     //根据比赛ID获取项目列表
-    const deptID = getDeptID()
-    getDepartmentList().then(res => {
-      let departmentList = JSON.parse(res)
-      if (deptID === '0') {
-        departmentList = departmentList.filter(item => item.id !== '0')
-      }
-      else {
-        departmentList = departmentList.filter(item => item.id === deptID)
-      }
-      //console.log(departmentList)
-      if (departmentList.length !== 0) {
-        this.setState({
-          departmentList,
-          deptID: departmentList[0].id
-        })
-        return Promise.resolve(departmentList[0].id)
-      }
-      else {
-        return Promise.resolve('-1')
-      }
-    }).then(res => {
-      if (res === '-1') return
-      this.getProjectList(this.state.competitionID, res)
-    })
+    this.getProjectList(this.state.competitionID)
   }
 
-  getProjectList = (competitionID, deptID) => {
+  getProjectList = competitionID => {
     const params = {
       competitionId: competitionID,
-      deparmentId: deptID
     }
-    //console.log(params)
-    getRecommendedProjectList_yuan(params).then(res => {
+    getRecommendedProjectList_xiao(params).then(res => {
       if (res.data.result) {
         console.log(JSON.parse(res.data.data))
         const projectList = JSON.parse(res.data.data).map(item => {
@@ -62,9 +32,9 @@ class RecommendProject_Yuan extends React.Component {
             id: item.Id,
             name: item.ProjectName,
             sname: item.StudentName,
-            score: item.LastScoreYuan || '未评分',
-            scoredRate: item.ScoredRateYuan,
-            recommended: item.RecommendedYuan
+            score: item.LastScoreXiao || '未评分',
+            scoredRate: item.ScoredRateXiao,
+            recommended: item.RecommendedXiao
           }
         })
         //console.log(projectList)
@@ -75,15 +45,8 @@ class RecommendProject_Yuan extends React.Component {
     })
   }
 
-  handleDeptChange = value => {
-    this.setState({
-      deptID: value
-    })
-    //console.log(value)
-    this.getProjectList(this.state.competitionID, value)
-  }
   setRecommend = id => {
-    setProjectRecommend_yuan({
+    setProjectRecommend_xiao({
       ProjectId: id
     }).then(res => {
       if (res.data.result) {
@@ -97,7 +60,7 @@ class RecommendProject_Yuan extends React.Component {
   }
 
   cancelRecommend = id => {
-    cancelProjectRecommend_yuan({
+    cancelProjectRecommend_xiao({
       ProjectId: id
     }).then(res => {
       if (res.data.result) {
@@ -143,7 +106,7 @@ class RecommendProject_Yuan extends React.Component {
         key: 'recommended',
         render: (text, record) =>
           !record.recommended ? '' :
-            <Avatar size='large' style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>荐</Avatar>
+            <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>已推荐</Avatar>
       },
       {
         title: '操作',
@@ -187,30 +150,16 @@ class RecommendProject_Yuan extends React.Component {
 
         ),
       },
-    ];
+    ]; 
     return (
-      <div>
-        <Space style={{ marginBottom: 10 }}>
-          <Select
-            value={this.state.deptID}
-            style={{ width: 200 }}
-            onChange={this.handleDeptChange}
-          >
-            {this.state.departmentList.map(
-              item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
-          </Select>
-        </Space>
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          loading={loading}
-          //scroll={{ y: 320 }}
-        //size='small'
-        />
-      </div>
-
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        loading={loading}
+        //scroll={{ y: 320 }}
+      />
     )
   }
 }
 
-export default RecommendProject_Yuan
+export default RecommendProject_Xiao

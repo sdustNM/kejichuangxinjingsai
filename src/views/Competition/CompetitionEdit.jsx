@@ -6,8 +6,8 @@ import CompetitionExpertList from './CompetitionExpertList'
 import CompetitionEditAppendix from './CompetitionEditAppendix'
 import CompetitionStatus from './CompetitionStatus'
 import './CompetitionEdit.css'
-import RecommendProjectYuan from '../Project/RecommendProject_Yuan'
-import RecommendProjectXiao from '../Project/RecommendProject_Xiao'
+import RecommendProjectYuan from '../Project/Administer/RecommendProject_Yuan'
+import RecommendProjectXiao from '../Project/Administer/RecommendProject_Xiao'
 import { isAdminister, isSuperAdminister } from '../../utils/auth'
 
 class CompetitionEdit extends React.Component {

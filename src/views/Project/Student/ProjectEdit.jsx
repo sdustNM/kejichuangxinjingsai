@@ -4,7 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import SelectManComplete from '../../../components/SelectManComplete';
 import { getProjectInfoByID, setProjectInfo } from '../../../services/project'
 import { getUserID } from '../../../utils/auth';
-import AppendixUpload from '../AppendixUpload';
+import AppendixUpload from './AppendixUpload';
 import ProjectResult from '../ProjectResult';
 
 const { TextArea } = Input
