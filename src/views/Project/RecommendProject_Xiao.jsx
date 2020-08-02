@@ -33,6 +33,7 @@ class RecommendProject_Xiao extends React.Component {
             name: item.ProjectName,
             sname: item.StudentName,
             score: item.LastScoreXiao,
+            scoredRate: item.ScoredRateXiao,
             recommended: item.RecommendedXiao
           }
         })
@@ -94,6 +95,11 @@ class RecommendProject_Xiao extends React.Component {
         title: '分数',
         dataIndex: 'score',
         key: 'score',
+      },
+      {
+        title: '评分进度（已评人数/评委人数）',
+        dataIndex: 'scoredRate',
+        key: 'scoredRate',
       },
       {
         title: '是否推荐',

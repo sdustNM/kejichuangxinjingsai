@@ -1,10 +1,11 @@
 import React from 'react';
 import { Card, Form, Input, Button, Space, Alert, message, Spin } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import SelectManComplete from '../../components/SelectManComplete';
-import { getProjectInfoByID, setProjectInfo } from '../../services/project'
-import { getUserID } from '../../utils/auth';
-import AppendixUpload from './AppendixUpload';
+import SelectManComplete from '../../../components/SelectManComplete';
+import { getProjectInfoByID, setProjectInfo } from '../../../services/project'
+import { getUserID } from '../../../utils/auth';
+import AppendixUpload from '../AppendixUpload';
+import ProjectResult from '../ProjectResult';
 
 const { TextArea } = Input
 const layout = {
@@ -24,13 +25,14 @@ class Project extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: props.location.state.id,
+      id: props.location.state.projectID,
       competitionID: props.location.state.competitionID,
       teacher: '',
       mainList: [],
       videoList: [],
       bzList: [],
-      spinning: false
+      spinning: false,
+      result: {}
     }
   }
   formRef = React.createRef();
@@ -50,7 +52,13 @@ class Project extends React.Component {
             teacher: item.projectTeacher,
             mainList: item.AppendixMain,
             videoList: item.AppendixVideo,
-            bzList: item.Appendixbz
+            bzList: item.Appendixbz,
+            result: {
+              score_yuan: item.lastScore_yuan,
+              recommend_yuan: item.recommended_yuan ? '推荐' : '未推荐',
+              score_xiao: item.lastScore_xiao,
+              recommend_xiao: item.recommended_xiao ? '推荐' : '未推荐'
+            }
           })
         }
       })
@@ -106,10 +114,10 @@ class Project extends React.Component {
   }
 
   render() {
-    const { teacher, id, competitionID, spinning } = this.state
+    const { teacher, id, competitionID, spinning, result } = this.state
     console.log(id)
     return (
-      <div>
+      <Card>
         <Card title='作品基本信息'>
           <Spin 
           tip="Loading..."
@@ -254,7 +262,9 @@ class Project extends React.Component {
             fileList={this.state.bzList}
           ></AppendixUpload>
         </Card>
-      </div>
+
+        {id && <ProjectResult result={result}></ProjectResult>}
+      </Card>
     )
   }
 }

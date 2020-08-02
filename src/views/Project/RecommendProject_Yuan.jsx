@@ -55,7 +55,7 @@ class RecommendProject_Yuan extends React.Component {
     //console.log(params)
     getRecommendedProjectList_yuan(params).then(res => {
       if (res.data.result) {
-        //console.log(JSON.parse(res.data.data))
+        console.log(JSON.parse(res.data.data))
         const projectList = JSON.parse(res.data.data).map(item => {
           return {
             key: 'project_' + item.Id,
@@ -63,6 +63,7 @@ class RecommendProject_Yuan extends React.Component {
             name: item.ProjectName,
             sname: item.StudentName,
             score: item.LastScoreYuan,
+            scoredRate: item.ScoredRateYuan,
             recommended: item.RecommendedYuan
           }
         })
@@ -131,6 +132,11 @@ class RecommendProject_Yuan extends React.Component {
         title: '分数',
         dataIndex: 'score',
         key: 'score',
+      },
+      {
+        title: '评分进度（已评人数/评委人数）',
+        dataIndex: 'scoredRate',
+        key: 'scoredRate',
       },
       {
         title: '是否推荐',
