@@ -6,7 +6,7 @@ export const appRoot = 'http://192.168.34.201:4000'
 const instance = axios.create({
   baseURL: 'http://192.168.34.201:4000/api',
   //baseURL: 'http://localhost:5000/api',
-  timeout: 50000
+  timeout: 60000
 })
 
 // 添加请求拦截器
