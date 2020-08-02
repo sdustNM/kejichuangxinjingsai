@@ -6,8 +6,8 @@ import CompetitionExpertList from './CompetitionExpertList'
 import CompetitionEditAppendix from './CompetitionEditAppendix'
 import CompetitionStatus from './CompetitionStatus'
 import './CompetitionEdit.css'
-import RecommendProject_Yuan from '../Project/RecommendProject_Yuan'
-import RecommendProject_Xiao from '../Project/RecommendProject_Xiao'
+import RecommendProjectYuan from '../Project/RecommendProject_Yuan'
+import RecommendProjectXiao from '../Project/RecommendProject_Xiao'
 import { isAdminister, isSuperAdminister } from '../../utils/auth'
 
 class CompetitionEdit extends React.Component {
@@ -81,8 +81,8 @@ class CompetitionEdit extends React.Component {
       tab2: isAdminister() ? <CompetitionInfo id={this.state.id}></CompetitionInfo> : <CompetitionEditForm id={this.state.id} createID={this.create} history={this.props.history}></CompetitionEditForm>,
       tab3: isSuperAdminister() && <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
       tab4: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>,
-      tab5: <RecommendProject_Yuan id={this.state.id}></RecommendProject_Yuan>,
-      tab6: isSuperAdminister() && <RecommendProject_Xiao id={this.state.id}></RecommendProject_Xiao>
+      tab5: <RecommendProjectYuan id={this.state.id}></RecommendProjectYuan>,
+      tab6: isSuperAdminister() && <RecommendProjectXiao id={this.state.id}></RecommendProjectXiao>
     };
     return (
 

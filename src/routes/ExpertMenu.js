@@ -1,9 +1,7 @@
 import React from 'react'
 
 import {
-  HomeOutlined,
-  ProfileOutlined,
-  SmileOutlined
+  HomeOutlined
 } from '@ant-design/icons';
 
 export const expertMenus = [{

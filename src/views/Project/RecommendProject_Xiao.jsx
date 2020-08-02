@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Space, Table, Avatar, message } from 'antd'
 
 import { getRecommendedProjectList_xiao, setProjectRecommend_xiao, cancelProjectRecommend_xiao } from '../../services/projectRecommend'
-import { getDeptID } from '../../utils/auth'
+
 
 class RecommendProject_Xiao extends React.Component {
   constructor(props) {

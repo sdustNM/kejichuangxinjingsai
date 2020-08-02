@@ -5,6 +5,7 @@ import Notice from '../views/Common/Notice'
 import CompetitionListXiao from '../views/Competition/Students/CompetitionListXiao'
 import CompetitionListYuan from '../views/Competition/Students/CompetitionListYuan'
 import Competition from "../views/Competition/Students/Competition"
+import ProjectList from "../views/Project/Student/ProjectList"
 
 
 
@@ -30,6 +31,9 @@ export const studentConfig = [{
 }, {
   path: '/student/projectInfo',
   component: ProjectInfo
+}, {
+  path: '/student/projectList',
+  component: ProjectList
 }, {
   path: '/student/notice',
   component: Notice,
