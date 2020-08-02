@@ -3,8 +3,7 @@ import CompetitionEdit from '../views/Competition/CompetitionEdit'
 import ProjectManager from '../views/SysManage/ProjectManager'
 import ProjectDetail from '../views/SysManage/ProjectDetail'
 import DepartmentManager from '../views/SysManage/Department/DepartmentManager';
-import TeacherManager from '../views/SysManage/TeacherManager';
-import StudentManager from '../views/SysManage/StudentManager';
+import StudentList from '../views/SysManage/StudentList';
 import CompetitionManagerXiao from '../views/Competition/CompetitionManagerXiao'
 import CompetitionManagerYuan from '../views/Competition/CompetitionManagerYuan';
 import ExpertManagerList from '../views/SysManage/Expert/ExpertManagerList';
@@ -45,13 +44,15 @@ export const administerConfig = [
   path: '/administer/departments',
   component: DepartmentManager,
   exact: true
-},{
-  path: '/administer/teachers',
-  component: TeacherManager,
-  exact: true
-},{
-  path: '/administer/students',
-  component: StudentManager,
+},
+// {
+//   path: '/administer/teachers',
+//   component: TeacherManager,
+//   exact: true
+// },
+{
+  path: '/administer/studentList',
+  component: StudentList,
   exact: true
 },{
   path: '/administer/Experts',
