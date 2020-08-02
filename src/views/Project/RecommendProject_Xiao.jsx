@@ -32,7 +32,7 @@ class RecommendProject_Xiao extends React.Component {
             id: item.Id,
             name: item.ProjectName,
             sname: item.StudentName,
-            score: item.LastScoreXiao,
+            score: item.LastScoreXiao || '未评分',
             scoredRate: item.ScoredRateXiao,
             recommended: item.RecommendedXiao
           }

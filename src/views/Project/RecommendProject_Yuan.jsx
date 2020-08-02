@@ -62,7 +62,7 @@ class RecommendProject_Yuan extends React.Component {
             id: item.Id,
             name: item.ProjectName,
             sname: item.StudentName,
-            score: item.LastScoreYuan,
+            score: item.LastScoreYuan  || '未评分',
             scoredRate: item.ScoredRateYuan,
             recommended: item.RecommendedYuan
           }
@@ -143,7 +143,7 @@ class RecommendProject_Yuan extends React.Component {
         key: 'recommended',
         render: (text, record) =>
           !record.recommended ? '' :
-            <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>已推荐</Avatar>
+            <Avatar size='large' style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>荐</Avatar>
       },
       {
         title: '操作',
