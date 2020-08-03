@@ -18,29 +18,26 @@ class CompetitionProjectState extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({
+      competitionID: this.props.competitionID
+    })
     //获取用户是否参赛
     const params = {
       competitionID: this.props.competitionID,
       studentId: getUserID()
     }
-    //console.log(params)
+    console.log(params)
     getSimpleProjectList(params).then(res => {
       if (res.data.result) {
         //console.log(res)
         const list = JSON.parse(res.data.data).list
-        console.log(list)
+        //console.log(list)
         if (list.length > 0) {
-          console.log(list[0].x.Id)
+          //console.log(list[0].x.Id)
           this.setState({
-            competitionID: this.props.competitionID,
             projectID: list[0].x.Id
           })
         }
-      }
-      else {
-        this.setState({
-          competitionID: this.props.competitionID
-        })
       }
     })
 
@@ -55,7 +52,7 @@ class CompetitionProjectState extends React.Component {
   }
 
   render() {
-    console.log(this.state)
+    //console.log(this.state)
     const { competitionID, projectID, competitionState } = this.state
     let tip = ''
     let state = ''
@@ -76,6 +73,7 @@ class CompetitionProjectState extends React.Component {
       }
     }
     let button = null
+    console.log(competitionID)
     if (state == 0) {
       button = (
         <Button
@@ -99,7 +97,7 @@ class CompetitionProjectState extends React.Component {
       )
     }
 
-    console.log(projectID)
+    //console.log(projectID)
     return (
       <Space>
         <span style={{ color: 'red' }}>{tip}</span>

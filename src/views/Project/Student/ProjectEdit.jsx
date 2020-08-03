@@ -37,7 +37,7 @@ class Project extends React.Component {
   }
   formRef = React.createRef();
   componentDidMount() {
-    //console.log(this.props)
+    console.log(this.props)
     if (this.state.id) {
       getProjectInfoByID({ id: this.state.id }).then(res => {
         if (res.data.result) {
@@ -81,6 +81,7 @@ class Project extends React.Component {
       projectTeacher: teacher,
       projectCooperator: value.cooperators && value.cooperators.join(',')
     }
+    console.log(projectItem)
     setProjectInfo(projectItem).then(res => {
       this.setState({
         spinning: false
@@ -94,7 +95,7 @@ class Project extends React.Component {
         this.setState({
           id: projectID
         })
-        this.props.history.replace({ pathname: '/student/Project', state: { id: projectID, competitionID: id } })
+        this.props.history.replace({ pathname: '/student/ProjectEdit', state: { id: projectID, competitionID: id } })
         
       }
     })
