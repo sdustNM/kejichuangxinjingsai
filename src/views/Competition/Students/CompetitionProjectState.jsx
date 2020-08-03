@@ -26,7 +26,7 @@ class CompetitionProjectState extends React.Component {
       competitionID: this.props.competitionID,
       studentId: getUserID()
     }
-    console.log(params)
+    //console.log(params)
     getSimpleProjectList(params).then(res => {
       if (res.data.result) {
         //console.log(res)
@@ -73,7 +73,7 @@ class CompetitionProjectState extends React.Component {
       }
     }
     let button = null
-    console.log(competitionID)
+    //console.log(competitionID)
     if (state == 0) {
       button = (
         <Button

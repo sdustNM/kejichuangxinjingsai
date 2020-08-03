@@ -27,6 +27,8 @@ class CompetitionInfo extends React.Component {
               category: data.category,
               submitStart: data.submitStart,
               submitEnd: data.submitEnd,
+              yuan_AppraiseStart: data.yuan_AppraiseStart,
+              yuan_AppraiseEnd: data.yuan_AppraiseEnd,
               appraiseStart: data.appraiseStart,
               appraiseEnd: data.appraiseEnd,
               description: data.description,
@@ -49,7 +51,7 @@ class CompetitionInfo extends React.Component {
 
   render() {
     const { competition } = this.state
-    //console.log(competition)
+    console.log(competition)
     return (
       <Descriptions
         bordered
@@ -60,10 +62,10 @@ class CompetitionInfo extends React.Component {
         <Descriptions.Item label="比赛级别">{competition.category}选拔</Descriptions.Item>
         <Descriptions.Item label="报名开始">{competition.submitStart}</Descriptions.Item>
         <Descriptions.Item label="报名结束">{competition.submitEnd}</Descriptions.Item>
-        <Descriptions.Item label="学院评审开始">{competition.submitStart}</Descriptions.Item>
-        <Descriptions.Item label="学院评审结束">{competition.submitEnd}</Descriptions.Item>
-        <Descriptions.Item label="学校评审开始">{competition.submitStart}</Descriptions.Item>
-        <Descriptions.Item label="学校评审结束">{competition.submitEnd}</Descriptions.Item>
+        <Descriptions.Item label="学院评审开始">{competition.yuan_AppraiseStart}</Descriptions.Item>
+        <Descriptions.Item label="学院评审结束">{competition.yuan_AppraiseEnd}</Descriptions.Item>
+        <Descriptions.Item label="学校评审开始">{competition.appraiseStart}</Descriptions.Item>
+        <Descriptions.Item label="学校评审结束">{competition.appraiseEnd}</Descriptions.Item>
         <Descriptions.Item label="比赛描述" span={2}>{competition.description}</Descriptions.Item>
         <Descriptions.Item label="附件">
           <List

@@ -8,16 +8,16 @@ import { deleteProjectFile } from '../../../services/project'
 class AppendixUpload extends React.Component {
   constructor(props) {
     super(props)
-
+    
     this.state = {
-      id: props.projectID,
-      type: props.fileType,
-      maxNum: props.maxNum,
-      fileList: null
+      defaultLength: 0,
+      fileList: []
     }
   }
   static getDerivedStateFromProps(nextProps, prevState) {
-    if(prevState.fileList != null) return null
+    //console.log(nextProps.fileList.length, prevState.defaultLength)
+    if(nextProps.fileList.length == prevState.defaultLength) return null
+
     let fileList = []
     if (nextProps.fileList) {
       fileList = nextProps.fileList.map(file => {
@@ -26,36 +26,27 @@ class AppendixUpload extends React.Component {
         return file;
       })
     }
-    return {
+    return({
       fileList,
-      id: nextProps.projectID
-    }
+      defaultLength: nextProps.fileList.length
+    })
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if(!nextProps.fileList) return
-  //   const fileList = nextProps.fileList.map(file => {
-  //     file.uid = this.props.projectID + '_' + file.id;
-  //     file.url = appRoot + file.url
-  //     return file;
-  //   })
-  //   this.setState({ fileList })
-  // }
   beforeUpload = (file, fileList) => {
-    console.log(this.state.fileList, this.state.maxNum)
-    if (this.state.fileList.length >= this.state.maxNum) {
-      message.warning('上传附件个数不能超过' + this.state.maxNum)
+    //console.log(this.state.fileList, this.state.maxNum)
+    if (this.state.fileList.length >= this.props.maxNum) {
+      message.warning('上传附件个数不能超过' + this.props.maxNum)
       return false
     }
     return true
   }
 
   handleChange = info => {
-    console.log(info)
+    //console.log(info)
     let fileList = [...info.fileList];
 
-    if (fileList.length > this.state.maxNum) {
-      fileList = fileList.slice(0, this.state.maxNum)
+    if (fileList.length > this.props.maxNum) {
+      fileList = fileList.slice(0, this.props.maxNum)
     }
     fileList = fileList.map(file => {
       if (file.response) {
@@ -80,14 +71,14 @@ class AppendixUpload extends React.Component {
     })
   }
   render() {
-    const { id, type } = this.state
+    //console.log(this.props)
     const props = {
       action: appRoot + '/api/Appendix/UploadProjectFile',
-      data: { id: id, FileType: type },
+      data: { id: this.props.projectID, FileType: this.props.fileType },
       headers: {
         authorization: getJwt(),
       },
-      disabled: !id,
+      disabled: !this.props.projectID,
       beforeUpload: this.beforeUpload,
       onChange: this.handleChange,
       onRemove: this.handleRemove,

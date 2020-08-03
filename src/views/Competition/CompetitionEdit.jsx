@@ -48,6 +48,7 @@ class CompetitionEdit extends React.Component {
       {
         key: 'tab1',
         tab: '项目状态',
+        disabled: !this.state.id
       },
       {
         key: 'tab2',

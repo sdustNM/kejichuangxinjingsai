@@ -4,6 +4,7 @@ import { PlusCircleOutlined } from '@ant-design/icons'
 import { getCompetitionList } from '../../services/administer/competition'
 //import { getDeptID } from '../../utils/auth'
 import getDepartmentList from '../../redux/common'
+import { isSuperAdminister } from '../../utils/auth';
 
 const { Option } = Select
 
@@ -154,11 +155,15 @@ class CompetitionManagerXiao extends React.Component {
                 this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id, comName: record.name } })
               }}
             >详细</Button>
-            <Button
-              type='danger'
-              size='small'
-              shape='round'
-            >删除</Button>
+            {
+              isSuperAdminister() && (
+                <Button
+                  type='danger'
+                  size='small'
+                  shape='round'
+                >删除</Button>
+              )
+            }
           </Space>
         ),
       },
@@ -168,14 +173,17 @@ class CompetitionManagerXiao extends React.Component {
     return (
       <div>
 
-        <Space>
-          <Button
-            type='dashed'
-            style={{ margin: 20 }}
-            onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: null } }) }}
-          >
-            <PlusCircleOutlined />添加
-        </Button>
+        <Space style={{ margin: 20 }}>
+          {
+            isSuperAdminister() && (
+              <Button
+                type='dashed'
+                style={{ margin: 20 }}
+                onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: null } }) }}
+              >
+                <PlusCircleOutlined />添加
+              </Button>)
+          }
           <Select
             defaultValue='0'
             style={{ width: 200 }}

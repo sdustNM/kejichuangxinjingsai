@@ -37,7 +37,7 @@ class Project extends React.Component {
   }
   formRef = React.createRef();
   componentDidMount() {
-    console.log(this.props)
+    //console.log(this.props)
     if (this.state.id) {
       getProjectInfoByID({ id: this.state.id }).then(res => {
         if (res.data.result) {
@@ -50,9 +50,9 @@ class Project extends React.Component {
           })
           this.setState({
             teacher: item.projectTeacher,
-            mainList: item.AppendixMain,
-            videoList: item.AppendixVideo,
-            bzList: item.Appendixbz,
+            mainList: item.AppendixMain || [],
+            videoList: item.AppendixVideo || [],
+            bzList: item.Appendixbz || [],
             result: {
               score_yuan: item.lastScore_yuan,
               recommend_yuan: item.recommended_yuan ? '推荐' : '未推荐',
@@ -81,13 +81,13 @@ class Project extends React.Component {
       projectTeacher: teacher,
       projectCooperator: value.cooperators && value.cooperators.join(',')
     }
-    console.log(projectItem)
+    //console.log(projectItem)
     setProjectInfo(projectItem).then(res => {
       this.setState({
         spinning: false
       })
       
-      console.log(res)
+      //console.log(res)
       if (res.data.result) {
         const projectID = JSON.parse(res.data.data)
         console.log(projectID)
@@ -95,7 +95,7 @@ class Project extends React.Component {
         this.setState({
           id: projectID
         })
-        this.props.history.replace({ pathname: '/student/ProjectEdit', state: { id: projectID, competitionID: id } })
+        this.props.history.replace({ pathname: '/student/ProjectEdit', state: { projectID, competitionID } })
         
       }
     })
@@ -116,7 +116,7 @@ class Project extends React.Component {
 
   render() {
     const { teacher, id, competitionID, spinning, result } = this.state
-    console.log(id)
+    //console.log(this.state)
     return (
       <Card>
         <Card title='作品基本信息'>
