@@ -10,6 +10,7 @@ import logo from './logo.png'
 import './MyLayout.css'
 import { isStudent ,isExpert, getRoleName, isAdminister } from '../../utils/auth'
 import '../../utils/config'
+import {UserOutlined} from '@ant-design/icons'
 const { Header, Content, Sider, Footer } = Layout;
 const {SubMenu} =Menu;
 
@@ -57,7 +58,7 @@ class MyLayout extends React.Component {
           </div>
           <Dropdown overlay={this.popMenu}>
             <div>
-              <Avatar>U</Avatar>
+            <Avatar icon={<UserOutlined />} />
               <span style={{color:'#fff'}}>{ `${getRoleName()}[${getJwtUser().username}]` }</span>
               
             </div>

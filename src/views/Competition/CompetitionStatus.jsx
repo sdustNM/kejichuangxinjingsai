@@ -1,9 +1,15 @@
 import React from 'react'
+<<<<<<< HEAD
 import { Steps, Popover, Button, Space, Row, message } from 'antd';
 import { useState, useEffect } from 'react'
 import { getCompetitionState } from '../../services/competitionState/index'
 import { startCompetition, yuanNotice, endCompetition } from '../../services/competitionState/index'
 import { isSuperAdminister } from '../../utils/auth';
+=======
+import { Steps, Popover,Button,Space,Row,message } from 'antd';
+import {useState,useEffect} from 'react'
+import {getCompetitionState,startCompetition,yuanNotice,endCompetition} from '../../services/competitionState/index'
+>>>>>>> 8621081afbddcbc28b6f0cf9b7e0c593f1b78429
 const { Step } = Steps;
 
 const CompetitionStatus = (props) => {

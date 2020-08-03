@@ -58,7 +58,7 @@ class CompetitionProjectState extends React.Component {
     let state = ''
     if (!projectID) { //
       if (competitionState === '1.1') {
-        tip = '未参赛，点击按钮提交参赛作品'
+        tip = '';//'未参赛，点击按钮提交参赛作品'
         state = 0
       } else {
         tip = '很遗憾，报名时间已过'
@@ -73,22 +73,26 @@ class CompetitionProjectState extends React.Component {
       }
     }
     let button = null
+<<<<<<< HEAD
     //console.log(competitionID)
     if (state == 0) {
+=======
+    if (state === 0) {
+>>>>>>> 8621081afbddcbc28b6f0cf9b7e0c593f1b78429
       button = (
         <Button
           type='primary'
           onClick={() => this.props.history.push({ pathname: '/student/projectEdit', state: { competitionID } })}
         >参加比赛</Button>
       )
-    } else if (state == 1) {
+    } else if (state === 1) {
       button = (
         <Button
           type='primary'
           onClick={() => this.props.history.push({ pathname: '/student/projectEdit', state: { projectID, competitionID } })}
         >编辑作品</Button>
       )
-    } else if (state == 2) {
+    } else if (state === 2) {
       button = (
         <Button
           type='primary'
