@@ -81,6 +81,7 @@ class Project extends React.Component {
       projectTeacher: teacher,
       projectCooperator: value.cooperators && value.cooperators.join(',')
     }
+    console.log(projectItem)
     setProjectInfo(projectItem).then(res => {
       this.setState({
         spinning: false
@@ -94,7 +95,7 @@ class Project extends React.Component {
         this.setState({
           id: projectID
         })
-        this.props.history.replace({ pathname: '/student/Project', state: { id: projectID, competitionID: id } })
+        this.props.history.replace({ pathname: '/student/ProjectEdit', state: { id: projectID, competitionID: id } })
         
       }
     })
