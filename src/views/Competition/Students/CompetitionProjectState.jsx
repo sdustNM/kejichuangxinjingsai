@@ -73,12 +73,8 @@ class CompetitionProjectState extends React.Component {
       }
     }
     let button = null
-<<<<<<< HEAD
     //console.log(competitionID)
     if (state == 0) {
-=======
-    if (state === 0) {
->>>>>>> 8621081afbddcbc28b6f0cf9b7e0c593f1b78429
       button = (
         <Button
           type='primary'
