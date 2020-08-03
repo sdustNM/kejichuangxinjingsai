@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, Space, Table, Avatar, message } from 'antd'
+import { Button, Space, Table, Avatar, message, Modal } from 'antd'
 import { SearchOutlined, LikeTwoTone, StopTwoTone } from '@ant-design/icons'
 import { getRecommendedProjectList_xiao, setProjectRecommend_xiao, cancelProjectRecommend_xiao } from '../../../services/projectRecommend'
-
+import ProjectInfo_administer from './ProjectInfo_administer'
 
 class RecommendProject_Xiao extends React.Component {
   constructor(props) {
@@ -10,7 +10,9 @@ class RecommendProject_Xiao extends React.Component {
     this.state = {
       competitionID: props.id,
       dataSource: [],
-      loading: false
+      loading: false,
+      visible: false,
+      projectID: null
     }
   }
 
@@ -45,6 +47,13 @@ class RecommendProject_Xiao extends React.Component {
     })
   }
 
+  showProject = projectID => {
+    this.setState({
+      visible: true,
+      projectID,
+    })
+  }
+
   setRecommend = id => {
     setProjectRecommend_xiao({
       ProjectId: id
@@ -74,7 +83,7 @@ class RecommendProject_Xiao extends React.Component {
   }
 
   render() {
-    const { dataSource, loading } = this.state
+    const { dataSource, loading, visible, projectID } = this.state
     const columns = [
       {
         title: '作品编号',
@@ -117,7 +126,7 @@ class RecommendProject_Xiao extends React.Component {
               type='default'
               size='small'
               shape='round'
-              //onClick={}
+              onClick={() => this.showProject(record.id)}
               icon={<SearchOutlined />}
             >
               查看
@@ -150,14 +159,26 @@ class RecommendProject_Xiao extends React.Component {
 
         ),
       },
-    ]; 
+    ];
     return (
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        loading={loading}
+      <div>
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          loading={loading}
         //scroll={{ y: 320 }}
-      />
+        />
+        <Modal
+          title="评分"
+          visible={visible}
+          onCancel={() => this.setState({ visible: false })}
+          footer={[]}
+          width={800}
+          destroyOnClose
+        >
+          <ProjectInfo_administer projectID={projectID} ></ProjectInfo_administer>
+        </Modal>
+      </div>
     )
   }
 }
