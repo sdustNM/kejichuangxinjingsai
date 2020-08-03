@@ -37,7 +37,7 @@ class Project extends React.Component {
   }
   formRef = React.createRef();
   componentDidMount() {
-    //console.log(this.props)
+    console.log(this.props)
     if (this.state.id) {
       getProjectInfoByID({ id: this.state.id }).then(res => {
         if (res.data.result) {

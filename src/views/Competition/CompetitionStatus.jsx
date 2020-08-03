@@ -1,8 +1,7 @@
 import React from 'react'
 import { Steps, Popover,Button,Space,Row,message } from 'antd';
 import {useState,useEffect} from 'react'
-import {getCompetitionState} from '../../services/competition/index'
-import {startCompetition,yuanNotice,endCompetition} from '../../services/competitionState/index'
+import {getCompetitionState,startCompetition,yuanNotice,endCompetition} from '../../services/competitionState/index'
 const { Step } = Steps;
 
 const CompetitionStatus=(props)=>{
