@@ -13,6 +13,7 @@ import { isAdminister, isSuperAdminister } from '../../utils/auth'
 class CompetitionEdit extends React.Component {
   constructor(props) {
     super(props)
+    console.log(props)
     this.state = {
       id: props.history.location.state && this.props.history.location.state.id,
       key: 'tab1',
@@ -67,7 +68,7 @@ class CompetitionEdit extends React.Component {
       {
         key: 'tab5',
         tab: '学院推荐',
-        disabled: !this.state.id || isSuperAdminister()
+        disabled: !this.state.id 
       },
       {
         key: 'tab6',
