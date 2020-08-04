@@ -9,11 +9,12 @@ import './CompetitionEdit.css'
 import RecommendProjectYuan from '../Project/Administer/RecommendProject_Yuan'
 import RecommendProjectXiao from '../Project/Administer/RecommendProject_Xiao'
 import { isAdminister, isSuperAdminister } from '../../utils/auth'
+import SetMaxRecommended from './SetMaxRecommended'
 
 class CompetitionEdit extends React.Component {
   constructor(props) {
     super(props)
-    console.log(props)
+    //console.log(props)
     this.state = {
       id: props.history.location.state && this.props.history.location.state.id,
       key: 'tab1',
@@ -45,7 +46,7 @@ class CompetitionEdit extends React.Component {
   }
 
   render() {
-    const tabList = [
+    let tabList = [
       {
         key: 'tab1',
         tab: '项目状态',
@@ -58,7 +59,7 @@ class CompetitionEdit extends React.Component {
       {
         key: 'tab3',
         tab: '比赛附件',
-        disabled: !this.state.id || isAdminister()
+        disabled: !this.state.id
       },
       {
         key: 'tab4',
@@ -67,25 +68,37 @@ class CompetitionEdit extends React.Component {
       },
       {
         key: 'tab5',
-        tab: '学院推荐',
-        disabled: !this.state.id 
+        tab: '推荐名额设置',
+        disabled: !this.state.id
       },
       {
         key: 'tab6',
+        tab: '学院推荐',
+        disabled: !this.state.id 
+      }, 
+      {
+        key: 'tab7',
         tab: '校级推荐',
-        disabled: !this.state.id || isAdminister()
+        disabled: !this.state.id
       }
     ];
 
+    if(isAdminister()) {
+      tabList = tabList.filter( item => {
+        return ['tab3', 'tab5', 'tab7'].indexOf(item.key) == -1
+      })
+    }
 
     const contentList = {
       tab1: <CompetitionStatus id={this.state.id}></CompetitionStatus>,
       tab2: isAdminister() ? <CompetitionInfo id={this.state.id}></CompetitionInfo> : <CompetitionEditForm id={this.state.id} createID={this.create} history={this.props.history}></CompetitionEditForm>,
       tab3: isSuperAdminister() && <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
       tab4: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>,
-      tab5: <RecommendProjectYuan id={this.state.id}></RecommendProjectYuan>,
-      tab6: isSuperAdminister() && <RecommendProjectXiao id={this.state.id}></RecommendProjectXiao>
+      tab5: <SetMaxRecommended id={this.state.id}></SetMaxRecommended>,
+      tab6: <RecommendProjectYuan id={this.state.id}></RecommendProjectYuan>,
+      tab7: isSuperAdminister() && <RecommendProjectXiao id={this.state.id}></RecommendProjectXiao>
     };
+    console.log()
     return (
 
       <div> <Row justify="center" className="CompetitionTitle" align="middle">
