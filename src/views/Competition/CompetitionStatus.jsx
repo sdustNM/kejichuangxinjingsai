@@ -38,7 +38,7 @@ const CompetitionStatus = (props) => {
     startCompetition({ "id": props.id }).then(res => {
       if (res.data.result) {
         message.success(res.data.data)
-        setcIndex(0)
+        setcIndex(1)
       }
       else {
         message.error(res.data.message)
