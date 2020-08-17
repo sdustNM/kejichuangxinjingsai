@@ -18,13 +18,13 @@ export const administerMenus = [
     isShow: true,
     title: '校级竞赛',
     icon: <HomeOutlined />,
-    yuanManager:true,
+    yuanManager: true,
     sub: [{
       isShow: true,
       title: '比赛列表',
       path: '/administer/competitions/xiao',
       icon: <SmileOutlined />,
-      yuanManager:true,
+      yuanManager: true,
     }, {
       component: ProjectManager,
       path: '/administer/RecommendedProjects',
@@ -37,7 +37,7 @@ export const administerMenus = [
       isShow: true,
       title: '学院作品',
       icon: <SmileOutlined />,
-      yuanManager:true,
+      yuanManager: true,
     },]
   },
   {
@@ -46,20 +46,40 @@ export const administerMenus = [
     isShow: true,
     title: '学院竞赛',
     icon: <HomeOutlined />,
-    yuanManager:true,
+    yuanManager: true,
     sub: [{
       isShow: true,
       title: '比赛列表',
       path: '/administer/competitions/yuan',
       icon: <SmileOutlined />,
-      yuanManager:true,
+      yuanManager: true,
     }, {
       path: '/administer/projects',
       isShow: true,
       title: '参赛作品',
       icon: <SmileOutlined />,
-      yuanManager:true,
+      yuanManager: true,
     }]
+  },
+  {
+    component: null,
+    path: 'Announcemnet',
+    isShow: true,
+    title: '公告发布',
+    icon: <HomeOutlined />,
+    sub: [{
+      isShow: true,
+      title: '比赛通知',
+      path: '/administer/AnnouncementList',
+      icon: <SmileOutlined />
+    },
+      //{
+      //   path: '/administer/AnnouncementList1',
+      //   isShow: true,
+      //   title: '系统公告',
+      //   icon: <SmileOutlined />
+      //}
+    ]
   },
   {
     component: null,
