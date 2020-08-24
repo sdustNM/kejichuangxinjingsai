@@ -26,7 +26,7 @@ class CompetitionEditForm extends React.Component {
       getCompetitionByID(id).then(res => {
         if (res.data.result) {
           let item = JSON.parse(res.data.data)
-          //console.log(item)
+          console.log(item)
           let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD HH:mm')
           let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD HH:mm')
           let yuan_appraiseStart = !item.yuan_AppraiseStart ? null : moment(item.yuan_AppraiseStart, 'YYYY-MM-DD HH:mm')
@@ -149,6 +149,12 @@ class CompetitionEditForm extends React.Component {
               placeholder="请输入比赛描述"
               autoSize={{ minRows: 3, maxRows: 5 }}
             />
+          </Form.Item>
+          <Form.Item
+            label="附件"
+            name="appendix"
+          >
+            <div>上传附件组件</div>
           </Form.Item>
           <Form.Item
             label="备注"

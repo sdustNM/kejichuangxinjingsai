@@ -25,6 +25,16 @@ export function removeExpertFromCompetition(params){
   return post('/administer/removeExpertFromCompetition', params)
 }
 
+//获取各学院推荐人数
+export function getDepartmentLimitInCompetition(params){
+  return get('/administer/getDepartmentLimitInCompetition', params)
+}
+
+//设置各学院推荐人数
+export function setDepartmentLimitInCompetition(params){
+  return post('/administer/setDepartmentLimitInCompetition', params)
+}
+
 
 
 

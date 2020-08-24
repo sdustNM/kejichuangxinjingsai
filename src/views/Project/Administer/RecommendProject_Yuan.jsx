@@ -59,9 +59,10 @@ class RecommendProject_Yuan extends React.Component {
     getRecommendedProjectList_yuan(params).then(res => {
       if (res.data.result) {
         //console.log(JSON.parse(res.data.data))
-        const projectList = JSON.parse(res.data.data).map(item => {
+        const projectList = JSON.parse(res.data.data).map((item, index) => {
           return {
             key: 'project_' + item.Id,
+            index: index + 1,
             id: item.Id,
             name: item.ProjectName,
             sname: item.StudentName,
@@ -123,6 +124,11 @@ class RecommendProject_Yuan extends React.Component {
   render() {
     const { dataSource, loading, visible, projectID } = this.state
     const columns = [
+      {
+        title: '序号',
+        dataIndex: 'index',
+        key: 'index'
+      },
       {
         title: '作品编号',
         dataIndex: 'id',
@@ -220,7 +226,7 @@ class RecommendProject_Yuan extends React.Component {
         <Modal
           title="评分"
           visible={visible}
-          onCancel={() => this.setState({visible: false})}
+          onCancel={() => this.setState({ visible: false })}
           footer={[]}
           width={800}
           destroyOnClose

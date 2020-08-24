@@ -1,7 +1,8 @@
 import React from 'react'
 import BraftEditor from 'braft-editor'
 import 'braft-editor/dist/index.css'
-import { Form, Input, Button, Card, Space } from 'antd';
+import { Form, Input, Button, Card, Space, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons'
 
 const layout = {
   labelCol: {
@@ -30,6 +31,31 @@ class AnnouncementEdit extends React.Component {
   };
 
   render() {
+    const props = {
+      name: "avatar",
+      listType: "picture-card",
+      className: "avatar-uploader",
+      // showUploadList: false,
+      // beforeUpload: this.beforeUpload,
+      // onChange={ this.handleChange }
+      // onRemove: file => {
+      //   this.setState(state => {
+      //     const index = state.fileList.indexOf(file);
+      //     const newFileList = state.fileList.slice();
+      //     newFileList.splice(index, 1);
+      //     return {
+      //       fileList: newFileList,
+      //     };
+      //   });
+      // },
+      // beforeUpload: file => {
+      //   this.setState(state => ({
+      //     fileList: [...state.fileList, file],
+      //   }));
+      //   return false;
+      // },
+      // fileList,
+    }
     return (
       <Card>
         <Form
@@ -51,6 +77,24 @@ class AnnouncementEdit extends React.Component {
           </Form.Item>
 
           <Form.Item
+            name="picture"
+            label="封面图片"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Upload {...props}>
+              <Button>
+                <UploadOutlined /> Select File
+          </Button>
+            </Upload>
+          </Form.Item>
+
+
+
+          <Form.Item
             name="content"
             label="正文"
             rules={[
@@ -61,7 +105,7 @@ class AnnouncementEdit extends React.Component {
           >
 
             <BraftEditor
-              contentStyle={{height: 350, boxShadow: 'inset 0 1px 3px rgba(0,0,0,.1)' }}
+              contentStyle={{ height: 350, boxShadow: 'inset 0 1px 3px rgba(0,0,0,.1)' }}
             //onChange={this.handleEditorChange}
             //onSave={this.submitContent}
             />

@@ -1,5 +1,7 @@
 import React from 'react'
-import { Descriptions, InputNumber, Button } from 'antd'
+import { Descriptions, InputNumber, Button, message } from 'antd'
+
+import { getDepartmentLimitInCompetition, setDepartmentLimitInCompetition } from '../../services/administer/competition'
 
 class SetMaxRecommended extends React.Component {
 
@@ -10,34 +12,42 @@ class SetMaxRecommended extends React.Component {
     }
   }
   componentDidMount() {
-    let list = []
-    for (let i = 1; i < 30; i++) {
-      list.push({
-        deptID: 2100 + i + '',
-        deptName: '山东科技大学第' + (2100 + i) + '学院',
-        maxNum: 30 - i
-      })
-    }
-    this.setState({ list })
+    getDepartmentLimitInCompetition({id: this.props.id}).then(res => {
+      if(res.data.result){
+        const list = JSON.parse(res.data.data).filter(item => item.departmentId !== "0")
+        console.log(list)
+        this.setState({ list })
+      }
+    })
+    
   }
 
   changeValue = (index, value) => {
     console.log(index, value)
     let list = this.state.list
-    list[index].maxNum = value
+    list[index].limitNum = value
     this.setState({
       list
     })
   }
 
-  saveValues = () => {
-    console.log(this.state.list)
-    console.log(JSON.stringify(this.state.list))
+  saveValues = async () => {
+    const list = this.state.list.filter(item => item.limitNum !== null)
+    //console.log(list)
+    //console.log(JSON.stringify(list))
+    const params = {
+      competitionId: this.props.id,
+      limitjson: JSON.stringify(list)
+    }
+    const result = await setDepartmentLimitInCompetition(params)
+    console.log(result)
+    if(result.data.result){
+      message.success("保存成功！")
+    }
   }
 
   render() {
     const { list } = this.state
-    console.log(list)
     return (
       <Descriptions
         title="各部门推荐人数限制"
@@ -47,8 +57,8 @@ class SetMaxRecommended extends React.Component {
       >
         {
           list.map((item, index) =>
-            <Descriptions.Item key={item.deptID} label={item.deptName}>
-              <InputNumber min={0} value={item.maxNum} onChange={value => this.changeValue(index, value)} />
+            <Descriptions.Item key={item.departmentId} label={item.departmentName}>
+              <InputNumber min={0} value={item.limitNum} onChange={value => this.changeValue(index, value)} />
             </Descriptions.Item>)
         }
 

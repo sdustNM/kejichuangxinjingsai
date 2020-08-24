@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Space, Button, Select, Input } from 'antd';
+import { Table, Space, Button, Select, Input, Card } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { getCompetitionList } from '../../services/administer/competition'
 //import { getDeptID } from '../../utils/auth'
@@ -58,9 +58,9 @@ class CompetitionManagerXiao extends React.Component {
 
     currentPage = currentPage ? currentPage : this.state.currentPage
     pageSize = pageSize ? pageSize : this.state.pageSize
-    deptID = deptID ? deptID : this.state.department
+    //deptID = deptID ? deptID : this.state.department
     let params = {
-      DepartmentId: deptID,
+      DepartmentId: "0",
       comName: this.state.comName,
       currentPage,
       pageSize
@@ -71,7 +71,7 @@ class CompetitionManagerXiao extends React.Component {
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
-        //console.log(data)
+        console.log(data)
         data.list.map(item =>
           list.push({
             id: item.id,
@@ -138,20 +138,12 @@ class CompetitionManagerXiao extends React.Component {
         key: 'action',
         render: (text, record) => (
           <Space size="middle">
-            {/* <Button
-              type={isPublished ? 'danger' : 'primary'}
-              size='small'
-              shape='round'
-              onClick={() => this.publish(record.id)}
-            >
-              {isPublished ? '关闭' : '发布'}
-            </Button> */}
             <Button
               type='primary'
               size='small'
               shape='round'
               onClick={() => {
-                //console.log("record.name:", record.name)
+                console.log("record:", record)
                 this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id, comName: record.name } })
               }}
             >详细</Button>
@@ -169,21 +161,8 @@ class CompetitionManagerXiao extends React.Component {
       },
     ];
 
-    //console.log(this.state.departmentList)
-    return (
-      <div>
-
-        <Space style={{ margin: 20 }}>
-          {
-            isSuperAdminister() && (
-              <Button
-                type='dashed'
-                style={{ margin: 20 }}
-                onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: null } }) }}
-              >
-                <PlusCircleOutlined />添加
-              </Button>)
-          }
+    const title = (
+      <Space style={{ margin: 10 }}>    
           <Select
             defaultValue='0'
             style={{ width: 200 }}
@@ -195,6 +174,20 @@ class CompetitionManagerXiao extends React.Component {
           <Input addonBefore='比赛名称' name='comName' value={comName} onChange={this.changeValue} />
           <Button type='primary' onClick={this.search}>搜索</Button>
         </Space>
+    )
+    const extra = 
+      isSuperAdminister() && (
+        <Button
+          type='primary'
+          style={{ margin: 10 }}
+          onClick={() => { this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: null } }) }}
+        >
+          <PlusCircleOutlined />添加
+        </Button>)
+
+    return (
+      <Card title={title} extra={extra}>
+        
         <Table
           dataSource={dataSource}
           columns={columns}
@@ -211,7 +204,7 @@ class CompetitionManagerXiao extends React.Component {
           loading={loading}
           scroll={{ y: 320 }}
         />
-      </div>
+      </Card>
     )
   }
 }
