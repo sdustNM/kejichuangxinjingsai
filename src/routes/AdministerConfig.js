@@ -11,9 +11,6 @@ import ExpertManagerEdit from '../views/SysManage/Expert/ExpertManagerEdit';
 import DepartmentAdministerList from '../views/SysManage/DepartmentAdminister/DepartmentAdministerList'
 import AnnouncementEdit from '../views/Announcements/AnnouncementEdit';
 import AnnouncementList from '../views/Announcements/AnnouncementList';
-import AnnouncementPreview from '../views/Announcements/AnnouncementPreview';
-
-
 
 export const administerConfig = [
 
@@ -74,11 +71,6 @@ export const administerConfig = [
   {
     path: '/administer/AnnouncementEdit',
     component: AnnouncementEdit,
-    exact: true
-  },
-  {
-    path: '/administer/AnnouncementPreview',
-    component: AnnouncementPreview,
     exact: true
   }
 ]

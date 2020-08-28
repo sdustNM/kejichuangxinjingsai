@@ -3,6 +3,7 @@ import { Form, Input, Button, DatePicker, Space, message } from 'antd'
 import moment from "moment"
 import { getCompetitionByID, setCompetition } from '../../services/administer/competition'
 import { getDeptID } from '../../utils/auth'
+import CompetitionEditAppendix from './CompetitionEditAppendix'
 
 const { RangePicker } = DatePicker
 const { TextArea } = Input
@@ -18,7 +19,10 @@ const tailLayout = {
 class CompetitionEditForm extends React.Component {
 
   formRef = React.createRef();
-
+  appedixRef = React.createRef()
+  state = {
+    appendixList: null
+  }
   componentDidMount() {
     //console.log(this.props)
     const { id } = this.props
@@ -41,6 +45,9 @@ class CompetitionEditForm extends React.Component {
             appraiseTime: [appraiseStart, appraiseEnd],
             description: item.description
           })
+          this.setState({
+            appendixList: item.appendixList
+          })
         }
       })
 
@@ -48,8 +55,13 @@ class CompetitionEditForm extends React.Component {
     }
   }
 
+  getAppendixUrl = () => {
+    return this.appedixRef.current.getAppendixUrls()
+
+  }
+
   onFinish = value => {
-    //console.log(value)
+    console.log(this.getAppendixUrl())
     const { id } = this.props
     let competitionItem = {
       name: value.name,
@@ -63,10 +75,11 @@ class CompetitionEditForm extends React.Component {
       appraiseStart: value.appraiseTime && value.appraiseTime[0] && value.appraiseTime[0].format('YYYY-MM-DD HH:mm'),
       appraiseEnd: value.appraiseTime && value.appraiseTime[1] && value.appraiseTime[1].format('YYYY-MM-DD HH:mm'),
       description: value.description,
-      remark: value.remark
+      remark: value.remark,
+      appendixUrl: this.getAppendixUrl()
     }
     competitionItem.id = id || null
-    console.log(competitionItem)
+    //console.log(competitionItem)
     setCompetition(competitionItem).then(res => {
       if (res.data.result) {
         message.success(!id ? '创建成功！' : '修改成功！')
@@ -150,12 +163,16 @@ class CompetitionEditForm extends React.Component {
               autoSize={{ minRows: 3, maxRows: 5 }}
             />
           </Form.Item>
-          <Form.Item
-            label="附件"
-            name="appendix"
-          >
-            <div>上传附件组件</div>
-          </Form.Item>
+          {
+            this.state.appendixList !== null && (
+              <Form.Item
+                label="附件"
+                name="appendix"
+              >
+                <CompetitionEditAppendix appendixList={this.state.appendixList} ref={this.appedixRef} />
+              </Form.Item>
+            )
+          }
           <Form.Item
             label="备注"
             name="remark"
@@ -176,7 +193,7 @@ class CompetitionEditForm extends React.Component {
         {/* <Alert
           message={`* 作品基本信息保存后才可以上传附件(${this.state.id ? '已保存' : '未保存'})`}
           type={this.state.id ? "info" : "warning"} /> */}
-    
+
       </div>
     )
   }

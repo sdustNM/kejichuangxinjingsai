@@ -20,19 +20,15 @@ class CompetitionEditAppendix extends React.Component {
   }
 
   getFileList = () => {
-    getCompetitionFilesByComId({ comId: this.props.id }).then(res => {
-      if (res.data.result) {
+    const fileList = this.props.appendixList.map(file => {
+      file.uid = this.props.id + '_' + file.id;
+      file.rawUrl = file.url
+      file.url = appRoot + file.url
+      return file;
+    });
 
-        const fileList = JSON.parse(res.data.data).map(file => {
-          file.uid = this.props.id + '_' + file.id;
-          file.url = appRoot + file.url
-          return file;
-        });
-
-        //console.log(fileList)
-        this.setState({ fileList })
-      }
-    })
+    //console.log(fileList)
+    this.setState({ fileList })
   }
 
   handleChange = info => {
@@ -42,6 +38,7 @@ class CompetitionEditAppendix extends React.Component {
     fileList = fileList.map(file => {
       if (file.response) {
         let data = JSON.parse(file.response.data)
+        file.rawUrl = data.url
         file.url = appRoot + data.url
         file.id = data.id
       }
@@ -61,6 +58,13 @@ class CompetitionEditAppendix extends React.Component {
         message.warning('附件“' + file.name + '”删除失败！')
       }
     })
+  }
+
+  getAppendixUrls = () => {
+    console.log(this.state.fileList)
+    return this.state.fileList.reduce( (pre, item) => {
+      return pre ? pre + ',' + item.rawUrl : item.rawUrl
+    }, null)
   }
 
   render() {

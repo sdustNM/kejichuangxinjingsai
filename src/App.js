@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 import PageNotFound from './views/Common/PageNotFound'
 import Login from './views/Login/Login'
@@ -10,15 +10,17 @@ import getUserTest from './views/getUserTest';
 import AdministerRoutes from './routes/AdministerRoutes';
 import Student from './routes/StudentRoutes';
 import ExpertRoutes from './routes/ExpertRoutes';
+import HomeTest from './views/home/home'
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path='/' component={Home} exact></Route>
+        <Route path='/home' component={HomeTest} exact></Route>
         <Route path='/login' component={Login} exact></Route>
         <Route path='/error' component={PageNotFound} exact></Route>
-        
+
         <AuthComponent>
           <Route path='/administer' component={AdministerRoutes}></Route>
           <Route path='/student' component={Student}></Route>

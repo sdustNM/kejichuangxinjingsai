@@ -71,7 +71,7 @@ class CompetitionManagerXiao extends React.Component {
       if (res.data.result) {
         let list = []
         let data = JSON.parse(res.data.data)
-        console.log(data)
+        //console.log(data)
         data.list.map(item =>
           list.push({
             id: item.id,

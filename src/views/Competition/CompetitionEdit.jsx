@@ -3,7 +3,7 @@ import { Card, Row, Space } from 'antd'
 import CompetitionEditForm from './CompetitionEditForm'
 import CompetitionInfo from './CompetitionInfo'
 import CompetitionExpertList from './CompetitionExpertList'
-import CompetitionEditAppendix from './CompetitionEditAppendix'
+//import CompetitionEditAppendix from './CompetitionEditAppendix'
 import CompetitionStatus from './CompetitionStatus'
 import './CompetitionEdit.css'
 import RecommendProjectYuan from '../Project/Administer/RecommendProject_Yuan'
@@ -56,11 +56,11 @@ class CompetitionEdit extends React.Component {
         key: 'tab2',
         tab: '基本信息',
       },
-      {
-        key: 'tab3',
-        tab: '比赛附件',
-        disabled: !this.state.id
-      },
+      // {
+      //   key: 'tab3',
+      //   tab: '比赛附件',
+      //   disabled: !this.state.id
+      // },
       {
         key: 'tab4',
         tab: '评审专家',
@@ -92,7 +92,7 @@ class CompetitionEdit extends React.Component {
     const contentList = {
       tab1: <CompetitionStatus id={this.state.id}></CompetitionStatus>,
       tab2: isAdminister() ? <CompetitionInfo id={this.state.id}></CompetitionInfo> : <CompetitionEditForm id={this.state.id} createID={this.create} history={this.props.history}></CompetitionEditForm>,
-      tab3: isSuperAdminister() && <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
+      //tab3: isSuperAdminister() && <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
       tab4: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>,
       tab5: <SetMaxRecommended id={this.state.id}></SetMaxRecommended>,
       tab6: <RecommendProjectYuan id={this.state.id}></RecommendProjectYuan>,
