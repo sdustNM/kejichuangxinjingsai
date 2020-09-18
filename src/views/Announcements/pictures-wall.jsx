@@ -2,16 +2,17 @@ import React from 'react'
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types'
+import { appRoot } from '../../utils/request'
 
 
 function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
 
 class PicturesWall extends React.Component {
   static propTypes = {
@@ -25,7 +26,7 @@ class PicturesWall extends React.Component {
     fileList: [],
   };
 
-  getPicture = () => this.state.fileList[0].url
+  getPicture = () => this.state.fileList[0] ? this.state.fileList[0].url : ''
 
   handleCancel = () => this.setState({ previewVisible: false });
 
@@ -42,10 +43,11 @@ class PicturesWall extends React.Component {
   };
 
   handleChange = ({ file, fileList }) => {
-    console.log(file, fileList)
     if (file.status === 'done') {
-      file = fileList[fileList.length - 1]
-      const { name, url } = file.response
+      
+      file = fileList[0]
+      const { name, url } = JSON.parse(file.response.data)
+      console.log(name, url)
       file.name = name
       file.rawUrl = url
       file.url = url
@@ -55,7 +57,7 @@ class PicturesWall extends React.Component {
 
   handleRemove = file => {
     console.log(file)
-    
+
   }
 
   render() {
@@ -70,7 +72,7 @@ class PicturesWall extends React.Component {
       <div className="clearfix">
         <Upload
           //action={appRoot + 'xxx'}
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          action={appRoot + "/api/News/UploadImageFile"}
           name='image'
           listType="picture-card"
           fileList={fileList}

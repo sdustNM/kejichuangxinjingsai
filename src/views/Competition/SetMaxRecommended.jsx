@@ -13,8 +13,8 @@ class SetMaxRecommended extends React.Component {
   }
   componentDidMount() {
     getDepartmentLimitInCompetition({id: this.props.id}).then(res => {
-      if(res.data.result){
-        const list = JSON.parse(res.data.data).filter(item => item.departmentId !== "0")
+      if(res.result){
+        const list = JSON.parse(res.data).filter(item => item.departmentId !== "0")
         console.log(list)
         this.setState({ list })
       }

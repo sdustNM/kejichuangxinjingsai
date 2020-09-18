@@ -25,8 +25,8 @@ class ProjectList extends React.Component {
     //console.log(params)
     getSimpleProjectListForExpert(params).then(res => {
       //console.log(res)
-      if (res.data.result) {
-        let list = JSON.parse(res.data.data)
+      if (res.result) {
+        let list = JSON.parse(res.data)
         //console.log(JSON.parse(res.data.data))
         list = list.map(item => {
           item.key = 'project_' + item.Id

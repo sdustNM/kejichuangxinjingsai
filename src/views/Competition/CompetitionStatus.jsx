@@ -22,8 +22,8 @@ const CompetitionStatus = (props) => {
   useEffect(() => {
     //console.log(props.id);
     getCompetitionState({ "id": props.id }).then(res => {
-      if (res.data.result) {
-        var currentStatus = res.data.data;
+      if (res.result) {
+        var currentStatus = res.data;
         var temp = global.constants.XiaoCompetitionStatusMatch.filter(x => x.a === currentStatus)[0];
         if (temp) var tt = temp.b
 
@@ -36,12 +36,12 @@ const CompetitionStatus = (props) => {
 
   const handleStartCompetition = () => {
     startCompetition({ "id": props.id }).then(res => {
-      if (res.data.result) {
-        message.success(res.data.data)
+      if (res.result) {
+        message.success(res.data)
         setcIndex(1)
       }
       else {
-        message.error(res.data.message)
+        message.error(res.message)
       }
     })
   }

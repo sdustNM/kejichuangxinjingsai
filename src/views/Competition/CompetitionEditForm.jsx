@@ -28,8 +28,8 @@ class CompetitionEditForm extends React.Component {
     const { id } = this.props
     if (id) {
       getCompetitionByID(id).then(res => {
-        if (res.data.result) {
-          let item = JSON.parse(res.data.data)
+        if (res.result) {
+          let item = JSON.parse(res.data)
           console.log(item)
           let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD HH:mm')
           let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD HH:mm')
@@ -81,10 +81,10 @@ class CompetitionEditForm extends React.Component {
     competitionItem.id = id || null
     //console.log(competitionItem)
     setCompetition(competitionItem).then(res => {
-      if (res.data.result) {
+      if (res.result) {
         message.success(!id ? '创建成功！' : '修改成功！')
-        console.log(res.data)
-        this.props.createID(res.data.data)
+        //console.log(res)
+        this.props.createID(res.data)
       }
     })
   }

@@ -4,6 +4,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons'
 import PicturesWall from "./pictures-wall";
 import RichTextEditor from './rich-text-editor'
 import Preview from './Preview';
+import { setNewsInfo } from '../../services/news'
 
 const layout = {
   labelCol: {
@@ -53,12 +54,24 @@ class AnnouncementEdit extends React.Component {
 
 
   };
-  onFinish = ({ title }) => {
+  onFinish = async ({ title }) => {
 
     const picUrl = this.pwRef.current.getPicture()
     const content = this.contentRef.current.getContent()
 
-    console.log(title, picUrl, content)
+
+    const params = {
+      title,
+      titleImgUrl: picUrl,
+      content,
+    }
+    console.log(params)
+    const res = await setNewsInfo(params)
+    if(res.result){
+      const msg = this.props.location.state.id ? '修改成功' : '发布成功'
+      message.success(msg)
+      this.props.history.replace({ pathname: '/administer/AnnouncementEdit', state: { id: res.data } })
+    }
   };
 
   render() {
@@ -149,7 +162,7 @@ class AnnouncementEdit extends React.Component {
               <Button type="primary" htmlType="submit">
                 保存
           </Button>
-              <Button htmlType="button" onClick={this.onReset}>
+              <Button type="danger" htmlType="button" onClick={this.onReset}>
                 取消
           </Button>
             </Space>

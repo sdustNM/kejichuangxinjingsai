@@ -5,8 +5,8 @@ import AnnouncementList from './announcementList';
 import PublicityList from './publicityList.jsx';
 import XiaoCompetitonList from './xiao-competitonList';
 import YuanCompetitonList from './yuan-competitonList';
-
-const { Header, Content, Footer } = Layout;
+import HomeCarousel from './Carousel'
+const { Header, Content } = Layout;
 
 class Home extends React.Component {
   constructor(props) {
@@ -22,19 +22,19 @@ class Home extends React.Component {
         <Header style={{ backgroundColor: '#1890ff' }}>
           <MyHeader />
         </Header>
-        <Content>
-          <Row>
-            <Col offset={1} span={10}>
+        <Content style={{ backgroundColor: 'white', padding: '0 20px'}}>
+          <HomeCarousel />
+          <Row >
+            <Col offset={1} span={12}>
               <AnnouncementList />
               <PublicityList />
             </Col>
-            <Col offset={1} span={10}>
+            <Col offset={1} span={8}>
               <XiaoCompetitonList />
               <YuanCompetitonList />
             </Col>
           </Row>
         </Content>
-        <Footer>Footer</Footer>
       </Layout>
     );
   }

@@ -30,9 +30,9 @@ class CompetitionExpertList extends React.Component {
       departmentNo: this.state.deptID
     }).then(res => {
       //console.log(res)
-      if (res.data.result) {
+      if (res.result) {
         let list = []
-        let data = JSON.parse(res.data.data)
+        let data = JSON.parse(res.data)
         data.map(item =>
           list.push({
             id: item.id,
@@ -77,12 +77,12 @@ class CompetitionExpertList extends React.Component {
     console.log(params)
     removeExpertFromCompetition(params).then(
       res => {
-        if(res.data.result){
+        if(res.result){
           message.success('移除成功！', 1)
           this.refresh()
         }
         else{
-          message.error(res.data.message, 1)
+          message.error(res.message, 1)
         }
       }
     )

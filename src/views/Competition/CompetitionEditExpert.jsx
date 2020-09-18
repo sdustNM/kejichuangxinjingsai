@@ -56,9 +56,9 @@ class CompetitionEditExpert extends React.Component {
       pageSize
     }).then(res => {
       //console.log(res)
-      if (res.data.result) {
+      if (res.result) {
         let list = []
-        let data = JSON.parse(res.data.data)
+        let data = JSON.parse(res.data)
         data.list.map(item =>
           list.push({
             id: item.id,
@@ -91,11 +91,11 @@ class CompetitionEditExpert extends React.Component {
     console.log(params)
     addExpertForCompetition(params).then(
       res => {
-        if(res.data.result){
+        if(res.result){
           message.success('添加成功！', 1)
         }
         else{
-          message.error(res.data.message, 1)
+          message.error(res.message, 1)
         }
       }
     )

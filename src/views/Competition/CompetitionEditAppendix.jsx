@@ -50,8 +50,8 @@ class CompetitionEditAppendix extends React.Component {
 
   handleRemove = file => {
     deleteCompetitionFile({ id: file.id }).then(res => {
-      if (res.data.result) {
-        console.log(res.data.result)
+      if (res.result) {
+        //console.log(res.result)
         message.success('附件“' + file.name + '”删除成功！')
       }
       else{

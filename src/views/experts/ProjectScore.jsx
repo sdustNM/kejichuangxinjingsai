@@ -37,8 +37,8 @@ class ProjectScore extends React.Component {
     const projectID = !!this.props.location.state && this.props.location.state.id
     if (projectID) {
       getProjectInfoByID({ id: projectID }).then(res => {
-        if (res.data.result) {
-          const item = JSON.parse(res.data.data)
+        if (res.result) {
+          const item = JSON.parse(res.data)
           console.log(item)
           this.setState({
             project: {

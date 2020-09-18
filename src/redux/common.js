@@ -17,7 +17,7 @@ const getDepartmentList = async (readAlways=false) => {
     if (res) {
       store.dispatch({
         type: 'LOAD_Department',
-        payload: res.data.data
+        payload: res.data
       })
     }
   }

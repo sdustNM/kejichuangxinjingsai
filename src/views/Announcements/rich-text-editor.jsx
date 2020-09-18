@@ -44,7 +44,7 @@ export default class RichTextEditor extends Component {
       <div>
         <Editor
           editorState={editorState}
-          editorStyle={{height: 500, border: '1px solid rgba(0,0,0,0.25)', padding: 10}}
+          editorStyle={{height: 200, border: '1px solid rgba(0,0,0,0.25)', padding: 10}}
           onEditorStateChange={this.onEditorStateChange}
         />
       </div>
