@@ -15,8 +15,8 @@ class CompetitionList extends React.Component {
   componentDidMount() {
     getCompetitionFullListByCurrentExpert().then(res => {
       //console.log(res)
-      if (res.data.result) {
-        const comList = JSON.parse(res.data.data)
+      if (res.result) {
+        const comList = JSON.parse(res.data)
         console.log(comList)
         this.setState({
           xiao_comList: comList.filter(item => item.category === '校级'),

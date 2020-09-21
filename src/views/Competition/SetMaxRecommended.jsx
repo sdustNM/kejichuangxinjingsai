@@ -13,8 +13,8 @@ class SetMaxRecommended extends React.Component {
   }
   componentDidMount() {
     getDepartmentLimitInCompetition({id: this.props.id}).then(res => {
-      if(res.data.result){
-        const list = JSON.parse(res.data.data).filter(item => item.departmentId !== "0")
+      if(res.result){
+        const list = JSON.parse(res.data).filter(item => item.departmentId !== "0")
         console.log(list)
         this.setState({ list })
       }
@@ -33,8 +33,11 @@ class SetMaxRecommended extends React.Component {
 
   saveValues = async () => {
     const list = this.state.list.filter(item => item.limitNum !== null)
-    //console.log(list)
-    //console.log(JSON.stringify(list))
+    .map(item => ({
+      departmentId: item.departmentId,
+      limitNum: item.limitNum
+    }))
+
     const params = {
       competitionId: this.props.id,
       limitjson: JSON.stringify(list)

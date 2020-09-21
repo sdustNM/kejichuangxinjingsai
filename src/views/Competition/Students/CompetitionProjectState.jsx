@@ -28,9 +28,9 @@ class CompetitionProjectState extends React.Component {
     }
     //console.log(params)
     getSimpleProjectList(params).then(res => {
-      if (res.data.result) {
+      if (res.result) {
         //console.log(res)
-        const list = JSON.parse(res.data.data).list
+        const list = JSON.parse(res.data).list
         //console.log(list)
         if (list.length > 0) {
           //console.log(list[0].x.Id)
@@ -44,7 +44,7 @@ class CompetitionProjectState extends React.Component {
     getCompetitionState({id: this.props.competitionID}).then(res=>{
       if(res.data.result){
         this.setState({
-          competitionState: res.data.data
+          competitionState: res.data
         })
       }
     })

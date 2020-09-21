@@ -57,9 +57,9 @@ class RecommendProject_Yuan extends React.Component {
     }
     //console.log(params)
     getRecommendedProjectList_yuan(params).then(res => {
-      if (res.data.result) {
-        //console.log(JSON.parse(res.data.data))
-        const projectList = JSON.parse(res.data.data).map((item, index) => {
+      if (res.result) {
+        //console.log(JSON.parse(res.data))
+        const projectList = JSON.parse(res.data).map((item, index) => {
           return {
             key: 'project_' + item.Id,
             index: index + 1,
@@ -97,7 +97,7 @@ class RecommendProject_Yuan extends React.Component {
     setProjectRecommend_yuan({
       ProjectId: id
     }).then(res => {
-      if (res.data.result) {
+      if (res.result) {
         message.success('作品推荐成功！')
         this.getProjectList(this.state.competitionID, this.state.deptID)
       }
@@ -111,7 +111,7 @@ class RecommendProject_Yuan extends React.Component {
     cancelProjectRecommend_yuan({
       ProjectId: id
     }).then(res => {
-      if (res.data.result) {
+      if (res.result) {
         message.success('取消推荐成功！')
         this.getProjectList(this.state.competitionID, this.state.deptID)
       }

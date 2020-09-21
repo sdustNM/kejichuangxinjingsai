@@ -16,8 +16,8 @@ class CompetitionInfo extends React.Component {
     if (id) {
       //获取竞赛基本信息
       getCompetitionByID(id).then(res => {
-        if (res.data.result) {
-          const data = JSON.parse(res.data.data)
+        if (res.result) {
+          const data = JSON.parse(res.data)
           //console.log(data)
           this.setState({
             competition: {
@@ -40,9 +40,9 @@ class CompetitionInfo extends React.Component {
 
       //获取竞赛附件
       getCompetitionFilesByComId({ comId: id }).then(res => {
-        if (res.data.result) {
+        if (res.result) {
           this.setState({
-            fileList: JSON.parse(res.data.data)
+            fileList: JSON.parse(res.data)
           })
         }
       })

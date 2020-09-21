@@ -20,8 +20,8 @@ class ProjectInfo_administer extends React.Component {
     const projectID = this.props.projectID
     if (projectID) {
       getProjectInfoByID({ id: projectID }).then(res => {
-        if (res.data.result) {
-          const item = JSON.parse(res.data.data)
+        if (res.result) {
+          const item = JSON.parse(res.data)
           //console.log(item)
 
           this.setState({

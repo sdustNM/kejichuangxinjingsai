@@ -1,21 +1,23 @@
 import React from 'react'
-import BraftEditor from 'braft-editor'
-import 'braft-editor/dist/index.css'
-import { Form, Input, Button, Card, Space, Upload } from 'antd';
-import { UploadOutlined } from '@ant-design/icons'
+import { Form, Input, Button, Card, Space, Modal, message } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons'
+import PicturesWall from "./pictures-wall";
+import RichTextEditor from './rich-text-editor'
+import Preview from './Preview';
+import { setNewsInfo } from '../../services/news'
 
 const layout = {
   labelCol: {
     span: 2,
   },
   wrapperCol: {
-    span: 20,
+    span: 10,
   },
 }
 const tailLayout = {
   wrapperCol: {
     offset: 2,
-    span: 20,
+    span: 10,
   },
 }
 
@@ -24,10 +26,52 @@ class AnnouncementEdit extends React.Component {
   constructor(props) {
     super(props)
     this.formRef = React.createRef()
+    this.pwRef = React.createRef()
+    this.contentRef = React.createRef()
+    this.state = {
+      title: '',
+      picUrl: '',
+      content: '',
+      previewVisible: false,
+    }
   }
 
-  onFinish = values => {
-    console.log('Success:', values.content.toHTML());
+  handleCancel = () => this.setState({ previewVisible: false });
+
+  handlePreview = () => {
+    const title = this.formRef.current.getFieldValue('title')
+    const content = this.contentRef.current.getContent()
+    if (!title || !content) {
+      message.warning('无预览内容！')
+    } else {
+      this.setState({
+        title,
+        content,
+        previewVisible: true
+      })
+
+    }
+
+
+  };
+  onFinish = async ({ title }) => {
+
+    const picUrl = this.pwRef.current.getPicture()
+    const content = this.contentRef.current.getContent()
+
+
+    const params = {
+      title,
+      titleImgUrl: picUrl,
+      content,
+    }
+    console.log(params)
+    const res = await setNewsInfo(params)
+    if(res.result){
+      const msg = this.props.location.state.id ? '修改成功' : '发布成功'
+      message.success(msg)
+      this.props.history.replace({ pathname: '/administer/AnnouncementEdit', state: { id: res.data } })
+    }
   };
 
   render() {
@@ -56,8 +100,21 @@ class AnnouncementEdit extends React.Component {
       // },
       // fileList,
     }
+    const title = (
+      <span>
+        <Button
+          type='link'
+          onClick={() => { this.props.history.go(-1) }}>
+          <ArrowLeftOutlined style={{ fontSize: 20 }} />
+        </Button>
+        <span style={{ fontSize: 20 }}>编辑通知</span>
+      </span>
+    )
+    const extra = (
+      <Button type='default' onClick={this.handlePreview}>预览</Button>
+    )
     return (
-      <Card>
+      <Card title={title} extra={extra}>
         <Form
           {...layout}
           ref={this.formRef}
@@ -78,50 +135,51 @@ class AnnouncementEdit extends React.Component {
 
           <Form.Item
             name="picture"
-            label="封面图片"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
+            label="封面"
+          // rules={[
+          //   {
+          //     required: true,
+          //   },
+          // ]}
           >
-            <Upload {...props}>
-              <Button>
-                <UploadOutlined /> Select File
-          </Button>
-            </Upload>
+            <PicturesWall
+              ref={this.pwRef}
+              picture={this.picUrl}
+            />
           </Form.Item>
-
-
-
           <Form.Item
             name="content"
             label="正文"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
+            wrapperCol={{ span: 20 }}
           >
-
-            <BraftEditor
-              contentStyle={{ height: 350, boxShadow: 'inset 0 1px 3px rgba(0,0,0,.1)' }}
-            //onChange={this.handleEditorChange}
-            //onSave={this.submitContent}
+            <RichTextEditor
+              content={this.state.content}
+              ref={this.contentRef}
             />
-
           </Form.Item>
           <Form.Item {...tailLayout}>
             <Space>
               <Button type="primary" htmlType="submit">
                 保存
           </Button>
-              <Button htmlType="button" onClick={this.onReset}>
+              <Button type="danger" htmlType="button" onClick={this.onReset}>
                 取消
           </Button>
             </Space>
           </Form.Item>
         </Form>
+        <Modal
+          visible={this.state.previewVisible}
+          title={this.state.title}
+          width={800}
+          footer={null}
+          onCancel={this.handleCancel}
+        >
+          <Preview
+            title={this.state.title}
+            //picUrl={this.state.picUrl}
+            content={this.state.content} />
+        </Modal>
       </Card>
     )
   }

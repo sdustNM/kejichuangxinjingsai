@@ -22,10 +22,13 @@ instance.interceptors.request.use(function (config) {
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
   // 对响应数据做点什么
-  return response;
+  //return response;
+  return response.data;
 }, function (error) {
   // 对响应错误做点什么
-  return Promise.reject(error);
+  //return Promise.reject(error);
+  alert('请求出错：' + error.message)
+  return new Promise(() => { })
 });
 
 export function get(url, params) {

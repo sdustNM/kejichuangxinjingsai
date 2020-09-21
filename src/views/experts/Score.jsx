@@ -37,11 +37,11 @@ class Score extends React.Component {
     }
     console.log(params)
     setProjectScore(params).then(res => {
-      if(res.data.result){
+      if(res.result){
         this.props.setScore(value.score)
       }
       else{
-        message.warning(res.data.message)
+        message.warning(res.message)
       }
     })
   }
