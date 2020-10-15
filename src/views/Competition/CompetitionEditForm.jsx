@@ -163,16 +163,12 @@ class CompetitionEditForm extends React.Component {
               autoSize={{ minRows: 3, maxRows: 5 }}
             />
           </Form.Item>
-          {
-            this.state.appendixList !== null && (
-              <Form.Item
-                label="附件"
-                name="appendix"
-              >
-                <CompetitionEditAppendix appendixList={this.state.appendixList} ref={this.appedixRef} />
-              </Form.Item>
-            )
-          }
+          <Form.Item
+            label="附件"
+            name="appendix"
+          >
+            <CompetitionEditAppendix appendixList={this.state.appendixList} ref={this.appedixRef} />
+          </Form.Item>
           <Form.Item
             label="备注"
             name="remark"

@@ -88,8 +88,8 @@ class Project extends React.Component {
       })
       
       //console.log(res)
-      if (res.data.result) {
-        const projectID = JSON.parse(res.data.data)
+      if (res.result) {
+        const projectID = JSON.parse(res.data)
         console.log(projectID)
         message.success(!this.state.id ? '创建成功！' : '修改成功！')
         this.setState({

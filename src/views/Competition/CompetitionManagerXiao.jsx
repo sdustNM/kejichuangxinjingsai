@@ -143,7 +143,7 @@ class CompetitionManagerXiao extends React.Component {
               size='small'
               shape='round'
               onClick={() => {
-                console.log("record:", record)
+                //console.log("record:", record)
                 this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id, comName: record.name } })
               }}
             >详细</Button>

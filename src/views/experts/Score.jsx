@@ -16,10 +16,10 @@ class Score extends React.Component {
   componentDidMount() {
     if (this.state.id) {
       getProjectScore({ ProjectId: this.state.id }).then(res => {
-        console.log(res)
-        if(res.data.result){
-          console.log(res.data.data)
-          const item = JSON.parse(res.data.data)
+        //console.log(res)
+        if(res.result){
+          //console.log(res.data)
+          const item = JSON.parse(res.data)
           this.formRef.current.setFieldsValue({
             score: item.Score,
             remark: item.Remark

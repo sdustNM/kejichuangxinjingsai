@@ -19,8 +19,8 @@ class ProjectInfo_student extends React.Component {
     //console.log(projectID)
     if (projectID) {
       getProjectInfoByID({ id: projectID }).then(res => {
-        if (res.data.result) {
-          const item = JSON.parse(res.data.data)
+        if (res.result) {
+          const item = JSON.parse(res.data)
           console.log(item)
           this.setState({
             project: {

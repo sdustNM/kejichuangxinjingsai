@@ -20,6 +20,7 @@ class CompetitionEditAppendix extends React.Component {
   }
 
   getFileList = () => {
+    if(!this.props.appendixList) return
     const fileList = this.props.appendixList.map(file => {
       file.uid = this.props.id + '_' + file.id;
       file.rawUrl = file.url

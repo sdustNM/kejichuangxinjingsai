@@ -10,14 +10,14 @@ import getUserTest from './views/getUserTest';
 import AdministerRoutes from './routes/AdministerRoutes';
 import Student from './routes/StudentRoutes';
 import ExpertRoutes from './routes/ExpertRoutes';
-import HomeTest from './views/home/home'
+//import HomeTest from './views/home/home'
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path='/' component={Home} exact></Route>
-        <Route path='/home' component={HomeTest} exact></Route>
+        {/* <Route path='/home' component={HomeTest} exact></Route> */}
         <Route path='/login' component={Login} exact></Route>
         <Route path='/error' component={PageNotFound} exact></Route>
 

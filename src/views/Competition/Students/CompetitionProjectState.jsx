@@ -42,9 +42,9 @@ class CompetitionProjectState extends React.Component {
     })
 
     getCompetitionState({id: this.props.competitionID}).then(res=>{
-      if(res.data.result){
+      if(res.result){
         this.setState({
-          competitionState: res.data
+          competitionState: res
         })
       }
     })

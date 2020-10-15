@@ -24,8 +24,8 @@ const SelectManComplete = (props) => {
       //!searchText ? [] : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)],
       getTeachersByFuzzy({ "searchTxt": searchText }).then(res => {
         let r = []
-        if (res.data.result) {
-          let data = JSON.parse(res.data.data)
+        if (res.result) {
+          let data = JSON.parse(res.data)
           setDb(data)
           r = data.map(item => {
             return {
@@ -52,9 +52,9 @@ const SelectManComplete = (props) => {
   useEffect(() => {
     //console.log(props.initValue)
     props.initValue && getTeachersByFuzzy({ "searchTxt": props.initValue }).then(res => {
-      if (res.data.result) {
+      if (res.result) {
 
-        let data = JSON.parse(res.data.data)
+        let data = JSON.parse(res.data)
         //console.log(data)
         if (data.length === 1) {   //只有一条记录
           setValue(`${data[0].id}-${data[0].name}`)
