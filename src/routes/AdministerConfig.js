@@ -5,7 +5,6 @@ import ProjectDetail from '../views/SysManage/ProjectDetail'
 import DepartmentManager from '../views/SysManage/Department/DepartmentManager';
 import StudentList from '../views/SysManage/StudentList';
 import CompetitionManagerXiao from '../views/Competition/CompetitionManagerXiao'
-import CompetitionManagerYuan from '../views/Competition/CompetitionManagerYuan';
 import ExpertManagerList from '../views/SysManage/Expert/ExpertManagerList';
 import ExpertManagerEdit from '../views/SysManage/Expert/ExpertManagerEdit';
 import DepartmentAdministerList from '../views/SysManage/DepartmentAdminister/DepartmentAdministerList'
@@ -19,12 +18,6 @@ export const administerConfig = [
     component: CompetitionManagerXiao,
     isShow: true,
     title: '校级竞赛',
-    exact: true
-  }, {
-    path: '/administer/competitions/yuan',
-    component: CompetitionManagerYuan,
-    isShow: true,
-    title: '院级竞赛',
     exact: true
   }, {
     path: '/administer/competitionEdit',
