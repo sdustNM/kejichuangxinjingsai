@@ -72,9 +72,9 @@ class ExpertManagerList extends React.Component {
       pageSize
     }).then(res => {
       console.log(res)
-      if (res.data.result) {
+      if (res.result) {
         let list = []
-        let data = JSON.parse(res.data.data)
+        let data = JSON.parse(res.data)
         data.list.map(item =>
           list.push({
             id: item.id,
@@ -106,7 +106,7 @@ class ExpertManagerList extends React.Component {
       this.setState({
         loading:false
       })
-      if (res.data.result)
+      if (res.result)
       {
           Modal.confirm({
             title: '通知',
@@ -117,7 +117,7 @@ class ExpertManagerList extends React.Component {
           this.refresh(1)
       }
       else {
-        message.error(res.data.message)
+        message.error(res.message)
       }
       
     })
@@ -126,12 +126,12 @@ class ExpertManagerList extends React.Component {
   del = expertID => {
     delExpert({"id":expertID}).then(
       res => {
-        if(res.data.result){
+        if(res.result){
           message.success('删除成功！', 1)
           this.refresh()
         }
         else{
-          message.error(res.data.message, 1)
+          message.error(res.message, 1)
         }
       }
     )

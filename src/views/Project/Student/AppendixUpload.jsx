@@ -62,7 +62,7 @@ class AppendixUpload extends React.Component {
   handleRemove = file => {
     if (file.status === 'error') return
     deleteProjectFile({ id: file.id }).then(res => {
-      if (res.data.result) {
+      if (res.result) {
         message.success('服务器端删除成功！')
         //console.log(file.id, this.state.fileList)
         const fileList = this.state.fileList.filter(item => item.id !== file.id)

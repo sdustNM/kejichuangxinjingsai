@@ -20,9 +20,9 @@ class ExpertManagerEdit extends React.Component {
     const { id } = this.props
     if (id) {
         getExpertById({"id":id}).then(res => {
-        if (res.data.result) {
+        if (res.result) {
            
-          let item = JSON.parse(res.data.data)
+          let item = JSON.parse(res.data)
           console.log(item)
           this.formRef.current.setFieldsValue({
             expertId:item.Id,
@@ -53,23 +53,23 @@ class ExpertManagerEdit extends React.Component {
     }
     if (id) {  //修改
         modifyExpert(Expert).then(res => {
-            if (res.data.result) {
+            if (res.result) {
               message.success('修改成功！')
               this.props.hideModal()
             }
             else {
-                message.error(res.data.message)
+                message.error(res.message)
             }
           })
     }
     else {
         addExpert(Expert).then(res => {
-            if (res.data.result) {
+            if (res.result) {
               message.success('创建成功！')
               this.props.hideModal()
             }
             else {
-                message.error(res.data.message)
+                message.error(res.message)
             }
           })
     }

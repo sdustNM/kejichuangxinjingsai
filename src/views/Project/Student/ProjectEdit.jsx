@@ -40,8 +40,8 @@ class Project extends React.Component {
     //console.log(this.props)
     if (this.state.id) {
       getProjectInfoByID({ id: this.state.id }).then(res => {
-        if (res.data.result) {
-          const item = JSON.parse(res.data.data)
+        if (res.result) {
+          const item = JSON.parse(res.data)
           console.log(item)
           this.formRef.current.setFieldsValue({
             projectName: item.projectName,
@@ -100,10 +100,10 @@ class Project extends React.Component {
       }
     })
     // setCompetition(competitionItem).then(res => {
-    //   if (res.data.result) {
+    //   if (res.result) {
     //     message.success(!id ? '创建成功！' : '修改成功！')
-    //     //console.log(res.data)
-    //     this.props.createID(res.data.data)
+    //     //console.log(res)
+    //     this.props.createID(res.data)
     //   }
     // })
   }

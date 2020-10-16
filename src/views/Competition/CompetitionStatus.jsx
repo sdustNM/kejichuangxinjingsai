@@ -48,24 +48,24 @@ const CompetitionStatus = (props) => {
 
   const handleYuanNotice = () => {
     yuanNotice({ "id": props.id }).then(res => {
-      if (res.data.result) {
-        message.success(res.data.data)
+      if (res.result) {
+        message.success(res.data)
         setcIndex(0)
       }
       else {
-        message.error(res.data.message)
+        message.error(res.message)
       }
     })
   }
 
   const handleEndCompetition = () => {
     endCompetition({ "id": props.id }).then(res => {
-      if (res.data.result) {
-        message.success(res.data.data)
+      if (res.result) {
+        message.success(res.data)
         setcIndex(0)
       }
       else {
-        message.error(res.data.message)
+        message.error(res.message)
       }
     })
   }

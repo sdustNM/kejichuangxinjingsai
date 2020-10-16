@@ -59,7 +59,7 @@ class DeparmentManager extends React.Component {
 
   delete=(id)=>{
     deleteDepartment(id).then(res=>{
-      if(res.data.result)
+      if(res.result)
       message.success("删除成功")
       this.fetch()
     })
