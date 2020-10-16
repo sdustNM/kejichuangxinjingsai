@@ -54,9 +54,9 @@ class ExpertManagerList extends React.Component {
 
   search = () => {
     this.setState({
-      currentPage: 1,
+      currentPage: 0,
     })
-    this.refresh(1, this.state.pageSize)
+    this.refresh(0, this.state.pageSize)
   }
 
   refresh = (currentPage, pageSize) => {
