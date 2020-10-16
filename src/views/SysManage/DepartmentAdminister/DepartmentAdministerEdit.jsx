@@ -29,9 +29,9 @@ class DepartmentAdministerEdit extends React.Component {
     console.log("dd"+this.props.departmentId)
     getDepartmentAdministersById({"DepartmentNo":this.props.departmentId}).then(res => {
       console.log(res)
-      if (res.data.result) {
+      if (res.result) {
         let list = []
-        let data = JSON.parse(res.data.data)
+        let data = JSON.parse(res.data)
         data.map(item =>
           list.push({
             id: item.id,
@@ -51,13 +51,13 @@ class DepartmentAdministerEdit extends React.Component {
 
   addAdminister=()=>{
     addDepartmentAdminister({"departmentNo":this.props.departmentId,"administerID":this.state.administerID}).then(res=>{
-      if (res.data.result)
+      if (res.result)
       {
         message.info("添加用户成功");
         this.refresh();
       }
       else {
-        message.error(res.data.message)
+        message.error(res.message)
       }
     })
 
@@ -88,12 +88,12 @@ class DepartmentAdministerEdit extends React.Component {
     //移除操作
     removeDepartmentAdminister({"departmentNo": this.props.departmentId, "administerID":administerID}).then(
       res => {
-        if(res.data.result){
+        if(res.result){
           message.success('移除成功！', 1)
           this.refresh()
         }
         else{
-          message.error(res.data.message, 1)
+          message.error(res.message, 1)
         }
       }
     )

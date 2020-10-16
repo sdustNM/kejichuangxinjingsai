@@ -54,11 +54,11 @@ class ProjectList extends React.Component {
     }
     console.log(params)
     getSimpleProjectList(params).then(res => {
-      if (res.data.result) {
+      if (res.result) {
         //console.log(res)
         const list = []
-        console.log(JSON.parse(res.data.data).list)
-        JSON.parse(res.data.data).list.map(item =>
+        console.log(JSON.parse(res.data).list)
+        JSON.parse(res.data).list.map(item =>
           list.push({
             key: item.x.CompetitionId + '_' + item.x.Id,
             competitionID: item.x.CompetitionId,

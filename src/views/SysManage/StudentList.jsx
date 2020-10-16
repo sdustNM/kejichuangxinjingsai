@@ -87,7 +87,7 @@ class StudentList extends React.Component {
       this.setState({
         loading:false
       })
-      if (res.data.result)
+      if (res.result)
       {
           Modal.confirm({
             title: '通知',
@@ -99,7 +99,7 @@ class StudentList extends React.Component {
           this.refresh(1)
       }
       else {
-        message.error(res.data.message)
+        message.error(res.message)
       }
       
     })

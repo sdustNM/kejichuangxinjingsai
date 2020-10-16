@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+    <html>
+        <header>
+            <title>float attribution</title>
+            <meta charset="utf-8">
+            <style>
+                #box{
+                    /* width:600px;  */
+                    /* height: 600px; */
+                    background-color: deeppink;
+                    /* overflow: hidden; */
+                    float: left;
+                }
+                #box>div:first-child{
+                    width: 200px;
+                    height: 200px;
+                    float:left;
+                    background-color: aqua;
+                }
+                #box>div:nth-child(2){
+                    width:200px;
+                    height: 200px;
+                    float:left;
+                    background-color: blue;
+                    
+                }
+                #box>div:nth-child(3)
+                {
+                    width: 200px;
+                    height: 200px;
+                    float:left;
+                    background-color: red;
+                }
+                #box>div:last-child{
+                    width: 200px;
+                    height: 200px;
+                    float:left;
+                    clear: both;
+                    background-color: black;
+                }
+span{
+    background-color: red;
+   
+}
+               
+                
+     </style>
+        </header>
+        <body>
+            <div id="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <!-- <div></div> -->
+               
+            </div>
+            <!-- <div style="clear: both;"></div> -->
+            <span>I am span</span>
+        </body>
+    </html>
+</html>

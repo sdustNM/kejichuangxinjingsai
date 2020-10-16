@@ -1,0 +1,54 @@
+body{
+    /* background-color: red; */
+}
+
+a{
+    text-decoration: none;
+}
+
+#header{
+    width: 100%;
+    height: 40px;
+    background-color: red;
+}
+
+.header{
+    width: 1200px;
+    height: 40px;
+    background-color: aqua;
+}
+
+.header_left{
+    width: 300px;
+    height: 40px;
+    background-color: green;
+    float: left;    
+}
+
+.header_right{
+    width: 200px;
+    height: 40px;
+    background-color: green;
+    float: right;    
+}
+
+/*设置头部字符样式*/
+.header_left>div{
+    float: left;
+    background-color: red;
+    line-height: 40px;    /*设置垂直居中的方法*/
+}
+
+.header_left>div>span{
+    font-weight: bold;
+}
+
+.header_left>div:nth-child(2)>a,.header_left>div:nth-child(2)>a>img{
+    float:left;
+}
+
+.header_left>div:nth-child(2)>a>img{
+    width: 20px;
+    line-height: 40px;
+    border: 1px solid  burlywood ;
+}

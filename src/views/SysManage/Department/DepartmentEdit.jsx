@@ -46,12 +46,12 @@ class DepartmentEdit extends React.Component {
     }
     console.log(readyToPost)
     modifyDepartmentInfo(readyToPost).then(res => {
-      if (res.data.result) {
+      if (res.result) {
         message.success('修改成功！')
         this.props.hideModal();
       }
       else {
-        message.error(res.data.message)
+        message.error(res.message)
 
       }
     })

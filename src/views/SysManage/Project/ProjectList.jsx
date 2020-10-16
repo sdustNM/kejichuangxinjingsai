@@ -73,9 +73,9 @@ class ProjectList extends React.Component {
       currentPage,
       pageSize
     }).then(res => {
-      if (res.data.result) {
+      if (res.result) {
         let list = []
-        let data = JSON.parse(res.data.data)
+        let data = JSON.parse(res.data)
         data.list.array.forEach(item => {
             list.push({
                 id: item.id,
@@ -105,7 +105,7 @@ class ProjectList extends React.Component {
       this.setState({
         loading:false
       })
-      if (res.data.result)
+      if (res.result)
       {
           Modal.confirm({
             title: '通知',
@@ -116,7 +116,7 @@ class ProjectList extends React.Component {
           this.refresh(1)
       }
       else {
-        message.error(res.data.message)
+        message.error(res.message)
       }
       
     })

@@ -25,8 +25,8 @@ class DepartmentAdministerList extends React.Component {
     getDepartmentAdministerList()
       .then(res => {
         console.log(res)
-        if (res.data.result) {
-          let json=JSON.parse(res.data.data)
+        if (res.result) {
+          let json=JSON.parse(res.data)
           let list = json.map((item) => {
             return {
               "id": item.id,
