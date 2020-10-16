@@ -9,7 +9,7 @@ class StudentList extends React.Component {
     sno: '',
     name: '',
     dataSource: [],
-    currentPage: 1,
+    currentPage: 0,
     pageSize: 10,
     loading: false,
     _total: 0,
@@ -31,17 +31,17 @@ class StudentList extends React.Component {
   showSizeChange = (current, pageSize) => {
 
     this.setState({
-      currentPage: 1,
+      currentPage: 0,
       pageSize
     })
-    this.refresh(1, pageSize);
+    this.refresh(0, pageSize);
   }
 
   search = () => {
     this.setState({
-      currentPage: 1,
+      currentPage: 0,
     })
-    this.refresh(1, this.state.pageSize)
+    this.refresh(0, this.state.pageSize)
   }
 
   refresh = (currentPage, pageSize) => {
@@ -64,7 +64,7 @@ class StudentList extends React.Component {
             sno: item.Sno,
             key: item.Sno,
             name: item.Name,
-            gender: item.Gender,
+            gender: item.Gender=='1'?'男':'女',
             classname:item.ClassName,
             departmentName:item.DepartmentName
           })
@@ -131,8 +131,8 @@ class StudentList extends React.Component {
       },
       {
         title: '班级',
-        key: 'className',
-        dataIndex: 'className',
+        key: 'classname',
+        dataIndex: 'classname',
       },
       {
         title: '学院',
@@ -151,13 +151,12 @@ class StudentList extends React.Component {
           <Input addonBefore='学号' name='sno' value={sno} onChange={this.changeValue} />
           <Input addonBefore='姓名' name='name' value={name} onChange={this.changeValue} />
           <Button type='primary' onClick={this.search}>搜索</Button>
-          <Button
-          
+          {/* <Button
           style={{ marginLeft: 20 }}
           onClick={() => { this.showModal() }}
         >
           <PlusCircleOutlined />添加
-        </Button>
+        </Button> */}
         <Popconfirm placement="top" title="确认开始同步所有学生信息吗？" onConfirm={()=>{ this.importStudentFromRemoteClick() }}>
         <Button
           type='dashed'

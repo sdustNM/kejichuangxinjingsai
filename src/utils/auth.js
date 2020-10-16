@@ -16,15 +16,15 @@ const roleNames = ['管理员', '专家', '学生', '校级管理员']
 export const getRoleName = () => {
   let roleID = getRole();
   if (roleID == 1 && getDeptID() == 0) return roleNames[3]
-  else return roleNames[getRole() - 1]
+  else return roleNames[getRole() - 1]    //1
 }
 
 export const isStudent = () => {
-  return getRoleName() === '学生'
+  return getRoleName() === '学生'    //3
 }
 
 export const isExpert = () => {
-  return getRoleName() === '专家'
+  return getRoleName() === '专家'   //2
 }
 
 export const isAdminister = () => {
