@@ -52,7 +52,7 @@ class CompetitionProjectState extends React.Component {
   }
 
   render() {
-    //console.log(this.state)
+    console.log(this.state)
     const { competitionID, projectID, competitionState } = this.state
     let tip = ''
     let state = ''
