@@ -12,6 +12,10 @@ export function setCompetition(competition) {
   return post('/administer/setCompetition', competition)
 }
 
+export function deleteCompetiton(params) {
+  return get('administer/deleteCompetitionByID', params)
+}
+
 export function getExpertsInCompetition(params){
   return get('/administer/getExpertsInCompetition', params)
 }
