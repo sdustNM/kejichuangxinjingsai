@@ -5,6 +5,7 @@ import { getCompetitionList } from '../../services/administer/competition'
 //import { getDeptID } from '../../utils/auth'
 import getDepartmentList from '../../redux/common'
 import { isSuperAdminister } from '../../utils/auth';
+import { deleteCompetiton } from '../../services/administer/competition'
 
 const { Option } = Select
 
@@ -67,7 +68,7 @@ class CompetitionManagerXiao extends React.Component {
     }
     //console.log(params)
     getCompetitionList(params).then(res => {
-      console.log(res)
+      //console.log(res)
       if (res.result) {
         let list = []
         let data = JSON.parse(res.data)
@@ -78,8 +79,8 @@ class CompetitionManagerXiao extends React.Component {
             key: item.id,
             name: item.name,
             fromUnit: item.fromUnit,
-            category: item.category,
-            state: '待定'
+            //category: item.category,
+            status: item.status
           })
         )
         //console.log(data)
@@ -99,9 +100,16 @@ class CompetitionManagerXiao extends React.Component {
     this.refresh(this.state.currentPage, this.state.pageSize, value)
   }
 
-  changeValue = (e) => {
+  changeValue = e => {
     this.setState({
       [e.target.name]: e.target.value
+    })
+  }
+
+  delete = competitionID => {
+    deleteCompetiton({ competitionID }).then(res => {
+      console.log(res)
+
     })
   }
 
@@ -124,14 +132,9 @@ class CompetitionManagerXiao extends React.Component {
         key: 'fromUnit',
       },
       {
-        title: '比赛类型',
-        dataIndex: 'category',
-        key: 'category',
-      },
-      {
         title: '比赛状态',
-        key: 'state',
-        dataIndex: 'state',
+        key: 'status',
+        dataIndex: 'status',
       },
       {
         title: '操作',
@@ -153,6 +156,7 @@ class CompetitionManagerXiao extends React.Component {
                   type='danger'
                   size='small'
                   shape='round'
+                  onClick={() => { this.delete(record.id) }}
                 >删除</Button>
               )
             }
@@ -162,20 +166,20 @@ class CompetitionManagerXiao extends React.Component {
     ];
 
     const title = (
-      <Space style={{ margin: 10 }}>    
-          <Select
-            defaultValue='0'
-            style={{ width: 200 }}
-            onChange={this.handleDeptChange}
-          >
-            {this.state.departmentList.map(
-              item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
-          </Select>
-          <Input addonBefore='比赛名称' name='comName' value={comName} onChange={this.changeValue} />
-          <Button type='primary' onClick={this.search}>搜索</Button>
-        </Space>
+      <Space style={{ margin: 10 }}>
+        <Select
+          defaultValue='0'
+          style={{ width: 200 }}
+          onChange={this.handleDeptChange}
+        >
+          {this.state.departmentList.map(
+            item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
+        </Select>
+        <Input addonBefore='比赛名称' name='comName' value={comName} onChange={this.changeValue} />
+        <Button type='primary' onClick={this.search}>搜索</Button>
+      </Space>
     )
-    const extra = 
+    const extra =
       isSuperAdminister() && (
         <Button
           type='primary'
@@ -187,8 +191,10 @@ class CompetitionManagerXiao extends React.Component {
 
     return (
       <Card title={title} extra={extra}>
-        
+
         <Table
+          //bordered
+          size='middle'
           dataSource={dataSource}
           columns={columns}
           pagination={{

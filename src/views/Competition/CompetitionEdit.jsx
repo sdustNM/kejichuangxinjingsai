@@ -40,8 +40,8 @@ class CompetitionEdit extends React.Component {
     this.setState({ [type]: key });
   };
 
-  create = id => {
-    this.setState({ id })
+  createID = (id, name) => {
+    this.setState({ id, key: 'tab1',comName: name})
     //this.props.history.location.state.id = id
   }
 
@@ -91,7 +91,7 @@ class CompetitionEdit extends React.Component {
 
     const contentList = {
       tab1: <CompetitionStatus id={this.state.id}></CompetitionStatus>,
-      tab2: isAdminister() ? <CompetitionInfo id={this.state.id}></CompetitionInfo> : <CompetitionEditForm id={this.state.id} createID={this.create} history={this.props.history}></CompetitionEditForm>,
+      tab2: isAdminister() ? <CompetitionInfo id={this.state.id}></CompetitionInfo> : <CompetitionEditForm id={this.state.id} createID={this.createID} history={this.props.history}></CompetitionEditForm>,
       //tab3: isSuperAdminister() && <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
       tab4: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>,
       tab5: <SetMaxRecommended id={this.state.id}></SetMaxRecommended>,

@@ -82,9 +82,11 @@ class CompetitionEditForm extends React.Component {
     //console.log(competitionItem)
     setCompetition(competitionItem).then(res => {
       if (res.result) {
+        //console.log(res)
         message.success(!id ? '创建成功！' : '修改成功！')
         //console.log(res)
-        this.props.createID(res.data)
+        this.props.createID(res.data, value.name)
+        this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: res.data, comName: value.name } })
       }
     })
   }
