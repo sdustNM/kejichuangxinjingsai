@@ -49,8 +49,25 @@ class SetMaxRecommended extends React.Component {
     }
     const result = await setDepartmentLimitInCompetition(params)
     console.log(result)
-    if (result.data.result) {
-      message.success("保存成功！")
+    if (result.result) {
+      message.success({
+        content: result.data,
+        style: {
+          marginTop: '40vh',
+          fontSize:20,
+          minHeight:30
+        },
+      })
+    }
+    else{
+      message.error({
+        content: result.message,
+        style: {
+          marginTop: '40vh',
+          fontSize:20,
+          minHeight:30
+        },
+      })
     }
   }
 

@@ -8,100 +8,92 @@ import { getProjectOperationState, getCompetitionState } from '../../../services
 
 class CompetitionProjectState extends React.Component {
 
-  constructor(props) {
-    super(props)
+  constructor(...props) {
+    super(...props)
     this.state = {
       competitionID: null,
       projectID: null,
-      competitionState: null
+      competitionState: null,
+      projectOperationState: null
     }
   }
 
-  componentDidMount() {
-    this.setState({
-      competitionID: this.props.competitionID
-    })
-    //获取用户是否参赛
+  async componentDidMount() {
+    //获取比赛ID
+    const competitionID = this.props.competitionID
+
+    //获取比赛状态
+    let competitionState
+    let competitionStateResult = await getCompetitionState({ id: competitionID })
+    if (competitionStateResult.result) {
+      competitionState = JSON.parse(competitionStateResult.data).statusId
+    }
+
+    //获取用户是否参赛并获取作品状态
+    let projectID
+    let projectOperationState
     const params = {
-      competitionID: this.props.competitionID,
+      competitionID,
       studentId: getUserID()
     }
-    //console.log(params)
-    getSimpleProjectList(params).then(res => {
-      if (res.result) {
-        //console.log(res)
-        const list = JSON.parse(res.data).list
-        //console.log(list)
-        if (list.length > 0) {
-          //console.log(list[0].x.Id)
-          this.setState({
-            projectID: list[0].x.Id
-          })
+    let projectListResult = await getSimpleProjectList(params)
+    if (projectListResult.result) {
+      const list = JSON.parse(projectListResult.data).list
+      if (list.length > 0) {
+        projectID = list[0].x.Id
+        let projectStateResult = await getProjectOperationState({ ProjectId: projectID })
+        //console.log(projectStateResult)
+        if (projectStateResult.result) {
+          projectOperationState = projectStateResult.data
         }
       }
-    })
+    }
 
-    getCompetitionState({id: this.props.competitionID}).then(res=>{
-      if(res.result){
-        this.setState({
-          competitionState: res
-        })
-      }
-    })
 
+    this.setState({ competitionID, projectID, competitionState, projectOperationState })
   }
 
   render() {
     console.log(this.state)
-    const { competitionID, projectID, competitionState } = this.state
-    let tip = ''
-    let state = ''
-    if (!projectID) { //
-      if (competitionState === '1.1') {
+    const { competitionID, projectID, competitionState, projectOperationState } = this.state
+
+    let tip
+    let buttonDisabled = false
+    let buttonValue = '参加比赛'
+    if (!projectID) { //还未提交作品
+      if (competitionState === '1') {
+        tip = '耐心等候，还未到比赛提交作品时间';
+        buttonDisabled = true
+      } else if (competitionState === '1.1') {
         tip = '';//'未参赛，点击按钮提交参赛作品'
-        state = 0
       } else {
         tip = '很遗憾，报名时间已过'
+        buttonDisabled = true
       }
-    } else {
-      if (competitionState === '1.1') {
-        tip = '已参赛，提交作品期间内，作品可以修改，点击按钮可编辑作品'
-        state = 1
+    } else { //已提交作品
+      if (projectOperationState === 'W') {
+        tip = '作品在修改期内，点击按钮可编辑作品'
+        buttonValue = '编辑作品'
       } else {
-        tip = '已参赛，提交作品时间已过，作品不可修改，点击按钮可查看作品'
-        state = 2
+        tip = '作品不在修改期内，点击按钮可查看作品'
+        buttonValue = '查看作品'
       }
-    }
-    let button = null
-    //console.log(competitionID)
-    if (state == 0) {
-      button = (
-        <Button
-          type='primary'
-          onClick={() => this.props.history.push({ pathname: '/student/projectEdit', state: { competitionID } })}
-        >参加比赛</Button>
-      )
-    } else if (state === 1) {
-      button = (
-        <Button
-          type='primary'
-          onClick={() => this.props.history.push({ pathname: '/student/projectEdit', state: { projectID, competitionID } })}
-        >编辑作品</Button>
-      )
-    } else if (state === 2) {
-      button = (
-        <Button
-          type='primary'
-          onClick={() => this.props.history.push({ pathname: '/student/projectInfo', state: { projectID, competitionID } })}
-        >查看作品</Button>
-      )
     }
 
-    //console.log(projectID)
     return (
       <Space>
         <span style={{ color: 'red' }}>{tip}</span>
-        {button}
+        <Button
+          type='primary'
+          disabled={buttonDisabled}
+          onClick={() =>
+            this.props.history.push({
+              pathname: projectOperationState === 'W' ? '/student/projectEdit' : '/student/projectInfo',
+              state: { projectID, competitionID }
+            })}
+        >
+          {buttonValue}
+        </Button>
       </Space>
     )
   }
