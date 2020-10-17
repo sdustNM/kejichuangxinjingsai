@@ -97,13 +97,6 @@ const CompetitionStatus = (props) => {
               </Row>
               <Row style={{ marginTop: 20, paddingLeft: 50 }}>
                 <Space>
-                  <Button type="primary" onClick={handleYuanNotice}>学院评比公示</Button>
-                  说明：学院公示后，学生可以查看本人作品得分及推荐信息，同时允许进行作品编辑。
-              </Space>
-              </Row>
-
-              <Row style={{ marginTop: 20, paddingLeft: 50 }}>
-                <Space>
                   <Button type="primary" onClick={handleEndCompetition}>项目公示及结束</Button>
                   说明：学校公示后，学生可以查看本人作品最终得分及推荐信息，项目结束。
               </Space>
