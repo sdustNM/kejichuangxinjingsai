@@ -7,8 +7,7 @@ import { deleteProjectFile } from '../../../services/project'
 
 class ProjectAppendixUpload extends React.Component {
   constructor(...props) {
-    super(...props)
-    
+    super(...props)   
     this.state = { 
       fileList: []
     }
@@ -80,7 +79,7 @@ class ProjectAppendixUpload extends React.Component {
     //console.log(this.props)
     const props = {
       action: appRoot + '/api/Appendix/UploadProjectFile',
-      data: { id: this.props.projectID, FileType: this.props.fileType },
+      data: { FileType: this.props.fileType },
       headers: {
         authorization: getJwt(),
       },

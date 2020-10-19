@@ -39,6 +39,7 @@ class Project extends React.Component {
   mainAppedixRef = React.createRef()
   videoAppedixRef = React.createRef()
   bzAppedixRef = React.createRef()
+
   componentDidMount() {
     //console.log(this.props)
     if (this.state.id) {
@@ -55,13 +56,7 @@ class Project extends React.Component {
             teacher: item.projectTeacher,
             mainList: item.AppendixMain || [],
             videoList: item.AppendixVideo || [],
-            bzList: item.Appendixbz || [],
-            result: {
-              score_yuan: item.lastScore_yuan,
-              recommend_yuan: item.recommended_yuan ? '推荐' : '未推荐',
-              score_xiao: item.lastScore_xiao,
-              recommend_xiao: item.recommended_xiao ? '推荐' : '未推荐'
-            }
+            bzList: item.Appendixbz || [],         
           })
         }
       })

@@ -68,7 +68,7 @@ class CompetitionManagerXiao extends React.Component {
     }
     //console.log(params)
     getCompetitionList(params).then(res => {
-      //console.log(res)
+      console.log(res)
       if (res.result) {
         let list = []
         let data = JSON.parse(res.data)

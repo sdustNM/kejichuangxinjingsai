@@ -6,7 +6,6 @@ import { deleteCompetitionFile } from '../../services/administer/appendix'
 import { appRoot } from '../../utils/request'
 
 class CompetitionEditAppendix extends React.Component {
-
   constructor(...props) {
     super(...props)
     this.state = {
@@ -20,7 +19,6 @@ class CompetitionEditAppendix extends React.Component {
   }
 
   getFileList = () => {
-    console.log(this.props)
     if(!this.props.appendixList) return
     const fileList = this.props.appendixList.map(file => {
       file.uid = this.props.id + '_' + file.id;
@@ -71,8 +69,8 @@ class CompetitionEditAppendix extends React.Component {
 
   render() {
     const props = {
-      action: 'http://192.168.34.201:4000/api/Appendix/UploadCompetitionFile',
-      data: { id: this.props.id },
+      action: appRoot + '/api/Appendix/UploadCompetitionFile',
+      //data: { id: this.props.id },
       headers: {
         authorization: getJwt(),
       },
