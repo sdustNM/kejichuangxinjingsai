@@ -5,11 +5,10 @@ import { getCompetitionFullListByCurrentExpert } from '../../services/competitio
 import Competition from './Competition'
 
 class CompetitionList extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor(...props) {
+    super(...props)
     this.state = {
-      xiao_comList: [],
-      yuan_comList: []
+      xiao_comList: []
     }
   }
   componentDidMount() {
@@ -19,8 +18,7 @@ class CompetitionList extends React.Component {
         const comList = JSON.parse(res.data)
         console.log(comList)
         this.setState({
-          xiao_comList: comList.filter(item => item.category === '校级'),
-          yuan_comList: comList.filter(item => item.category === '院级')
+          xiao_comList: comList
         })
       }
     })
@@ -37,9 +35,6 @@ class CompetitionList extends React.Component {
               history={this.props.history}
             >
             </Competition>)}
-        </Card>
-        <Card title='学院比赛'>
-        {!this.state.yuan_comList.length && <Empty />}
         </Card>
       </div>
     )

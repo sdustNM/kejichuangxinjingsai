@@ -46,18 +46,6 @@ const CompetitionStatus = (props) => {
     })
   }
 
-  const handleYuanNotice = () => {
-    yuanNotice({ "id": props.id }).then(res => {
-      if (res.result) {
-        message.success(res.data)
-        setcIndex(0)
-      }
-      else {
-        message.error(res.message)
-      }
-    })
-  }
-
   const handleEndCompetition = () => {
     endCompetition({ "id": props.id }).then(res => {
       if (res.result) {
@@ -91,14 +79,14 @@ const CompetitionStatus = (props) => {
             <div>
               <Row style={{ marginTop: 20, paddingLeft: 50 }}>
                 <Space>
-                  <Button type="primary" onClick={handleStartCompetition}>正式发布比赛</Button>
+                  <Button type="primary" onClick={handleStartCompetition} disabled={cIndex>1}>比赛发布</Button>
                   说明：发布比赛后，学生可以查看比赛信息，提交项目作品。
               </Space>
               </Row>
               <Row style={{ marginTop: 20, paddingLeft: 50 }}>
                 <Space>
-                  <Button type="primary" onClick={handleEndCompetition}>项目公示及结束</Button>
-                  说明：学校公示后，学生可以查看本人作品最终得分及推荐信息，项目结束。
+                  <Button type="primary" onClick={handleEndCompetition} disabled={cIndex>=7}>比赛结束</Button>
+                  说明：比赛结束后，学生可以查看本人作品最终得分及推荐信息。
               </Space>
               </Row>
             </div>)

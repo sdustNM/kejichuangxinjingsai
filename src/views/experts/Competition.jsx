@@ -4,8 +4,8 @@ import { Card, Button, Descriptions, List } from 'antd'
 import { appRoot } from '../../utils/request'
 
 class Competition extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor(...props) {
+    super(...props)
     this.state = {
       competition: {
       }
