@@ -85,7 +85,7 @@ class CompetitionEdit extends React.Component {
 
     if(isAdminister()) {
       tabList = tabList.filter( item => {
-        return ['tab3', 'tab5', 'tab7'].indexOf(item.key) == -1
+        return ['tab3', 'tab5', 'tab7'].indexOf(item.key) === -1
       })
     }
 

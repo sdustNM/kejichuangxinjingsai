@@ -33,12 +33,12 @@ class CompititionListXiao extends React.Component {
     })
     this.refresh(1, pageSize);
   }
-search = () => {
-  this.setState({
-    currentPage: 1
-  })
-  this.refresh(1)
-}
+  search = () => {
+    this.setState({
+      currentPage: 1
+    })
+    this.refresh(1)
+  }
   refresh = (currentPage, pageSize) => {
     currentPage = currentPage ? currentPage : this.state.currentPage;
     pageSize = pageSize ? pageSize : this.state.pageSize;
@@ -63,7 +63,6 @@ search = () => {
             key: item.id,
             name: item.name,
             fromUnit: item.fromUnit,
-            category: item.category,
             submitTime: item.submitStart + '至' + item.submitEnd
           })
         )
@@ -84,35 +83,27 @@ search = () => {
 
   render() {
     const columns = [
-      // {
-      //   title: '比赛编号',
-      //   dataIndex: 'id',
-      //   key: 'id'
-      // }, 
       {
         title: '比赛名称',
         dataIndex: 'name',
         key: 'name',
-        width: 150
-      }, {
-        title: '比赛类型',
-        dataIndex: 'category',
-        key: 'category',
-        width: 100
-      }, {
+        width: 200,
+      },
+      {
         title: '组织单位',
         dataIndex: 'fromUnit',
         key: 'fromUnit',
-        width: 150
-      }, {
+        width: 200,
+      }, 
+      {
         title: '参赛时间',
         dataIndex: 'submitTime',
         key: 'submitTime',
-        width: 200
+        width: 400,
       }, {
         title: '操作',
         key: 'action',
-        width: 150,
+        width: 80,
         render: (text, record) => (
           <Button
             type='primary'
@@ -128,7 +119,7 @@ search = () => {
     const { dataSource, pageSize, _total, loading, comName } = this.state;
     return (
       <div>
-        <Space style={{margin:20}}>
+        <Space style={{ margin: 20 }}>
           <Input addonBefore='比赛名称' name='comName' value={comName} onChange={this.changeValue} />
           <Button type='primary' onClick={this.search}>搜索</Button>
         </Space>

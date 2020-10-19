@@ -23,8 +23,8 @@ const tailLayout = {
 
 class AnnouncementEdit extends React.Component {
 
-  constructor(props) {
-    super(props)
+  constructor(...props) {
+    super(...props)
     this.formRef = React.createRef()
     this.pwRef = React.createRef()
     this.contentRef = React.createRef()
@@ -75,31 +75,31 @@ class AnnouncementEdit extends React.Component {
   };
 
   render() {
-    const props = {
-      name: "avatar",
-      listType: "picture-card",
-      className: "avatar-uploader",
-      // showUploadList: false,
-      // beforeUpload: this.beforeUpload,
-      // onChange={ this.handleChange }
-      // onRemove: file => {
-      //   this.setState(state => {
-      //     const index = state.fileList.indexOf(file);
-      //     const newFileList = state.fileList.slice();
-      //     newFileList.splice(index, 1);
-      //     return {
-      //       fileList: newFileList,
-      //     };
-      //   });
-      // },
-      // beforeUpload: file => {
-      //   this.setState(state => ({
-      //     fileList: [...state.fileList, file],
-      //   }));
-      //   return false;
-      // },
-      // fileList,
-    }
+    // const props = {
+    //   name: "avatar",
+    //   listType: "picture-card",
+    //   className: "avatar-uploader",
+    //   // showUploadList: false,
+    //   // beforeUpload: this.beforeUpload,
+    //   // onChange={ this.handleChange }
+    //   // onRemove: file => {
+    //   //   this.setState(state => {
+    //   //     const index = state.fileList.indexOf(file);
+    //   //     const newFileList = state.fileList.slice();
+    //   //     newFileList.splice(index, 1);
+    //   //     return {
+    //   //       fileList: newFileList,
+    //   //     };
+    //   //   });
+    //   // },
+    //   // beforeUpload: file => {
+    //   //   this.setState(state => ({
+    //   //     fileList: [...state.fileList, file],
+    //   //   }));
+    //   //   return false;
+    //   // },
+    //   // fileList,
+    // }
     const title = (
       <span>
         <Button

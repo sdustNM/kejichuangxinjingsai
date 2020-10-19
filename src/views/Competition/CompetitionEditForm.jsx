@@ -30,7 +30,7 @@ class CompetitionEditForm extends React.Component {
       getCompetitionByID(id).then(res => {
         if (res.result) {
           let item = JSON.parse(res.data)
-          console.log(item)
+          //console.log(item)
           let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD HH:mm')
           let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD HH:mm')
           let yuan_appraiseStart = !item.yuan_AppraiseStart ? null : moment(item.yuan_AppraiseStart, 'YYYY-MM-DD HH:mm')
@@ -79,7 +79,7 @@ class CompetitionEditForm extends React.Component {
       appendixUrl: this.getAppendixUrl()
     }
     competitionItem.id = id || null
-    //console.log(competitionItem)
+    console.log(competitionItem)
     setCompetition(competitionItem).then(res => {
       if (res.result) {
         //console.log(res)
@@ -92,6 +92,7 @@ class CompetitionEditForm extends React.Component {
   }
 
   render() {
+    const { appendixList } = this.state
     return (
       <div>
         <Form
@@ -169,7 +170,7 @@ class CompetitionEditForm extends React.Component {
             label="附件"
             name="appendix"
           >
-            <CompetitionEditAppendix appendixList={this.state.appendixList} ref={this.appedixRef} />
+            {appendixList ? <CompetitionEditAppendix appendixList={appendixList} ref={this.appedixRef} /> : <></>}
           </Form.Item>
           <Form.Item
             label="备注"
