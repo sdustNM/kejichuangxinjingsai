@@ -167,7 +167,10 @@ class Project extends React.Component {
                 label="指导老师"
                 name="teacher"
               >
-                <SelectManComplete initValue={teacher} chooseMan={this.setTeacher}></SelectManComplete>
+                {
+                  teacher?
+                <SelectManComplete initValue={teacher} chooseMan={this.setTeacher}></SelectManComplete>:<></>
+                }
               </Form.Item>
 
               <Form.List name="cooperators">

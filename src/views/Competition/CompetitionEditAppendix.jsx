@@ -69,9 +69,11 @@ class CompetitionEditAppendix extends React.Component {
     }, null)
   }
 
+
+
   render() {
     const props = {
-      action: 'http://192.168.34.201:4000/api/Appendix/UploadCompetitionFile',
+      action:  `${appRoot}/api/Appendix/UploadCompetitionFile`,
       data: { id: this.props.id },
       headers: {
         authorization: getJwt(),

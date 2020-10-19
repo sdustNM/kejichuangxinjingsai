@@ -1,11 +1,13 @@
 import axios from 'axios'
 import { getJwt } from './jwtHelper'
 
-export const appRoot = 'http://192.168.34.201:4000'
+//export const appRoot = 'http://192.168.34.201:4000'
+export const appRoot = 'http://localhost:5000'
+export const baseURL=`${appRoot}/api`
+
 
 const instance = axios.create({
-  //baseURL: 'http://192.168.34.201:4000/api',
-  baseURL: 'http://localhost:5000/api',
+  baseURL: baseURL,
   timeout: 60000
 })
 

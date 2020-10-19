@@ -23,13 +23,16 @@ const CompetitionStatus = (props) => {
     //console.log(props.id);
     getCompetitionState({ "id": props.id }).then(res => {
       if (res.result) {
-        //console.log(res.data);
+        console.log(res);
+        if (res.data==="null") return;
         var currentStatus = JSON.parse(res.data);
-        var temp = global.constants.XiaoCompetitionStatusMatch.filter(x => x.a === currentStatus.statusId)[0];
-        if (temp) var tt = temp.b
+        if (currentStatus) {
+          var temp = global.constants.XiaoCompetitionStatusMatch.filter(x => x.a === currentStatus.statusId)[0];
+          if (temp) var tt = temp.b
 
-        //console.log(temp)
-        setcIndex(tt)
+          //console.log(temp)
+          setcIndex(tt)
+        }
       }
     });
 
