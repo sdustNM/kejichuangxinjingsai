@@ -4,8 +4,8 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import SelectManComplete from '../../../components/SelectManComplete';
 import { getProjectInfoByID, setProjectInfo } from '../../../services/project'
 import { getUserID } from '../../../utils/auth';
-import AppendixUpload from './AppendixUpload';
-import ProjectResult from './ProjectResult_student';
+import ProjectAppendixUpload from './ProjectAppendixUpload';
+//import ProjectResult from './ProjectResult_student';
 
 const { TextArea } = Input
 const layout = {
@@ -22,20 +22,23 @@ const tailLayout = {
 };
 
 class Project extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor(...props) {
+    super(...props)
+    //console.log(props)
     this.state = {
-      id: props.location.state.projectID,
-      competitionID: props.location.state.competitionID,
+      id: props[0].location.state.projectID,
+      competitionID: props[0].location.state.competitionID,
       teacher: '',
-      mainList: [],
-      videoList: [],
-      bzList: [],
+      mainList: null,
+      videoList: null,
+      bzList: null,
       spinning: false,
-      result: {}
     }
   }
-  formRef = React.createRef();
+  formRef = React.createRef()
+  mainAppedixRef = React.createRef()
+  videoAppedixRef = React.createRef()
+  bzAppedixRef = React.createRef()
   componentDidMount() {
     //console.log(this.props)
     if (this.state.id) {
@@ -66,6 +69,22 @@ class Project extends React.Component {
 
   }
 
+  getAppendixUrl = type => {
+    let urls
+    switch (type) {
+      case 'main':
+        urls = this.mainAppedixRef.current.getAppendixUrls()
+        break
+      case 'video':
+        urls = this.videoAppedixRef.current.getAppendixUrls()
+        break
+      case 'bz':
+        urls = this.bzAppedixRef.current.getAppendixUrls()
+        break
+    }
+    return urls
+  }
+
   onFinish = value => {
     this.setState({
       spinning: true
@@ -79,14 +98,17 @@ class Project extends React.Component {
       projectName: value.projectName,
       projectDes: value.description,
       projectTeacher: teacher,
-      projectCooperator: value.cooperators && value.cooperators.join(',')
+      projectCooperator: value.cooperators && value.cooperators.join(','),
+      mainUrl: this.getAppendixUrl("main"),
+      videoUrl: this.getAppendixUrl("video"),
+      bzUrl: this.getAppendixUrl("bz")
     }
-    //console.log(projectItem)
+    console.log(projectItem)
     setProjectInfo(projectItem).then(res => {
       this.setState({
         spinning: false
       })
-      
+
       //console.log(res)
       if (res.result) {
         const projectID = JSON.parse(res.data)
@@ -96,7 +118,7 @@ class Project extends React.Component {
           id: projectID
         })
         this.props.history.replace({ pathname: '/student/ProjectEdit', state: { projectID, competitionID } })
-        
+
       }
     })
     // setCompetition(competitionItem).then(res => {
@@ -115,16 +137,16 @@ class Project extends React.Component {
   }
 
   render() {
-    const { teacher, id, competitionID, spinning, result } = this.state
-    //console.log(this.state)
+    const { teacher, id, competitionID, spinning,
+      mainList, videoList, bzList } = this.state
     return (
       <Card>
         <Card title='作品基本信息'>
-          <Spin 
-          tip="Loading..."
-          size='large'
-          spinning={spinning}
-          delay={500}
+          <Spin
+            tip="Loading..."
+            size='large'
+            spinning={spinning}
+            delay={500}
           >
             <Form
               {...layout}
@@ -184,7 +206,10 @@ class Project extends React.Component {
                           ) : null}
                         </Form.Item>
                       ))}
-                      <Form.Item {...layoutWithOutLabel}>
+
+                      <Form.Item
+                        {...layoutWithOutLabel}
+                      >
                         <Button
                           type="dashed"
                           onClick={() => {
@@ -193,7 +218,7 @@ class Project extends React.Component {
                           style={{ width: '60%' }}
                         >
                           <PlusOutlined /> 添加合作者
-                </Button>
+                        </Button>
                       </Form.Item>
                     </div>
                   );
@@ -209,6 +234,25 @@ class Project extends React.Component {
                   placeholder="请输入比赛描述"
                   autoSize={{ minRows: 3, maxRows: 5 }}
                 />
+              </Form.Item>
+
+              <Form.Item
+                label="主要附件"
+                name="mainAppendix"
+              >
+                {mainList ? <ProjectAppendixUpload appendixList={mainList} ref={this.mainAppedixRef} maxNum={1} /> : <></>}
+              </Form.Item>
+              <Form.Item
+                label="视频附件"
+                name="videoAppendix"
+              >
+                {videoList ? <ProjectAppendixUpload appendixList={videoList} ref={this.videoAppedixRef} maxNum={2} /> : <></>}
+              </Form.Item>
+              <Form.Item
+                label="其它附件"
+                name="bzAppendix"
+              >
+                {bzList ? <ProjectAppendixUpload appendixList={bzList} ref={this.bzAppedixRef} maxNum={3} /> : <></>}
               </Form.Item>
 
               <Form.Item
@@ -234,37 +278,6 @@ class Project extends React.Component {
             </Form>
           </Spin>
         </Card>
-
-        <Alert
-          message={`* 作品基本信息保存后才可以上传附件(${this.state.id ? '已保存' : '未保存'})`}
-          type={this.state.id ? "info" : "warning"} />
-
-        <Card title='项目附件'>
-          <AppendixUpload
-            projectID={this.state.id}
-            fileType='main'
-            maxNum={1}
-            fileList={this.state.mainList}
-          ></AppendixUpload>
-        </Card>
-        <Card title='视频附件'>
-          <AppendixUpload
-            projectID={this.state.id}
-            fileType='video'
-            maxNum={1}
-            fileList={this.state.videoList}
-          ></AppendixUpload>
-        </Card>
-        <Card title='补充附件'>
-          <AppendixUpload
-            projectID={this.state.id}
-            fileType='bz'
-            maxNum={3}
-            fileList={this.state.bzList}
-          ></AppendixUpload>
-        </Card>
-
-        {id && <ProjectResult result={result}></ProjectResult>}
       </Card>
     )
   }

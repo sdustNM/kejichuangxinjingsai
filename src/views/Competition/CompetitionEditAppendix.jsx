@@ -2,13 +2,13 @@ import React from 'react'
 import { Upload, Button, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { getJwt } from '../../utils/jwtHelper'
-import { getCompetitionFilesByComId, deleteCompetitionFile } from '../../services/administer/appendix'
+import { deleteCompetitionFile } from '../../services/administer/appendix'
 import { appRoot } from '../../utils/request'
 
 class CompetitionEditAppendix extends React.Component {
 
-  constructor(props) {
-    super(props)
+  constructor(...props) {
+    super(...props)
     this.state = {
       fileList: []
     }
@@ -20,6 +20,7 @@ class CompetitionEditAppendix extends React.Component {
   }
 
   getFileList = () => {
+    console.log(this.props)
     if(!this.props.appendixList) return
     const fileList = this.props.appendixList.map(file => {
       file.uid = this.props.id + '_' + file.id;
@@ -28,7 +29,7 @@ class CompetitionEditAppendix extends React.Component {
       return file;
     });
 
-    //console.log(fileList)
+    console.log(fileList)
     this.setState({ fileList })
   }
 

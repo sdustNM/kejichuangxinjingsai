@@ -5,31 +5,29 @@ import { appRoot } from '../../../utils/request'
 import { getJwt } from '../../../utils/jwtHelper'
 import { deleteProjectFile } from '../../../services/project'
 
-class AppendixUpload extends React.Component {
-  constructor(props) {
-    super(props)
+class ProjectAppendixUpload extends React.Component {
+  constructor(...props) {
+    super(...props)
     
-    this.state = {
-      defaultLength: 0,
+    this.state = { 
       fileList: []
     }
   }
-  static getDerivedStateFromProps(nextProps, prevState) {
-    //console.log(nextProps.fileList.length, prevState.defaultLength)
-    if(nextProps.fileList.length == prevState.defaultLength) return null
 
-    let fileList = []
-    if (nextProps.fileList) {
-      fileList = nextProps.fileList.map(file => {
-        file.uid = nextProps.projectID + '_' + file.id;
-        file.url = appRoot + file.url
-        return file;
-      })
-    }
-    return({
-      fileList,
-      defaultLength: nextProps.fileList.length
-    })
+  componentDidMount() {
+    //拉取服务器端已上传的附件
+    this.getFileList()
+  }
+
+  getFileList = () => {
+    if(!this.props.appendixList) return
+    const fileList = this.props.appendixList.map(file => {
+      file.uid = file.id;
+      file.rawUrl = file.url
+      file.url = appRoot + file.url
+      return file;
+    });
+    this.setState({ fileList })
   }
 
   beforeUpload = (file, fileList) => {
@@ -45,31 +43,39 @@ class AppendixUpload extends React.Component {
     //console.log(info)
     let fileList = [...info.fileList];
 
-    if (fileList.length > this.props.maxNum) {
-      fileList = fileList.slice(0, this.props.maxNum)
-    }
-    fileList = fileList.map(file => {
+    fileList = fileList.slice(0,this.props.maxNum).map(file => {
       if (file.response) {
         let data = JSON.parse(file.response.data)
+        file.rawUrl = data.url
         file.url = appRoot + data.url
         file.id = data.id
       }
       return file;
     });
+
+    console.log(fileList)
     this.setState({ fileList });
   }
 
   handleRemove = file => {
-    if (file.status === 'error') return
     deleteProjectFile({ id: file.id }).then(res => {
       if (res.result) {
-        message.success('服务器端删除成功！')
-        //console.log(file.id, this.state.fileList)
-        const fileList = this.state.fileList.filter(item => item.id !== file.id)
-        this.setState({ fileList })
+        //console.log(res.result)
+        message.success('附件“' + file.name + '”删除成功！')
+      }
+      else{
+        message.warning('附件“' + file.name + '”删除失败！')
       }
     })
   }
+
+  getAppendixUrls = () => {
+    //console.log(this.state.fileList)
+    return this.state.fileList.reduce( (pre, item) => {
+      return pre ? pre + ',' + item.rawUrl : item.rawUrl
+    }, null)
+  }
+
   render() {
     //console.log(this.props)
     const props = {
@@ -78,7 +84,6 @@ class AppendixUpload extends React.Component {
       headers: {
         authorization: getJwt(),
       },
-      disabled: !this.props.projectID,
       beforeUpload: this.beforeUpload,
       onChange: this.handleChange,
       onRemove: this.handleRemove,
@@ -95,4 +100,4 @@ class AppendixUpload extends React.Component {
   }
 }
 
-export default AppendixUpload
+export default ProjectAppendixUpload
