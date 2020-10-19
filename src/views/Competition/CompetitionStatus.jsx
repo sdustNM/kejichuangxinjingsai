@@ -23,12 +23,16 @@ const CompetitionStatus = (props) => {
     //console.log(props.id);
     getCompetitionState({ "id": props.id }).then(res => {
       if (res.result) {
-        var currentStatus = res.data;
-        var temp = global.constants.XiaoCompetitionStatusMatch.filter(x => x.a === currentStatus)[0];
-        if (temp) var tt = temp.b
+        console.log(res);
+        if (res.data==="null") return;
+        var currentStatus = JSON.parse(res.data);
+        if (currentStatus) {
+          var temp = global.constants.XiaoCompetitionStatusMatch.filter(x => x.a === currentStatus.statusId)[0];
+          if (temp) var tt = temp.b
 
-        //console.log(tt)
-        setcIndex(tt)
+          //console.log(temp)
+          setcIndex(tt)
+        }
       }
     });
 
@@ -59,7 +63,7 @@ const CompetitionStatus = (props) => {
   }
 
   const getStepState = (index) => {
-    return index < cIndex ? "完成" : (index === cIndex ? "进行中..." : "等待")
+    return index < cIndex || cIndex==7 ? "完成" : (index === cIndex ? "进行中..." : "等待")
   }
 
   return (

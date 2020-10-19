@@ -13,20 +13,29 @@ import { getTeachersByFuzzy } from '../services/administer/deparmentAdminister'
 //   )
 // }
 
-const SelectManComplete = (props) => {
+class SelectManComplete extends React.Component {
 
-  const [value, setValue] = useState(props.initValue);
-  const [options, setOptions] = useState([]);
-  const [db, setDb] = useState([]);
+  constructor(...prop) {
+    super(...prop);
+    this.state = {
+      value: prop.initValue,
+      options: [],
+      db: []
+    };
 
-  const onSearch = searchText => {
+  }
+  // const [value, setValue] = useState(props.initValue);
+  // const [options, setOptions] = useState([]);
+  // const [db, setDb] = useState([]);
+
+  onSearch = searchText => {
     if (searchText.length > 1) {
       //!searchText ? [] : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)],
       getTeachersByFuzzy({ "searchTxt": searchText }).then(res => {
         let r = []
         if (res.result) {
           let data = JSON.parse(res.data)
-          setDb(data)
+          this.setState({ db:data});
           r = data.map(item => {
             return {
               value: item.id,
@@ -44,56 +53,56 @@ const SelectManComplete = (props) => {
 
           })
         }
-        setOptions(r)
+        this.setState({ options:r});
       })
     }
   }
 
-  useEffect(() => {
+  componentDidMount() {
     //console.log(props.initValue)
-    props.initValue && getTeachersByFuzzy({ "searchTxt": props.initValue }).then(res => {
+    this.props.initValue && getTeachersByFuzzy({ "searchTxt": this.props.initValue }).then(res => {
       if (res.result) {
 
         let data = JSON.parse(res.data)
         //console.log(data)
         if (data.length === 1) {   //只有一条记录
-          setValue(`${data[0].id}-${data[0].name}`)
+          this.setState({ value: `${data[0].id}-${data[0].name}` });
         }
       }
     })
+  }
 
-  })
-
-  const onSelect = data => {
+  onSelect = data => {
     //console.log("select" + data)
-    let finded = db.find(a => a.id === data)
-    finded && setValue(`${finded.id}-${finded.name}`);
-    props.chooseMan(data)
+    let finded = this.state.db.find(a => a.id === data)
+    finded && this.setState({ value: `${finded.id}-${finded.name}` });
+    this.props.chooseMan(data)
   };
 
-  const onChange = data => {
+  onChange = data => {
     // console.log(data)
-    setValue(data);
+    this.setState({ value: data });
     // console.log(props)
     // props.chooseMan(data)
   };
-
-  return (
-    <AutoComplete
+  render() {
+    return (
+      <AutoComplete
         allowClear
         dropdownMatchSelectWidth={252}
-        value={value}
-        options={options}
+        value={this.state.value}
+        options={this.state.options}
         style={{
           width: 300,
         }}
-        onSelect={onSelect}
-        onSearch={onSearch}
-        onChange={onChange}
+        onSelect={this.onSelect}
+        onSearch={this.onSearch}
+        onChange={this.onChange}
         placeholder="选择人员"
       >  <Input.Search size="large" placeholder="input here" enterButton />
       </AutoComplete>
-  );
+    );
+  }
 };
 
 export default SelectManComplete
