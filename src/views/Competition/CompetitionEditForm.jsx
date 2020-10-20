@@ -24,10 +24,10 @@ class CompetitionEditForm extends React.Component {
     appendixList: null
   }
   componentDidMount() {
-    //console.log(this.props)
+    console.log(this.props)
     const { id } = this.props
     if (id) {
-      getCompetitionByID(id).then(res => {
+      getCompetitionByID({ id }).then(res => {
         if (res.result) {
           let item = JSON.parse(res.data)
           //console.log(item)
@@ -52,6 +52,10 @@ class CompetitionEditForm extends React.Component {
       })
 
 
+    } else {
+      this.setState({
+        appendixList: []
+      })
     }
   }
 

@@ -50,9 +50,7 @@ class CompititionListXiao extends React.Component {
       pageSize
     }
 
-    //console.log(params)
     getCompetitionList(params).then(res => {
-      //console.log(res)
       if (res.result) {
         let list = []
         let data = JSON.parse(res.data)
@@ -94,7 +92,7 @@ class CompititionListXiao extends React.Component {
         dataIndex: 'fromUnit',
         key: 'fromUnit',
         width: 200,
-      }, 
+      },
       {
         title: '参赛时间',
         dataIndex: 'submitTime',

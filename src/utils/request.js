@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { getJwt } from './jwtHelper'
 
-//export const appRoot = 'http://192.168.34.201:4000'
-export const appRoot = 'http://localhost:5000'
-export const baseURL=`${appRoot}/api`
+export const appRoot = 'http://192.168.34.201:4000'
+//export const appRoot = 'http://localhost:5000'
+export const baseURL = `${appRoot}/api`
 
 
 const instance = axios.create({
@@ -25,11 +25,15 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   //return response;
-  return response.data;
+  if (response.data.hasOwnProperty('result') && !response.data.result) {
+    alert('请求数据出错：' + response.data.message)
+    return new Promise(() => { })
+  }
+  return response.data
 }, function (error) {
   // 对响应错误做点什么
   //return Promise.reject(error);
-  alert('请求出错：' + error.message)
+  alert('服务器响应请求出错：' + error.message)
   return new Promise(() => { })
 });
 

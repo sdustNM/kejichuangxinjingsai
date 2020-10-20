@@ -4,8 +4,8 @@ export function getCompetitionList(params) {
   return get('/administer/getCompetitionSimpleListByFuzzy', params)
 }
 
-export function getCompetitionByID(id) {
-  return get('/administer/getCompetitionByID', { id })
+export function getCompetitionByID(params) {
+  return get('/administer/getCompetitionByID', params)
 }
 
 export function setCompetition(competition) {

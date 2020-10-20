@@ -1,24 +1,23 @@
 import React from 'react'
-import { Descriptions , List} from 'antd'
+import { Descriptions, List } from 'antd'
 import { getCompetitionByID } from '../../services/administer/competition'
-import { getCompetitionFilesByComId } from '../../services/administer/appendix'
+//import { getCompetitionFilesByComId } from '../../services/administer/appendix'
 import { appRoot } from '../../utils/request'
 class CompetitionInfo extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor(...props) {
+    super(...props)
     this.state = {
       competition: {},
-      fileList: []
     }
   }
   componentDidMount() {
-    const { id } = this.props
-    if (id) {
+    const { competitionID } = this.props
+    if (competitionID) {
       //获取竞赛基本信息
-      getCompetitionByID(id).then(res => {
+      getCompetitionByID({ id: competitionID }).then(res => {
         if (res.result) {
           const data = JSON.parse(res.data)
-          //console.log(data)
+          console.log(data)
           this.setState({
             competition: {
               id: data.id,
@@ -33,25 +32,26 @@ class CompetitionInfo extends React.Component {
               appraiseEnd: data.appraiseEnd,
               description: data.description,
               remark: data.remark,
+              fileList: data.appendixList
             }
           })
         }
       })
 
-      //获取竞赛附件
-      getCompetitionFilesByComId({ comId: id }).then(res => {
-        if (res.result) {
-          this.setState({
-            fileList: JSON.parse(res.data)
-          })
-        }
-      })
+      // //获取竞赛附件
+      // getCompetitionFilesByComId({ comId: competitionID }).then(res => {
+      //   if (res.result) {
+      //     this.setState({
+      //       fileList: JSON.parse(res.data)
+      //     })
+      //   }
+      // })
     }
   }
 
   render() {
     const { competition } = this.state
-   // console.log(competition)
+    // console.log(competition)
     return (
       <Descriptions
         bordered
@@ -71,7 +71,7 @@ class CompetitionInfo extends React.Component {
           <List
             size="small"
             //bordered
-            dataSource={this.state.fileList}
+            dataSource={competition.fileList}
             renderItem={item => (
               <List.Item>
                 <a

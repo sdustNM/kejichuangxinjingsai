@@ -29,7 +29,7 @@ class Competition extends React.Component {
           title={<span><FileTextOutlined />比赛详情</span>}
           extra={<CompetitionProjectState competitionID={id} history={this.props.history}></CompetitionProjectState>}
         >
-          <CompetitionInfo id={id}></CompetitionInfo>
+          <CompetitionInfo competitionID={id}></CompetitionInfo>
         </Card>
       </div>
     )

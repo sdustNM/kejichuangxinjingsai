@@ -56,11 +56,6 @@ class CompetitionEdit extends React.Component {
         key: 'tab2',
         tab: '基本信息',
       },
-      // {
-      //   key: 'tab3',
-      //   tab: '比赛附件',
-      //   disabled: !this.state.id
-      // },
       {
         key: 'tab4',
         tab: '评审专家',
@@ -78,20 +73,20 @@ class CompetitionEdit extends React.Component {
       }, 
       {
         key: 'tab7',
-        tab: '校级推荐',
+        tab: '学校评审',
         disabled: !this.state.id
       }
     ];
 
     if(isAdminister()) {
       tabList = tabList.filter( item => {
-        return ['tab3', 'tab5', 'tab7'].indexOf(item.key) === -1
+        return ['tab5', 'tab7'].indexOf(item.key) === -1
       })
     }
 
     const contentList = {
       tab1: <CompetitionStatus id={this.state.id}></CompetitionStatus>,
-      tab2: isAdminister() ? <CompetitionInfo id={this.state.id}></CompetitionInfo> : <CompetitionEditForm id={this.state.id} createID={this.createID} history={this.props.history}></CompetitionEditForm>,
+      tab2: isAdminister() ? <CompetitionInfo competitionID={this.state.id}></CompetitionInfo> : <CompetitionEditForm id={this.state.id} createID={this.createID} history={this.props.history}></CompetitionEditForm>,
       //tab3: isSuperAdminister() && <CompetitionEditAppendix id={this.state.id}></CompetitionEditAppendix>,
       tab4: <CompetitionExpertList id={this.state.id}></CompetitionExpertList>,
       tab5: <SetMaxRecommended id={this.state.id}></SetMaxRecommended>,

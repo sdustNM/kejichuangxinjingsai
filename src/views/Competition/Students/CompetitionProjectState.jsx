@@ -23,10 +23,13 @@ class CompetitionProjectState extends React.Component {
     const competitionID = this.props.competitionID
 
     //获取比赛状态
-    let competitionState
+    let competitionState = ''
     let competitionStateResult = await getCompetitionState({ id: competitionID })
     if (competitionStateResult.result) {
-      competitionState = JSON.parse(competitionStateResult.data).statusId
+      let statusObj = JSON.parse(competitionStateResult.data)
+      if (statusObj) {
+        competitionState = statusObj.statusId
+      }
     }
 
     //获取用户是否参赛并获取作品状态
@@ -61,7 +64,10 @@ class CompetitionProjectState extends React.Component {
     let buttonDisabled = false
     let buttonValue = '参加比赛'
     if (!projectID) { //还未提交作品
-      if (competitionState === '1') {
+      if (competitionState === '') {
+        alert('获取比赛状态失败！')
+        buttonDisabled = true
+      } else if (competitionState === '1') {
         tip = '耐心等候，还未到比赛提交作品时间';
         buttonDisabled = true
       } else if (competitionState === '1.1') {

@@ -1,8 +1,13 @@
 import React from 'react'
-import { Button, Space, Table, Avatar, Select, message, Modal } from 'antd'
+import { Card, Alert, Divider, Popconfirm, Button, Space, Table, Avatar, Select, message, Modal } from 'antd'
 import { SearchOutlined, LikeTwoTone, StopTwoTone } from '@ant-design/icons'
-import { getRecommendedProjectList_yuan, setProjectRecommend_yuan, cancelProjectRecommend_yuan } from '../../../services/projectRecommend'
-import { getDeptID } from '../../../utils/auth'
+import {
+  getRecommendedProjectList_yuan,
+  setProjectRecommend_yuan,
+  cancelProjectRecommend_yuan,
+  confirmRecommend
+} from '../../../services/projectRecommend'
+import { getDeptID, isAdminister } from '../../../utils/auth'
 import getDepartmentList from '../../../redux/common'
 import ProjectInfo_administer from './ProjectInfo_administer'
 
@@ -18,7 +23,9 @@ class RecommendProject_Yuan extends React.Component {
       departmentList: [],
       deptID: '',
       visible: false,
-      projectID: null
+      projectID: null,
+      rateNum: 0,
+      realNum: 0
     }
   }
 
@@ -33,7 +40,6 @@ class RecommendProject_Yuan extends React.Component {
       else {
         departmentList = departmentList.filter(item => item.id === deptID)
       }
-      //console.log(departmentList)
       if (departmentList.length !== 0) {
         this.setState({
           departmentList,
@@ -58,8 +64,9 @@ class RecommendProject_Yuan extends React.Component {
     //console.log(params)
     getRecommendedProjectList_yuan(params).then(res => {
       if (res.result) {
-        //console.log(JSON.parse(res.data))
-        const projectList = JSON.parse(res.data).map((item, index) => {
+        const data = JSON.parse(res.data)
+        console.log(data)
+        const projectList = data.list.map((item, index) => {
           return {
             key: 'project_' + item.Id,
             index: index + 1,
@@ -71,9 +78,10 @@ class RecommendProject_Yuan extends React.Component {
             recommended: item.RecommendedYuan
           }
         })
-        //console.log(projectList)
         this.setState({
-          dataSource: projectList
+          dataSource: projectList,
+          rateNum: data.rateNum,
+          realNum: data.realNum
         })
       }
     })
@@ -101,9 +109,6 @@ class RecommendProject_Yuan extends React.Component {
         message.success('作品推荐成功！')
         this.getProjectList(this.state.competitionID, this.state.deptID)
       }
-      else {
-        message.warning('作品推荐失败！')
-      }
     })
   }
 
@@ -121,8 +126,51 @@ class RecommendProject_Yuan extends React.Component {
     })
   }
 
+  confirmRecommend = async () => {
+    const params = {
+      competitionId: this.state.competitionID,
+      departmentId: this.state.deptID
+    }
+    const res = await confirmRecommend(params)
+    console.log(res)
+  }
+
   render() {
-    const { dataSource, loading, visible, projectID } = this.state
+    const { dataSource, loading, visible, projectID, rateNum, realNum } = this.state
+    const numShow = (
+      <>
+        <span>最大推荐数：</span>
+        <span style={{color: '#cf1322', fontSize: 20}}>{rateNum}</span>
+        <Divider type="vertical" />
+        <span>已推荐数：</span>
+        <span style={{ color: '#3f8600', fontSize: 20 }}>{realNum}</span>
+      </>
+
+    )
+    const title = (
+      <Space>
+        <Select
+          value={this.state.deptID}
+          style={{ width: 200 }}
+          onChange={this.handleDeptChange}
+        >
+          {this.state.departmentList.map(
+            item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
+        </Select>
+        <Alert message={numShow} type="info" />
+      </Space>
+    )
+    const extra = (
+      <Popconfirm
+        title="如果确认推荐到学校，结果将无法撤回！您是否确认？"
+        onConfirm={this.confirmRecommend}
+        //onCancel={cancel}
+        okText="确认"
+        cancelText="取消"
+      >
+        <Button type='primary'>推荐确认提交</Button>
+      </Popconfirm>
+    )
     const columns = [
       {
         title: '序号',
@@ -176,7 +224,7 @@ class RecommendProject_Yuan extends React.Component {
               查看
                 </Button>
             {
-              !record.recommended ? (
+              isAdminister() && (!record.recommended ? (
                 <Button
                   type='primary'
                   size='small'
@@ -196,7 +244,7 @@ class RecommendProject_Yuan extends React.Component {
                   >
                     取消
                   </Button>
-                )
+                ))
             }
 
           </Space>
@@ -204,25 +252,23 @@ class RecommendProject_Yuan extends React.Component {
         ),
       },
     ];
+
     return (
       <div>
-        <Space style={{ marginBottom: 10 }}>
-          <Select
-            value={this.state.deptID}
-            style={{ width: 200 }}
-            onChange={this.handleDeptChange}
-          >
-            {this.state.departmentList.map(
-              item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
-          </Select>
-        </Space>
-        <Table
-          dataSource={dataSource}
-          columns={columns}
-          loading={loading}
-        //scroll={{ y: 320 }}
-        //size='small'
-        />
+        <Card
+          title={title}
+          extra={isAdminister() && extra}
+          headStyle={{ backgroundColor: '#f2f3f4' }}
+        >
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            loading={loading}
+          //scroll={{ y: 320 }}
+          //size='small'
+          />
+        </Card>
+
         <Modal
           title="评分"
           visible={visible}
