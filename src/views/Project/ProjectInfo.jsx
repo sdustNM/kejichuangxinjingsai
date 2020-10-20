@@ -42,7 +42,8 @@ class ProjectInfo extends React.Component {
 
   render() {
     const { project, size } = this.state
-    const { anonymous } = this.props
+    const anonymous = false
+    //const { anonymous } = this.props
     //console.log(project)
     return (
       <Card title={project.competitionName}>

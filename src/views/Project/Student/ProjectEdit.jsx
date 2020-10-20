@@ -28,7 +28,7 @@ class Project extends React.Component {
     this.state = {
       id: props[0].location.state.projectID,
       competitionID: props[0].location.state.competitionID,
-      teacher: '',
+      teacher: null,
       mainList: null,
       videoList: null,
       bzList: null,
@@ -40,27 +40,36 @@ class Project extends React.Component {
   videoAppedixRef = React.createRef()
   bzAppedixRef = React.createRef()
 
-  componentDidMount() {
-    //console.log(this.props)
+  async componentDidMount() {
+
+    let teacher = ''
+    let mainList = []
+    let videoList = []
+    let bzList = []
+
     if (this.state.id) {
-      getProjectInfoByID({ id: this.state.id }).then(res => {
-        if (res.result) {
-          const item = JSON.parse(res.data)
-          console.log(item)
-          this.formRef.current.setFieldsValue({
-            projectName: item.projectName,
-            cooperators: !item.ProjectCooperator ? [] : item.ProjectCooperator.split(','),
-            description: item.projectDes
-          })
-          this.setState({
-            teacher: item.projectTeacher,
-            mainList: item.AppendixMain || [],
-            videoList: item.AppendixVideo || [],
-            bzList: item.Appendixbz || [],         
-          })
-        }
-      })
+      const res = await getProjectInfoByID({ id: this.state.id })
+      if (res.result) {
+        const item = JSON.parse(res.data)
+        console.log(item)
+        this.formRef.current.setFieldsValue({
+          projectName: item.projectName,
+          cooperators: !item.ProjectCooperator ? [] : item.ProjectCooperator.split(','),
+          description: item.projectDes
+        })
+        item.projectTeacher && (teacher = item.projectTeacher)
+        item.AppendixMain && (mainList = item.AppendixMain)
+        item.AppendixVideo && (videoList = item.AppendixVideo)
+        item.Appendixbz && (bzList = item.Appendixbz)
+      }
     }
+
+    this.setState({
+      teacher,
+      mainList,
+      videoList,
+      bzList
+    })
 
   }
 
@@ -163,8 +172,7 @@ class Project extends React.Component {
                 name="teacher"
               >
                 {
-                  teacher?
-                <SelectManComplete initValue={teacher} chooseMan={this.setTeacher}></SelectManComplete>:<></>
+                  teacher !== null ? <SelectManComplete initValue={teacher} chooseMan={this.setTeacher}></SelectManComplete> : <></>
                 }
               </Form.Item>
 

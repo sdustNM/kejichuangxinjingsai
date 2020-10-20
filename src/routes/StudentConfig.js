@@ -1,5 +1,5 @@
 import ProjectEdit from "../views/Project/Student/ProjectEdit"
-import ProjectInfo from "../views/Project/Project"
+import ProjectInfo_student from "../views/Project/Student/ProjectInfo_student"
 // import NoticeList from "../views/Common/NoticeList"
 // import Notice from '../views/Common/Notice'
 import CompetitionListXiao from '../views/Competition/Students/CompetitionListXiao'
@@ -26,7 +26,7 @@ export const studentConfig = [
   }, 
   {
     path: '/student/projectInfo',
-    component: ProjectInfo
+    component: ProjectInfo_student
   }, 
   {
     path: '/student/projectList',

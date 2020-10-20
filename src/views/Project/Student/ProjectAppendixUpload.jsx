@@ -52,7 +52,7 @@ class ProjectAppendixUpload extends React.Component {
       return file;
     });
 
-    console.log(fileList)
+    //console.log(fileList)
     this.setState({ fileList });
   }
 

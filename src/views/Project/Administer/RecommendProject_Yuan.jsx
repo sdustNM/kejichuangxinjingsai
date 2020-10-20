@@ -9,7 +9,7 @@ import {
 } from '../../../services/projectRecommend'
 import { getDeptID, isAdminister } from '../../../utils/auth'
 import getDepartmentList from '../../../redux/common'
-import ProjectInfo_administer from './ProjectInfo_administer'
+import ProjectInfo_administer from '../Administer/ProjectInfo_administer'
 
 const { Option } = Select
 
