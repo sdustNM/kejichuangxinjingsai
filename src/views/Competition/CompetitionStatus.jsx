@@ -23,7 +23,7 @@ const CompetitionStatus = (props) => {
     //console.log(props.id);
     getCompetitionState({ "id": props.id }).then(res => {
       if (res.result) {
-        console.log(res);
+        //console.log(res);
         if (res.data==="null") return;
         var currentStatus = JSON.parse(res.data);
         if (currentStatus) {

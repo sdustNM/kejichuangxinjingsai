@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card } from 'antd'
-import ProjectInfo from '../ProjectInfo'
-import ReviewResult from '../ReviewResult'
+import ProjectInfo from './ProjectInfo'
+import ReviewResult from './ReviewResult'
 //import ProjectResult from './ProjectResult_student'
 //import { getProjectInfoByID } from '../../../services/project'
 
-class ProjectInfo_student extends React.Component {
+class Project extends React.Component {
   // constructor(...props) {
   //   super(...props)
   // }
@@ -21,4 +21,4 @@ class ProjectInfo_student extends React.Component {
   }
 }
 
-export default ProjectInfo_student
+export default Project

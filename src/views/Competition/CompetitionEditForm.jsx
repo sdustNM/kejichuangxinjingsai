@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, DatePicker, Space, message } from 'antd'
+import { Form, Input, Button, Checkbox, DatePicker, Space, message } from 'antd'
 import moment from "moment"
 import { getCompetitionByID, setCompetition } from '../../services/administer/competition'
 import { getDeptID } from '../../utils/auth'
@@ -24,13 +24,13 @@ class CompetitionEditForm extends React.Component {
     appendixList: null
   }
   componentDidMount() {
-    console.log(this.props)
+    //console.log(this.props)
     const { id } = this.props
     if (id) {
       getCompetitionByID({ id }).then(res => {
         if (res.result) {
           let item = JSON.parse(res.data)
-          //console.log(item)
+          console.log(item)
           let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD HH:mm')
           let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD HH:mm')
           let yuan_appraiseStart = !item.yuan_AppraiseStart ? null : moment(item.yuan_AppraiseStart, 'YYYY-MM-DD HH:mm')
@@ -43,7 +43,8 @@ class CompetitionEditForm extends React.Component {
             submitTime: [submitStart, submitEnd],
             yuan_appraiseTime: [yuan_appraiseStart, yuan_appraiseEnd],
             appraiseTime: [appraiseStart, appraiseEnd],
-            description: item.description
+            description: item.description,
+            anonymous: item.anonymousReview
           })
           this.setState({
             appendixList: item.appendixList
@@ -65,7 +66,8 @@ class CompetitionEditForm extends React.Component {
   }
 
   onFinish = value => {
-    console.log(this.getAppendixUrl())
+    //console.log(value)
+    //console.log(this.getAppendixUrl())
     const { id } = this.props
     let competitionItem = {
       name: value.name,
@@ -78,12 +80,13 @@ class CompetitionEditForm extends React.Component {
       yuan_AppraiseEnd: value.yuan_appraiseTime && value.yuan_appraiseTime[1] && value.yuan_appraiseTime[1].format('YYYY-MM-DD HH:mm'),
       appraiseStart: value.appraiseTime && value.appraiseTime[0] && value.appraiseTime[0].format('YYYY-MM-DD HH:mm'),
       appraiseEnd: value.appraiseTime && value.appraiseTime[1] && value.appraiseTime[1].format('YYYY-MM-DD HH:mm'),
+      anonymousReview: value.anonymous,
       description: value.description,
       remark: value.remark,
       appendixUrl: this.getAppendixUrl()
     }
     competitionItem.id = id || null
-    console.log(competitionItem)
+    //console.log(competitionItem)
     setCompetition(competitionItem).then(res => {
       if (res.result) {
         //console.log(res)
@@ -159,6 +162,13 @@ class CompetitionEditForm extends React.Component {
                 defaultValue: [moment('00:00', 'mm:ss'), moment('00:00', 'mm:ss')]
               }}
               format="YYYY-MM-DD HH:mm" />
+          </Form.Item>
+          <Form.Item
+            label="是否匿名评审"
+            name="anonymous"
+            valuePropName="checked"
+          >
+            <Checkbox />
           </Form.Item>
           <Form.Item
             label="比赛描述"

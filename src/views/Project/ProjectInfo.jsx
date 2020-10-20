@@ -3,7 +3,7 @@ import { Descriptions, Card } from 'antd'
 import { getProjectInfoByID } from '../../services/project'
 
 import AppendixList from './AppendixList';
-import { RichUtils } from 'draft-js';
+//import { RichUtils } from 'draft-js';
 
 class ProjectInfo extends React.Component {
   constructor(...props) {
@@ -42,6 +42,7 @@ class ProjectInfo extends React.Component {
 
   render() {
     const { project, size } = this.state
+    const { anonymous } = this.props
     //console.log(project)
     return (
       <Card title={project.competitionName}>
@@ -51,9 +52,9 @@ class ProjectInfo extends React.Component {
           column={2}
         >
           <Descriptions.Item label="作品名称" span={2}>{project.name}</Descriptions.Item>
-          <Descriptions.Item label="作者">{project.sno}</Descriptions.Item>
-          <Descriptions.Item label="指导老师">{project.teacher}</Descriptions.Item>
-          <Descriptions.Item label="合作者" span={2}>{project.cooperator}</Descriptions.Item>
+          {!anonymous && <Descriptions.Item label="作者">{project.sno}</Descriptions.Item>}
+          {!anonymous && <Descriptions.Item label="指导老师">{project.teacher}</Descriptions.Item>}
+          {!anonymous && <Descriptions.Item label="合作者" span={2}>{project.cooperator}</Descriptions.Item>}
           <Descriptions.Item label="作品描述" span={2}>{project.description}</Descriptions.Item>
           <Descriptions.Item label="项目附件" span={2}>
             <AppendixList fileList={project.mainList}></AppendixList>

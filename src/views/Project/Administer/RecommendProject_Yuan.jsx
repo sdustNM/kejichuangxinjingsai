@@ -25,7 +25,8 @@ class RecommendProject_Yuan extends React.Component {
       visible: false,
       projectID: null,
       rateNum: 0,
-      realNum: 0
+      realNum: 0,
+      canRecommend: false
     }
   }
 
@@ -81,7 +82,8 @@ class RecommendProject_Yuan extends React.Component {
         this.setState({
           dataSource: projectList,
           rateNum: data.rateNum,
-          realNum: data.realNum
+          realNum: data.realNum,
+          canRecommend: data.canRecommend
         })
       }
     })
@@ -120,9 +122,6 @@ class RecommendProject_Yuan extends React.Component {
         message.success('取消推荐成功！')
         this.getProjectList(this.state.competitionID, this.state.deptID)
       }
-      else {
-        message.warning('取消推荐失败！')
-      }
     })
   }
 
@@ -133,14 +132,17 @@ class RecommendProject_Yuan extends React.Component {
     }
     const res = await confirmRecommend(params)
     console.log(res)
+    if (res.result) {
+      this.setState({ canRecommend: false })
+    }
   }
 
   render() {
-    const { dataSource, loading, visible, projectID, rateNum, realNum } = this.state
+    const { dataSource, loading, visible, projectID, rateNum, realNum, canRecommend } = this.state
     const numShow = (
       <>
         <span>最大推荐数：</span>
-        <span style={{color: '#cf1322', fontSize: 20}}>{rateNum}</span>
+        <span style={{ color: '#cf1322', fontSize: 20 }}>{rateNum}</span>
         <Divider type="vertical" />
         <span>已推荐数：</span>
         <span style={{ color: '#3f8600', fontSize: 20 }}>{realNum}</span>
@@ -224,7 +226,7 @@ class RecommendProject_Yuan extends React.Component {
               查看
                 </Button>
             {
-              isAdminister() && (!record.recommended ? (
+              (isAdminister() && canRecommend) && (!record.recommended ? (
                 <Button
                   type='primary'
                   size='small'
@@ -257,7 +259,7 @@ class RecommendProject_Yuan extends React.Component {
       <div>
         <Card
           title={title}
-          extra={isAdminister() && extra}
+          extra={(isAdminister() && canRecommend) && extra}
           headStyle={{ backgroundColor: '#f2f3f4' }}
         >
           <Table

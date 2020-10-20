@@ -27,7 +27,7 @@ class CompetitionEditAppendix extends React.Component {
       return file;
     });
 
-    console.log(fileList)
+    //console.log(fileList)
     this.setState({ fileList })
   }
 
@@ -61,7 +61,7 @@ class CompetitionEditAppendix extends React.Component {
   }
 
   getAppendixUrls = () => {
-    console.log(this.state.fileList)
+    //console.log(this.state.fileList)
     return this.state.fileList.reduce( (pre, item) => {
       return pre ? pre + ',' + item.rawUrl : item.rawUrl
     }, null)
