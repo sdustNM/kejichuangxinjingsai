@@ -38,10 +38,10 @@ class Competition extends React.Component {
           size='small'
           column={2}>
           <Descriptions.Item label="组织单位">{competition.fromUnit}</Descriptions.Item>
-          <Descriptions.Item label="比赛级别">{competition.category}选拔</Descriptions.Item>
-          {competition.statusId === '1' ? <Descriptions.Item label="学院评审开始">{competition.submitStart}</Descriptions.Item> : <Descriptions.Item label="学校评审开始">{competition.submitStart}</Descriptions.Item>}
-          {competition.statusId === '1' ? <Descriptions.Item label="学院评审结束">{competition.submitEnd}</Descriptions.Item> : <Descriptions.Item label="学校评审结束">{competition.submitEnd}</Descriptions.Item>}
-
+          <Descriptions.Item label="评比阶段">{competition.status}</Descriptions.Item>
+          <Descriptions.Item label="开始时间">{competition.statusId === '1.3' ? competition.yuan_AppraiseStart : competition.appraiseStart}</Descriptions.Item>
+          <Descriptions.Item label="结束时间">{competition.tatusId === '1.3' ? competition.yuan_AppraiseEnd : competition.appraiseEnd}</Descriptions.Item>
+          <Descriptions.Item label="匿名评审">{competition}</Descriptions.Item>
           <Descriptions.Item label="附件">
             {!competition.appendixList || !competition.appendixList.length ? '' : (
               <List

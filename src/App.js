@@ -6,18 +6,27 @@ import Login from './views/Login/Login'
 import Home from './views/Common/Home'
 import './App.css'
 import AuthComponent from './utils/AuthComponent';
+//import AuthTest from './utils/AuthTest';
 import getUserTest from './views/getUserTest';
 import AdministerRoutes from './routes/AdministerRoutes';
 import Student from './routes/StudentRoutes';
 import ExpertRoutes from './routes/ExpertRoutes';
+//import Test from './views/Common/Test';
+//import LoginTest from './utils/LoginTest';
 //import HomeTest from './views/home/home'
+
+
 
 function App() {
   return (
     <Router>
       <Switch>
+        {/* <Route path='/logintest' component={LoginTest} exact></Route>
+
+        <AuthTest>
+          <Route path='/test' component={Test} exact></Route>
+        </AuthTest> */}
         <Route path='/' component={Home} exact></Route>
-        {/* <Route path='/home' component={HomeTest} exact></Route> */}
         <Route path='/login' component={Login} exact></Route>
         <Route path='/error' component={PageNotFound} exact></Route>
 
