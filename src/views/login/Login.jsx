@@ -5,6 +5,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.css'
 import axios from 'axios'
 import { isStudent, isExpert } from '../../utils/auth';
+import { getJwtUser,getJwt } from '../../utils/jwtHelper';
 
 class Login extends React.Component {
 
@@ -16,9 +17,10 @@ class Login extends React.Component {
       entryID: this.props.location.state.entryID
     }).then(res => {
       let r = res.data;
-      // console.log(res.data.data)
+       console.log(res.data)
       if (r.result) {
         sessionStorage.setItem('myjwt', r.data);
+        console.log(getJwtUser())
         if (isStudent()) {
           this.props.history.push('/student')
         } else if (isExpert()) {

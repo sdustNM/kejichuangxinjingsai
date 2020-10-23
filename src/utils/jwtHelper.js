@@ -14,7 +14,7 @@ export const getJwtUser = () => {
       // let user =  (JSON.parse(s1))
       if (decryToken.token) {
         let user = decryToken.data
-        //console.log(user)
+       // console.log(user)
         let name = "";
         let role = "";
         let username = "";
@@ -34,7 +34,10 @@ export const getJwtUser = () => {
             username = extraData[0];
             departmentNo = extraData[1];
             department = extraData[2];
-            roleList=extraData[3].split('.');
+            if (extraData.Length>3)
+            {
+             roleList=extraData[3].split('.');
+            }
           }
         }
 

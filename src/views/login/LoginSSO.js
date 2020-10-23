@@ -1,5 +1,6 @@
 import React from 'react';
 import qs from 'qs'
+import {appRoot}   from   '../../utils/request';
 class LoginSSO extends React.Component {
 
   render()
@@ -15,7 +16,7 @@ class LoginSSO extends React.Component {
     //   code: queryObject.code
     // }
 
-    window.location.href="http://192.168.34.201:4000/api/loginSSO?entryId="+queryObject.entryId;
+    window.location.href=`${appRoot}/api/loginSSO?entryId=${queryObject.entryId}`;
   }
 }
 
