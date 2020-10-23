@@ -5,7 +5,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.css'
 import axios from 'axios'
 import { isStudent, isExpert } from '../../utils/auth';
-import { getJwtUser,getJwt } from '../../utils/jwtHelper';
+import { getJwtUser } from '../../utils/jwtHelper';
 
 class Login extends React.Component {
 
