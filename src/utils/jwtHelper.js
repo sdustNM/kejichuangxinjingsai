@@ -20,6 +20,7 @@ export const getJwtUser = () => {
         let username = "";
         let departmentNo = "";
         let department = "";
+        let roleList=[];
 
         for (var item in user) {
           if ((item.search("/claims/name")) >= 0) {
@@ -33,6 +34,7 @@ export const getJwtUser = () => {
             username = extraData[0];
             departmentNo = extraData[1];
             department = extraData[2];
+            roleList=extraData[3].split('.');
           }
         }
 
@@ -41,7 +43,8 @@ export const getJwtUser = () => {
           "role": role,
           "username": username,
           "department": department,
-          "departmentNo": departmentNo
+          "departmentNo": departmentNo,
+          "roleList":roleList
         };
       }
       else { return null; }
