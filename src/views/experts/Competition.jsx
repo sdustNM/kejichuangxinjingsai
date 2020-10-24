@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Button, Descriptions, List } from 'antd'
+import { Card, Button, Descriptions, List, Divider } from 'antd'
 
 import { appRoot } from '../../utils/request'
 
@@ -24,25 +24,32 @@ class Competition extends React.Component {
     const extra = (
       <Button
         type='primary'
-        onClick={() => {this.props.history.push({ pathname: '/expert/projectList', state: { id: competition.id } })}}
+        onClick={() => { this.props.history.push({ pathname: '/expert/projectList', state: { id: competition.id, anonymous: competition.anonymousReview } }) }}
       >进入评分</Button>
+    )
+    const title = (
+      <h3>
+        <strong>{competition.name}</strong>
+        <Divider type='vertical' />
+        <span>({competition.id})</span>
+      </h3>
     )
     return (
       <Card
         type="inner"
-        title={`${competition.name}(${competition.id})`}
+        title={title}
         extra={extra}
       >
         <Descriptions
           bordered
           size='small'
           column={2}>
-          <Descriptions.Item label="组织单位">{competition.fromUnit}</Descriptions.Item>
-          <Descriptions.Item label="评比阶段">{competition.status}</Descriptions.Item>
-          <Descriptions.Item label="开始时间">{competition.statusId === '1.3' ? competition.yuan_AppraiseStart : competition.appraiseStart}</Descriptions.Item>
-          <Descriptions.Item label="结束时间">{competition.tatusId === '1.3' ? competition.yuan_AppraiseEnd : competition.appraiseEnd}</Descriptions.Item>
-          <Descriptions.Item label="匿名评审">{competition}</Descriptions.Item>
-          <Descriptions.Item label="附件">
+          <Descriptions.Item label={<strong>组织单位</strong>}>{competition.fromUnit}</Descriptions.Item>
+          <Descriptions.Item label={<strong>评比阶段</strong>}>{competition.status}</Descriptions.Item>
+          <Descriptions.Item label={<strong>开始时间</strong>}>{competition.statusId === '1.3' ? competition.yuan_AppraiseStart : competition.appraiseStart}</Descriptions.Item>
+          <Descriptions.Item label={<strong>结束时间</strong>}>{competition.tatusId === '1.3' ? competition.yuan_AppraiseEnd : competition.appraiseEnd}</Descriptions.Item>
+          <Descriptions.Item label={<strong>匿名评审</strong>} span={2}>{competition.anonymousReview ? '是' : '否'}</Descriptions.Item>
+          <Descriptions.Item label={<strong>附件</strong>}>
             {!competition.appendixList || !competition.appendixList.length ? '' : (
               <List
                 size="small"

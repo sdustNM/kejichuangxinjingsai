@@ -9,7 +9,7 @@ class ProjectInfo extends React.Component {
   constructor(...props) {
     super(...props)
     this.state = {
-      project: {}
+      project: {},
     }
   }
 
@@ -17,7 +17,7 @@ class ProjectInfo extends React.Component {
     const projectID = this.props.projectID
     if (projectID) {
       getProjectInfoByID({ id: projectID }).then(res => {
-        console.log(res)
+        //console.log(res)
         if (res.result) {
           const item = JSON.parse(res.data)
           //console.log(item)
@@ -41,29 +41,27 @@ class ProjectInfo extends React.Component {
   }
 
   render() {
-    const { project, size } = this.state
-    const anonymous = false
-    //const { anonymous } = this.props
-    //console.log(project)
+    const { project } = this.state
+    const anonymous = this.props.anonymous
+    //console.log(anonymous)
     return (
-      <Card title={project.competitionName}>
+      <Card title={<h3><strong>{project.competitionName}</strong></h3>}>
         <Descriptions
           bordered
-          size={size || 'middle'}
           column={2}
         >
-          <Descriptions.Item label="作品名称" span={2}>{project.name}</Descriptions.Item>
-          {!anonymous && <Descriptions.Item label="作者">{project.sno}</Descriptions.Item>}
-          {!anonymous && <Descriptions.Item label="指导老师">{project.teacher}</Descriptions.Item>}
-          {!anonymous && <Descriptions.Item label="合作者" span={2}>{project.cooperator}</Descriptions.Item>}
-          <Descriptions.Item label="作品描述" span={2}>{project.description}</Descriptions.Item>
-          <Descriptions.Item label="项目附件" span={2}>
+          <Descriptions.Item label={<strong>作品名称</strong>} span={2}>{project.name}</Descriptions.Item>
+          {!anonymous && <Descriptions.Item label={<strong>作者</strong>}>{project.sno}</Descriptions.Item>}
+          {!anonymous && <Descriptions.Item label={<strong>指导老师</strong>}>{project.teacher}</Descriptions.Item>}
+          {!anonymous && <Descriptions.Item label={<strong>合作者</strong>} span={2}>{project.cooperator}</Descriptions.Item>}
+          <Descriptions.Item label={<strong>作品描述</strong>} span={2}>{project.description}</Descriptions.Item>
+          <Descriptions.Item label={<strong>项目附件</strong>} span={2}>
             <AppendixList fileList={project.mainList}></AppendixList>
           </Descriptions.Item>
-          <Descriptions.Item label="视频附件" span={2}>
+          <Descriptions.Item label={<strong>视频附件</strong>} span={2}>
             <AppendixList fileList={project.videoList}></AppendixList>
           </Descriptions.Item>
-          <Descriptions.Item label="其他附加" span={2}>
+          <Descriptions.Item label={<strong>其他附加</strong>} span={2}>
             <AppendixList fileList={project.bzList}></AppendixList>
           </Descriptions.Item>
         </Descriptions>

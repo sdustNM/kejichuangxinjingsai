@@ -8,6 +8,7 @@ class ProjectList extends React.Component {
     super(props)
     this.state = {
       competitionID: props.location.state && props.location.state.id,
+      anonymous: props.location.state && props.location.state.anonymous,
       dataSource: [],
       loading: false
     }
@@ -20,19 +21,23 @@ class ProjectList extends React.Component {
   refresh = () => {
     const params = {
       competitionId: this.state.competitionID,
-      //expertId: getUserID()
     }
-    //console.log(params)
     getSimpleProjectListForExpert(params).then(res => {
       //console.log(res)
       if (res.result) {
         let list = JSON.parse(res.data)
-        //console.log(JSON.parse(res.data.data))
+        //console.log(list)
         list = list.map(item => {
           item.key = 'project_' + item.Id
+          if(this.state.anonymous){
+            item.teacherName = '匿名'
+            item.studentName = '匿名'
+            item.ProjectCooperator = '匿名'
+          }
           return item
         })
-        console.log(list)
+        
+        //console.log(list)
         this.setState({
           dataSource: list
         })
@@ -42,7 +47,7 @@ class ProjectList extends React.Component {
   }
 
   render() {
-    const { dataSource, loading } = this.state
+    const { anonymous, dataSource, loading } = this.state
     const columns = [
       {
         title: '作品名称',
@@ -80,7 +85,7 @@ class ProjectList extends React.Component {
             shape='round'
             onClick={() => {
               //console.log("record.name:", record.name)
-              this.props.history.push({ pathname: '/expert/project', state: { id: record.Id, score:record.ExpertScore } })
+              this.props.history.push({ pathname: '/expert/project', state: { projectID: record.Id, anonymous, score:record.ExpertScore } })
             }}
           >评分</Button>
           </div>

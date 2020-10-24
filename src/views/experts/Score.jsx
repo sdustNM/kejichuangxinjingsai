@@ -35,7 +35,7 @@ class Score extends React.Component {
       shouldScore: value.score,
       remark: value.remark
     }
-    console.log(params)
+    //console.log(params)
     setProjectScore(params).then(res => {
       if(res.result){
         this.props.setScore(value.score)
@@ -67,7 +67,7 @@ class Score extends React.Component {
           name="score"
           rules={[{ required: true, message: '作品分数不能为空！' }]}
         >
-          <InputNumber min={0} max={100} />
+          <InputNumber min={0} max={100} precision={0}/>
         </Form.Item>
 
         <Form.Item

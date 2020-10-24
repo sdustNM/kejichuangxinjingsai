@@ -2,23 +2,24 @@ import React from 'react'
 import { Card, Button, Modal } from 'antd'
 import ProjectInfo from '../Project/ProjectInfo'
 import Score from './Score'
-import { getProjectInfoByID } from '../../services/project'
 
 class ProjectScore extends React.Component {
 
   constructor(props) {
     super(props)
+    console.log(props)
     this.state = {
-      projectID: props.location.state.id,
-      project: {},
+      visible: false,
+      projectID: props.location.state.projectID,
       score: props.location.state.score,
-      visible: false
+      anonymous: props.location.state.anonymous,
     }
   }
 
   setScore = score => {
+    //const { projectID, anonymous } = this.state
     this.setState({ score })
-    this.props.history.push({ pathname: '/expert/project', state: { id: this.state.projectID, score} })
+    //this.props.history.push({ pathname: '/expert/project', state: { projectID, score, anonymous} })
     this.hideModal()
   }
 
@@ -33,34 +34,10 @@ class ProjectScore extends React.Component {
     })
   }
 
-  componentDidMount() {
-    const projectID = !!this.props.location.state && this.props.location.state.id
-    if (projectID) {
-      getProjectInfoByID({ id: projectID }).then(res => {
-        if (res.result) {
-          const item = JSON.parse(res.data)
-          console.log(item)
-          this.setState({
-            project: {
-              id: item.id,
-              name: item.projectName,
-              sno: item.sno,
-              teacher: item.projectTeacherName,
-              cooperator: item.ProjectCooperator,
-              description: item.projectDes,
-              mainList: item.AppendixMain,
-              videoList: item.AppendixVideo,
-              bzList: item.Appendixbz
-            }
-          })
-        }
-      })
-    }
-  }
-
   render() {
-    console.log(this.state)
-    const { score, project, projectID, visible } = this.state
+    //console.log(this.props)
+    const { visible, projectID, score, anonymous } = this.state
+    //console.log(this.props.location.state)
     const scoreStyle = {
       color: 'red',
       fontSize: 32
@@ -73,7 +50,7 @@ class ProjectScore extends React.Component {
             type='primary'
             onClick={this.showModal}
           >打分</Button>}>
-          <ProjectInfo project={project}></ProjectInfo>
+          {projectID && <ProjectInfo projectID={projectID} anonymous={anonymous}></ProjectInfo>}
         </Card>
         <Modal
           title="评分"
