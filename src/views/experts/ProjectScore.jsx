@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Button, Modal } from 'antd'
+import { Card, Button, Modal, Space } from 'antd'
 import ProjectInfo from '../Project/ProjectInfo'
 import Score from './Score'
 
@@ -42,14 +42,23 @@ class ProjectScore extends React.Component {
       color: 'red',
       fontSize: 32
     }
+    const extra = (
+      <Space>
+        <Button
+          type='primary'
+          onClick={this.showModal}
+        >打分</Button>
+        <Button
+          type='primary'
+          onClick={() => { this.props.history.go(-1)}}
+        >返回</Button>
+      </Space>
+    )
     return (
       <div>
         <Card
           title={<span style={scoreStyle}>{score}</span>}
-          extra={<Button
-            type='primary'
-            onClick={this.showModal}
-          >打分</Button>}>
+          extra={extra}>
           {projectID && <ProjectInfo projectID={projectID} anonymous={anonymous}></ProjectInfo>}
         </Card>
         <Modal

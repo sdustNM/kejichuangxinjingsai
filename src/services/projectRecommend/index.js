@@ -30,12 +30,13 @@ export function getRecommendedProjectList_xiao(params) {
   return get('/ProjectRecommend/getRecommendedProjectList_xiao', params)
 }
 
-//学校推荐项目
-export function setProjectRecommend_xiao(params) {
-  return post('/ProjectRecommend/setProjectRecommend_xiao', params)
+//getResultLevels
+export function getResultLevels() {
+  return get('/ProjectRecommend/getResultLevels')
 }
 
-//学校取消推荐项目
-export function cancelProjectRecommend_xiao(params) {
-  return post('/ProjectRecommend/cancelProjectRecommend_xiao', params)
+//学校评审项目/api/ProjectRecommend/setProjectResult_xiao
+export function setProjectResult_xiao(params) {
+  return post('/ProjectRecommend/setProjectResult_xiao', params)
 }
+

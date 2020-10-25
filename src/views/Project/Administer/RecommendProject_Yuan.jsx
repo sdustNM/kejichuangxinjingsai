@@ -66,7 +66,7 @@ class RecommendProject_Yuan extends React.Component {
     getRecommendedProjectList_yuan(params).then(res => {
       if (res.result) {
         const data = JSON.parse(res.data)
-        console.log(data)
+        //console.log(data)
         const projectList = data.list.map((item, index) => {
           return {
             key: 'project_' + item.Id,

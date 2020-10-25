@@ -1,42 +1,42 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { Layout, Menu, Space,Dropdown, Avatar } from 'antd'
+import { Layout, Menu, Space, Dropdown, Avatar } from 'antd'
 
-import {studentMenus} from '../../routes/StudentMenu'
-import {administerMenus} from '../../routes/AdministerMenu'
-import {expertMenus} from '../../routes/ExpertMenu'
-import {getJwtUser,removeJwt} from '../../utils/jwtHelper'
+import { studentMenus } from '../../routes/StudentMenu'
+import { administerMenus } from '../../routes/AdministerMenu'
+import { expertMenus } from '../../routes/ExpertMenu'
+import { getJwtUser, removeJwt } from '../../utils/jwtHelper'
 import logo from '../../assets/images/logo.png'
 import './MyLayout.css'
-import { isStudent ,isExpert, getRoleName, isAdminister } from '../../utils/auth'
+import { isStudent, isExpert, getRoleName, isAdminister } from '../../utils/auth'
 import '../../utils/config'
-import {UserOutlined} from '@ant-design/icons'
+import { UserOutlined } from '@ant-design/icons'
+import RoleSelecter from './RoleSelecter'
 const { Header, Content, Sider, Footer } = Layout;
-const {SubMenu} =Menu;
+const { SubMenu } = Menu;
 
 
 
 class MyLayout extends React.Component {
 
-  popMenu=()=>
-  {
+  popMenu = () => {
     return (
-    <Menu  onClick={p=>{
-      if (p.key==="logout"){
-        removeJwt();
-        global.constants.userInfo=null;
-        this.props.history.push("/login");
-      }
-    }}>
-      <Menu.Item key="notice">通知中心</Menu.Item>
-      <Menu.Item key="logout">退出</Menu.Item>
-    </Menu>
+      <Menu onClick={p => {
+        if (p.key === "logout") {
+          removeJwt();
+          global.constants.userInfo = null;
+          this.props.history.push("/login");
+        }
+      }}>
+        <Menu.Item key="notice">通知中心</Menu.Item>
+        <Menu.Item key="logout">退出</Menu.Item>
+      </Menu>
     );
   }
 
   render() {
-    let currentMenu= isStudent()? studentMenus: (isExpert()? expertMenus: administerMenus);
-    let menus = currentMenu? currentMenu.filter(m => m.isShow):[];
+    let currentMenu = isStudent() ? studentMenus : (isExpert() ? expertMenus : administerMenus);
+    let menus = currentMenu ? currentMenu.filter(m => m.isShow) : [];
     if (isAdminister()) {
       menus = menus.filter(m => m.yuanManager);
       menus.forEach(element => {
@@ -56,13 +56,17 @@ class MyLayout extends React.Component {
               }}>大学生科技创新竞赛</span>
             </Space>
           </div>
-          <Dropdown overlay={this.popMenu}>
-            <div>
-            <Avatar icon={<UserOutlined />} />
-              <span style={{color:'#fff'}}>{ `${getRoleName()}[${getJwtUser().username}]` }</span>
-              
-            </div>
-          </Dropdown>
+
+          <Space>
+            <RoleSelecter />
+            <Dropdown overlay={this.popMenu}>
+              <div>
+                <Avatar icon={<UserOutlined />} />
+                <span style={{ color: '#fff' }}>{`${getRoleName()}[${getJwtUser().username}]`}</span>
+
+              </div>
+            </Dropdown>
+          </Space>
         </Header>
         <Layout>
           <Sider width={200} className="site-layout-background">
@@ -72,7 +76,7 @@ class MyLayout extends React.Component {
               style={{ height: '100%', borderRight: 0 }}
             >
               {
-                
+
                 menus.map(m => {
                   if (m.sub) {
                     return (
@@ -100,7 +104,7 @@ class MyLayout extends React.Component {
                   }
                 })
               }
-          
+
             </Menu>
           </Sider>
           <Layout style={{ padding: '16px' }}>

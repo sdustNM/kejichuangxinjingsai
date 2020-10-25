@@ -1,51 +1,60 @@
 import React from 'react'
 import { Button, Space, Table, Avatar, message, Modal } from 'antd'
 import { SearchOutlined, LikeTwoTone, StopTwoTone } from '@ant-design/icons'
-import { getRecommendedProjectList_xiao, setProjectRecommend_xiao, cancelProjectRecommend_xiao } from '../../../services/projectRecommend'
+import { getRecommendedProjectList_xiao, getResultLevels } from '../../../services/projectRecommend'
 import ProjectInfo_administer from './ProjectInfo_administer'
+import Awards from './Awards'
 
 class RecommendProject_Xiao extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       competitionID: props.id,
-      dataSource: [],
+      projectList: [],
+      awardList: null,
       loading: false,
       visible: false,
       projectID: null
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     //根据比赛ID获取项目列表
-    this.getProjectList(this.state.competitionID)
+    const projectList = await this.getProjectList(this.state.competitionID)
+    if (projectList.length > 0) {
+      const awardList = await this.getAwardList()
+      console.log(projectList, awardList)
+      this.setState({projectList, awardList})
+    }
   }
 
-  getProjectList = competitionID => {
+  getProjectList = async competitionID => {
     const params = {
       competitionId: competitionID,
     }
-    getRecommendedProjectList_xiao(params).then(res => {
-      if (res.result) {
-        //console.log(JSON.parse(res.data))
-        const projectList = JSON.parse(res.data).map((item, index) => {
-          return {
-            key: 'project_' + item.Id,
-            index: index + 1,
-            id: item.Id,
-            name: item.ProjectName,
-            sname: item.StudentName,
-            score: item.LastScoreXiao || '未评分',
-            scoredRate: item.ScoredRateXiao,
-            recommended: item.RecommendedXiao
-          }
-        })
-        //console.log(projectList)
-        this.setState({
-          dataSource: projectList
-        })
-      }
-    })
+    const res = await getRecommendedProjectList_xiao(params)
+    if (res.result) {
+      //console.log(JSON.parse(res.data))
+      return JSON.parse(res.data).map((item, index) => {
+        return {
+          key: 'project_' + item.Id,
+          index: index + 1,
+          id: item.Id,
+          name: item.ProjectName,
+          sname: item.StudentName,
+          score: item.LastScoreXiao || '未评分',
+          scoredRate: item.ScoredRateXiao,
+          recommended: item.RecommendedXiao
+        }
+      })
+    }
+  }
+
+  getAwardList = async () => {
+    const res = await getResultLevels()
+    if (res.result) {
+      return JSON.parse(res.data)
+    }
   }
 
   showProject = projectID => {
@@ -55,36 +64,8 @@ class RecommendProject_Xiao extends React.Component {
     })
   }
 
-  setRecommend = id => {
-    setProjectRecommend_xiao({
-      ProjectId: id
-    }).then(res => {
-      if (res.result) {
-        message.success('作品推荐成功！')
-        this.getProjectList(this.state.competitionID, this.state.deptID)
-      }
-      else {
-        message.warning('作品推荐失败！')
-      }
-    })
-  }
-
-  cancelRecommend = id => {
-    cancelProjectRecommend_xiao({
-      ProjectId: id
-    }).then(res => {
-      if (res.result) {
-        message.success('取消推荐成功！')
-        this.getProjectList(this.state.competitionID, this.state.deptID)
-      }
-      else {
-        message.warning('取消推荐失败！')
-      }
-    })
-  }
-
   render() {
-    const { dataSource, loading, visible, projectID } = this.state
+    const { projectList, loading, visible, projectID,awardList } = this.state
     const columns = [
       {
         title: '序号',
@@ -117,59 +98,31 @@ class RecommendProject_Xiao extends React.Component {
         key: 'scoredRate',
       },
       {
-        title: '是否推荐',
-        key: 'recommended',
+        title: '评选',
+        key: 'awards',
         render: (text, record) =>
-          !record.recommended ? '' :
-            <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>已推荐</Avatar>
+          <Awards projectID={record.id} list={awardList} value={record.recommended} />
       },
       {
-        title: '操作',
+        title: '查看',
         key: 'action',
         render: (text, record) => (
-          <Space>
-            <Button
-              type='default'
-              size='small'
-              shape='round'
-              onClick={() => this.showProject(record.id)}
-              icon={<SearchOutlined />}
-            >
-              查看
-                </Button>
-            {
-              !record.recommended ? (
-                <Button
-                  type='primary'
-                  size='small'
-                  shape='round'
-                  icon={<LikeTwoTone />}
-                  onClick={() => this.setRecommend(record.id)}
-                >
-                  推荐
-                </Button>
-              ) : (
-                  <Button
-                    type='danger'
-                    size='small'
-                    shape='round'
-                    icon={<StopTwoTone twoToneColor='#eb2f96' />}
-                    onClick={() => this.cancelRecommend(record.id)}
-                  >
-                    取消
-                  </Button>
-                )
-            }
-
-          </Space>
-
+          <Button
+            type='default'
+            size='small'
+            shape='round'
+            onClick={() => this.showProject(record.id)}
+            icon={<SearchOutlined />}
+          >
+            查看
+          </Button>
         ),
       },
     ];
     return (
       <div>
         <Table
-          dataSource={dataSource}
+          dataSource={projectList}
           columns={columns}
           loading={loading}
         //scroll={{ y: 320 }}

@@ -4,6 +4,10 @@ export const getRole = () => {
   return getJwtUser() === null ? "" : getJwtUser().role;
 }
 
+export const getRoleList = () => {
+  return getJwtUser() === null ? "" : getJwtUser().roleList;
+}
+
 export const getUserID = () => {
   return getJwtUser() === null ? "" : getJwtUser().name
 }
@@ -13,10 +17,10 @@ export const getDeptID = () => {
 }
 
 const roleNames = ['管理员', '专家', '学生', '校级管理员']
-export const getRoleName = () => {
-  let roleID = getRole();
+export const getRoleName = id => {
+  let roleID = id ? id : getRole();
   if (roleID == 1 && getDeptID() == 0) return roleNames[3]
-  else return roleNames[getRole() - 1]    //1
+  else return roleNames[roleID - 1]    //1
 }
 
 export const isStudent = () => {

@@ -45,7 +45,7 @@ class ProjectInfo extends React.Component {
     const anonymous = this.props.anonymous
     //console.log(anonymous)
     return (
-      <Card title={<h3><strong>{project.competitionName}</strong></h3>}>
+      <Card title={<strong>{project.competitionName}</strong>}>
         <Descriptions
           bordered
           column={2}
