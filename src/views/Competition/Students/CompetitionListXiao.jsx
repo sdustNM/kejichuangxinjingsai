@@ -54,13 +54,14 @@ class CompititionListXiao extends React.Component {
       if (res.result) {
         let list = []
         let data = JSON.parse(res.data)
-        //console.log(data)
+        console.log(data)
         data.list.map(item =>
           list.push({
             id: item.id,
             key: item.id,
             name: item.name,
             fromUnit: item.fromUnit,
+            status:item.status,
             submitTime: item.submitStart + '至' + item.submitEnd
           })
         )
@@ -82,6 +83,12 @@ class CompititionListXiao extends React.Component {
   render() {
     const columns = [
       {
+        title: '比赛编号',
+        dataIndex: 'id',
+        key: 'id',
+        width: 200,
+      },
+      {
         title: '比赛名称',
         dataIndex: 'name',
         key: 'name',
@@ -98,7 +105,12 @@ class CompititionListXiao extends React.Component {
         dataIndex: 'submitTime',
         key: 'submitTime',
         width: 400,
-      }, {
+      },{
+        title: '项目状态',
+        dataIndex: 'status',
+        key: 'status',
+        width: 400,
+      },  {
         title: '操作',
         key: 'action',
         width: 80,
@@ -135,7 +147,7 @@ class CompititionListXiao extends React.Component {
             onShowSizeChange: this.showSizeChange,
           }}
           loading={loading}
-          scroll={{ y: 320 }}
+          //scroll={{ y: 320 }}
         />
       </div>
     )
