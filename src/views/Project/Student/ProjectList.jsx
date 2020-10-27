@@ -134,7 +134,7 @@ class ProjectList extends React.Component {
          // record.yuanResult=="推荐"?<span style={{color:'red'}}>{record.yuanResult}</span>:<span>{record.yuanResult}</span>
          { 
            let xx=<span className="">{record.yuanResult}</span>
-           xx.span.style
+           
          }
         ,
       },
