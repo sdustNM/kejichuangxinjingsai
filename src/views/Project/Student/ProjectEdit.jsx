@@ -234,7 +234,7 @@ class Project extends React.Component {
               <Form.Item
                 label="作品描述"
                 name="description"
-                rules={[{ required: true, message: '品描述不能为空!' }]}
+                rules={[{ required: true, message: '作品描述不能为空!' }]}
               >
                 <TextArea
                   placeholder="请输入比赛描述"
