@@ -3,29 +3,22 @@ import { withRouter } from 'react-router-dom'
 import { Menu, Dropdown, Button } from 'antd';
 import { UserSwitchOutlined } from '@ant-design/icons'
 import { getRole, getRoleList, getRoleName } from '../../utils/auth';
-
+import { getJwtUser } from '../../utils/jwtHelper'
 class RoleSelecter extends Component {
-    constructor(...props) {
-        super(...props)
-        this.state = {
-            role: getRole(),
-            roleList: [1, 2, 3]//getRoleList()
-        }
-    }
 
     select = ({ key }) => {
         this.props.history.push(`/loginSSO?entryId=${key}`)
     }
 
     render() {
-        console.log(this.state)
-        const { role, roleList } = this.state
+        console.log(getJwtUser())
+        console.log(getRoleList())
         const menu = (
             <Menu onClick={this.select}>
-                <Menu.ItemGroup title={`当前角色：${getRoleName(role)}`}>
+                <Menu.ItemGroup title={`当前角色：${getRoleName()}`}>
                     <Menu.Divider />
                     {
-                        roleList.map(r => (
+                        getRoleList().map(r => (
                             <Menu.Item
                                 key={r}
                             >
