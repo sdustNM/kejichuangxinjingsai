@@ -131,11 +131,8 @@ class ProjectList extends React.Component {
         title: '院评结果',
         key: 'yuanResult',
         render: (text, record) => 
-         // record.yuanResult=="推荐"?<span style={{color:'red'}}>{record.yuanResult}</span>:<span>{record.yuanResult}</span>
-         { 
-           let xx=<span className="">{record.yuanResult}</span>
-           
-         }
+          record.yuanResult=="推荐"?<span style={{color:'red'}}>{record.yuanResult}</span>:<span>{record.yuanResult}</span>
+       
         ,
       },
       {
