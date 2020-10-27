@@ -36,7 +36,12 @@ export const studentConfig = [
     path: '/student/competition',
     component: Competition,
     exact: true,
+  }, 
+  {
+    path: '/student/rewardList',
+    component: Competition,
+    exact: true,
   }]
 
-
+  
   //to do wcgit

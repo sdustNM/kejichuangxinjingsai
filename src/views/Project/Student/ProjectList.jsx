@@ -66,7 +66,10 @@ class ProjectList extends React.Component {
             projectName: item.x.ProjectName,
             teacherName: item.teacherName,
             cooperator: item.x.ProjectCooperator,
-            result: '未知XXX'
+            yuanResult: item.result.yuan_recommend,
+            xiaoResult:item.result.xiao_recommend,
+            state:item.state,
+
           }))
         //console.log(list)
           this.setState({
@@ -94,6 +97,12 @@ class ProjectList extends React.Component {
     const { dataSource, pageSize, _total, loading, comName, proName } = this.state;
     const columns = [
       {
+        title: '比赛编号',
+        dataIndex: 'competitionID',
+        key: 'competitionID',
+        width:150,
+      },
+      {
         title: '比赛名称',
         dataIndex: 'competitionName',
         key: 'competitionName',
@@ -114,14 +123,31 @@ class ProjectList extends React.Component {
         key: 'cooperator',
       },
       {
-        title: '作品评定',
-        key: 'result',
-        dataIndex: 'result',
+        title: '项目状态',
+        dataIndex: 'state',
+        key: 'state',
+      },
+      {
+        title: '院评结果',
+        key: 'yuanResult',
+        render: (text, record) => 
+         // record.yuanResult=="推荐"?<span style={{color:'red'}}>{record.yuanResult}</span>:<span>{record.yuanResult}</span>
+         { 
+           let xx=<span className="">{record.yuanResult}</span>
+           xx.span.style
+         }
+        ,
+      },
+      {
+        title: '校评结果',
+        key: 'xiaoResult',
+        dataIndex: 'xiaoResult',
       },
       {
         title: '操作',
         key: 'action',
         render: (text, record) => (
+          
           <Space size="middle">
             <Button
               type='primary'

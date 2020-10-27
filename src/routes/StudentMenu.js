@@ -18,4 +18,10 @@ export const studentMenus = [
     isShow: true,
     title: '我的竞赛',
     icon: <SmileOutlined />
+  },
+  {
+    path: '/student/rewardList',
+    isShow: true,
+    title: '我的奖励',
+    icon: <SmileOutlined />
   }]
