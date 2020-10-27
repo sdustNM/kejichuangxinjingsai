@@ -30,11 +30,12 @@ export const getJwtUser = () => {
             role = user[item];
           }
           if ((item.search("userData")) >= 0) {
+            
             let extraData = user[item].split(',');
             username = extraData[0];
             departmentNo = extraData[1];
             department = extraData[2];
-            if (extraData.Length>3)
+            if (extraData.length>3)
             {
              roleList=extraData[3].split('.');
             }
