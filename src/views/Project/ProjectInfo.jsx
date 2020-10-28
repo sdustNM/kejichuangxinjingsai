@@ -45,10 +45,11 @@ class ProjectInfo extends React.Component {
     const anonymous = this.props.anonymous
     //console.log(anonymous)
     return (
-      <Card title={<strong>{project.competitionName}</strong>}>
+      <Card>
         <Descriptions
           bordered
           column={2}
+          title='作品信息'
         >
           <Descriptions.Item label={<strong>作品名称</strong>} span={2}>{project.name}</Descriptions.Item>
           {!anonymous && <Descriptions.Item label={<strong>作者</strong>}>{project.sno}</Descriptions.Item>}

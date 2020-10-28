@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Space, Button, Select, Input, Card } from 'antd';
+import { Table, Space, Button, Select, Input, Card, message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { getCompetitionList } from '../../services/administer/competition'
 //import { getDeptID } from '../../utils/auth'
@@ -55,7 +55,7 @@ class CompetitionManagerXiao extends React.Component {
     })
     this.refresh(1)
   }
-  refresh = (currentPage, pageSize, deptID) => {
+  refresh = (currentPage, pageSize ) => {
 
     currentPage = currentPage ? currentPage : this.state.currentPage
     pageSize = pageSize ? pageSize : this.state.pageSize
@@ -108,7 +108,10 @@ class CompetitionManagerXiao extends React.Component {
 
   delete = competitionID => {
     deleteCompetiton({ competitionID }).then(res => {
-      console.log(res)
+      if(res.result){
+        message.success('删除成功')
+        this.refresh()
+      }
 
     })
   }
