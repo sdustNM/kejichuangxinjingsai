@@ -12,7 +12,7 @@ class RoleSelecter extends Component {
         switchRole({ entryId: key }).then(res => {
             console.log(res)
             if(res.result){
-                
+                console.log(res)
                 getPage(res.data, this.props.history)
             }
         })
