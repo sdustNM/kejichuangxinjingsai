@@ -41,7 +41,7 @@ export const isSuperAdminister = () => {
 
 export const getPage = (jsonwebtoken, history) => {
   sessionStorage.setItem('myjwt', jsonwebtoken);
-  console.log(getJwtUser(), getRoleName())
+  console.log(getJwtUser())
   if (isStudent()) {
     history.push('/student')
   } else if (isExpert()) {
