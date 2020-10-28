@@ -8,6 +8,7 @@ export const getJwtUser = () => {
 
   if (!global.constants.userInfo) {
     let jwtInfo = sessionStorage.getItem('myjwt');
+    console.log("read jwtInfo:",jwtInfo)
     if (jwtInfo !== "null" && jwtInfo !== null) {
       let decryToken = Token.decrypt(jwtInfo)
       // let s= decodeURIComponent(escape(window.atob(jwtInfo.split('.')[1])))

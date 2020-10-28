@@ -7,5 +7,6 @@ export function login(params){
 
 //切换用户角色
 export function switchRole(params){
-  return get('loginSSO_SwitchTo', params)
+  console.log(params)
+  return get('/loginSSO_SwitchTo', params)
 }

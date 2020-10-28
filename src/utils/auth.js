@@ -40,13 +40,17 @@ export const isSuperAdminister = () => {
 }
 
 export const getPage = (jsonwebtoken, history) => {
+  global.constants.userInfo=null;
   sessionStorage.setItem('myjwt', jsonwebtoken);
-  console.log(getJwtUser(), getRoleName())
-  if (isStudent()) {
-    history.push('/student')
-  } else if (isExpert()) {
-    history.push('/Expert')
-  } else {
-    history.push('/administer')
-  }
+  //console.log("write jwtInfo:",jsonwebtoken);
+  //console.log(getJwtUser(), getRoleName())
+    if (isStudent()) {
+      history.push('/student')
+    } else if (isExpert()) {
+      history.push('/Expert')
+    } else {
+      history.push('/administer')
+    }
+
+
 }
