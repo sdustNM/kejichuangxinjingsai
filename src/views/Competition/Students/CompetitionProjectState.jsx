@@ -94,7 +94,7 @@ class CompetitionProjectState extends React.Component {
           disabled={buttonDisabled}
           onClick={() =>
             this.props.history.push({
-              pathname: projectOperationState === 'R' ? '/student/projectInfo' : '/student/projectEdit',
+              pathname: projectOperationState === 'W' || competitionState === '1.1' ? '/student/projectEdit' : '/student/projectInfo',
               state: { projectID, competitionID }
             })}
         >
