@@ -3,33 +3,24 @@ import { Redirect } from 'react-router-dom'
 import { Form, Input, Button, Card, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.css'
-import axios from 'axios'
-import { isStudent, isExpert } from '../../utils/auth';
-import { getJwtUser } from '../../utils/jwtHelper';
+import { getPage } from '../../utils/auth';
+import { login } from '../../services/login'
+//import { getJwtUser } from '../../utils/jwtHelper';
 
 class Login extends React.Component {
 
   onFinish = values => {
     // e.preventDefault();
-    axios.post('http://192.168.34.201:4000/api/login', {
+    login({
       username: values.username,
       password: values.password,
       entryID: this.props.location.state.entryID
     }).then(res => {
-      let r = res.data;
-       console.log(res.data)
-      if (r.result) {
-        sessionStorage.setItem('myjwt', r.data);
-        console.log(getJwtUser())
-        if (isStudent()) {
-          this.props.history.push('/student')
-        } else if (isExpert()) {
-          this.props.history.push('/Expert')
-        } else {
-          this.props.history.push('/administer')
-        }
+      console.log(res)
+      if (res.result) {
+        getPage(res.data, this.props.history)
       } else {
-        message.error(r.message);
+        message.error(res.message);
       }
     }).catch(() => this.setState({
       error: true

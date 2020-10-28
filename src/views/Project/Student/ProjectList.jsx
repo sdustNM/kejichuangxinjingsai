@@ -52,29 +52,30 @@ class ProjectList extends React.Component {
       competitionName: this.state.comName,
       projectName: this.state.proName
     }
-    console.log(params)
+    //console.log(params)
     getSimpleProjectList(params).then(res => {
       if (res.result) {
         //console.log(res)
         const list = []
-        console.log(JSON.parse(res.data).list)
+        //console.log(JSON.parse(res.data).list)
         JSON.parse(res.data).list.map(item =>
           list.push({
             key: item.x.CompetitionId + '_' + item.x.Id,
+            projectID: item.x.Id,
             competitionID: item.x.CompetitionId,
             competitionName: item.competitionName,
             projectName: item.x.ProjectName,
             teacherName: item.teacherName,
             cooperator: item.x.ProjectCooperator,
             yuanResult: item.result.yuan_recommend,
-            xiaoResult:item.result.xiao_recommend,
-            state:item.state,
+            xiaoResult: item.result.xiao_recommend,
+            state: item.state,
 
           }))
-        //console.log(list)
-          this.setState({
-            dataSource: list
-          })
+        console.log(list)
+        this.setState({
+          dataSource: list
+        })
 
       }
     })
@@ -100,7 +101,7 @@ class ProjectList extends React.Component {
         title: '比赛编号',
         dataIndex: 'competitionID',
         key: 'competitionID',
-        width:150,
+        width: 150,
       },
       {
         title: '比赛名称',
@@ -130,9 +131,9 @@ class ProjectList extends React.Component {
       {
         title: '院评结果',
         key: 'yuanResult',
-        render: (text, record) => 
-          record.yuanResult=="推荐"?<span style={{color:'red'}}>{record.yuanResult}</span>:<span>{record.yuanResult}</span>
-       
+        render: (text, record) =>
+          record.yuanResult == "推荐" ? <span style={{ color: 'red' }}>{record.yuanResult}</span> : <span>{record.yuanResult}</span>
+
         ,
       },
       {
@@ -144,14 +145,14 @@ class ProjectList extends React.Component {
         title: '操作',
         key: 'action',
         render: (text, record) => (
-          
+
           <Space size="middle">
             <Button
               type='primary'
               size='small'
               shape='round'
               onClick={() => {
-                this.props.history.push({ pathname: '/student/competition', state: { id: record.competitionID } })
+                this.props.history.push({ pathname: '/student/projectInfoWithCompetitonInfo', state: { projectID: record.projectID, competitionID: record.competitionID } })
               }}
             >查看</Button>
           </Space>

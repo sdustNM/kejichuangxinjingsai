@@ -38,3 +38,15 @@ export const isAdminister = () => {
 export const isSuperAdminister = () => {
   return getRoleName() === "校级管理员"
 }
+
+export const getPage = (jsonwebtoken, history) => {
+  sessionStorage.setItem('myjwt', jsonwebtoken);
+  console.log(getJwtUser(), getRoleName())
+  if (isStudent()) {
+    history.push('/student')
+  } else if (isExpert()) {
+    history.push('/Expert')
+  } else {
+    history.push('/administer')
+  }
+}

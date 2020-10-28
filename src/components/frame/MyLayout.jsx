@@ -8,7 +8,7 @@ import { expertMenus } from '../../routes/ExpertMenu'
 import { getJwtUser, removeJwt } from '../../utils/jwtHelper'
 import logo from '../../assets/images/logo.png'
 import './MyLayout.css'
-import { isStudent, isExpert, getRoleName, isAdminister } from '../../utils/auth'
+import { isStudent, isExpert, getRoleName, isAdminister, getRoleList } from '../../utils/auth'
 import '../../utils/config'
 import { UserOutlined } from '@ant-design/icons'
 import RoleSelecter from './RoleSelecter'
@@ -58,7 +58,7 @@ class MyLayout extends React.Component {
           </div>
 
           <Space>
-            <RoleSelecter />
+            {getRoleList().length > 1 && <RoleSelecter history={this.props.history} />}
             <Dropdown overlay={this.popMenu}>
               <div>
                 <Avatar icon={<UserOutlined />} />
