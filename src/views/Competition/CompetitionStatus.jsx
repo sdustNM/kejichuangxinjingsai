@@ -1,7 +1,7 @@
 import React from 'react'
-import { Steps, Popover,Button,Space,Row,message } from 'antd';
-import {useState,useEffect} from 'react'
-import {getCompetitionState,startCompetition,yuanNotice,endCompetition} from '../../services/competitionState/index'
+import { Steps, Popover, Button, Space, Row, message } from 'antd';
+import { useState, useEffect } from 'react'
+import { getCompetitionState, startCompetition, endCompetition } from '../../services/competitionState/index'
 import { isSuperAdminister } from '../../utils/auth'
 const { Step } = Steps;
 
@@ -24,7 +24,7 @@ const CompetitionStatus = (props) => {
     getCompetitionState({ "id": props.id }).then(res => {
       if (res.result) {
         //console.log(res);
-        if (res.data==="null") return;
+        if (res.data === "null") return;
         var currentStatus = JSON.parse(res.data);
         if (currentStatus) {
           var temp = global.constants.XiaoCompetitionStatusMatch.filter(x => x.a === currentStatus.statusId)[0];
@@ -63,7 +63,7 @@ const CompetitionStatus = (props) => {
   }
 
   const getStepState = (index) => {
-    return index < cIndex || cIndex==7 ? "完成" : (index === cIndex ? "进行中..." : "等待")
+    return index < cIndex || cIndex === 7 ? "完成" : (index === cIndex ? "进行中..." : "等待")
   }
 
   return (
@@ -83,13 +83,13 @@ const CompetitionStatus = (props) => {
             <div>
               <Row style={{ marginTop: 20, paddingLeft: 50 }}>
                 <Space>
-                  <Button type="primary" onClick={handleStartCompetition} disabled={cIndex>1}>比赛发布</Button>
+                  <Button type="primary" onClick={handleStartCompetition} disabled={cIndex > 1}>比赛发布</Button>
                   说明：发布比赛后，学生可以查看比赛信息，提交项目作品。
               </Space>
               </Row>
               <Row style={{ marginTop: 20, paddingLeft: 50 }}>
                 <Space>
-                  <Button type="primary" onClick={handleEndCompetition} disabled={cIndex>=7}>比赛结束</Button>
+                  <Button type="primary" onClick={handleEndCompetition} disabled={cIndex >= 7}>比赛结束</Button>
                   说明：比赛结束后，学生可以查看本人作品最终得分及推荐信息。
               </Space>
               </Row>

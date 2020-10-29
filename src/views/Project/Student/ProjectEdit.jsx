@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input, Button, Space, Alert, message, Spin } from 'antd'
+import { Card, Form, Input, Button, Space, message, Spin } from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import SelectManComplete from '../../../components/SelectManComplete';
 import { getProjectInfoByID, setProjectInfo } from '../../../services/project'
@@ -85,6 +85,8 @@ class Project extends React.Component {
       case 'bz':
         urls = this.bzAppedixRef.current.getAppendixUrls()
         break
+      default:
+        break
     }
     return urls
   }
@@ -107,7 +109,7 @@ class Project extends React.Component {
       videoUrl: this.getAppendixUrl("video"),
       bzUrl: this.getAppendixUrl("bz")
     }
-    console.log(projectItem)
+    //console.log(projectItem)
     setProjectInfo(projectItem).then(res => {
       this.setState({
         spinning: false
@@ -116,8 +118,8 @@ class Project extends React.Component {
       //console.log(res)
       if (res.result) {
         const projectID = JSON.parse(res.data)
-        console.log(projectID)
-        message.success(!this.state.id ? '创建成功！' : '修改成功！')
+        //console.log(projectID)
+        message.success(!this.state.id ? '提交成功！' : '修改成功！')
         this.setState({
           id: projectID
         })
@@ -274,7 +276,7 @@ class Project extends React.Component {
                     type="primary"
                     htmlType="submit"
                   >
-                    {!id ? '创建' : '修改'}
+                    {!id ? '提交' : '修改'}
                   </Button>
                   <Button type="primary" onClick={() => this.props.history.push({ pathname: '/student/competition', state: { id: competitionID } })}>
                     取消

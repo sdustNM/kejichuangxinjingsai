@@ -16,7 +16,7 @@ class Login extends React.Component {
       password: values.password,
       entryID: this.props.location.state.entryID
     }).then(res => {
-      console.log(res)
+      //console.log(res)
       if (res.result) {
         getPage(res.data, this.props.history)
       } else {

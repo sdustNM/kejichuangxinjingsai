@@ -1,6 +1,6 @@
 import React from 'react'
-import { Button, Space, Table, Avatar, message, Modal } from 'antd'
-import { SearchOutlined, LikeTwoTone, StopTwoTone } from '@ant-design/icons'
+import { Button, Table, Modal } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 import { getRecommendedProjectList_xiao, getResultLevels } from '../../../services/projectRecommend'
 import ProjectInfo_administer from './ProjectInfo_administer'
 import Awards from './Awards'

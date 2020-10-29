@@ -1,6 +1,6 @@
 import React from 'react'
-import { Table, Space, Button, Divider, Popconfirm, message, Modal } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { Table, Space, Button, Modal } from 'antd';
+//import { PlusCircleOutlined } from '@ant-design/icons'
 import {getDepartmentAdministerList} from '../../../services/administer/deparmentAdminister'
 import DepartmentAdministerEdit from './DepartmentAdministerEdit'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Space, Button, Divider, Popconfirm, message, Modal } from 'antd';
+import { Table, Space, Button, Popconfirm, message, Modal } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
 import getDepartmentList from '../../../redux/common';
 import DepartmentEdit from './DepartmentEdit'

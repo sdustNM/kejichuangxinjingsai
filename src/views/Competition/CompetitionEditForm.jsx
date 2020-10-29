@@ -24,13 +24,11 @@ class CompetitionEditForm extends React.Component {
     appendixList: null
   }
   componentDidMount() {
-    //console.log(this.props)
     const { id } = this.props
     if (id) {
       getCompetitionByID({ id }).then(res => {
         if (res.result) {
           let item = JSON.parse(res.data)
-          console.log(item)
           let submitStart = !item.submitStart ? null : moment(item.submitStart, 'YYYY-MM-DD HH:mm')
           let submitEnd = !item.submitEnd ? null : moment(item.submitEnd, 'YYYY-MM-DD HH:mm')
           let yuan_appraiseStart = !item.yuan_AppraiseStart ? null : moment(item.yuan_AppraiseStart, 'YYYY-MM-DD HH:mm')

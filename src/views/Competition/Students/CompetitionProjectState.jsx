@@ -57,7 +57,7 @@ class CompetitionProjectState extends React.Component {
   }
 
   render() {
-    console.log(this.state)
+    //console.log(this.state)
     const { competitionID, projectID, competitionState, projectOperationState } = this.state
 
     let tip
@@ -78,17 +78,17 @@ class CompetitionProjectState extends React.Component {
       }
     } else { //已提交作品
       if (projectOperationState === 'W') {
-        tip = '作品在修改期内，点击按钮可编辑作品'
+        tip = '点击按钮可编辑作品'
         buttonValue = '编辑作品'
       } else {
-        tip = '作品不在修改期内，点击按钮可查看作品'
+        tip = '点击按钮可查看作品'
         buttonValue = '查看作品'
       }
     }
 
     return (
       <Space>
-        <span style={{ color: 'red' }}>{tip}</span>
+        {competitionState && <span style={{ color: 'red' }}>{tip}</span>}
         <Button
           type='primary'
           disabled={buttonDisabled}

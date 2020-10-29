@@ -26,9 +26,8 @@ instance.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   //return response;
   if (response.data.hasOwnProperty('result') && !response.data.result) {
-    if (response.data.message=="请先登录")
-    {
-        window.location.href="/";
+    if (response.data.message === "请先登录") {
+      window.location.href = "/";
     }
     alert('请求数据出错：' + response.data.message)
     return new Promise(() => { })
@@ -37,6 +36,7 @@ instance.interceptors.response.use(function (response) {
 }, function (error) {
   // 对响应错误做点什么
   //return Promise.reject(error);
+  console.log(error)
   alert('服务器响应请求出错：' + error.message)
   return new Promise(() => { })
 });

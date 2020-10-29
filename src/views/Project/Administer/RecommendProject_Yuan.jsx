@@ -9,7 +9,7 @@ import {
 } from '../../../services/projectRecommend'
 import { getDeptID, isAdminister } from '../../../utils/auth'
 import getDepartmentList from '../../../redux/common'
-import ProjectInfo_administer from '../Administer/ProjectInfo_administer'
+import ProjectInfoAdminister from '../Administer/ProjectInfo_administer'
 
 const { Option } = Select
 
@@ -279,7 +279,7 @@ class RecommendProject_Yuan extends React.Component {
           width={800}
           destroyOnClose
         >
-          <ProjectInfo_administer projectID={projectID} ></ProjectInfo_administer>
+          <ProjectInfoAdminister projectID={projectID} />
         </Modal>
       </div>
 

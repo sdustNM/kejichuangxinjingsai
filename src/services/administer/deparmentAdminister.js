@@ -1,4 +1,4 @@
-import { post, get } from '../../utils/request'
+import { get } from '../../utils/request'
 
 
 // 全部

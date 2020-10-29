@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Input, Button, DatePicker, Space, message } from 'antd'
-import moment from "moment"
+import { Form, Input, Button, Space, message } from 'antd'
+//import moment from "moment"
 import getDepartmentList from '../../../redux/common'
 import {modifyDepartmentInfo} from '../../../services/administer/department'
 
@@ -22,7 +22,7 @@ class DepartmentEdit extends React.Component {
     if (departmentId) {
       getDepartmentList(true).then(res => {
         let data=JSON.parse(res);
-        let getone=data.filter(item=>item.id==departmentId)
+        let getone=data.filter(item=>item.id===departmentId)
         console.log("getone",getone)
         if (getone && getone.length>0) {
             console.log(getone[0].id,getone[0].name)
@@ -39,7 +39,7 @@ class DepartmentEdit extends React.Component {
 
   onFinish = value => {
     console.log(value)
-    const { depar } = this.props
+    //const { depar } = this.props
     let readyToPost = {
         Id:value.id,
         Name:value.name

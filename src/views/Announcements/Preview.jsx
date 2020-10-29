@@ -25,7 +25,7 @@ class Preview extends React.Component {
   // }
 
   render() {
-    const { title, pirUrl, content } = this.props
+    const { title, content } = this.props
     return (
       <div>
         <Title level={2}>{title}</Title>

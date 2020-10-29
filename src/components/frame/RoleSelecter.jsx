@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { Menu, Dropdown, Button } from 'antd';
 import { UserSwitchOutlined } from '@ant-design/icons'
 import { getRoleList, getRoleName, getPage } from '../../utils/auth';
-import { getJwtUser } from '../../utils/jwtHelper'
+//import { getJwtUser } from '../../utils/jwtHelper'
 import { switchRole } from '../../services/login';
 class RoleSelecter extends Component {
 

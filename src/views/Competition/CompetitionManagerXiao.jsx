@@ -24,7 +24,7 @@ class CompetitionManagerXiao extends React.Component {
 
   componentDidMount() {
     getDepartmentList().then(res => {
-      let departmentList = JSON.parse(res).filter(item => item.id == '0')
+      let departmentList = JSON.parse(res).filter(item => item.id === '0')
       //console.log(departmentList)
       if (departmentList.length !== 0) {
         this.setState({ departmentList })

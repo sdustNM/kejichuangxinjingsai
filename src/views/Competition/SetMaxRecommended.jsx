@@ -1,5 +1,5 @@
 import React from 'react'
-import { Descriptions, InputNumber, Button, message, Space } from 'antd'
+import { Descriptions, InputNumber, Button, message } from 'antd'
 
 import { getDepartmentLimitInCompetition, setDepartmentLimitInCompetition } from '../../services/administer/competition'
 

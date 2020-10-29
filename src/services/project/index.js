@@ -1,4 +1,4 @@
-import { get, post, del } from '../../utils/request'
+import { get, post } from '../../utils/request'
 
 //根据 比赛ID、学号、专家ID 获取参赛项目列表，支持分页,不带附件信息
 export function getSimpleProjectList(params){
