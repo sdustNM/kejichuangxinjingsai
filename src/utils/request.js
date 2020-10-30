@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { getJwt } from './jwtHelper'
 
-//export const appRoot = 'http://192.168.34.201:4000'
-export const appRoot = 'http://localhost:5000'
+export const appRoot = 'http://192.168.34.201:4000'
+//export const appRoot = 'http://localhost:5000'
 export const baseURL = `${appRoot}/api`
 
 
@@ -13,8 +13,19 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
-  config.headers['authorization'] = getJwt();
-  config.headers['Access-Control-Allow-Origin'] = '*';
+  console.log(config)
+  if(config.url !== '/login'){
+    const jwt = getJwt()
+    if(jwt) {
+      config.headers['authorization'] = getJwt();
+    }
+    else{
+      window.location.href = '/login'
+      return new Promise(() => { })
+    }
+  
+  }
+  //config.headers['Access-Control-Allow-Origin'] = '*';
   return config;
 }, function (error) {
   // 对请求错误做些什么

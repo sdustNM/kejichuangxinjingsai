@@ -2,6 +2,9 @@ import { Token } from "./jwt";
 import './config'
 
 export const getJwt = () => {
+  //console.log('bearer ' + sessionStorage.getItem('myjwt'))
+  const myjwt = sessionStorage.getItem('myjwt')
+  if(!myjwt || myjwt === "null" ) return null
   return 'bearer ' + sessionStorage.getItem('myjwt');
 };
 export const getJwtUser = () => {

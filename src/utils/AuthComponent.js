@@ -15,18 +15,10 @@ class AuthComponent extends Component {
   }
 
   getUser() {
-    const jwt = getJwt();
-    if (!jwt) {
-      this.setState({
-        user: null
-      });
-      return;
-    }
-
 
     this.setState({
-          user: getJwtUser()
-        })
+      user: getJwtUser()
+    })
     //console.log("jwtUser:"+JSON.stringify(getJwtUser()));
 
   }
@@ -40,14 +32,14 @@ class AuthComponent extends Component {
         </div>
       );
     }
-   
+
     if (user === null) {
       //this.props.history.push('/login');
       return <Redirect to="/login" />
     }
     return this.props.children;
 
-//to do master
+    //to do master
 
   }
 }
