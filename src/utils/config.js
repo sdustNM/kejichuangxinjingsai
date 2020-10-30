@@ -1,7 +1,6 @@
 global.constants = {
     website:'http://www.baidu.com/',
     name:'百度',
-    userInfo:null,
     XiaoCompetitionStatus:[
         {a:"创建比赛",b:0},
         {a:"发布比赛",b:1},
