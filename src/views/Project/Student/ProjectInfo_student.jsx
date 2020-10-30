@@ -3,7 +3,7 @@ import { Card } from 'antd'
 import ProjectInfo from '../ProjectInfo'
 import ReviewResult from '../ReviewResult'
 
-class ProjectInfo_student extends React.Component {
+class ProjectInfoStudent extends React.Component {
   // constructor(...props) {
   //   super(...props)
   // }
@@ -20,4 +20,4 @@ class ProjectInfo_student extends React.Component {
   }
 }
 
-export default ProjectInfo_student
+export default ProjectInfoStudent

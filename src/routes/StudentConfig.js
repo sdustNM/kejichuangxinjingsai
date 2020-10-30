@@ -1,12 +1,13 @@
 import ProjectEdit from "../views/Project/Student/ProjectEdit"
-import ProjectInfo_student from "../views/Project/Student/ProjectInfo_student"
-import ProjectInfo_withComInfo from "../views/Project/ProjectInfo_withComInfo"
+import ProjectInfoStudent from "../views/Project/Student/ProjectInfo_student"
+import ProjectInfoWithComInfo from "../views/Project/ProjectInfo_withComInfo"
 // import NoticeList from "../views/Common/NoticeList"
 // import Notice from '../views/Common/Notice'
 import CompetitionListXiao from '../views/Competition/Students/CompetitionListXiao'
 //import CompetitionListYuan from '../views/Competition/Students/CompetitionListYuan'
 import Competition from "../views/Competition/Students/Competition"
 import ProjectList from "../views/Project/Student/ProjectList"
+import CompetitionManagerXiao from '../views/Competition/CompetitionManagerXiao'
 
 
 
@@ -27,11 +28,11 @@ export const studentConfig = [
   }, 
   {
     path: '/student/projectInfo',
-    component: ProjectInfo_student
+    component: ProjectInfoStudent
   }, 
   {
     path: '/student/projectInfoWithCompetitonInfo',
-    component: ProjectInfo_withComInfo
+    component: ProjectInfoWithComInfo
   },
   {
     path: '/student/projectList',
@@ -44,7 +45,7 @@ export const studentConfig = [
   }, 
   {
     path: '/student/rewardList',
-    component: Competition,
+    component: CompetitionManagerXiao,
     exact: true,
   }]
 

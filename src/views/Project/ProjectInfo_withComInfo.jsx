@@ -5,7 +5,7 @@ import ReviewResult from './ReviewResult'
 import ProjectCompetitionInfo from './ProjectCompetitionInfo'
 
 
-class ProjectInfo_student extends React.Component {
+class ProjectInfoWithComInfo extends React.Component {
 
   render() {
     const projectID = this.props.location.state && this.props.location.state.projectID
@@ -20,4 +20,4 @@ class ProjectInfo_student extends React.Component {
   }
 }
 
-export default ProjectInfo_student
+export default ProjectInfoWithComInfo

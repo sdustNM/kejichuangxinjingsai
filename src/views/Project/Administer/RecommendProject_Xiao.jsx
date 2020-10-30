@@ -101,7 +101,7 @@ class RecommendProject_Xiao extends React.Component {
         title: '评选',
         key: 'awards',
         render: (text, record) =>
-          <Awards projectID={record.id} list={awardList} value={record.recommended} />
+          <Awards projectID={record.id} list={awardList} value={record.recommended} isEnd={this.props.isEnd}/>
       },
       {
         title: '查看',

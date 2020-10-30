@@ -85,7 +85,7 @@ class SetMaxRecommended extends React.Component {
           value={this.state.default}
           onChange={value => this.setState({ default: value })}
         />
-        <Button onClick={this.setDefault} size='small' type='link'>设置</Button>
+        <Button onClick={this.setDefault} size='small' type='link' disabled={this.props.isEnd}>设置</Button>
 
 
       </div >
@@ -95,7 +95,7 @@ class SetMaxRecommended extends React.Component {
         title={title}
         bordered
         size='small'
-        extra={<Button type="primary" onClick={this.saveValues}>保存</Button>}
+        extra={<Button type="primary" onClick={this.saveValues} disabled={this.props.isEnd}>保存</Button>}
       >
         {
           list.map((item, index) =>

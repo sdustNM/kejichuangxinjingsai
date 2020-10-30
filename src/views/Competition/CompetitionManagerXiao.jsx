@@ -6,6 +6,7 @@ import { getCompetitionList } from '../../services/administer/competition'
 import getDepartmentList from '../../redux/common'
 import { isSuperAdminister } from '../../utils/auth';
 import { deleteCompetiton } from '../../services/administer/competition'
+import RecommendProject_Xiao from '../Project/Administer/RecommendProject_Xiao';
 
 const { Option } = Select
 
@@ -72,14 +73,14 @@ class CompetitionManagerXiao extends React.Component {
       if (res.result) {
         let list = []
         let data = JSON.parse(res.data)
-        //console.log(data)
+        console.log(data)
         data.list.map(item =>
           list.push({
             id: item.id,
             key: item.id,
             name: item.name,
             fromUnit: item.fromUnit,
-            //category: item.category,
+            statusId: item.statusId,
             status: item.status
           })
         )
@@ -150,7 +151,7 @@ class CompetitionManagerXiao extends React.Component {
               shape='round'
               onClick={() => {
                 //console.log("record:", record)
-                this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id, comName: record.name } })
+                this.props.history.push({ pathname: '/administer/competitionEdit', state: { id: record.id, comName: record.name, statusID: record.statusId } })
               }}
             >详细</Button>
             {

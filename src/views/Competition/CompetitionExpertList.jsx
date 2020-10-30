@@ -20,7 +20,7 @@ class CompetitionExpertList extends React.Component {
   }
 
   componentDidMount() {
-    this.refresh() 
+    this.refresh()
   }
 
   refresh = () => {
@@ -77,11 +77,11 @@ class CompetitionExpertList extends React.Component {
     console.log(params)
     removeExpertFromCompetition(params).then(
       res => {
-        if(res.result){
+        if (res.result) {
           message.success('移除成功！', 1)
           this.refresh()
         }
-        else{
+        else {
           message.error(res.message, 1)
         }
       }
@@ -131,8 +131,9 @@ class CompetitionExpertList extends React.Component {
         key: 'action',
         render: (text, record) => (
           <Popconfirm
+            disabled={this.props.isEnd}
             title={`确认将${record.name}移除当前竞赛评审组?`}
-            onConfirm={() => {this.remove(record.id)}}
+            onConfirm={() => { this.remove(record.id) }}
             okText="确认"
             cancelText="取消"
           >
@@ -140,6 +141,7 @@ class CompetitionExpertList extends React.Component {
               type='danger'
               size='small'
               shape='round'
+              disabled={this.props.isEnd}
             >
               移除
             </Button>
@@ -150,7 +152,7 @@ class CompetitionExpertList extends React.Component {
     const { deptID, dataSource, visible } = this.state
     return (
       <div>
-        <Button type='default' onClick={this.showModal}>
+        <Button type='default' onClick={this.showModal} disabled={this.props.isEnd}>
           <PlusCircleOutlined />添加
         </Button>
         <Divider />
