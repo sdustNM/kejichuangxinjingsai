@@ -40,7 +40,6 @@ export const isSuperAdminister = () => {
 }
 
 export const getPage = (jsonwebtoken, history) => {
-  global.constants.userInfo=null;
   sessionStorage.setItem('myjwt', jsonwebtoken);
   //console.log("write jwtInfo:",jsonwebtoken);
   //console.log(getJwtUser(), getRoleName())
