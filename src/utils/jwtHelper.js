@@ -12,6 +12,7 @@ export const getJwtUser = () => {
     let jwtInfo = sessionStorage.getItem('myjwt');
     //console.log("read jwtInfo:",jwtInfo)
     if (jwtInfo !== "null" && jwtInfo !== null) {
+      console.log(jwtInfo)
       let decryToken = Token.decrypt(jwtInfo)
       // let s= decodeURIComponent(escape(window.atob(jwtInfo.split('.')[1])))
       // let user =  (JSON.parse(s1))

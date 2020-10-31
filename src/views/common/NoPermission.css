@@ -1,0 +1,11 @@
+
+  .np {
+    font-size: 16px;
+    font-weight: 200;
+  position: fixed;
+  left: 50%;
+  top: 30%;
+  width: 300px;
+  height: 200px;
+  margin: -100px 0px 0px -150px;
+  }
