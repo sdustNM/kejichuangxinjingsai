@@ -9,7 +9,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import store from './redux/store';
 import {persistor} from './redux/store';
-
+import {getJwt} from './utils/jwtHelper'
 // redux 使用举例
 //import store from  './redux/store'
 // import {counterAddAction} from './redux/action/counter_action'
@@ -35,6 +35,8 @@ import {persistor} from './redux/store';
 //     }
 // })
 
+
+ 
 
 ReactDOM.render(
     <Provider store={store}>

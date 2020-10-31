@@ -3,8 +3,8 @@ import { Space } from 'antd'
 import logo from '../../assets/images/logo.png'
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(...props) {
+    super(...props);
     this.state = {
     };
   }

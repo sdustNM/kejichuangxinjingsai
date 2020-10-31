@@ -5,8 +5,8 @@ import { DoubleRightOutlined } from '@ant-design/icons'
 import { getNewsList } from '../../services/news'
 
 class PublicityList extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(...props) {
+    super(...props);
 
     this.state = {
       data: []

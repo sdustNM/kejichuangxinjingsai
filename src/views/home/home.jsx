@@ -9,8 +9,8 @@ import HomeCarousel from './Carousel'
 const { Header, Content } = Layout;
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(...props) {
+    super(...props);
     this.state = {
 
     }

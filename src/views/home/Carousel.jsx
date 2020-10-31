@@ -6,8 +6,8 @@ import p3 from '../../assets/images/p3.jpg'
 import p4 from '../../assets/images/p4.jpg'
 
 class HomeCarousel extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(...props) {
+    super(...props);
     this.state = {
       pictures: [p1, p2, p3, p4]
     };
