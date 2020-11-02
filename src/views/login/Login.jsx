@@ -4,6 +4,7 @@ import { Form, Input, Button, Card, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.css'
 import { getPage } from '../../utils/auth';
+import '../../utils/config'
 import { login } from '../../services/login'
 //import { getJwtUser } from '../../utils/jwtHelper';
 
@@ -18,6 +19,7 @@ class Login extends React.Component {
     }).then(res => {
       //console.log(res)
       if (res.result) {
+        window.localStorage.isSSO = false
         getPage(res.data, this.props.history)
       } else {
         message.error(res.message);

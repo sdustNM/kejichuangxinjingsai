@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { getJwt, getJwtUser } from './jwtHelper';
+//import '../utils/config'
 
 class AuthComponent extends Component {
   constructor(...props) {
@@ -34,7 +35,9 @@ class AuthComponent extends Component {
     }
 
     if (user === null) {
-      //this.props.history.push('/login');
+      if(window.localStorage.isSSO === 'true') {
+        return <Redirect to="/loginSSO" />
+      }
       return <Redirect to="/login" />
     }
     return this.props.children;

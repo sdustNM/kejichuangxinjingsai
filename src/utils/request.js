@@ -59,7 +59,11 @@ instance.interceptors.request.use(function (config) {
        }
     }
     else{
-      window.location.href = '/login'
+      let url = '/login'
+      if(window.localStorage.isSSO === 'true') {
+        url = '/loginSSO'
+      }
+      window.location.href = url
       return new Promise(() => { })
     }
   

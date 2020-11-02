@@ -9,6 +9,7 @@ import { getJwtUser, removeJwt } from '../../utils/jwtHelper'
 import logo from '../../assets/images/logo.png'
 import './MyLayout.css'
 import { isStudent, isExpert, getRoleName, isAdminister, getRoleList } from '../../utils/auth'
+import {appRoot}   from   '../../utils/request';
 import '../../utils/config'
 import { UserOutlined } from '@ant-design/icons'
 import RoleSelecter from './RoleSelecter'
@@ -24,8 +25,9 @@ class MyLayout extends React.Component {
       <Menu onClick={p => {
         if (p.key === "logout") {
           removeJwt();
-          global.constants.userInfo = null;
-          this.props.history.push("/login");
+          if(window.localStorage.isSSO === 'true'){
+            window.location.href=`${appRoot}/api/logout`
+          }
         }
       }}>
         <Menu.Item key="notice">通知中心</Menu.Item>
