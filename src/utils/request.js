@@ -47,14 +47,14 @@ instance.interceptors.request.use(function (config) {
 
       if (getJwt()!=null) {//已登录
         //刷新最后使用时间
-        console.log("visit:"+new Date().getTime())
+        //console.log("visit:"+new Date().getTime())
         sessionStorage.setItem("nxgx_lastVisitTime", new Date().getTime());
         if (_interval_handler==-1)
         {
            _interval_handler=setInterval(checkExpired, 10*1000);//10秒钟检查一次，是否超时
         }
         else {
-           console.log("have create interval_timer")
+           //console.log("have create interval_timer")
         }
        }
     }

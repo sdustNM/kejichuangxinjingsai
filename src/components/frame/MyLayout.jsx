@@ -28,6 +28,9 @@ class MyLayout extends React.Component {
           if(window.localStorage.isSSO === 'true'){
             window.location.href=`${appRoot}/api/logout`
           }
+          else{
+            this.props.history.push('/login')
+          }
         }
       }}>
         <Menu.Item key="notice">通知中心</Menu.Item>

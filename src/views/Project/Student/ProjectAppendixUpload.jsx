@@ -45,6 +45,7 @@ class ProjectAppendixUpload extends React.Component {
     fileList = fileList.slice(0,this.props.maxNum).map(file => {
       if (file.response) {
         let data = JSON.parse(file.response.data)
+        console.log(data)
         file.rawUrl = data.url
         file.url = appRoot + data.url
         file.id = data.id
