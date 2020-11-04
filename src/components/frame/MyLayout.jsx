@@ -24,9 +24,11 @@ class MyLayout extends React.Component {
     return (
       <Menu onClick={p => {
         if (p.key === "logout") {
+          alert(window.localStorage.isSSO)
           removeJwt();
           if(window.localStorage.isSSO === 'true'){
-            window.location.href=`${appRoot}/api/logout`
+            alert(1111111111)
+            window.location.href = '/login'
           }
           else{
             this.props.history.push('/login')
