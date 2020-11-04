@@ -31,7 +31,7 @@ class Score extends React.Component {
 
   onFinish = value => {
     const params = {
-      ProjectId: this.state.id,
+      projectId: this.state.id,
       shouldScore: value.score,
       remark: value.remark
     }
