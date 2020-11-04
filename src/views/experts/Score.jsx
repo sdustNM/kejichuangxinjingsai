@@ -35,7 +35,7 @@ class Score extends React.Component {
       shouldScore: value.score,
       remark: value.remark
     }
-    //console.log(params)
+    console.log(params)
     setProjectScore(params).then(res => {
       if(res.result){
         this.props.setScore(value.score)

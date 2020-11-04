@@ -47,7 +47,7 @@ class Competition extends React.Component {
           <Descriptions.Item label={<strong>组织单位</strong>}>{competition.fromUnit}</Descriptions.Item>
           <Descriptions.Item label={<strong>评比阶段</strong>}>{competition.status}</Descriptions.Item>
           <Descriptions.Item label={<strong>开始时间</strong>}>{competition.statusId === '1.3' ? competition.yuan_AppraiseStart : competition.appraiseStart}</Descriptions.Item>
-          <Descriptions.Item label={<strong>结束时间</strong>}>{competition.tatusId === '1.3' ? competition.yuan_AppraiseEnd : competition.appraiseEnd}</Descriptions.Item>
+          <Descriptions.Item label={<strong>结束时间</strong>}>{competition.statusId === '1.3' ? competition.yuan_AppraiseEnd : competition.appraiseEnd}</Descriptions.Item>
           <Descriptions.Item label={<strong>匿名评审</strong>} span={2}>{competition.anonymousReview ? '是' : '否'}</Descriptions.Item>
           <Descriptions.Item label={<strong>附件</strong>}>
             {!competition.appendixList || !competition.appendixList.length ? '' : (
