@@ -44,7 +44,7 @@ class ProjectList extends React.Component {
 
     currentPage = currentPage ? currentPage : this.state.currentPage
     pageSize = pageSize ? pageSize : this.state.pageSize
-    const onlyRecommend = this.props.location.pathname === '/administer/recommendedProjects' ? 1 : 0
+    const onlyRecommend = this.props.location.pathname === '/administer/projects' ? 0 : 1
     let params = {
       currentPage,
       pageSize,
@@ -52,27 +52,30 @@ class ProjectList extends React.Component {
       competitionName: this.state.comName,
       projectName: this.state.proName
     }
-    console.log(params)
+    //console.log(params)
     getSimpleProjectList(params).then(res => {
       if (res.result) {
         //console.log(res)
         const list = []
-        console.log(JSON.parse(res.data).list)
+        //console.log(JSON.parse(res.data).list)
         JSON.parse(res.data).list.map(item =>
           list.push({
             key: item.x.CompetitionId + '_' + item.x.Id,
+            projectID: item.x.Id,
             competitionID: item.x.CompetitionId,
             competitionName: item.competitionName,
-            projectID: item.x.Id,
             projectName: item.x.ProjectName,
             teacherName: item.teacherName,
             cooperator: item.x.ProjectCooperator,
-            result: '未知XXX'
+            yuanResult: item.result.yuan_recommend,
+            xiaoResult: item.result.xiao_recommend,
+            state: item.state,
+
           }))
-        //console.log(list)
-          this.setState({
-            dataSource: list
-          })
+        console.log(list)
+        this.setState({
+          dataSource: list
+        })
 
       }
     })
@@ -95,6 +98,12 @@ class ProjectList extends React.Component {
     const { dataSource, pageSize, _total, loading, comName, proName } = this.state;
     const columns = [
       {
+        title: '比赛编号',
+        dataIndex: 'competitionID',
+        key: 'competitionID',
+        width: 150,
+      },
+      {
         title: '比赛名称',
         dataIndex: 'competitionName',
         key: 'competitionName',
@@ -115,21 +124,35 @@ class ProjectList extends React.Component {
         key: 'cooperator',
       },
       {
-        title: '作品评定',
-        key: 'result',
-        dataIndex: 'result',
+        title: '项目状态',
+        dataIndex: 'state',
+        key: 'state',
+      },
+      {
+        title: '院评结果',
+        key: 'yuanResult',
+        render: (text, record) =>
+          record.yuanResult == "推荐" ? <span style={{ color: 'red' }}>{record.yuanResult}</span> : <span>{record.yuanResult}</span>
+
+        ,
+      },
+      {
+        title: '校评结果',
+        key: 'xiaoResult',
+        dataIndex: 'xiaoResult',
       },
       {
         title: '操作',
         key: 'action',
         render: (text, record) => (
+
           <Space size="middle">
             <Button
               type='primary'
               size='small'
               shape='round'
               onClick={() => {
-                this.props.history.push({ pathname: '/administer/projectInfoWithCompetitonInfo', state: { competitionID: record.competitionID, competitionID: record.projectID } })
+                this.props.history.push({ pathname: '/administer/projectInfoWithCompetitonInfo', state: { projectID: record.projectID, competitionID: record.competitionID } })
               }}
             >查看</Button>
           </Space>
