@@ -212,7 +212,7 @@ class CompetitionManagerXiao extends React.Component {
             onShowSizeChange: this.showSizeChange,
           }}
           loading={loading}
-          scroll={{ y: 320 }}
+          //scroll={{ y: 320 }}
         />
       </Card>
     )

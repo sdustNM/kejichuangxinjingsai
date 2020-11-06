@@ -52,13 +52,13 @@ class ProjectList extends React.Component {
       competitionName: this.state.comName,
       projectName: this.state.proName
     }
-    //console.log(params)
+    console.log(params)
     getSimpleProjectList(params).then(res => {
       if (res.result) {
-        //console.log(res)
+        console.log(res)
         const list = []
-        //console.log(JSON.parse(res.data).list)
-        JSON.parse(res.data).list.map(item =>
+        const data = JSON.parse(res.data)
+        data.list.map(item =>
           list.push({
             key: item.x.CompetitionId + '_' + item.x.Id,
             projectID: item.x.Id,
@@ -72,8 +72,9 @@ class ProjectList extends React.Component {
             state: item.state,
 
           }))
-        console.log(list)
+        //console.log(list)
         this.setState({
+          _total: data.totalNum,
           dataSource: list
         })
 
@@ -181,7 +182,7 @@ class ProjectList extends React.Component {
             onShowSizeChange: this.showSizeChange,
           }}
           loading={loading}
-          scroll={{ y: 320 }}
+          //scroll={{ y: 320 }}
         />
       </div>
     )

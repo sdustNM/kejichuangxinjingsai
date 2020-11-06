@@ -16,7 +16,7 @@ const instance = axios.create({
  var _interval_handler=-1;
 
  function checkExpired() {
-  console.log("心跳检查是否过期"+window.location.href+"::"+new Date());
+  //console.log("心跳检查是否过期"+window.location.href+"::"+new Date());
   var storeLastTime=sessionStorage.getItem("nxgx_lastVisitTime")?sessionStorage.getItem("nxgx_lastVisitTime"):-1;
   if (storeLastTime==-1) {
      clearInterval(_interval_handler);
