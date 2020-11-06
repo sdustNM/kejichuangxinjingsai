@@ -16,12 +16,13 @@ export const studentMenus = [
   {
     path: '/student/projectList',
     isShow: true,
-    title: '我的竞赛',
+    title: '我的作品',
     icon: <SmileOutlined />
   },
-  {
-    path: '/student/rewardList',
-    isShow: true,
-    title: '我的奖励',
-    icon: <SmileOutlined />
-  }]
+  // {
+  //   path: '/student/rewardList',
+  //   isShow: true,
+  //   title: '我的奖励',
+  //   icon: <SmileOutlined />
+  // }
+]

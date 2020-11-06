@@ -1,6 +1,5 @@
 
 import CompetitionEdit from '../views/Competition/CompetitionEdit'
-import ProjectManager from '../views/SysManage/ProjectManager'
 import ProjectDetail from '../views/SysManage/ProjectDetail'
 import DepartmentManager from '../views/SysManage/Department/DepartmentManager';
 import StudentList from '../views/SysManage/StudentList';
@@ -10,6 +9,8 @@ import ExpertManagerEdit from '../views/SysManage/Expert/ExpertManagerEdit';
 import DepartmentAdministerList from '../views/SysManage/DepartmentAdminister/DepartmentAdministerList'
 import AnnouncementEdit from '../views/Announcements/AnnouncementEdit';
 import AnnouncementList from '../views/Announcements/AnnouncementList';
+import ProjectList from '../views/Project/Administer/ProjectList';
+import ProjectInfoWithComInfo from "../views/Project/ProjectInfo_withComInfo"
 
 export const administerConfig = [
 
@@ -23,8 +24,16 @@ export const administerConfig = [
     path: '/administer/competitionEdit',
     component: CompetitionEdit
   }, {
+    path: '/administer/recommendedProjects',
+    component: ProjectList,
+    exact: true
+  }, {
     path: '/administer/projects',
-    component: ProjectManager,
+    component: ProjectList,
+    exact: true
+  }, {
+    path: '/administer/projectInfoWithCompetitonInfo',
+    component: ProjectInfoWithComInfo,
     exact: true
   }, {
     path: '/administer/projectDetail',

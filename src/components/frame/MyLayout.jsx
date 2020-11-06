@@ -24,11 +24,9 @@ class MyLayout extends React.Component {
     return (
       <Menu onClick={p => {
         if (p.key === "logout") {
-          alert(window.localStorage.isSSO)
           removeJwt();
           if(window.localStorage.isSSO === 'true'){
-            alert(1111111111)
-            window.location.href = '/login'
+            window.location.href = `${appRoot}/api/logout`
           }
           else{
             this.props.history.push('/login')
@@ -50,6 +48,7 @@ class MyLayout extends React.Component {
         element.sub = element.sub.filter(n => n.yuanManager)
       });
     }
+    const openKeys = menus.map( item => item.path)
 
     return (
       <Layout>
@@ -79,7 +78,7 @@ class MyLayout extends React.Component {
           <Sider width={200} className="site-layout-background">
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
+              defaultOpenKeys={openKeys}
               style={{ height: '100%', borderRight: 0 }}
             >
               {

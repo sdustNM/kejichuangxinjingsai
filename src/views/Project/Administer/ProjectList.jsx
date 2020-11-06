@@ -44,9 +44,11 @@ class ProjectList extends React.Component {
 
     currentPage = currentPage ? currentPage : this.state.currentPage
     pageSize = pageSize ? pageSize : this.state.pageSize
+    const onlyRecommend = this.props.location.pathname === '/administer/recommendedProjects' ? 1 : 0
     let params = {
       currentPage,
       pageSize,
+      onlyRecommend,
       competitionName: this.state.comName,
       projectName: this.state.proName
     }
@@ -56,11 +58,12 @@ class ProjectList extends React.Component {
         //console.log(res)
         const list = []
         console.log(JSON.parse(res.data).list)
-        JSON.parse(res.data.data).list.map(item =>
+        JSON.parse(res.data).list.map(item =>
           list.push({
             key: item.x.CompetitionId + '_' + item.x.Id,
             competitionID: item.x.CompetitionId,
             competitionName: item.competitionName,
+            projectID: item.x.Id,
             projectName: item.x.ProjectName,
             teacherName: item.teacherName,
             cooperator: item.x.ProjectCooperator,
@@ -126,7 +129,7 @@ class ProjectList extends React.Component {
               size='small'
               shape='round'
               onClick={() => {
-                this.props.history.push({ pathname: '/student/competition', state: { id: record.competitionID } })
+                this.props.history.push({ pathname: '/administer/projectInfoWithCompetitonInfo', state: { competitionID: record.competitionID, competitionID: record.projectID } })
               }}
             >查看</Button>
           </Space>

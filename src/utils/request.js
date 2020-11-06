@@ -83,7 +83,7 @@ instance.interceptors.response.use(function (response) {
     if (response.data.message === "请先登录") {
       window.location.href = "/";
     }
-    alert('请求数据出错：' + response.data.message)
+    alert('请求错误：' + response.data.message)
     return new Promise(() => { })
   }
   return response.data

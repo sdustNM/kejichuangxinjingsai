@@ -26,16 +26,14 @@ export const administerMenus = [
       icon: <SmileOutlined />,
       yuanManager: true,
     }, {
-      component: ProjectManager,
-      path: '/administer/RecommendedProjects',
+      path: '/administer/recommendedProjects',
       isShow: true,
       title: '推荐作品',
       icon: <SmileOutlined />
     }, {
-      component: ProjectManager,
       path: '/administer/projects',
       isShow: true,
-      title: '学院作品',
+      title: '全部作品',
       icon: <SmileOutlined />,
       yuanManager: true,
     },]

@@ -55,7 +55,7 @@ const CompetitionStatus = (props) => {
       if (res.result) {
         message.success(res.data)
         setcIndex(0)
-        this.props.setEnd()
+        props.setEnd()
       }
       else {
         message.error(res.message)
