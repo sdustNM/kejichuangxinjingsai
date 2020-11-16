@@ -48,7 +48,6 @@ class MyLayout extends React.Component {
         element.sub = element.sub.filter(n => n.yuanManager)
       });
     }
-    const openKeys = menus.map( item => item.path)
 
     return (
       <Layout>
