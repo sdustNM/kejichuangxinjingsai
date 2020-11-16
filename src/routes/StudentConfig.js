@@ -7,7 +7,7 @@ import CompetitionListXiao from '../views/Competition/Students/CompetitionListXi
 //import CompetitionListYuan from '../views/Competition/Students/CompetitionListYuan'
 import Competition from "../views/Competition/Students/Competition"
 import ProjectList from "../views/Project/Student/ProjectList"
-import CompetitionManagerXiao from '../views/Competition/CompetitionManagerXiao'
+import ThesisForm from "../views/Achievements/Student/ThesisForm"
 
 
 
@@ -44,8 +44,8 @@ export const studentConfig = [
     exact: true,
   }, 
   {
-    path: '/student/rewardList',
-    component: CompetitionManagerXiao,
+    path: '/student/thesisAchievements',
+    component: ThesisForm,
     exact: true,
   }]
 

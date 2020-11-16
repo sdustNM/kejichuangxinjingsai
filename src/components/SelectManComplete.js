@@ -24,9 +24,6 @@ class SelectManComplete extends React.Component {
     };
 
   }
-  // const [value, setValue] = useState(props.initValue);
-  // const [options, setOptions] = useState([]);
-  // const [db, setDb] = useState([]);
 
   onSearch = searchText => {
     if (searchText.length > 1) {
@@ -80,10 +77,7 @@ class SelectManComplete extends React.Component {
   };
 
   onChange = data => {
-    // console.log(data)
     this.setState({ value: data });
-    // console.log(props)
-    // props.chooseMan(data)
   };
   render() {
     return (

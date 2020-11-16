@@ -2,7 +2,12 @@ import React from 'react'
 
 import {
   ProfileOutlined,
-  SmileOutlined
+  SmileOutlined,
+  TrophyOutlined,
+  ExperimentOutlined,
+  IdcardOutlined,
+  FileTextOutlined,
+  WalletOutlined
 } from '@ant-design/icons';
 
 
@@ -19,10 +24,35 @@ export const studentMenus = [
     title: '我的作品',
     icon: <SmileOutlined />
   },
-  // {
-  //   path: '/student/rewardList',
-  //   isShow: true,
-  //   title: '我的奖励',
-  //   icon: <SmileOutlined />
-  // }
+  {
+    path: '/student/achievements',
+    isShow: true,
+    title: '成果申报',
+    icon: <IdcardOutlined />,
+    sub: [{
+      path: '/student/thesisAchievements',
+      isShow: true,
+      title: '论文成果申报',
+      icon: <FileTextOutlined />
+    },
+    {
+      path: '/student/competitionAchievements',
+      isShow: true,
+      title: '竞赛成果申报',
+      icon: <TrophyOutlined />
+    },
+    {
+      path: '/student/patentAchievements',
+      isShow: true,
+      title: '专利成果申报',
+      icon: <ExperimentOutlined />
+    },
+    {
+      path: '/student/myAchievements',
+      isShow: true,
+      title: '我的成果',
+      icon: <WalletOutlined />
+    }]
+  },
+
 ]

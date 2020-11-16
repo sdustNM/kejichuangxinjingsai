@@ -12,6 +12,10 @@ export const getUserID = () => {
   return getJwtUser() === null ? "" : getJwtUser().name
 }
 
+export const getUserName = () => {
+  return getJwtUser() === null ? "" : getJwtUser().username
+}
+
 export const getDeptID = () => {
   return getJwtUser() === null ? "" : getJwtUser().departmentNo
 }
