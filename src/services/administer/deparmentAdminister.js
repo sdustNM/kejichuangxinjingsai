@@ -25,3 +25,8 @@ export function getTeachersByFuzzy(params){
   return get('/administer/getTeachersByFuzzy', params)
 }
 
+//模糊匹配所有人信息 searchTxt
+export function getAllManByFuzzy(params){
+  return get('/administer/getAllManByFuzzy', params)
+}
+
