@@ -3,7 +3,8 @@ import { Card, Form, Input, Button, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 
 import { getUserID, getUserName } from "../../../utils/auth"
-import SelectManComplete from '../../../components/SelectAllManComplete';
+import SelectManComplete from '../../../components/SelectAllManComplete'
+import ThesisAppendixUpload from './ThesisAppendixUpload'
 
 const { Option } = Select
 
@@ -22,27 +23,53 @@ const tailLayout = {
     },
 };
 class ThesisForm extends Component {
-    state = {
-        id: getUserID(),
-        name: getUserName()
+    constructor(...props) {
+        super(...props)
+        this.state = {
+            id: props[0].location.state && props[0].location.state.projectID,
+            userID: getUserID(),
+            uerName: getUserName(),
+            coverList: null,
+            contentsList: null,
+            papersList: null,
+        }
+        this.formRef = React.createRef();
+        this.coverAppedixRef = React.createRef()
+        this.contentsAppedixRef = React.createRef()
+        this.papersAppedixRef = React.createRef()
     }
-    formRef = React.createRef();
+
+    componentDidMount() {
+        let coverList = []
+        let contentsList = []
+        let papersList = []
+
+        if (this.state.id) {
+
+        }
+
+        this.setState({
+            coverList,
+            contentsList,
+            papersList
+          })
+    }
+
 
     onFinish = values => {
         console.log(values)
     }
 
     checkCooperators = (rule, value) => {
-        if (value !==undefined && value.value !=="" ) {
-          return Promise.resolve();
+        if (value !== undefined && value.value !== "") {
+            return Promise.resolve();
         }
-    
         return Promise.reject("请选择参与人!");
-      };
+    };
 
     render() {
-        const { id, name } = this.state
-        console.log(id, name)
+        const { id, userID, userName, coverList, contentsList, papersList } = this.state
+        //console.log(id, name)
         return (
             <Card title={<h2><strong>论文成果申报</strong></h2>}>
                 <Form
@@ -107,7 +134,7 @@ class ThesisForm extends Component {
                     <Form.Item
                         label="第一作者"
                         name="student"
-                        initialValue={`${name}(${id})`}
+                        initialValue={`${userName}(${userID})`}
                     >
                         <Input readOnly style={{ width: 200 }} />
 
@@ -142,12 +169,12 @@ class ThesisForm extends Component {
                                                 validateTrigger={['onChange']}
                                                 rules={[
                                                     {
-                                                        validator:this.checkCooperators
+                                                        validator: this.checkCooperators
                                                     },
                                                 ]}
                                                 noStyle
                                             >
-                                               <SelectManComplete />
+                                                <SelectManComplete />
                                             </Form.Item>
                                             {fields.length > 0 ? (
                                                 <MinusCircleOutlined
@@ -178,6 +205,25 @@ class ThesisForm extends Component {
                             );
                         }}
                     </Form.List>
+
+                    <Form.Item
+                        label="期刊封面"
+                        name="cover"
+                    >
+                        {coverList ? <ThesisAppendixUpload appendixList={coverList} ref={this.coverAppedixRef} maxNum={1} /> : <></>}
+                    </Form.Item>
+                    <Form.Item
+                        label="目录页"
+                        name="contents"
+                    >
+                        {contentsList ? <ThesisAppendixUpload appendixList={contentsList} ref={this.contentsAppedixRef} maxNum={1} /> : <></>}
+                    </Form.Item>
+                    <Form.Item
+                        label="论文页"
+                        name="bzAppendix"
+                    >
+                        {papersList ? <ThesisAppendixUpload appendixList={papersList} ref={this.papersAppedixRef} /> : <></>}
+                    </Form.Item>
 
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">

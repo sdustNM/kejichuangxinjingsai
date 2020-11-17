@@ -28,10 +28,7 @@ class SelectManComplete extends React.Component {
    triggerChange = (changedValue) => {
     console.log(changedValue)
     if (this.props.onChange) {
-      this.props.onChange({
-        value:this.state.value,
-        ...changedValue
-      });
+      this.props.onChange(changedValue);
     }
   };
 
@@ -90,7 +87,8 @@ class SelectManComplete extends React.Component {
     if (this.props.chooseMan) {
       this.props.chooseMan(data)
     };
-    this.triggerChange({ value: data });
+    this.triggerChange(data);
+    
   };
 
   onChange = data => {
