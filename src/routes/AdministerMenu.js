@@ -38,6 +38,25 @@ export const administerMenus = [
       yuanManager: true,
     },]
   },
+  {   //科技成果
+    component: null,
+    path: '/Archievements/',
+    isShow: true,
+    title: '科技成果',
+    icon: <HomeOutlined />,
+    sub: [{
+      isShow: true,
+      title: '待审成果',
+      path: '/administer/competitions/xiao',
+      icon: <SmileOutlined />,
+      yuanManager: true,
+    }, {
+      path: '/administer/recommendedProjects',
+      isShow: true,
+      title: '学生成果',
+      icon: <SmileOutlined />
+    }]
+  },
   // {
   //   component: null,
   //   path: 'competitionsYuan',

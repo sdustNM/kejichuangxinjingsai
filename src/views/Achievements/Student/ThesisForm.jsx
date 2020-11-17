@@ -3,7 +3,7 @@ import { Card, Form, Input, Button, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 
 import { getUserID, getUserName } from "../../../utils/auth"
-import SelectManComplete from '../../../components/SelectManComplete';
+import SelectManComplete from '../../../components/SelectAllManComplete';
 
 const { Option } = Select
 
@@ -30,6 +30,14 @@ class ThesisForm extends Component {
     onfinish = values => {
         console.log(values)
     }
+
+    checkCooperators = (rule, value) => {
+        if (value !==undefined && value.value !=="" ) {
+          return Promise.resolve();
+        }
+    
+        return Promise.reject("请选择参与人!");
+      };
 
     render() {
         const { id, name } = this.state
@@ -130,17 +138,15 @@ class ThesisForm extends Component {
                                         >
                                             <Form.Item
                                                 {...field}
-                                                validateTrigger={['onChange', 'onBlur']}
+                                                validateTrigger={['onChange']}
                                                 rules={[
                                                     {
-                                                        required: true,
-                                                        whitespace: true,
-                                                        message: "请输入其他作者学工号姓名或删除",
+                                                        validator:this.checkCooperators
                                                     },
                                                 ]}
                                                 noStyle
                                             >
-                                                <SelectManComplete chooseMan={()=>{}}/>
+                                               <SelectManComplete />
                                             </Form.Item>
                                             {fields.length > 0 ? (
                                                 <MinusCircleOutlined
