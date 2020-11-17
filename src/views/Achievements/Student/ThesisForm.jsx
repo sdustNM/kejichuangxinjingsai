@@ -3,7 +3,7 @@ import { Card, Form, Input, Button, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 
 import { getUserID, getUserName } from "../../../utils/auth"
-import SelectAllManComplete from '../../../components/SelectAllManComplete';
+import SelectManComplete from '../../../components/SelectAllManComplete';
 
 const { Option } = Select
 
@@ -31,6 +31,14 @@ class ThesisForm extends Component {
     onFinish = values => {
         console.log(values)
     }
+
+    checkCooperators = (rule, value) => {
+        if (value !==undefined && value.value !=="" ) {
+          return Promise.resolve();
+        }
+    
+        return Promise.reject("请选择参与人!");
+      };
 
     render() {
         const { id, name } = this.state
@@ -131,17 +139,15 @@ class ThesisForm extends Component {
                                         >
                                             <Form.Item
                                                 {...field}
-                                                validateTrigger={['onChange', 'onBlur']}
-                                                // rules={[
-                                                //     {
-                                                //         required: true,
-                                                //         whitespace: true,
-                                                //         message: "请输入其他作者学工号姓名或删除",
-                                                //     },
-                                                // ]}
+                                                validateTrigger={['onChange']}
+                                                rules={[
+                                                    {
+                                                        validator:this.checkCooperators
+                                                    },
+                                                ]}
                                                 noStyle
                                             >
-                                                <SelectAllManComplete />
+                                               <SelectManComplete />
                                             </Form.Item>
                                             {fields.length > 0 ? (
                                                 <MinusCircleOutlined

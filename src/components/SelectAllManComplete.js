@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Input, AutoComplete } from 'antd'
-import { getAllManByFuzzy } from '../services/administer/deparmentAdminister'
+import { getAllManByFuzzy } from '../services/Archievements'
 
 //使用Demo:
-//<SelectAllManComplete chooseMan={this.chooseMan} initValue={'991823'} />
+//<SelectAllManComplete chooseMan={this.chooseMan} initValue={'991823'} key={1}/>
 //在父组件中添加：
 // chooseMan=(man)=>{
 //   this.setState(
@@ -24,6 +24,17 @@ class SelectManComplete extends React.Component {
     };
 
   }
+
+   triggerChange = (changedValue) => {
+    console.log(changedValue)
+    if (this.props.onChange) {
+      this.props.onChange({
+        value:this.state.value,
+        ...changedValue
+      });
+    }
+  };
+
   // const [value, setValue] = useState(props.initValue);
   // const [options, setOptions] = useState([]);
   // const [db, setDb] = useState([]);
@@ -76,8 +87,10 @@ class SelectManComplete extends React.Component {
     //console.log("select" + data)
     let finded = this.state.db.find(a => a.id === data)
     finded && this.setState({ value: `${finded.id}-${finded.name}` });
-    //this.props.chooseMan(data)
-    this.props.onChange(data);
+    if (this.props.chooseMan) {
+      this.props.chooseMan(data)
+    };
+    this.triggerChange({ value: data });
   };
 
   onChange = data => {
