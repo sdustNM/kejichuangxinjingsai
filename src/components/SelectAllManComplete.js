@@ -18,7 +18,7 @@ class SelectManComplete extends React.Component {
   constructor(...prop) {
     super(...prop);
     this.state = {
-      value: prop.initValue,
+      value: prop.value,
       options: [],
       db: []
     };
@@ -28,10 +28,7 @@ class SelectManComplete extends React.Component {
    triggerChange = (changedValue) => {
     console.log(changedValue)
     if (this.props.onChange) {
-      this.props.onChange({
-        value:this.state.value,
-        ...changedValue
-      });
+      this.props.onChange(changedValue);
     }
   };
 
@@ -71,7 +68,7 @@ class SelectManComplete extends React.Component {
 
   componentDidMount() {
     //console.log(props.initValue)
-    this.props.initValue && getAllManByFuzzy({ "searchTxt": this.props.initValue }).then(res => {
+    this.props.value && getAllManByFuzzy({ "searchTxt": this.props.initValue }).then(res => {
       if (res.result) {
 
         let data = JSON.parse(res.data)
@@ -90,7 +87,8 @@ class SelectManComplete extends React.Component {
     if (this.props.chooseMan) {
       this.props.chooseMan(data)
     };
-    this.triggerChange({ value: data });
+    this.triggerChange(data);
+    
   };
 
   onChange = data => {
@@ -113,7 +111,7 @@ class SelectManComplete extends React.Component {
         onSearch={this.onSearch}
         onChange={this.onChange}
         placeholder="选择人员"
-      >  <Input.Search size="large" placeholder="input here" enterButton />
+      >  <Input.Search size="large" placeholder="input here" enterButton value={this.state.value} onChange={this.onChange}/>
       </AutoComplete>
     );
   }

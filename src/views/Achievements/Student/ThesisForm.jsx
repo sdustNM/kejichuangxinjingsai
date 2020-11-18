@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { Card, Form, Input, Button, Select } from 'antd';
+import { Card, Form, Input, Button, Select, DatePicker } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 
 import { getUserID, getUserName } from "../../../utils/auth"
-import SelectManComplete from '../../../components/SelectAllManComplete';
+import SelectManComplete from '../../../components/SelectAllManComplete'
+import ThesisAppendixUpload from './ThesisAppendixUpload'
+
+import { setArticleByID, getArticleByID } from '../../../services/Archieve_Article'
 
 const { Option } = Select
 
@@ -22,26 +25,80 @@ const tailLayout = {
     },
 };
 class ThesisForm extends Component {
-    state = {
-        id: getUserID(),
-        name: getUserName()
+    constructor(...props) {
+        super(...props)
+        this.state = {
+            id: props[0].location.state && props[0].location.state.projectID,
+            userID: getUserID(),
+            userName: getUserName(),
+            coverList: null,
+            contentsList: null,
+            papersList: null,
+        }
+        this.formRef = React.createRef();
     }
-    formRef = React.createRef();
-    onfinish = values => {
+
+    async componentDidMount() {
+        const { id } = this.state
+        let coverList = []
+        let contentsList = []
+        let papersList = []
+
+        if (id) {
+            const res = await getArticleByID({ id: 1 })
+            console.log(res)
+            if (res.result) {
+                const item = JSON.parse(res.data)
+                this.formRef.current.setFieldsValue({
+                    thesisName: item.论文名称,
+                    journal: item.发表期刊,
+                })
+            }
+        }
+
+        this.setState({
+            coverList,
+            contentsList,
+            papersList
+        })
+    }
+
+    onFinish = async values => {
         console.log(values)
+        const { id, userID } = this.state
+        const params = {
+            id,
+            sno: userID,
+            "论文名称": values.thesisName,
+            "发表期刊": values.journal,
+            "发表时间year": values.publishTime && values.publishTime.format('YYYY'),
+            "发表时间month": values.publishTime && values.publishTime.format('MM'),
+            "发表期号": values.issue,
+            "期刊收录": values.collection,
+            "联系方式": values.mobile,
+            "其它作者": values.others && values.others.join(','),
+            "期刊封面url": this.getAppendixUrl("cover"),
+            "目录页url": this.getAppendixUrl("contents"),
+            "论文页url": this.getAppendixUrl("papers"),
+            "备注": values.remark
+        }
+
+        console.log(params)
+        const res = await setArticleByID(params)
+        console.log(res)
     }
+
 
     checkCooperators = (rule, value) => {
-        if (value !==undefined && value.value !=="" ) {
-          return Promise.resolve();
+        if (value !== undefined && value.value !== "") {
+            return Promise.resolve();
         }
-    
         return Promise.reject("请选择参与人!");
-      };
+    };
 
     render() {
-        const { id, name } = this.state
-        console.log(id, name)
+        const { id, userID, userName, coverList, contentsList, papersList } = this.state
+        //console.log(id, name)
         return (
             <Card title={<h2><strong>论文成果申报</strong></h2>}>
                 <Form
@@ -75,16 +132,28 @@ class ThesisForm extends Component {
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="发表时间及期号"
+                        label="发表时间"
                         name="publishTime"
                         rules={[
                             {
                                 required: true,
-                                message: '发表时间及期号不能为空!',
+                                message: '发表时间不能为空!',
                             },
                         ]}
                     >
-                        <Input placeholder='示例：2020年01期' />
+                        <DatePicker picker="month" />
+                    </Form.Item>
+                    <Form.Item
+                        label="期号"
+                        name="issue"
+                        rules={[
+                            {
+                                required: true,
+                                message: '期号不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input />
                     </Form.Item>
                     <Form.Item
                         label="收录情况"
@@ -106,7 +175,7 @@ class ThesisForm extends Component {
                     <Form.Item
                         label="第一作者"
                         name="student"
-                        initialValue={`${name}(${id})`}
+                        initialValue={`${userName}(${userID})`}
                     >
                         <Input readOnly style={{ width: 200 }} />
 
@@ -141,12 +210,12 @@ class ThesisForm extends Component {
                                                 validateTrigger={['onChange']}
                                                 rules={[
                                                     {
-                                                        validator:this.checkCooperators
+                                                        validator: this.checkCooperators
                                                     },
                                                 ]}
                                                 noStyle
                                             >
-                                               <SelectManComplete />
+                                                <SelectManComplete />
                                             </Form.Item>
                                             {fields.length > 0 ? (
                                                 <MinusCircleOutlined
@@ -177,6 +246,50 @@ class ThesisForm extends Component {
                             );
                         }}
                     </Form.List>
+
+                    <Form.Item
+                        label="期刊封面"
+                        name="cover"
+                        rules={[
+                            {
+                                required: true,
+                                message: '至少上传一个封面图片!',
+                            },
+                        ]}
+                    >
+                        {coverList ? <ThesisAppendixUpload appendixList={coverList} maxNum={1} /> : <></>}
+                    </Form.Item>
+                    <Form.Item
+                        label="目录页"
+                        name="contents"
+                        rules={[
+                            {
+                                required: true,
+                                message: '至少上传一个包含论文题目的目录图片!',
+                            },
+                        ]}
+                    >
+                        {contentsList ? <ThesisAppendixUpload appendixList={contentsList} maxNum={1} /> : <></>}
+                    </Form.Item>
+                    <Form.Item
+                        label="论文页"
+                        name="papers"
+                        rules={[
+                            {
+                                required: true,
+                                message: '至少上传一个论文正文页图片!',
+                            },
+                        ]}
+                    >
+                        {papersList ? <ThesisAppendixUpload appendixList={papersList} ref={this.papersAppedixRef} /> : <></>}
+                    </Form.Item>
+
+                    <Form.Item
+                        label="备注"
+                        name="remark"
+                    >
+                        <Input />
+                    </Form.Item>
 
                     <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
