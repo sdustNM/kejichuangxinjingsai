@@ -7,19 +7,21 @@ import { deleteProjectFile } from '../../../services/project'
 
 class ThesisAppendixUpload extends React.Component {
   constructor(...props) {
-    super(...props)   
-    this.state = { 
-      fileList: []
+    super(...props)
+    this.state = {
+      fileList: [],
+      urlString:''
     }
   }
 
   componentDidMount() {
     //拉取服务器端已上传的附件
     this.getFileList()
+    this.setState({urlString: this.getAppendixUrls()})
   }
 
   getFileList = () => {
-    if(!this.props.appendixList) return
+    if (!this.props.appendixList) return
     const fileList = this.props.appendixList.map(file => {
       file.uid = file.id;
       file.rawUrl = file.url
@@ -30,11 +32,12 @@ class ThesisAppendixUpload extends React.Component {
   }
 
   beforeUpload = (file, fileList) => {
+    console.log(file, fileList)
     if (this.state.fileList.length >= this.props.maxNum) {
       message.warning('上传附件个数不能超过' + this.props.maxNum)
       return false
     }
-    else if(file.type !== "image/jpg"){
+    else if (file.type !== "image/jpeg") {
       message.warning(`当前图片格式(${file.type})不正确，只支持jpg格式，请修改后重新上传`)
       return false
     }
@@ -49,7 +52,7 @@ class ThesisAppendixUpload extends React.Component {
     //console.log(info)
     let fileList = [...info.fileList];
 
-    fileList = fileList.slice(0,this.props.maxNum).map(file => {
+    fileList = fileList.filter(file => !!file.status).slice(0, this.props.maxNum).map(file => {
       if (file.response) {
         let data = JSON.parse(file.response.data)
         console.log(data)
@@ -61,7 +64,12 @@ class ThesisAppendixUpload extends React.Component {
     });
 
     //console.log(fileList)
-    this.setState({ fileList });
+    const urlString = this.getAppendixUrls()
+    this.setState({ 
+      fileList,
+      urlString
+     });
+    this.props.onChange(urlString)
   }
 
   handleRemove = file => {
@@ -70,7 +78,7 @@ class ThesisAppendixUpload extends React.Component {
         //console.log(res.result)
         message.success('附件“' + file.name + '”删除成功！')
       }
-      else{
+      else {
         message.warning('附件“' + file.name + '”删除失败！')
       }
     })
@@ -78,7 +86,7 @@ class ThesisAppendixUpload extends React.Component {
 
   getAppendixUrls = () => {
     //console.log(this.state.fileList)
-    return this.state.fileList.reduce( (pre, item) => {
+    return this.state.fileList.reduce((pre, item) => {
       return pre ? pre + ',' + item.rawUrl : item.rawUrl
     }, null)
   }
