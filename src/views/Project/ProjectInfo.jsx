@@ -20,7 +20,7 @@ class ProjectInfo extends React.Component {
         //console.log(res)
         if (res.result) {
           const item = JSON.parse(res.data)
-          //console.log(item)
+          console.log(item)
           this.setState({
             project: {
               id: item.id,

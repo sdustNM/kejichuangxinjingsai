@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Input, AutoComplete } from 'antd'
-import { getAllManByFuzzy } from '../services/Archievements'
+import { getAllManByFuzzy } from '../services/administer/deparmentAdminister'
 
 //使用Demo:
 //<SelectAllManComplete chooseMan={this.chooseMan} initValue={'991823'} key={1}/>
@@ -17,8 +17,9 @@ class SelectManComplete extends React.Component {
 
   constructor(...prop) {
     super(...prop);
+    //console.log(prop[0].value)
     this.state = {
-      value: prop.value,
+      value: this.props.value,
       options: [],
       db: []
     };
@@ -68,7 +69,8 @@ class SelectManComplete extends React.Component {
 
   componentDidMount() {
     //console.log(props.initValue)
-    this.props.value && getAllManByFuzzy({ "searchTxt": this.props.initValue }).then(res => {
+    let v = this.props.value || this.props.initValue
+    v && getAllManByFuzzy({ "searchTxt": v }).then(res => {
       if (res.result) {
 
         let data = JSON.parse(res.data)

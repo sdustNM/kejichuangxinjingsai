@@ -60,7 +60,7 @@ class CompetitionManagerXiao extends React.Component {
 
     currentPage = currentPage ? currentPage : this.state.currentPage
     pageSize = pageSize ? pageSize : this.state.pageSize
-    //deptID = deptID ? deptID : this.state.department
+
     let params = {
       DepartmentId: "0",
       comName: this.state.comName,
