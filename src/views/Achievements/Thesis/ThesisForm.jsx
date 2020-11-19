@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Card, Form, Input, Button, Select, DatePicker } from 'antd';
+import { Card, Form, Input, Button, Select, DatePicker, Space, message } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-
+import moment from "moment"
 import { getUserID, getUserName } from "../../../utils/auth"
 import SelectManComplete from '../../../components/SelectAllManComplete'
 import ThesisAppendixUpload from './ThesisAppendixUpload'
 
-import { setArticleByID, getArticleByID } from '../../../services/Archieve_Article'
+import { setArticleByID, getArticleByID } from '../../../services/Achievements'
 
 const { Option } = Select
 
@@ -28,12 +28,12 @@ class ThesisForm extends Component {
     constructor(...props) {
         super(...props)
         this.state = {
-            id: props[0].location.state && props[0].location.state.projectID,
+            id: props[0].location.state && props[0].location.state.id,
             userID: getUserID(),
             userName: getUserName(),
             coverList: null,
             contentsList: null,
-            papersList: null,
+            articleList: null,
         }
         this.formRef = React.createRef();
     }
@@ -42,52 +42,89 @@ class ThesisForm extends Component {
         const { id } = this.state
         let coverList = []
         let contentsList = []
-        let papersList = []
+        let articleList = []
 
         if (id) {
-            const res = await getArticleByID({ id: 1 })
-            console.log(res)
+            const res = await getArticleByID({ id })
+            //console.log(res)
             if (res.result) {
                 const item = JSON.parse(res.data)
+                item.coverAppendix && (coverList = item.coverAppendix)
+                item.contentsAppendix && (contentsList = item.contentsAppendix)
+                item.articleAppendix && (articleList = item.articleAppendix)
+
                 this.formRef.current.setFieldsValue({
                     thesisName: item.论文名称,
                     journal: item.发表期刊,
+                    publishYear: !item.发表时间year ? null : moment(item.发表时间year, 'YYYY'),
+                    issue: item.发表期号,
+                    collection: item.期刊收录,
+                    mobile: item.联系方式,
+                    others: !item.其它作者 ? [''] : item.其它作者.split(','),
+                    cover: this.getAppendixUrls(coverList),
+                    contents: this.getAppendixUrls(contentsList),
+                    article: this.getAppendixUrls(articleList),
+                    remark: item.备注
                 })
+
             }
         }
 
         this.setState({
             coverList,
             contentsList,
-            papersList
+            articleList
         })
     }
 
+    getAppendixUrls = list => {
+        return list.reduce((pre, item) => {
+            return pre ? pre + ',' + item.url : item.url
+        }, null)
+    }
+
     onFinish = async values => {
-        console.log(values)
+        //console.log(values)
+        await this.save(values, 0)
+    }
+
+    submit = async () => {
+        try {
+            const values = await this.formRef.current.validateFields();
+            //console.log('Success:', values);
+            await this.save(values, 1)
+          } catch (errorInfo) {
+            //console.log('Failed:', errorInfo);
+          }
+
+    }
+
+    save = async (values, flag) => {
         const { id, userID } = this.state
         const params = {
             id,
             sno: userID,
             "论文名称": values.thesisName,
             "发表期刊": values.journal,
-            "发表时间year": values.publishTime && values.publishTime.format('YYYY'),
-            "发表时间month": values.publishTime && values.publishTime.format('MM'),
+            "发表时间year": values.publishYear && values.publishYear.format('YYYY'),
             "发表期号": values.issue,
             "期刊收录": values.collection,
             "联系方式": values.mobile,
             "其它作者": values.others && values.others.join(','),
-            "期刊封面url": this.getAppendixUrl("cover"),
-            "目录页url": this.getAppendixUrl("contents"),
-            "论文页url": this.getAppendixUrl("papers"),
-            "备注": values.remark
+            "期刊封面url": values.cover,
+            "目录页url": values.contents,
+            "论文页url": values.article,
+            "备注": values.remark,
+            state: flag
         }
 
-        console.log(params)
+        //console.log(params)
         const res = await setArticleByID(params)
-        console.log(res)
+        if(res.result){
+            message.success('操作成功')
+            this.props.history.replace({ pathname: '/student/myNeedReview'})
+        }
     }
-
 
     checkCooperators = (rule, value) => {
         if (value !== undefined && value.value !== "") {
@@ -95,9 +132,16 @@ class ThesisForm extends Component {
         }
         return Promise.reject("请选择参与人!");
     };
+    checkCover = (rule, value) => {
+        console.log(value)
+        if (value !== undefined && value !== "") {
+            return Promise.resolve();
+        }
+        return Promise.reject("至少上传一个封面!");
+    };
 
     render() {
-        const { id, userID, userName, coverList, contentsList, papersList } = this.state
+        const { id, userID, userName, coverList, contentsList, articleList } = this.state
         //console.log(id, name)
         return (
             <Card title={<h2><strong>论文成果申报</strong></h2>}>
@@ -132,8 +176,8 @@ class ThesisForm extends Component {
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="发表时间"
-                        name="publishTime"
+                        label="发表年份"
+                        name="publishYear"
                         rules={[
                             {
                                 required: true,
@@ -141,7 +185,7 @@ class ThesisForm extends Component {
                             },
                         ]}
                     >
-                        <DatePicker picker="month" />
+                        <DatePicker picker="year" />
                     </Form.Item>
                     <Form.Item
                         label="期号"
@@ -153,7 +197,7 @@ class ThesisForm extends Component {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input style={{ width: 120 }} />
                     </Form.Item>
                     <Form.Item
                         label="收录情况"
@@ -191,11 +235,12 @@ class ThesisForm extends Component {
                             },
                         ]}
                     >
-                        <Input placeholder='请输入手机号' />
+                        <Input placeholder='请输入手机号' style={{ width: 200 }} />
                     </Form.Item>
 
                     <Form.List name="others">
                         {(fields, { add, remove }) => {
+                            //console.log(fields)
                             return (
                                 <div>
                                     {fields.map((field, index) => (
@@ -253,7 +298,7 @@ class ThesisForm extends Component {
                         rules={[
                             {
                                 required: true,
-                                message: '至少上传一个封面图片!',
+                                message: '至少上传一个期刊封面图片!',
                             },
                         ]}
                     >
@@ -273,7 +318,7 @@ class ThesisForm extends Component {
                     </Form.Item>
                     <Form.Item
                         label="论文页"
-                        name="papers"
+                        name="article"
                         rules={[
                             {
                                 required: true,
@@ -281,7 +326,7 @@ class ThesisForm extends Component {
                             },
                         ]}
                     >
-                        {papersList ? <ThesisAppendixUpload appendixList={papersList} ref={this.papersAppedixRef} /> : <></>}
+                        {articleList ? <ThesisAppendixUpload appendixList={articleList} /> : <></>}
                     </Form.Item>
 
                     <Form.Item
@@ -292,9 +337,10 @@ class ThesisForm extends Component {
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
+                        <Space>
+                            <Button type="primary" htmlType="submit">保存</Button>
+                            <Button type="primary" onClick={this.submit}>保存并提交</Button>
+                        </Space>
                     </Form.Item>
                 </Form>
             </Card>

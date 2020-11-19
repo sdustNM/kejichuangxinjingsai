@@ -3,21 +3,21 @@ import { Upload, Button, message } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import { appRoot } from '../../../utils/request'
 import { getJwt } from '../../../utils/jwtHelper'
-import { deleteProjectFile } from '../../../services/project'
+import { deleteAchievementFile } from '../../../services/Achievements'
 
 class ThesisAppendixUpload extends React.Component {
   constructor(...props) {
     super(...props)
+    //console.log(this.props)
     this.state = {
       fileList: [],
-      urlString:''
+      urlString: this.props.value
     }
   }
 
   componentDidMount() {
     //拉取服务器端已上传的附件
     this.getFileList()
-    this.setState({urlString: this.getAppendixUrls()})
   }
 
   getFileList = () => {
@@ -65,15 +65,15 @@ class ThesisAppendixUpload extends React.Component {
 
     //console.log(fileList)
     const urlString = this.getAppendixUrls()
-    this.setState({ 
+    this.setState({
       fileList,
       urlString
-     });
+    });
     this.props.onChange(urlString)
   }
 
   handleRemove = file => {
-    deleteProjectFile({ id: file.id }).then(res => {
+    deleteAchievementFile({ id: file.id }).then(res => {
       if (res.result) {
         //console.log(res.result)
         message.success('附件“' + file.name + '”删除成功！')
@@ -94,7 +94,7 @@ class ThesisAppendixUpload extends React.Component {
   render() {
     //console.log(this.props)
     const props = {
-      action: appRoot + '/api/Appendix/UploadProjectFile',
+      action: appRoot + '/api/AchieveCommon/UploadAchievementFile',
       data: { FileType: this.props.fileType },
       headers: {
         authorization: getJwt(),

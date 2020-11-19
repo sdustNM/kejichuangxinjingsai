@@ -7,8 +7,10 @@ import CompetitionListXiao from '../views/Competition/Students/CompetitionListXi
 //import CompetitionListYuan from '../views/Competition/Students/CompetitionListYuan'
 import Competition from "../views/Competition/Students/Competition"
 import ProjectList from "../views/Project/Student/ProjectList"
-import ThesisForm from "../views/Achievements/Student/ThesisForm"
 import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
+import AchievementList from "../views/Achievements/AchievementList"
+import AchievementInfo from "../views/Achievements/AchievementInfo"
+import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 
 
 
@@ -26,11 +28,11 @@ export const studentConfig = [
   {
     path: '/student/projectEdit',
     component: ProjectEdit
-  }, 
+  },
   {
     path: '/student/projectInfo',
     component: ProjectInfoStudent
-  }, 
+  },
   {
     path: '/student/projectInfoWithCompetitonInfo',
     component: ProjectInfoWithComInfo
@@ -38,14 +40,14 @@ export const studentConfig = [
   {
     path: '/student/projectList',
     component: ProjectList
-  }, 
+  },
   {
     path: '/student/competition',
     component: Competition,
     exact: true,
-  }, 
+  },
   {
-    path: '/student/thesisAchievements',
+    path: '/student/thesisForm',
     component: ThesisForm,
     exact: true,
   },
@@ -53,9 +55,18 @@ export const studentConfig = [
     path: '/student/myAchievements',
     component: ConfirmAchieveList,
     exact: true,
-  }
-  
+  },
+  {
+    path: '/student/myNeedReview',
+    component: AchievementList,
+    exact: true,
+  },
+  {
+    path: '/student/achievementsInfo',
+    component: AchievementInfo,
+    exact: true,
+  },
 ]
 
-  
+
   //to do wcgit

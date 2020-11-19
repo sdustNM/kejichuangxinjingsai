@@ -30,7 +30,7 @@ export const studentMenus = [
     title: '科技成果',
     icon: <IdcardOutlined />,
     sub: [{
-      path: '/student/thesisAchievements',
+      path: '/student/thesisForm',
       isShow: true,
       title: '论文成果申报',
       icon: <FileTextOutlined />
