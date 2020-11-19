@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Input, AutoComplete } from 'antd'
-import { getStudentsByFuzzy } from '../services/Archievements'
+import { getStudentsByFuzzy } from '../services/administer/deparmentAdminister'
 
 //使用Demo:
 //<SelectAllManComplete chooseMan={this.chooseMan} initValue={'991823'} key={1}/>
