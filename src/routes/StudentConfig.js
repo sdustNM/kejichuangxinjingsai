@@ -8,6 +8,7 @@ import CompetitionListXiao from '../views/Competition/Students/CompetitionListXi
 import Competition from "../views/Competition/Students/Competition"
 import ProjectList from "../views/Project/Student/ProjectList"
 import ThesisForm from "../views/Achievements/Student/ThesisForm"
+import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
 
 
 
@@ -47,7 +48,14 @@ export const studentConfig = [
     path: '/student/thesisAchievements',
     component: ThesisForm,
     exact: true,
-  }]
+  },
+  {
+    path: '/student/myAchievements',
+    component: ConfirmAchieveList,
+    exact: true,
+  }
+  
+]
 
   
   //to do wcgit
