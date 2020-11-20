@@ -10,6 +10,15 @@ export function getNeedReviewList(params){
   return get('/AchieveCommon/getNeedReviewList', params)
 }
 
+//学院评审
+export function setDepartmentReview(params){
+  return post('/AchieveCommon/setDepartmentReview', params)
+}
+//学校评审
+export function setSchoolReview(params){
+  return post('/AchieveCommon/setSchoolReview', params)
+}
+
 //​获取论文成果
 export function getArticleByID(params){
   return get('/AchieveArticle/getArticleByID', params)

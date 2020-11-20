@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Form, Input, Button, Select, DatePicker, Space, message } from 'antd';
+import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import moment from "moment"
 import { getUserID, getUserName } from "../../../utils/auth"
@@ -31,6 +31,8 @@ class ThesisForm extends Component {
             id: props[0].location.state && props[0].location.state.id,
             userID: getUserID(),
             userName: getUserName(),
+            yuanReview: '',
+            xiaoReview: '',
             coverList: null,
             contentsList: null,
             articleList: null,
@@ -43,12 +45,14 @@ class ThesisForm extends Component {
         let coverList = []
         let contentsList = []
         let articleList = []
-
+        let yuanReview = ''
+        let xiaoReview = ''
         if (id) {
             const res = await getArticleByID({ id })
             //console.log(res)
             if (res.result) {
                 const item = JSON.parse(res.data)
+                console.log(item)
                 item.coverAppendix && (coverList = item.coverAppendix)
                 item.contentsAppendix && (contentsList = item.contentsAppendix)
                 item.articleAppendix && (articleList = item.articleAppendix)
@@ -67,13 +71,21 @@ class ThesisForm extends Component {
                     remark: item.备注
                 })
 
+                yuanReview = item.学院意见
+                xiaoReview = item.学校意见
             }
         }
-
+        else {
+            this.formRef.current.setFieldsValue({
+                others: ['']
+            })
+        }
         this.setState({
             coverList,
             contentsList,
-            articleList
+            articleList,
+            yuanReview,
+            xiaoReview,
         })
     }
 
@@ -85,19 +97,19 @@ class ThesisForm extends Component {
 
     onFinish = async values => {
         //console.log(values)
-        await this.save(values, 0)
+        await this.save(values, 1)
     }
 
-    submit = async () => {
-        try {
-            const values = await this.formRef.current.validateFields();
-            //console.log('Success:', values);
-            await this.save(values, 1)
-          } catch (errorInfo) {
-            //console.log('Failed:', errorInfo);
-          }
+    // submit = async () => {
+    //     try {
+    //         const values = await this.formRef.current.validateFields();
+    //         //console.log('Success:', values);
+    //         await this.save(values, 1)
+    //       } catch (errorInfo) {
+    //         //console.log('Failed:', errorInfo);
+    //       }
 
-    }
+    // }
 
     save = async (values, flag) => {
         const { id, userID } = this.state
@@ -120,9 +132,9 @@ class ThesisForm extends Component {
 
         //console.log(params)
         const res = await setArticleByID(params)
-        if(res.result){
+        if (res.result) {
             message.success('操作成功')
-            this.props.history.replace({ pathname: '/student/myNeedReview'})
+            this.props.history.replace({ pathname: '/student/myNeedReview' })
         }
     }
 
@@ -141,10 +153,14 @@ class ThesisForm extends Component {
     };
 
     render() {
-        const { id, userID, userName, coverList, contentsList, articleList } = this.state
+        const { id, userID, userName, coverList, contentsList, articleList, yuanReview, xiaoReview } = this.state
         //console.log(id, name)
         return (
             <Card title={<h2><strong>论文成果申报</strong></h2>}>
+                <Descriptions size='small' column={3} bordered >
+                    <Descriptions.Item label='学院意见' span={3}>{yuanReview}</Descriptions.Item>
+                    <Descriptions.Item label='学校意见' span={3}>{xiaoReview}</Descriptions.Item>
+                </Descriptions>
                 <Form
                     {...layout}
                     name="thesis"
@@ -338,8 +354,8 @@ class ThesisForm extends Component {
 
                     <Form.Item {...tailLayout}>
                         <Space>
-                            <Button type="primary" htmlType="submit">保存</Button>
-                            <Button type="primary" onClick={this.submit}>保存并提交</Button>
+                            <Button type="primary" htmlType="submit">保存并提交</Button>
+                            {/* <Button type="primary" onClick={this.submit}>保存并提交</Button> */}
                         </Space>
                     </Form.Item>
                 </Form>

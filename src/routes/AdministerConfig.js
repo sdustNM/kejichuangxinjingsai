@@ -11,6 +11,8 @@ import AnnouncementEdit from '../views/Announcements/AnnouncementEdit';
 import AnnouncementList from '../views/Announcements/AnnouncementList';
 import ProjectList from '../views/Project/Administer/ProjectList';
 import ProjectInfoWithComInfo from "../views/Project/ProjectInfo_withComInfo"
+import AchievementList from '../views/Achievements/AchievementList/AchievementList_admin';
+import AchievementInfo from '../views/Achievements/AchievementInfo';
 
 export const administerConfig = [
 
@@ -60,20 +62,32 @@ export const administerConfig = [
     path: '/administer/Experts',
     component: ExpertManagerList,
     exact: true
-  }, {
+  }, 
+  {
     path: '/administer/ExpertsEdit',
     component: ExpertManagerEdit,
     exact: true
   },
   {
-    path: '/administer/AnnouncementList',
-    component: AnnouncementList,
+    path: '/administer/reviewList',
+    component: AchievementList,
     exact: true
   },
   {
-    path: '/administer/AnnouncementEdit',
-    component: AnnouncementEdit,
-    exact: true
-  }
+    path: '/administer/achievementsInfo',
+    component: AchievementInfo,
+    exact: true,
+  },
+
+  // {
+  //   path: '/administer/AnnouncementList',
+  //   component: AnnouncementList,
+  //   exact: true
+  // },
+  // {
+  //   path: '/administer/AnnouncementEdit',
+  //   component: AnnouncementEdit,
+  //   exact: true
+  // }
 ]
 

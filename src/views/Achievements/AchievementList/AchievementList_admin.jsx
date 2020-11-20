@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
 import { Card, Table, Button, Space, message } from 'antd'
-import { deleteArticleByID, getNeedReviewList } from '../../services/Achievements'
+import { deleteArticleByID, getNeedReviewList } from '../../../services/Achievements'
 export default class AchievementList extends Component {
     constructor(...props) {
         super(...props)
         this.state = {
-            sno: '',
-            partName: '',
-            type: '',
             dataSource: null,
             currentPage: 1,
             pageSize: 5,
             loading: false,
             _total: 0,
         }
+        this.statusList = ['退回修改', '学院审核中', '学校审核中']
     }
+
     componentDidMount() {
         this.refresh();
     }
@@ -44,13 +43,9 @@ export default class AchievementList extends Component {
 
     refresh = async (currentPage, pageSize) => {
         this.setState({ loading: true });
-        const { sno, partName, type } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
         pageSize = pageSize ? pageSize : this.state.pageSize
         let params = {
-            sno,
-            partName,
-            type,
             currentPage,
             pageSize
         }
@@ -67,7 +62,8 @@ export default class AchievementList extends Component {
                     ID: item.id,
                     name: item.achievementName,
                     type: item.type,
-                    status: item.state
+                    state: item.state,
+                    status: this.statusList[item.state]
                 })
             )
 
@@ -84,25 +80,7 @@ export default class AchievementList extends Component {
         }
     }
 
-    delete = async (id, type) => {
-        let res
-        switch (type) {
-            case '论文':
-                res = await deleteArticleByID({id})
-                break;
-            case '竞赛':
-                //res = await deleteArticleByID({id})
-                break;
-            case '专利':
-                //res = await deleteArticleByID({id})
-                break;
-            default:
-                break;
-        }
-        if(res.result){
-            message.success('操作成功！')
-        }
-    }
+
     render() {
         const { dataSource, loading, pageSize, _total } = this.state
         const columns = [
@@ -124,54 +102,19 @@ export default class AchievementList extends Component {
             {
                 title: '操作',
                 key: 'action',
-                render: (text, record) =>
-                    record.status === 0 ? (
-                        <Space>
-                            <Button
-                                type='primary'
-                                size='small'
-                                shape='round'
-                                onClick={() => {
-                                    let pathname
-                                    switch (record.type) {
-                                        case '论文':
-                                            pathname = '/student/thesisForm'
-                                            break;
-                                        case '竞赛':
-                                            pathname = '/student/competitionForm'
-                                            break;
-                                        case '专利':
-                                            pathname = '/student/patentForm'
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                    this.props.history.push({ pathname, state: { id: record.ID } })
-                                }}
-                            >修改</Button>
-                            <Button
-                                type='danger'
-                                size='small'
-                                shape='round'
-                                onClick={() => {
-                                    this.delete(record.id, record.type)
-                                }}
-                            >删除</Button>
-                        </Space>) : (
-                            <Space>
-                                <Button
-                                    type='primary'
-                                    size='small'
-                                    shape='round'
-                                    onClick={() => {
-                                        //console.log("record.name:", record.name)
-                                        this.props.history.push({ pathname: '/student/achievementsInfo', state: { id: record.ID, type: record.type } })
-                                    }}
-                                >查看</Button>
-                            </Space>
-                        )
-
-                ,
+                render: (text, record) => (
+                    <Space>
+                        <Button
+                            type='primary'
+                            size='small'
+                            shape='round'
+                            onClick={() => {
+                                //console.log("record.name:", record.name)
+                                this.props.history.push({ pathname: '/administer/achievementsInfo', state: { id: record.ID, type: record.type } })
+                            }}
+                        >查看</Button>
+                    </Space>
+                ),
             },
         ];
         return (

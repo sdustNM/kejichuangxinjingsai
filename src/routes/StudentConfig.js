@@ -7,7 +7,7 @@ import CompetitionListXiao from '../views/Competition/Students/CompetitionListXi
 //import CompetitionListYuan from '../views/Competition/Students/CompetitionListYuan'
 import Competition from "../views/Competition/Students/Competition"
 import ProjectList from "../views/Project/Student/ProjectList"
-import AchievementList from "../views/Achievements/AchievementList"
+import AchievementList from "../views/Achievements/AchievementList/AchievementList"
 import AchievementInfo from "../views/Achievements/AchievementInfo"
 import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 

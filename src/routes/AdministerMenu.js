@@ -40,21 +40,23 @@ export const administerMenus = [
   },
   {   //科技成果
     component: null,
-    path: '/Archievements/',
+    path: '/administer/archievements/',
     isShow: true,
     title: '科技成果',
     icon: <HomeOutlined />,
+    yuanManager: true,
     sub: [{
       isShow: true,
       title: '待审成果',
-      path: '/administer/competitions/xiao',
+      path: '/administer/reviewList',
       icon: <SmileOutlined />,
       yuanManager: true,
     }, {
-      path: '/administer/recommendedProjects',
+      path: '/administer/archievementList',
       isShow: true,
       title: '学生成果',
-      icon: <SmileOutlined />
+      icon: <SmileOutlined />,
+      yuanManager: true,
     }]
   },
   // {
