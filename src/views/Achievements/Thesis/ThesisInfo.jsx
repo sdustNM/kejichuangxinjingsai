@@ -6,15 +6,15 @@ class ThesisInfo extends Component {
     render() {
         
         const info = this.props.info
-        console.log(info.State)
+        //console.log(info.State)
         const othersNum = info.其它作者.split(',').filter(item => item.trim() !== '').length
         return (
             <Card>
                 <Descriptions
                     bordered
-                    size='middle'
+                    size={this.props.size}
                     column={3}
-                    title='论文成果审核信息'
+                    title='论文成果详细信息'
                 >
                     <Descriptions.Item label={<strong>论文名称</strong>} span={2}>{info.论文名称}</Descriptions.Item>
                     <Descriptions.Item label={<strong>发表时间</strong>}>{info.发表时间year}</Descriptions.Item>
@@ -23,7 +23,7 @@ class ThesisInfo extends Component {
                     <Descriptions.Item label={<strong>期刊收录</strong>}>{info.期刊收录}</Descriptions.Item>
                     <Descriptions.Item label={<strong>第一作者</strong>} span={3}>
                         <Descriptions size='small' column={4} bordered layout='vertical'>
-                            <Descriptions.Item label='姓名'>{info.Sno}</Descriptions.Item>
+                            <Descriptions.Item label='姓名'>{info.sname}</Descriptions.Item>
                             <Descriptions.Item label='联系方式'>{info.联系方式}</Descriptions.Item>
                             <Descriptions.Item label='学院'>{'能源与矿业工程学院'}</Descriptions.Item>
                             <Descriptions.Item label='班级'>{'采矿2020-1'}</Descriptions.Item>

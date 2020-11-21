@@ -48,6 +48,7 @@ export default class AchievementInfo extends Component {
         const res = await getArticleByID({ id })
         if (res.result) {
             const info = JSON.parse(res.data)
+            console.log(info)
             this.setState({
                 info,
                 status: ['驳回修改', '学院审核中', '学校审核中'][info.State]
@@ -75,7 +76,7 @@ export default class AchievementInfo extends Component {
             res = await setDepartmentReview(params)
         }
         else if (isSuperAdminister()) {
-            console.log('super')
+            console.log(params)
             res = await setSchoolReview(params)
         } else {
             message.warning('没有权限，无法操作！')
@@ -101,7 +102,7 @@ export default class AchievementInfo extends Component {
         let achievementInfo
         switch (this.state.type) {
             case '论文':
-                achievementInfo = this.state.info && <ThesisInfo info={this.state.info} />
+                achievementInfo = this.state.info && <ThesisInfo info={this.state.info} size='middle' />
                 break;
             // case 'competition':
             //     achievementInfo = <ThesisInfo id={id} />

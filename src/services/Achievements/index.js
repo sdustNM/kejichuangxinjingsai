@@ -19,6 +19,10 @@ export function setSchoolReview(params){
   return post('/AchieveCommon/setSchoolReview', params)
 }
 
+//获取论文列表/api/AchieveArticle/getArticleList
+export function getArticleList(params){
+  return get('/AchieveArticle/getArticleList', params)
+}
 //​获取论文成果
 export function getArticleByID(params){
   return get('/AchieveArticle/getArticleByID', params)
