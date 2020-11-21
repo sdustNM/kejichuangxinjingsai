@@ -8,6 +8,7 @@ import CompetitionListXiao from '../views/Competition/Students/CompetitionListXi
 import Competition from "../views/Competition/Students/Competition"
 import ProjectList from "../views/Project/Student/ProjectList"
 import AchievementList from "../views/Achievements/AchievementList/AchievementList"
+import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
 import AchievementInfo from "../views/Achievements/AchievementInfo"
 import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 
@@ -48,6 +49,11 @@ export const studentConfig = [
   {
     path: '/student/thesisForm',
     component: ThesisForm,
+    exact: true,
+  },
+  {
+    path: '/student/myAchievements',
+    component: ConfirmAchieveList,
     exact: true,
   },
   {
