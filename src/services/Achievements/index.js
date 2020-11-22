@@ -9,7 +9,6 @@ export function deleteAchievementFile(params){
 export function getNeedReviewList(params){
   return get('/AchieveCommon/getNeedReviewList', params)
 }
-
 //学院评审
 export function setDepartmentReview(params){
   return post('/AchieveCommon/setDepartmentReview', params)
@@ -34,4 +33,21 @@ export function setArticleByID(params){
 //​删除论文成果
 export function deleteArticleByID(params){
   return get('/AchieveArticle/deleteArticleByID', params)
+}
+
+//获取专利列表/api/AchieveArticle/getArticleList
+export function getPatentList(params){
+  return get('/AchievePatent/getPatentList', params)
+}
+//​获取专利成果
+export function getPatentByID(params){
+  return get('/AchievePatent/getPatentByID', params)
+}
+//设置专利成果
+export function setPatentByID(params){
+  return post('/AchievePatent/setPatentByID', params)
+}
+//​删除专利成果
+export function deletePatentByID(params){
+  return get('/AchievePatent/deletePatentByID', params)
 }

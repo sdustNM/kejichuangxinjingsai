@@ -11,6 +11,7 @@ import AchievementList from "../views/Achievements/AchievementList/AchievementLi
 import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
 import AchievementInfo from "../views/Achievements/AchievementInfo"
 import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
+import PatentForm from "../views/Achievements/Patent/PatentForm"
 
 
 
@@ -47,23 +48,28 @@ export const studentConfig = [
     exact: true,
   },
   {
-    path: '/student/thesisForm',
-    component: ThesisForm,
-    exact: true,
-  },
-  {
-    path: '/student/myAchievements',
+    path: '/student/archievementList',
     component: ConfirmAchieveList,
     exact: true,
   },
   {
-    path: '/student/myNeedReview',
+    path: '/student/reviewList',
     component: AchievementList,
     exact: true,
   },
   {
     path: '/student/achievementsInfo',
     component: AchievementInfo,
+    exact: true,
+  },
+  {
+    path: '/student/thesisForm',
+    component: ThesisForm,
+    exact: true,
+  },
+  {
+    path: '/student/patentForm',
+    component: PatentForm,
     exact: true,
   },
 ]
