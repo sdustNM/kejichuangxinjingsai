@@ -41,8 +41,8 @@ class ThesisAppendixUpload extends React.Component {
       message.warning(`当前图片格式(${file.type})不正确，只支持jpg格式，请修改后重新上传`)
       return false
     }
-    else if (file.size / 1024 / 1024 >= 3) {
-      message.warning('图片大小超出限制(<3M)，请修改后重新上传')
+    else if (file.size / 1024 / 1024 >= this.props.size) {
+      message.warning(`图片大小超出限制（应小于${this.props.size}M），请修改后重新上传`)
       return false
     }
     return true

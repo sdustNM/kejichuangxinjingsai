@@ -34,18 +34,14 @@ class PatentForm extends Component {
             userName: getUserName(),
             yuanReview: '',
             xiaoReview: '',
-            //coverList: null,
-            //contentsList: null,
-            //articleList: null,
+            fileList: null,
         }
         this.formRef = React.createRef();
     }
 
     async componentDidMount() {
         const { id } = this.state
-        //let coverList = []
-        //let contentsList = []
-        //let articleList = []
+        let fileList = []
         let yuanReview = ''
         let xiaoReview = ''
         // if (id) {
