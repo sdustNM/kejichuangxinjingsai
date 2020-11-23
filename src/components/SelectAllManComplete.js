@@ -148,10 +148,18 @@ class SelectManComplete extends React.Component {
     // props.chooseMan(data)
   };
 
-  personTypeChange=value=>{
+  personTypeChange = value => {
     console.log(value);
     this.setState(
-      {type:value});
+      { type: value });
+
+    this.triggerChange(
+      {
+        type: value,
+        selectedValue: value == "0" ? this.state.idorname : "",
+        value: this.state.idorname
+      }
+    );
   };
   render() {
     return (
