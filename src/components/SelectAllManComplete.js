@@ -154,6 +154,13 @@ class SelectManComplete extends React.Component {
       { type: value });
 
     this.state.value="";
+    this.triggerChange(
+      {
+        type: this.state.type,
+        value: "",
+        selectedValue: ""
+      }
+    );
   };
   render() {
     return (
