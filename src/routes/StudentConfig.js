@@ -7,10 +7,11 @@ import CompetitionListXiao from '../views/Competition/Students/CompetitionListXi
 //import CompetitionListYuan from '../views/Competition/Students/CompetitionListYuan'
 import Competition from "../views/Competition/Students/Competition"
 import ProjectList from "../views/Project/Student/ProjectList"
+import AchievementList from "../views/Achievements/AchievementList/AchievementList"
 import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
-import AchievementList from "../views/Achievements/AchievementList"
 import AchievementInfo from "../views/Achievements/AchievementInfo"
 import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
+import PatentForm from "../views/Achievements/Patent/PatentForm"
 
 
 
@@ -47,23 +48,28 @@ export const studentConfig = [
     exact: true,
   },
   {
-    path: '/student/thesisForm',
-    component: ThesisForm,
-    exact: true,
-  },
-  {
-    path: '/student/myAchievements',
+    path: '/student/archievementList',
     component: ConfirmAchieveList,
     exact: true,
   },
   {
-    path: '/student/myNeedReview',
+    path: '/student/reviewList',
     component: AchievementList,
     exact: true,
   },
   {
     path: '/student/achievementsInfo',
     component: AchievementInfo,
+    exact: true,
+  },
+  {
+    path: '/student/thesisForm',
+    component: ThesisForm,
+    exact: true,
+  },
+  {
+    path: '/student/patentForm',
+    component: PatentForm,
     exact: true,
   },
 ]

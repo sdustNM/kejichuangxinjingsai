@@ -42,19 +42,19 @@ export const studentMenus = [
       icon: <TrophyOutlined />
     },
     {
-      path: '/student/patentAchievements',
+      path: '/student/patentForm',
       isShow: true,
       title: '专利成果申报',
       icon: <ExperimentOutlined />
     },
     {
-      path: '/student/myNeedReview',
+      path: '/student/reviewList',
       isShow: true,
       title: '我的申请',
       icon: <WalletOutlined />
     },
     {
-      path: '/student/myAchievements',
+      path: '/student/archievementList',
       isShow: true,
       title: '我的成果',
       icon: <WalletOutlined />
