@@ -128,6 +128,9 @@ class ThesisForm extends Component {
 
     checkCooperators = (rule, value) => {
         if (value !== undefined && value.value !== "") {
+             //value:{type: x;value: x;selectedValue: x}
+             console.log(value);
+             if (value.type==0 && value.selectedValue==undefined ) return Promise.reject("校内人员必须从下拉框中区配！");
             return Promise.resolve();
         }
         return Promise.reject("请选择参与人!");
@@ -135,7 +138,8 @@ class ThesisForm extends Component {
     checkCover = (rule, value) => {
         console.log(value)
         if (value !== undefined && value !== "") {
-            return Promise.resolve();
+          
+             return Promise.resolve();
         }
         return Promise.reject("至少上传一个封面!");
     };
