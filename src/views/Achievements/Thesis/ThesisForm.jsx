@@ -114,6 +114,7 @@ class ThesisForm extends Component {
 
     save = async (values, flag) => {
         const { id, userID } = this.state
+        console.log(values.others)
         const params = {
             id,
             sno: userID,
@@ -123,7 +124,7 @@ class ThesisForm extends Component {
             "发表期号": values.issue,
             "期刊收录": values.collection,
             "联系方式": values.mobile,
-            "其它作者": values.others && values.others.join(','),
+            "其它作者": values.others && values.others.map(x=>x.type+":"+x.value).join(','),
             "期刊封面url": values.cover,
             "目录页url": values.contents,
             "论文页url": values.article,
@@ -135,7 +136,7 @@ class ThesisForm extends Component {
         const res = await setArticleByID(params)
         if (res.result) {
             message.success('操作成功')
-            this.props.history.replace({ pathname: '/student/myNeedReview' })
+            this.props.history.replace({ pathname: '/student/ReviewList' })
         }
     }
 

@@ -21,12 +21,14 @@ class SelectManComplete extends React.Component {
     //console.log(prop[0].value)
     this.state = {
       value: this.props.value,
+      idorname:'',
       selectedValue:'',     //选择的id
-      type:0,
+      type:"0",
       options: [],
-      db: []
+      db: [],
     };
 
+    console.log('init')
   }
 
    triggerChange = (changedValue) => {
@@ -73,23 +75,47 @@ class SelectManComplete extends React.Component {
 
   componentDidMount() {
     //console.log(props.initValue)
-    let v = this.props.value 
-    if (v) this.setState(
-      {
-        type:v.type,
-        value:v.value
-      }
-    )
-    v && getAllManByFuzzy({ "searchTxt": v }).then(res => {
-      if (res.result) {
+    let v = this.props.value
+    if (v) {
 
-        let data = JSON.parse(res.data)
-        //console.log(data)
-        if (data.length === 1) {   //只有一条记录
-          this.setState({ value: `${data[0].id}-${data[0].name}` });
+      console.log(v)
+      let type=v.split(":")[0]
+      let idorname=v.split(":")[1]
+      this.setState(
+        {
+          idorname,
+          type,
         }
+      );
+      console.log(type,idorname)
+
+      if (type == "0") {
+        getAllManByFuzzy({ "searchTxt": idorname }).then(res => {
+
+          if (res.result) {
+            console.log("find me")
+            let data = JSON.parse(res.data)
+            //console.log(data)
+            if (data.length >= 1) {   //只有一条记录
+              this.setState({ value: `${data[0].id}-${data[0].name}` });
+            }
+          }
+        })
       }
-    })
+      else {
+        this.setState({ value: idorname });
+
+      }
+      //第二次加载但没有修改的时候，要能提交给父节点
+      this.triggerChange(
+        {
+          type,
+          selectedValue: type == "0" ? idorname : "",
+          value: idorname
+        }
+      );
+    }
+
   }
 
 
@@ -130,7 +156,7 @@ class SelectManComplete extends React.Component {
   render() {
     return (
       <>
-      <Select defaultValue="校内" style={{width:120}} onChange={this.personTypeChange}>
+      <Select   defaultValue={"0"} value={String(this.state.type)} style={{width:120}} onChange={this.personTypeChange}>
         <Option value="0">校内</Option>
         <Option value="1">校外</Option>
       </Select>
