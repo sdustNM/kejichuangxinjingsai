@@ -30,7 +30,7 @@ class ThesisInfo extends Component {
                         </Descriptions>
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>作者人数</strong>}>{othersNum + 1}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>其他作者</strong>} span={2}>{othersNum ? info.其它作者 : '无'}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>其他作者</strong>} span={2}>{othersNum ? info.其它作者show : '无'}</Descriptions.Item>
                     <Descriptions.Item label={<strong>期刊封面</strong>} span={3}>
                         {info.coverAppendix && <AppendixList fileList={info.coverAppendix} />}
                     </Descriptions.Item>
