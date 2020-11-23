@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Input, AutoComplete } from 'antd'
+import { Input, AutoComplete,Modal } from 'antd'
 import { getAllManByFuzzy } from '../services/administer/deparmentAdminister'
 
 //使用Demo:
@@ -29,7 +29,7 @@ class SelectManComplete extends React.Component {
    triggerChange = (changedValue) => {
     console.log(changedValue)
     if (this.props.onChange) {
-      this.props.onChange(changedValue);
+      this.props.onChange(changedValue+"(校外)");
     }
   };
 
@@ -89,6 +89,7 @@ class SelectManComplete extends React.Component {
     if (this.props.chooseMan) {
       this.props.chooseMan(data)
     };
+
     this.triggerChange(data);
     
   };
@@ -96,6 +97,7 @@ class SelectManComplete extends React.Component {
   onChange = data => {
     // console.log(data)
     this.setState({ value: data });
+    this.triggerChange(data);
     // console.log(props)
     // props.chooseMan(data)
   };

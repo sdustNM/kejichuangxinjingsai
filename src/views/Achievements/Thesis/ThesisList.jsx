@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { Card, Table, Button, Space, message } from 'antd'
-import { deleteArticleByID, getNeedReviewList } from '../../services/Achievements'
-export default class AchievementList extends Component {
+import { deleteArticleByID } from '../../services/Achievements'
+export default class ThesisList extends Component {
     constructor(...props) {
         super(...props)
         this.state = {
             sno: '',
             partName: '',
-            type: '',
             dataSource: null,
             currentPage: 1,
             pageSize: 5,
@@ -44,7 +43,7 @@ export default class AchievementList extends Component {
 
     refresh = async (currentPage, pageSize) => {
         this.setState({ loading: true });
-        const { sno, partName, type } = this.state
+        const { sno, partName  } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
         pageSize = pageSize ? pageSize : this.state.pageSize
         let params = {
