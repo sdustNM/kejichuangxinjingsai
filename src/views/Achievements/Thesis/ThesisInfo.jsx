@@ -23,10 +23,10 @@ class ThesisInfo extends Component {
                     <Descriptions.Item label={<strong>期刊收录</strong>}>{info.期刊收录}</Descriptions.Item>
                     <Descriptions.Item label={<strong>第一作者</strong>} span={3}>
                         <Descriptions size='small' column={4} bordered layout='vertical'>
-                            <Descriptions.Item label='姓名'>{info.sname}</Descriptions.Item>
+                            <Descriptions.Item label='学生姓名'>{info.sname}</Descriptions.Item>
                             <Descriptions.Item label='联系方式'>{info.联系方式}</Descriptions.Item>
-                            <Descriptions.Item label='学院'>{'能源与矿业工程学院'}</Descriptions.Item>
-                            <Descriptions.Item label='班级'>{'采矿2020-1'}</Descriptions.Item>
+                            <Descriptions.Item label='所在学院'>{'能源与矿业工程学院'}</Descriptions.Item>
+                            <Descriptions.Item label='专业班级'>{'采矿2020-1'}</Descriptions.Item>
                         </Descriptions>
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>作者人数</strong>}>{othersNum + 1}</Descriptions.Item>

@@ -326,7 +326,7 @@ class ThesisForm extends Component {
                             },
                         ]}
                     >
-                        {coverList ? <ThesisAppendixUpload appendixList={coverList} maxNum={1} /> : <></>}
+                        {coverList ? <ThesisAppendixUpload appendixList={coverList} maxNum={1} size={3}/> : <></>}
                     </Form.Item>
                     <Form.Item
                         label="目录页"
@@ -338,7 +338,7 @@ class ThesisForm extends Component {
                             },
                         ]}
                     >
-                        {contentsList ? <ThesisAppendixUpload appendixList={contentsList} maxNum={1} /> : <></>}
+                        {contentsList ? <ThesisAppendixUpload appendixList={contentsList} maxNum={1} size={3} /> : <></>}
                     </Form.Item>
                     <Form.Item
                         label="论文页"
@@ -350,7 +350,7 @@ class ThesisForm extends Component {
                             },
                         ]}
                     >
-                        {articleList ? <ThesisAppendixUpload appendixList={articleList} /> : <></>}
+                        {articleList ? <ThesisAppendixUpload appendixList={articleList} size={3} /> : <></>}
                     </Form.Item>
 
                     <Form.Item
