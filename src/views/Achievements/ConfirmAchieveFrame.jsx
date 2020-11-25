@@ -3,7 +3,7 @@ import { Card, Tabs } from 'antd';
 import { TrophyOutlined, ExperimentOutlined, FileTextOutlined, } from '@ant-design/icons'
 
 import ThesisList from './Thesis/ThesisList'
-const { TabPane } = Tabs;
+
 const tabList = [
   {
     key: 'article',

@@ -4,7 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 //import moment from "moment"
 import { getUserID, getUserName } from "../../../utils/auth"
 import SelectManComplete from '../../../components/SelectAllManComplete'
-import ThesisAppendixUpload from '../Thesis/ThesisAppendixUpload'
+import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
 import { setPatentByID, getPatentByID } from '../../../services/Achievements'
 
@@ -77,13 +77,11 @@ class PatentForm extends Component {
         //         others: ['']
         //     })
         // }
-        // this.setState({
-        //     coverList,
-        //     contentsList,
-        //     articleList,
-        //     yuanReview,
-        //     xiaoReview,
-        // })
+        this.setState({
+            fileList,
+            yuanReview,
+            xiaoReview,
+        })
     }
 
     getAppendixUrls = list => {
@@ -113,43 +111,48 @@ class PatentForm extends Component {
         const params = {
             id,
             sno: userID,
-            "论文名称": values.thesisName,
-            "发表期刊": values.journal,
-            "发表时间year": values.publishYear && values.publishYear.format('YYYY'),
-            "发表期号": values.issue,
-            "期刊收录": values.collection,
+            "专利名称": values.patentName,
+            "专利权人": values.patentee,
             "联系方式": values.mobile,
-            "其它作者": values.others && values.others.join(','),
-            "期刊封面url": values.cover,
-            "目录页url": values.contents,
-            "论文页url": values.article,
+            "身份证号": values.sfzh,
+            "银行卡号": values.yhkh,
+            "开户行": values.khh,
+            "其它发明人": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
+            "申请时间": values.applicationDate && values.applicationDate.format('YYYY-MM-DD'),
+            "专利申请号": values.patentNo,
+            "授权公告日期": values.publicDate && values.publicDate.format('YYYY-MM-DD'),
+            "专利证书照片url": values.photo,
             "备注": values.remark,
             state: flag
         }
 
-        //console.log(params)
-        // const res = await setPatentByID(params)
-        // if (res.result) {
-        //     message.success('操作成功')
-        //     this.props.history.replace({ pathname: '/student/myNeedReview' })
-        // }
+        console.log(values)
+        console.log(params)
+        const res = await setPatentByID(params)
+        if (res.result) {
+            message.success('操作成功')
+            this.props.history.replace({ pathname: '/student/reviewList' })
+        }
     }
 
     checkCooperators = (rule, value) => {
         if (value !== undefined && value.value !== "") {
+            //value:{type: x;value: x;selectedValue: x}
+            //console.log(value);
+            if (value.type == 0 && value.selectedValue == undefined) return Promise.reject("校内人员必须从下拉框中区配！");
             return Promise.resolve();
         }
         return Promise.reject("请选择参与人!");
     };
 
     render() {
-        const { id, type, userID, userName, coverList, contentsList, articleList, yuanReview, xiaoReview } = this.state
+        const { id, type, userID, userName, fileList, yuanReview, xiaoReview } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
                     <strong>专利成果申报</strong>
                 </h2>
-                {this.state.id && (
+                {id && (
                     <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{yuanReview}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{xiaoReview}</Descriptions.Item>
@@ -358,7 +361,7 @@ class PatentForm extends Component {
 
                     <Form.Item
                         label="授权公告时间"
-                        name=" publicDate"
+                        name="publicDate"
                         rules={[
                             {
                                 required: true,
@@ -379,7 +382,7 @@ class PatentForm extends Component {
                             },
                         ]}
                     >
-                        {coverList ? <ThesisAppendixUpload appendixList={coverList} maxNum={1} /> : <></>}
+                        {fileList ? <AchievementAppendixUpload appendixList={fileList} maxNum={1} maxSize={3} fileType='patent' /> : <></>}
                     </Form.Item>
                     <Form.Item
                         label="备注"
