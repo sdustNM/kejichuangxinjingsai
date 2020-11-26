@@ -6,7 +6,6 @@ import { getCompetitionList } from '../../services/administer/competition'
 import getDepartmentList from '../../redux/common'
 import { isSuperAdminister } from '../../utils/auth';
 import { deleteCompetiton } from '../../services/administer/competition'
-import RecommendProject_Xiao from '../Project/Administer/RecommendProject_Xiao';
 
 const { Option } = Select
 

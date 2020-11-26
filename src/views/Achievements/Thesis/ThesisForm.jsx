@@ -84,7 +84,7 @@ class ThesisForm extends Component {
                     issue: item.发表期号,
                     collection: item.期刊收录,
                     mobile: item.联系方式,
-                    others: !item.其它作者 ? [''] : item.其它作者.split(','),
+                    others: !item.其他作者 ? [''] : item.其他作者.split(','),
                     cover: this.getAppendixUrls(coverList),
                     contents: this.getAppendixUrls(contentsList),
                     article: this.getAppendixUrls(articleList),
@@ -143,7 +143,7 @@ class ThesisForm extends Component {
             "发表期号": values.issue,
             "期刊收录": values.collection,
             "联系方式": values.mobile,
-            "其它作者": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
+            "其他作者": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
             "期刊封面url": values.cover,
             "目录页url": values.contents,
             "论文页url": values.article,
@@ -163,7 +163,7 @@ class ThesisForm extends Component {
         if (value !== undefined && value.value !== "") {
             //value:{type: x;value: x;selectedValue: x}
             //console.log(value);
-            if (value.type == 0 && value.selectedValue == undefined) return Promise.reject("校内人员必须从下拉框中区配！");
+            if (value.type === 0 && value.selectedValue === undefined) return Promise.reject("校内人员必须从下拉框中区配！");
             return Promise.resolve();
         }
         return Promise.reject("请选择参与人!");

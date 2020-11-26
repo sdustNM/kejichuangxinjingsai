@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Card, Tabs } from 'antd';
+import { Card } from 'antd';
 import { TrophyOutlined, ExperimentOutlined, FileTextOutlined, } from '@ant-design/icons'
 
 import ThesisList from './Thesis/ThesisList'
+import PatentList from './Patent/PatentList'
+import CompetitionList from './Competition/CompetitionList'
 
 const tabList = [
   {
@@ -21,8 +23,8 @@ const tabList = [
 
 const contentList = {
   article: <ThesisList />,
-  competition: <ThesisList />,
-  patent: <ThesisList />,
+  competition: <CompetitionList />,
+  patent: <PatentList />,
 };
 
 class ConfirmAchieveList extends Component {

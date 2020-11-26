@@ -1,7 +1,5 @@
-import { Form, Input, Button, Card, Checkbox, message } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { message } from 'antd';
 import './login.css'
-import axios from 'axios'
 import { getPage } from '../../utils/auth';
 import '../../utils/config'
 import qs from 'qs'
