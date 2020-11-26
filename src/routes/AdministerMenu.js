@@ -133,6 +133,12 @@ export const administerMenus = [
       title: '学生信息',
       path: '/administer/studentList',
       icon: <SmileOutlined />,
+    },
+    {
+      isShow: true,
+      title: '比赛名称列表',
+      path: '/administer/DDCompetitionList',
+      icon: <SmileOutlined />,
     }]
   }
 ]
