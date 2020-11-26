@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Card, Descriptions } from 'antd'
 import AppendixList from '../AppendixList'
 
-class ThesisInfo extends Component {
+class CompetitionInfo extends Component {
     render() {
         
         const info = this.props.info
@@ -53,4 +53,4 @@ class ThesisInfo extends Component {
     }
 }
 
-export default ThesisInfo
+export default CompetitionInfo

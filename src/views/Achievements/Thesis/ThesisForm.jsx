@@ -4,7 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import moment from "moment"
 import { getUserID, getUserName } from "../../../utils/auth"
 import SelectManComplete from '../../../components/SelectAllManComplete'
-import ThesisAppendixUpload from './ThesisAppendixUpload'
+import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
 import { setArticleByID, getArticleByID } from '../../../services/Achievements'
 
@@ -18,13 +18,31 @@ const layout = {
     wrapperCol: {
         span: 16,
     },
-};
+}
 const tailLayout = {
     wrapperCol: {
         offset: 4,
         span: 16,
     },
-};
+}
+const collectionList = [
+    {
+        key: 'null',
+        name: '无'
+    },
+    {
+        key: 'EI',
+        name: 'EI'
+    },
+    {
+        key: 'SCI',
+        name: 'SCI'
+    },
+    {
+        key: 'CSCI',
+        name: 'CSCI'
+    },
+]
 class ThesisForm extends Component {
     constructor(...props) {
         super(...props)
@@ -32,6 +50,7 @@ class ThesisForm extends Component {
             id: props[0].location.state && props[0].location.state.id,
             userID: getUserID(),
             userName: getUserName(),
+            collectionList: collectionList,
             yuanReview: '',
             xiaoReview: '',
             coverList: null,
@@ -65,7 +84,7 @@ class ThesisForm extends Component {
                     issue: item.发表期号,
                     collection: item.期刊收录,
                     mobile: item.联系方式,
-                    others: !item.其它作者 ? [''] : item.其它作者.split(','),
+                    others: !item.其他作者 ? [''] : item.其他作者.split(','),
                     cover: this.getAppendixUrls(coverList),
                     contents: this.getAppendixUrls(contentsList),
                     article: this.getAppendixUrls(articleList),
@@ -124,7 +143,7 @@ class ThesisForm extends Component {
             "发表期号": values.issue,
             "期刊收录": values.collection,
             "联系方式": values.mobile,
-            "其它作者": values.others && values.others.map(x=>x.type+":"+x.value).join(','),
+            "其他作者": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
             "期刊封面url": values.cover,
             "目录页url": values.contents,
             "论文页url": values.article,
@@ -142,31 +161,23 @@ class ThesisForm extends Component {
 
     checkCooperators = (rule, value) => {
         if (value !== undefined && value.value !== "") {
-             //value:{type: x;value: x;selectedValue: x}
-             console.log(value);
-             if (value.type==0 && value.selectedValue==undefined ) return Promise.reject("校内人员必须从下拉框中区配！");
+            //value:{type: x;value: x;selectedValue: x}
+            //console.log(value);
+            if (value.type === 0 && value.selectedValue === undefined) return Promise.reject("校内人员必须从下拉框中区配！");
             return Promise.resolve();
         }
         return Promise.reject("请选择参与人!");
     };
-    checkCover = (rule, value) => {
-        console.log(value)
-        if (value !== undefined && value !== "") {
-          
-             return Promise.resolve();
-        }
-        return Promise.reject("至少上传一个封面!");
-    };
 
     render() {
-        const { id, userID, userName, coverList, contentsList, articleList, yuanReview, xiaoReview } = this.state
+        const { id, userID, userName, collectionList, coverList, contentsList, articleList, yuanReview, xiaoReview } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
                     <strong>论文成果申报</strong>
                 </h2>
-                {this.state.id && (
-                    <Descriptions style={{width:'100%'}} size='small' column={3} bordered >
+                {id && (
+                    <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{yuanReview}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{xiaoReview}</Descriptions.Item>
                     </Descriptions>)
@@ -239,10 +250,7 @@ class ThesisForm extends Component {
                             },
                         ]}>
                         <Select style={{ width: 200 }}>
-                            <Option value="null">无</Option>
-                            <Option value="EI">EI</Option>
-                            <Option value="SCI">SCI</Option>
-                            <Option value="CSCI">CSCI</Option>
+                            {collectionList.map(item => <Option key={item.key} value={item.name}>{item.name}</Option>)}
                         </Select>
                     </Form.Item>
 
@@ -338,7 +346,7 @@ class ThesisForm extends Component {
                             },
                         ]}
                     >
-                        {coverList ? <ThesisAppendixUpload appendixList={coverList} maxNum={1} size={3}/> : <></>}
+                        {coverList ? <AchievementAppendixUpload appendixList={coverList} maxNum={1} maxSize={3} fileType='article' /> : <></>}
                     </Form.Item>
                     <Form.Item
                         label="目录页"
@@ -350,7 +358,7 @@ class ThesisForm extends Component {
                             },
                         ]}
                     >
-                        {contentsList ? <ThesisAppendixUpload appendixList={contentsList} maxNum={1} size={3} /> : <></>}
+                        {contentsList ? <AchievementAppendixUpload appendixList={contentsList} maxNum={1} maxSize={3} fileType='article' /> : <></>}
                     </Form.Item>
                     <Form.Item
                         label="论文页"
@@ -362,7 +370,7 @@ class ThesisForm extends Component {
                             },
                         ]}
                     >
-                        {articleList ? <ThesisAppendixUpload appendixList={articleList} size={3} /> : <></>}
+                        {articleList ? <AchievementAppendixUpload appendixList={articleList} maxSize={3} fileType='article' /> : <></>}
                     </Form.Item>
 
                     <Form.Item

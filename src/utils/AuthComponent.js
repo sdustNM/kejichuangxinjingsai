@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import { getJwt, getJwtUser } from './jwtHelper';
+import { getJwtUser } from './jwtHelper';
 //import '../utils/config'
 
 class AuthComponent extends Component {

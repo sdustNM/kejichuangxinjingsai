@@ -1,5 +1,6 @@
 import { get, post } from '../../utils/request'
 
+/////////////////////////公共部分////////////////////////////////
 //删除附件
 export function deleteAchievementFile(params){
   return get('/AchieveCommon/deleteAchievementFile', params)
@@ -18,7 +19,9 @@ export function setSchoolReview(params){
   return post('/AchieveCommon/setSchoolReview', params)
 }
 
-//获取论文列表/api/AchieveArticle/getArticleList
+///////////////////////////论文部分//////////////////////////////
+
+//获取论文列表
 export function getArticleList(params){
   return get('/AchieveArticle/getArticleList', params)
 }
@@ -35,7 +38,9 @@ export function deleteArticleByID(params){
   return get('/AchieveArticle/deleteArticleByID', params)
 }
 
-//获取专利列表/api/AchieveArticle/getArticleList
+///////////////////////////专利部分//////////////////////////////
+
+//获取专利列表
 export function getPatentList(params){
   return get('/AchievePatent/getPatentList', params)
 }
@@ -50,4 +55,22 @@ export function setPatentByID(params){
 //​删除专利成果
 export function deletePatentByID(params){
   return get('/AchievePatent/deletePatentByID', params)
+}
+
+///////////////////////////竞赛部分//////////////////////////////
+//获取竞赛列表
+export function getCompetitionList(params){
+  return get('/AchieveCompetition/getCompetitionList', params)
+}
+//​获取竞赛成果
+export function getCompetitionByID(params){
+  return get('/AchieveCompetition/getCompetitionByID', params)
+}
+//设置竞赛成果
+export function setCompetitionByID(params){
+  return post('/AchieveCompetition/setCompetitionByID', params)
+}
+//​删除竞赛成果
+export function deleteCompetitionByID(params){
+  return get('/AchieveCompetition/deleteCompetitionByID', params)
 }

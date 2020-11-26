@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Card, Table, Button, Space, message } from 'antd'
-import { deleteArticleByID, getNeedReviewList } from '../../../services/Achievements'
+import { Card, Table, Button, Space } from 'antd'
+import { getNeedReviewList } from '../../../services/Achievements'
 export default class AchievementList extends Component {
     constructor(...props) {
         super(...props)

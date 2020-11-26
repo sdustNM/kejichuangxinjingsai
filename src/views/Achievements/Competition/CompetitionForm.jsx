@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import { Card, Form, Radio, Input, Button, DatePicker, Space, message, Descriptions } from 'antd';
+import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import moment from "moment"
 import { getUserID, getUserName } from "../../../utils/auth"
 import SelectManComplete from '../../../components/SelectAllManComplete'
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
-import { setPatentByID, getPatentByID } from '../../../services/Achievements'
+import { setCompetitionByID, getCompetitionByID } from '../../../services/Achievements'
 
+const { Option } = Select
 const { TextArea } = Input
 
 const layout = {
@@ -17,52 +18,76 @@ const layout = {
     wrapperCol: {
         span: 16,
     },
-};
+}
 const tailLayout = {
     wrapperCol: {
         offset: 4,
         span: 16,
     },
-};
-class PatentForm extends Component {
+}
+const collectionList = [
+    {
+        key: 'null',
+        name: '无'
+    },
+    {
+        key: 'EI',
+        name: 'EI'
+    },
+    {
+        key: 'SCI',
+        name: 'SCI'
+    },
+    {
+        key: 'CSCI',
+        name: 'CSCI'
+    },
+]
+class CompetitionForm extends Component {
     constructor(...props) {
         super(...props)
         this.state = {
-            id: 4,//props[0].location.state && props[0].location.state.id,
-            type: '',
+            id: props[0].location.state && props[0].location.state.id,
             userID: getUserID(),
             userName: getUserName(),
+            collectionList: collectionList,
             yuanReview: '',
             xiaoReview: '',
-            fileList: null,
+            coverList: null,
+            contentsList: null,
+            articleList: null,
         }
         this.formRef = React.createRef();
     }
 
     async componentDidMount() {
         const { id } = this.state
-        let fileList = []
+        let coverList = []
+        let contentsList = []
+        let articleList = []
         let yuanReview = ''
         let xiaoReview = ''
         if (id) {
-            const res = await getPatentByID({ id })
+            const res = await getCompetitionByID({ id })
             //console.log(res)
             if (res.result) {
                 const item = JSON.parse(res.data)
                 console.log(item)
-                item.paperAppendix && (fileList = item.paperAppendix)
-
+                item.coverAppendix && (coverList = item.coverAppendix)
+                item.contentsAppendix && (contentsList = item.contentsAppendix)
+                item.articleAppendix && (articleList = item.articleAppendix)
 
                 this.formRef.current.setFieldsValue({
-                    patentName: item.专利名称,
-                    patentNo: item.专利申请号,
-                    patentType: item.专利类型,
-                    patentee: item.专利权人,
+                    thesisName: item.论文名称,
+                    journal: item.发表期刊,
+                    publishYear: !item.发表时间year ? null : moment(item.发表时间year, 'YYYY'),
+                    issue: item.发表期号,
+                    collection: item.期刊收录,
                     mobile: item.联系方式,
-                    others: !item.其他发明人 ? [''] : item.其他发明人.split(','),
-                    applicationDate: !item.申请时间 ? null : moment(item.申请时间, 'YYYY-MM-DD'),
-                    publicDate: !item.授权公告日期 ? null : moment(item.授权公告日期, 'YYYY-MM-DD'),                    
-                    photo: this.getAppendixUrls(fileList),
+                    others: !item.其他作者 ? [''] : item.其他作者.split(','),
+                    cover: this.getAppendixUrls(coverList),
+                    contents: this.getAppendixUrls(contentsList),
+                    article: this.getAppendixUrls(articleList),
                     remark: item.备注
                 })
 
@@ -70,13 +95,15 @@ class PatentForm extends Component {
                 xiaoReview = item.学校意见
             }
         }
-        // else {
-        //     this.formRef.current.setFieldsValue({
-        //         others: ['']
-        //     })
-        // }
+        else {
+            this.formRef.current.setFieldsValue({
+                others: ['']
+            })
+        }
         this.setState({
-            fileList,
+            coverList,
+            contentsList,
+            articleList,
             yuanReview,
             xiaoReview,
         })
@@ -89,7 +116,7 @@ class PatentForm extends Component {
     }
 
     onFinish = async values => {
-        console.log(values)
+        //console.log(values)
         await this.save(values, 1)
     }
 
@@ -106,31 +133,29 @@ class PatentForm extends Component {
 
     save = async (values, flag) => {
         const { id, userID } = this.state
+        console.log(values.others)
         const params = {
             id,
             sno: userID,
-            "专利名称": values.patentName,
-            "专利权人": values.patentee,
-            "专利类型": values.patentType,
+            "论文名称": values.thesisName,
+            "发表期刊": values.journal,
+            "发表时间year": values.publishYear && values.publishYear.format('YYYY'),
+            "发表期号": values.issue,
+            "期刊收录": values.collection,
             "联系方式": values.mobile,
-            "身份证号": values.sfzh,
-            "银行卡号": values.yhkh,
-            "开户行": values.khh,
-            "其他发明人": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
-            "申请时间": values.applicationDate && values.applicationDate.format('YYYY-MM-DD'),
-            "专利申请号": values.patentNo,
-            "授权公告日期": values.publicDate && values.publicDate.format('YYYY-MM-DD'),
-            "专利证书照片url": values.photo,
+            "其他作者": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
+            "期刊封面url": values.cover,
+            "目录页url": values.contents,
+            "论文页url": values.article,
             "备注": values.remark,
             state: flag
         }
 
-        console.log(values)
-        console.log(params)
-        const res = await setPatentByID(params)
+        //console.log(params)
+        const res = await setCompetitionByID(params)
         if (res.result) {
             message.success('操作成功')
-            this.props.history.replace({ pathname: '/student/reviewList' })
+            this.props.history.replace({ pathname: '/student/ReviewList' })
         }
     }
 
@@ -145,11 +170,11 @@ class PatentForm extends Component {
     };
 
     render() {
-        const { id, type, userID, userName, fileList, yuanReview, xiaoReview } = this.state
+        const { id, userID, userName, collectionList, coverList, contentsList, articleList, yuanReview, xiaoReview } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
-                    <strong>专利成果申报</strong>
+                    <strong>论文成果申报</strong>
                 </h2>
                 {id && (
                     <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
@@ -163,81 +188,87 @@ class PatentForm extends Component {
             <Card title={title}>
                 <Form
                     {...layout}
-                    name="patent"
+                    name="thesis"
                     ref={this.formRef}
                     onFinish={this.onFinish}
                 >
+                    <Form.Item
+                        label="论文名称"
+                        name="thesisName"
+                        rules={[
+                            {
+                                required: true,
+                                message: '论文名称论文发表期刊不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="发表期刊"
+                        name="journal"
+                        rules={[
+                            {
+                                required: true,
+                                message: '论文发表期刊不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="发表年份"
+                        name="publishYear"
+                        rules={[
+                            {
+                                required: true,
+                                message: '发表时间不能为空!',
+                            },
+                        ]}
+                    >
+                        <DatePicker picker="year" />
+                    </Form.Item>
+                    <Form.Item
+                        label="期号"
+                        name="issue"
+                        rules={[
+                            {
+                                required: true,
+                                message: '期号不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input style={{ width: 120 }} />
+                    </Form.Item>
+                    <Form.Item
+                        label="收录情况"
+                        name="collection"
+                        rules={[
+                            {
+                                required: true,
+                                message: '收录情况必须选择!',
+                            },
+                        ]}>
+                        <Select style={{ width: 200 }}>
+                            {collectionList.map(item => <Option key={item.key} value={item.name}>{item.name}</Option>)}
+                        </Select>
+                    </Form.Item>
 
                     <Form.Item
-                        label="专利名称"
-                        name="patentName"
-                        rules={[
-                            {
-                                required: true,
-                                message: '专利名称不能为空!',
-                            },
-                        ]}
-                    >
-                        <Input placeholder='与专利证书完全一致' />
-                    </Form.Item>
-                    <Form.Item
-                        label="专利申请号"
-                        name="patentNo"
-                        rules={[
-                            {
-                                required: true,
-                                message: '专利申请号不能为空!',
-                            },
-                        ]}
-                    >
-                        <Input placeholder='与专利证书完全一致' />
-                    </Form.Item>
-                    <Form.Item
-                        label="专利形式"
-                        name="patentType"
-                        rules={[
-                            {
-                                required: true,
-                                message: '请选择专利形式!',
-                            },
-                        ]}
-                    >
-                        <Radio.Group
-                            onChange={e => this.setState({ type: e.target.value })}
-                            value={type}
-                            buttonStyle='solid'
-                        >
-                            <Radio.Button value='发明'>发明</Radio.Button>
-                            <Radio.Button value='实用新型'>实用新型</Radio.Button>
-                            <Radio.Button value='外观设计'>外观设计</Radio.Button>
-                        </Radio.Group>
-                    </Form.Item>
-                    <Form.Item
-                        label="专利权人"
-                        name="patentee"
-                        rules={[
-                            {
-                                required: true,
-                                message: '专利权人不能为空!',
-                            },
-                        ]}
-                    >
-                        <Input placeholder='山东科技大学或其它单位、个人' />
-                    </Form.Item>
-                    <Form.Item
-                        label="第一发明人"
-                        name="inventor"
+                        label="第一作者"
+                        name="student"
                         initialValue={`${userName}(${userID})`}
                         rules={[
                             {
                                 required: true,
-                                message: '第一发明人不能为空!',
+                                message: '第一作者不能为空!',
                             },
                         ]}
                     >
                         <Input readOnly style={{ width: 200 }} />
 
                     </Form.Item >
+
                     <Form.Item
                         label="联系方式"
                         name="mobile"
@@ -250,48 +281,7 @@ class PatentForm extends Component {
                     >
                         <Input placeholder='请输入手机号' style={{ width: 200 }} />
                     </Form.Item>
-                    {
-                        type === '发明' && (
-                            <>
-                                <Form.Item
-                                    label="身份证号"
-                                    name="sfzh"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: '身份证号不能为空!',
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='请输入身份证号' style={{ width: 400 }} />
-                                </Form.Item>
-                                <Form.Item
-                                    label="银行卡号"
-                                    name="yhkh"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: '银行卡号不能为空!',
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='请输入银行卡号' style={{ width: 400 }} />
-                                </Form.Item>
-                                <Form.Item
-                                    label="开户行"
-                                    name="khh"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: '银行开户行不能为空!',
-                                        },
-                                    ]}
-                                >
-                                    <Input placeholder='请输入银行开户行' style={{ width: 400 }} />
-                                </Form.Item>
-                            </>
-                        )
-                    }
+
                     <Form.List name="others">
                         {(fields, { add, remove }) => {
                             //console.log(fields)
@@ -300,7 +290,7 @@ class PatentForm extends Component {
                                     {fields.map((field, index) => (
                                         <Form.Item
                                             {...(index === 0 ? layout : tailLayout)}
-                                            label={index === 0 ? '其他发明人' : ''}
+                                            label={index === 0 ? '其他作者' : ''}
                                             required={false}
                                             key={field.key}
                                         >
@@ -338,51 +328,51 @@ class PatentForm extends Component {
                                             }}
                                             style={{ width: '60%' }}
                                         >
-                                            <span><PlusOutlined /> 添加其他发明人</span>
-                                        </Button>
+                                            <PlusOutlined /> 添加其他作者
+                        </Button>
                                     </Form.Item>
                                 </div>
                             );
                         }}
                     </Form.List>
-                    <Form.Item
-                        label="申请时间"
-                        name="applicationDate"
-                        rules={[
-                            {
-                                required: true,
-                                message: '申请时间不能为空!',
-                            },
-                        ]}
-                    >
-                        <DatePicker />
-                    </Form.Item>
 
                     <Form.Item
-                        label="授权公告时间"
-                        name="publicDate"
+                        label="期刊封面"
+                        name="cover"
                         rules={[
                             {
                                 required: true,
-                                message: '授权公告时间不能为空!',
+                                message: '至少上传一个期刊封面图片!',
                             },
                         ]}
                     >
-                        <DatePicker />
+                        {coverList ? <AchievementAppendixUpload appendixList={coverList} maxNum={1} maxSize={3} fileType='article' /> : <></>}
+                    </Form.Item>
+                    <Form.Item
+                        label="目录页"
+                        name="contents"
+                        rules={[
+                            {
+                                required: true,
+                                message: '至少上传一个包含论文题目的目录图片!',
+                            },
+                        ]}
+                    >
+                        {contentsList ? <AchievementAppendixUpload appendixList={contentsList} maxNum={1} maxSize={3} fileType='article' /> : <></>}
+                    </Form.Item>
+                    <Form.Item
+                        label="论文页"
+                        name="article"
+                        rules={[
+                            {
+                                required: true,
+                                message: '至少上传一个论文正文页图片!',
+                            },
+                        ]}
+                    >
+                        {articleList ? <AchievementAppendixUpload appendixList={articleList} maxSize={3} fileType='article' /> : <></>}
                     </Form.Item>
 
-                    <Form.Item
-                        label="专利证书照片"
-                        name="photo"
-                        rules={[
-                            {
-                                required: true,
-                                message: '请上传专利证书照片!',
-                            },
-                        ]}
-                    >
-                        {fileList ? <AchievementAppendixUpload appendixList={fileList} maxNum={1} maxSize={3} fileType='patent' /> : <></>}
-                    </Form.Item>
                     <Form.Item
                         label="备注"
                         name="remark"
@@ -402,4 +392,4 @@ class PatentForm extends Component {
     }
 }
 
-export default PatentForm
+export default CompetitionForm

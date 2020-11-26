@@ -39,7 +39,7 @@ class PatentInfo extends Component {
                             }
                         </Descriptions>
                     </Descriptions.Item>
-                    <Descriptions.Item label={<strong>其他发明人</strong>} span={2}>{othersNum ? info.其它作者 : '无'}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>其他发明人</strong>} span={2}>{info.其他发明人 || '无'}</Descriptions.Item>
                     <Descriptions.Item label={<strong>专利证书照片</strong>} span={2}>
                         {info.coverAppendix && <AppendixList fileList={info.coverAppendix} />}
                     </Descriptions.Item>

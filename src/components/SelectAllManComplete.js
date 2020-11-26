@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Input, AutoComplete,Select } from 'antd'
 import { getAllManByFuzzy } from '../services/administer/deparmentAdminister'
 

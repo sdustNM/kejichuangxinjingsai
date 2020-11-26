@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Modal, Table, Button } from 'antd'
 import { SearchOutlined, CloseSquareFilled } from '@ant-design/icons'
-import { getPatentList, getPatentByID } from '../../../services/Achievements'
-import PatentInfo from './PatentInfo'
+import { getCompetitionList, getCompetitionByID } from '../../../services/Achievements'
+import CompetitionInfo from './CompetitionInfo'
 
 
 
-class PatentList extends Component {
+class CompetitionList extends Component {
     state = {
         sno: '',
         partName: '',
@@ -56,18 +56,17 @@ class PatentList extends Component {
             pageSize
         }
 
-        console.log(params)
-        const res = await getPatentList(params)
+        const res = await getCompetitionList(params)
         if (res) {
             console.log(res)
             let list = []
             res.map(item =>
                 list.push({
-                    key: '专利_' + item.id,
+                    key: '论文_' + item.id,
                     id: item.id,
-                    patentName: item.专利名称,
-                    patentNo: item.专利申请号,
-                    inventor: item.sname,
+                    title: item.论文名称,
+                    year: item.发表时间year,
+                    author: item.sname,
                     department: item.departmentName,
                     class: item.className
                 })
@@ -87,7 +86,7 @@ class PatentList extends Component {
     }
 
     showInfo = async id => {
-        const res = await getPatentByID({ id })
+        const res = await getCompetitionByID({ id })
         if (res.result) {
             const info = JSON.parse(res.data)
             console.log(info)
@@ -101,19 +100,19 @@ class PatentList extends Component {
         const { loading, dataSource, pageSize, _total, info } = this.state
         const columns = [
             {
-                title: '专利申请号',
-                dataIndex: 'patentNo',
-                key: 'patentNo'
+                title: '论文题目',
+                dataIndex: 'title',
+                key: 'title'
             },
             {
-                title: '专利名称',
-                dataIndex: 'patentName',
-                key: 'patentName'
+                title: '发表年份',
+                dataIndex: 'year',
+                key: 'year'
             },
             {
-                title: '第一发明人',
-                dataIndex: 'inventor',
-                key: 'inventor'
+                title: '第一作者',
+                dataIndex: 'author',
+                key: 'author'
             },
             {
                 title: '所在学院',
@@ -165,11 +164,11 @@ class PatentList extends Component {
                     width={1000}
                     footer={null}
                 >
-                    {info && <PatentInfo info={info} size='small' />}
+                    {info && <CompetitionInfo info={info} size='small' />}
                 </Modal>
             </>
         )
     }
 }
 
-export default PatentList
+export default CompetitionList

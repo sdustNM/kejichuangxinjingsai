@@ -59,7 +59,7 @@ class MyLayout extends React.Component {
               <span style={{
                 color: 'white',
                 fontSize: '32px'
-              }}>大学生科技创新竞赛</span>
+              }}>大学生科技创新平台</span>
             </Space>
           </div>
 

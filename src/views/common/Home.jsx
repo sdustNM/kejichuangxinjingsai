@@ -30,7 +30,7 @@ export default class Home extends React.Component {
                 cover={<ContactsTwoTone twoToneColor='#52c41a' style={{ fontSize: 84 }} />}
               >
                 <Meta
-                  title={<h4 style={{ color: '#52c41a', fontWeight: 'bold' }}>参赛入口</h4>}
+                  title={<h4 style={{ color: '#52c41a', fontWeight: 'bold' }}>学生入口</h4>}
                   style={{
                     textAlign: 'center'
                   }} />
@@ -64,7 +64,7 @@ export default class Home extends React.Component {
                 cover={<ContactsTwoTone twoToneColor='#faad14' style={{ fontSize: 84 }} />}
               >
                 <Meta
-                  title={<h4 style={{ color: '#faad14', fontWeight: 'bold' }}>管理入口</h4>}
+                  title={<h4 style={{ color: '#faad14', fontWeight: 'bold' }}>管理员入口</h4>}
                   style={{
                     textAlign: 'center'
                   }} />
