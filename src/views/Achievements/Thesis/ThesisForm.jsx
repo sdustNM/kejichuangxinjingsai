@@ -137,17 +137,17 @@ class ThesisForm extends Component {
         const params = {
             id,
             sno: userID,
-            "论文名称": values.thesisName,
-            "发表期刊": values.journal,
-            "发表时间year": values.publishYear && values.publishYear.format('YYYY'),
-            "发表期号": values.issue,
-            "期刊收录": values.collection,
-            "联系方式": values.mobile,
-            "其他作者": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
-            "期刊封面url": values.cover,
-            "目录页url": values.contents,
-            "论文页url": values.article,
-            "备注": values.remark,
+            "articleName": values.thesisName,
+            "journal": values.journal,
+            "publishYear": values.publishYear && values.publishYear.format('YYYY'),
+            "volumn": values.issue,
+            "cite": values.collection,
+            "link": values.mobile,
+            "otherAuthors": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
+            "coverUrl": values.cover,
+            "contentUrl": values.contents,
+            "paperUrl": values.article,
+            "bz": values.remark,
             state: flag
         }
 
@@ -162,11 +162,15 @@ class ThesisForm extends Component {
     checkCooperators = (rule, value) => {
         if (value !== undefined && value.value !== "") {
             //value:{type: x;value: x;selectedValue: x}
-            //console.log(value);
-            if (value.type === 0 && value.selectedValue === undefined) return Promise.reject("校内人员必须从下拉框中区配！");
+            //console.log("ddd",value,value.selectedValue);
+            if (value.type === "0" && value.selectedValue === undefined) 
+            { 
+                return Promise.reject("校内人员必须从下拉框中区配！");
+               
+            }
             return Promise.resolve();
         }
-        return Promise.reject("请选择参与人!");
+        return Promise.reject("校内请选择参与人，校外请输入姓名!");
     };
 
     render() {
