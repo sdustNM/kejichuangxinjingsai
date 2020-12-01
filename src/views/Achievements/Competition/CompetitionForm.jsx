@@ -41,7 +41,10 @@ class CompetitionForm extends Component {
             competitionNameList: [],
             rewardLevelList: [],
             item: {},
-            isDXJ: false
+            isDXJ: false,
+            rewardList: null,
+            supportList: null
+
         }
         this.formRef = React.createRef();
     }
@@ -54,6 +57,8 @@ class CompetitionForm extends Component {
     initForm = async () => {
         const { id } = this.state
         let item = {}
+        let rewardList = []
+        let supportList = []
 
         let competitionLevelList = []
         let competitionTypeList = []
@@ -63,9 +68,11 @@ class CompetitionForm extends Component {
 
         if (id) {
             const res = await getCompetitionByID({ id })
-            //console.log(res)
             if (res.result) {
                 item = JSON.parse(res.data)
+                console.log(item)
+                item.rewardAppendix && (rewardList = item.rewardAppendix)
+                item.supportAppendix && (supportList = item.supportAppendix)
             }
         }
 
@@ -74,7 +81,7 @@ class CompetitionForm extends Component {
             const data = JSON.parse(dd.data)
             let competitionName = {}
             data.ddType.map(type => {
-                competitionName[type.Id] = data.ddList.filter(name => name.Type === type.Id)
+                competitionName[type.Id] = data.ddList.filter(name => name.Type === type.Name)
             })
             competitionTypeName = competitionName
             competitionLevelList = data.ddLevel
@@ -83,6 +90,7 @@ class CompetitionForm extends Component {
             if (item && item.类别) {
                 competitionNameList = competitionName[item.类别]
             }
+            console.log(competitionTypeName, data.ddList)
         }
 
         this.setState({
@@ -92,7 +100,9 @@ class CompetitionForm extends Component {
             competitionTypeName,
             competitionNameList,
             item,
-            isDXJ: item.类别 === '单项奖' 
+            isDXJ: item.获奖等级 === '单项奖',
+            rewardList,
+            supportList
         }, this.setFormValue)
     }
 
@@ -191,12 +201,12 @@ class CompetitionForm extends Component {
         })
     }
 
-    changeCompetitionName=value=>{
-        this.setState({ 
+    changeCompetitionName = value => {
+        this.setState({
             competitionName: this.state.competitionNameList[value],
-            competitionNameId:value
+            competitionNameId: value
         })
-        
+
     }
 
     changeRewardLevel = async value => {
@@ -223,13 +233,15 @@ class CompetitionForm extends Component {
         //     }
 
         //   })
-    
-      };
 
-    
+    };
+
+
     render() {
         const { id, userID, userName, isDXJ,
-            competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, item } = this.state
+            competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, item,
+            rewardList,
+            supportList } = this.state
         //console.log(competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList)
         const title = (
             <Space direction="vertical">
@@ -602,13 +614,13 @@ class CompetitionForm extends Component {
                             },
                         ]}
                     >
-                        {item.certificateAppendix ? <AchievementAppendixUpload appendixList={item.certificateAppendix} maxNum={1} maxSize={1} fileType='competition' /> : <></>}
+                        {rewardList ? <AchievementAppendixUpload appendixList={rewardList} maxNum={1} maxSize={1} fileType='competition' /> : <></>}
                     </Form.Item>
                     <Form.Item
-                        label="相关证明材料(jpg)"
+                        label="证明材料(jpg)"
                         name="evidence"
                     >
-                        {item.evidenceAppendix ? <AchievementAppendixUpload appendixList={item.evidenceAppendix} maxSize={1} fileType='competition' /> : <></>}
+                        {supportList ? <AchievementAppendixUpload appendixList={supportList} maxSize={1} fileType='competition' /> : <></>}
                     </Form.Item>
                     <Form.Item
                         label="备注"
