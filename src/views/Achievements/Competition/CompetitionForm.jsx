@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions, Tag } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { ConsoleSqlOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import moment from "moment"
 import { getUserID, getUserName } from "../../../utils/auth"
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
 import { setCompetitionByID, getCompetitionByID, getDDInfo } from '../../../services/Achievements'
 import SelectAllManComplete from '../../../components/SelectAllManComplete';
+import { template } from '@babel/core';
 
 const { Option } = Select
 const { TextArea } = Input
@@ -35,10 +36,13 @@ class CompetitionForm extends Component {
             userName: getUserName(),
             competitionLevelList: [],
             competitionTypeList: [],
-            //competitionTypeName: null,
-            competitionNameList: [],
+            
+            competitionNameList: [],   //全部的List
             rewardLevelList: [],
-            competitionName: '',
+            competitionNames: [],   //供下拉选择的项
+            competitionName2:[],  //search专用
+            competitionTypeId: '',  //第一个下拉框选择的项 
+            competitionNameId: '',      //第二个下拉框选择的项 
             isDXJ: false,
             yuanReview: '',
             xiaoReview: '',
@@ -53,6 +57,7 @@ class CompetitionForm extends Component {
     async componentDidMount() {
         await this.setDDList()
         await this.initForm()
+  
         console.log(this.state.isDXJ, this.dxjName)
         console.log(this.state.competitionNameList, this.name)
         this.formRef.current.setFieldsValue({
@@ -63,16 +68,26 @@ class CompetitionForm extends Component {
         const res = await getDDInfo()
         if (res.result) {
             const data = JSON.parse(res.data)
-            let competitionName = {}
+            let tmplist = []
             data.ddType.map(type => {
-                competitionName[type.Id] = data.ddList.filter(name => name.Type === type.Id)
+                tmplist[type.Id] = data.ddList.filter(item => item.Type === type.Id)
             })
-            this.competitionTypeName = competitionName
+            this.competitionType = data.ddType[0] //默认第一组
+            console.log("tmplist",tmplist,tmplist[data.ddType[0].Id][0].Id)
+            console.log("type",data.ddType[0].Id)
             this.setState({
                 competitionLevelList: data.ddLevel,
                 competitionTypeList: data.ddType,
+                competitionNameList:tmplist,
                 rewardLevelList: data.ddRewardLevel,
+                
+                //默认第一组
+                competitionTypeId:data.ddType[0].id,
+                competitionNameId:tmplist[data.ddType[0].Id][0].Id,
+                competitionNames:tmplist[data.ddType[0].Id],   //供下拉选择
+                
             })
+            
         }
     }
 
@@ -116,8 +131,8 @@ class CompetitionForm extends Component {
                 this.name = item.竞赛名称
                 this.dxjName = item.单项奖名称
                 this.setState({
-                    competitionNameList: this.competitionTypeName[item.类别],
-                    competitionName: item.竞赛名称,
+                    competitionNames:this.state.competitionNameList[item.类别],
+                    competitionNameId: item.竞赛名称,
                     isDXJ: item.获奖等级 === '单项奖'
                 })
                 
@@ -208,15 +223,50 @@ class CompetitionForm extends Component {
         return Promise.reject("请选择参与人!");
     };
 
-    changeType = async value => {
-        this.setState({ competitionNameList: this.state.competitionTypeName[value] })
+    //选择类型
+    changeType = value => {
+        this.setState({ 
+            competitionNames: this.state.competitionNameList[value],
+            competitionTypeId:value
+        })
     }
+
+    changeCompetitionName=value=>{
+        this.setState({ 
+            competitionName: this.state.competitionNameList[value],
+            competitionNameId:value
+        })
+        
+    }
+
     changeRewardLevel = async value => {
         this.setState({
             isDXJ: value === '单项奖'
         })
     }
 
+    handleSearch = value => {
+
+        // r = data.map(item => {
+        //     return {
+        //       value: item.id,
+        //       label: (<div
+        //         style={{
+        //           display: 'flex',
+        //           justifyContent: 'space-between',
+        //         }}
+        //       >
+        //         <span>{item.id}</span>
+        //         <span>{item.name}</span>
+        //         <span>{item.department}</span>
+        //       </div>)
+        //     }
+
+        //   })
+    
+      };
+
+    
     render() {
         const { id, userID, userName,
             competitionLevelList, competitionTypeList, competitionNameList, competitionName, rewardLevelList, isDXJ,
@@ -266,7 +316,7 @@ class CompetitionForm extends Component {
                                 message: '竞赛类别必须选择!',
                             },
                         ]}>
-                        <Select style={{ width: 100 }} onChange={this.changeType}>
+                        <Select style={{ width: 100 }} onChange={this.changeType} value={this.state.competitionTypeId}>
                             {competitionTypeList.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
                         </Select>
                     </Form.Item>
@@ -280,8 +330,15 @@ class CompetitionForm extends Component {
                                 message: '竞赛名称必须选择!',
                             },
                         ]}>
-                        <Select style={{ width: 500 }}>
-                            {competitionNameList.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
+                        <Select showSearch style={{ width: 500 }}
+                        allowClear
+                         onChange={this.changeCompetitionName} 
+                         initialValue={this.state.competitionNameId}
+                         optionFilterProp="children"
+                         onSearch={this.handleSearch}
+                         showArrow={true}
+                         >
+                            {this.state.competitionNames.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item
