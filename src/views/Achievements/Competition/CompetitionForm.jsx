@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions, Tag } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { ConsoleSqlOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import moment from "moment"
 import { getUserID, getUserName } from "../../../utils/auth"
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
 import { setCompetitionByID, getCompetitionByID, getDDInfo } from '../../../services/Achievements'
 import SelectAllManComplete from '../../../components/SelectAllManComplete';
+import { template } from '@babel/core';
 
 const { Option } = Select
 const { TextArea } = Input
@@ -25,6 +26,7 @@ const tailLayout = {
         span: 16,
     },
 }
+
 
 class CompetitionForm extends Component {
     constructor(...props) {
@@ -188,12 +190,43 @@ class CompetitionForm extends Component {
             this.formRef.current.setFieldsValue({ competitionName: '' })
         })
     }
+
+    changeCompetitionName=value=>{
+        this.setState({ 
+            competitionName: this.state.competitionNameList[value],
+            competitionNameId:value
+        })
+        
+    }
+
     changeRewardLevel = async value => {
         this.setState({
             isDXJ: value === '单项奖'
         })
     }
 
+    handleSearch = value => {
+
+        // r = data.map(item => {
+        //     return {
+        //       value: item.id,
+        //       label: (<div
+        //         style={{
+        //           display: 'flex',
+        //           justifyContent: 'space-between',
+        //         }}
+        //       >
+        //         <span>{item.id}</span>
+        //         <span>{item.name}</span>
+        //         <span>{item.department}</span>
+        //       </div>)
+        //     }
+
+        //   })
+    
+      };
+
+    
     render() {
         const { id, userID, userName, isDXJ,
             competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, item } = this.state
@@ -243,7 +276,7 @@ class CompetitionForm extends Component {
                                 message: '竞赛类别必须选择!',
                             },
                         ]}>
-                        <Select style={{ width: 100 }} onChange={this.changeType}>
+                        <Select style={{ width: 100 }} onChange={this.changeType} value={this.state.competitionTypeId}>
                             {competitionTypeList.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
                         </Select>
                     </Form.Item>
