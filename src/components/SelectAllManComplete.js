@@ -72,12 +72,22 @@ class SelectManComplete extends React.Component {
       })
     }
   }
+//父组件更新时，会触发此事件
+  componentWillReceiveProps(nextProps)
+  {
+    console.log(this.props,nextProps)
+    if (this.props.initvalue && !this.props.value)
+    this.initValue(this.props.initvalue)
+  }
 
   componentDidMount() {
-    console.log(this.props)
-    let v = this.props.value
-    if (v) {
+    if (this.props.value) {
+      this.initValue(this.props.value)
+    }
+  }
 
+  initValue(v)
+  {
       console.log(v)
       let type=v.split(":")[0]
       let idorname=v.split(":")[1]
@@ -114,10 +124,7 @@ class SelectManComplete extends React.Component {
           value: idorname
         }
       );
-    }
-
   }
-
 
   onSelect = data => {
     //console.log("select" + data)

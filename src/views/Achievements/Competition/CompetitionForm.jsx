@@ -70,7 +70,6 @@ class CompetitionForm extends Component {
             const res = await getCompetitionByID({ id })
             if (res.result) {
                 item = JSON.parse(res.data)
-                console.log(item)
                 item.rewardAppendix && (rewardList = item.rewardAppendix)
                 item.supportAppendix && (supportList = item.supportAppendix)
             }
@@ -90,7 +89,6 @@ class CompetitionForm extends Component {
             if (item && item.类别) {
                 competitionNameList = competitionName[item.类别]
             }
-            console.log(competitionTypeName, data.ddList)
         }
 
         this.setState({
@@ -109,7 +107,6 @@ class CompetitionForm extends Component {
     setFormValue = () => {
         const { item } = this.state
         if (item) {
-            console.log(this.state)
             this.formRef.current.setFieldsValue({
                 competitionLevel: item.等级,
                 competitionType: item.类别,
@@ -143,13 +140,11 @@ class CompetitionForm extends Component {
     }
 
     onFinish = async values => {
-        console.log(values)
         await this.save(values, 1)
     }
 
     save = async (values, flag) => {
         const { id, userID } = this.state
-        console.log(values.others)
         const params = {
             id,
             sno: userID,
@@ -176,8 +171,7 @@ class CompetitionForm extends Component {
             state: flag
         }
 
-        console.log(params)
-        const res = await setCompetitionByID(params)
+         const res = await setCompetitionByID(params)
         if (res.result) {
             message.success('操作成功')
             this.props.history.replace({ pathname: '/student/ReviewList' })
@@ -186,8 +180,6 @@ class CompetitionForm extends Component {
 
     checkCooperators = (rule, value) => {
         if (value !== undefined && value.value !== "") {
-            //value:{type: x;value: x;selectedValue: x}
-            //console.log("ddd",value,value.selectedValue);
             if (value.type === "0" && value.selectedValue === undefined) 
             { 
                 return Promise.reject("校内人员必须从下拉框中区配！");
@@ -199,7 +191,6 @@ class CompetitionForm extends Component {
     };
 
     changeType = async value => {
-        console.log(value)
         this.setState({ competitionNameList: this.state.competitionTypeName[value] }, () => {
             this.formRef.current.setFieldsValue({ competitionName: '' })
         })
@@ -220,23 +211,6 @@ class CompetitionForm extends Component {
     }
 
     handleSearch = value => {
-
-        // r = data.map(item => {
-        //     return {
-        //       value: item.id,
-        //       label: (<div
-        //         style={{
-        //           display: 'flex',
-        //           justifyContent: 'space-between',
-        //         }}
-        //       >
-        //         <span>{item.id}</span>
-        //         <span>{item.name}</span>
-        //         <span>{item.department}</span>
-        //       </div>)
-        //     }
-
-        //   })
 
     };
 
@@ -547,7 +521,7 @@ class CompetitionForm extends Component {
                     //     },
                     // ]}
                     >
-                        <SelectAllManComplete value={item && item.第一指导教师} />
+                        <SelectAllManComplete initvalue={this.state.item && this.state.item.第一指导教师} />
                     </Form.Item>
                     <Form.List name="otherTeachers">
                         {(fields, { add, remove }) => {
