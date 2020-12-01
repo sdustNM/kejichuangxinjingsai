@@ -55,7 +55,7 @@ const collectionList = [
         name: '中文核心期刊'
     }
 ]
-]
+
 class ThesisForm extends Component {
     constructor(...props) {
         super(...props)
