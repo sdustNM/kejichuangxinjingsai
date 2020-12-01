@@ -16,15 +16,15 @@ class ThesisInfo extends Component {
                     column={3}
                     title='论文成果详细信息'
                 >
-                    <Descriptions.Item label={<strong>论文名称</strong>} span={2}>{info.articleName}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>发表时间</strong>}>{info.publishYear}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>发表期刊</strong>}>{info.journal}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>发表期号</strong>}>{info.volumn}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>期刊收录</strong>}>{info.cite}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>论文名称</strong>} span={2}>{info.论文名称}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>发表时间</strong>}>{info.发表时间year}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>发表期刊</strong>}>{info.发表期刊}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>发表期号</strong>}>{info.发表期号}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>期刊收录</strong>}>{info.期刊收录}</Descriptions.Item>
                     <Descriptions.Item label={<strong>第一作者</strong>} span={3}>
                         <Descriptions size='small' column={4} bordered layout='vertical'>
                             <Descriptions.Item label='学生姓名'>{info.sname}</Descriptions.Item>
-                            <Descriptions.Item label='联系方式'>{info.link}</Descriptions.Item>
+                            <Descriptions.Item label='联系方式'>{info.联系方式}</Descriptions.Item>
                             <Descriptions.Item label='所在学院'>{info.departmentName}</Descriptions.Item>
                             <Descriptions.Item label='专业班级'>{info.className}</Descriptions.Item>
                         </Descriptions>
@@ -42,8 +42,8 @@ class ThesisInfo extends Component {
                     </Descriptions.Item>
                     {info.State >= 2 && <Descriptions.Item label={<strong>审核结果</strong>} span={3}>
                         <Descriptions size='small' column={3} bordered >
-                            <Descriptions.Item label='学院意见' span={3}>{info.departmentResult}</Descriptions.Item>
-                            {info.State >= 3 && <Descriptions.Item label='学校意见' span={3}>{info.schoolResult}</Descriptions.Item>}
+                            <Descriptions.Item label='学院意见' span={3}>{info.学院意见}</Descriptions.Item>
+                            {info.State >= 3 && <Descriptions.Item label='学校意见' span={3}>{info.学校意见}</Descriptions.Item>}
                         </Descriptions>
                     </Descriptions.Item>}
                 </Descriptions>
