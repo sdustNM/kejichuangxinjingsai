@@ -12,6 +12,7 @@ import ProjectInfoWithComInfo from "../views/Project/ProjectInfo_withComInfo"
 import AchievementList from '../views/Achievements/AchievementList/AchievementList_admin';
 import AchievementInfo from '../views/Achievements/AchievementInfo';
 import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
+import DDCompetitionList from '../views/SysManage/DDCompetitionList/DDCompetitionList';
 
 
 export const administerConfig = [
@@ -83,6 +84,11 @@ export const administerConfig = [
     component: ConfirmAchieveList,
     exact: true,
   },
+  {
+    path:'/administer/DDCompetitionList',
+    component:DDCompetitionList,
+    exact:true
+  }
 
   // {
   //   path: '/administer/AnnouncementList',
