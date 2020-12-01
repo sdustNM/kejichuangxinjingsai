@@ -27,6 +27,7 @@ const tailLayout = {
     },
 }
 
+
 class CompetitionForm extends Component {
     constructor(...props) {
         super(...props)
@@ -40,7 +41,6 @@ class CompetitionForm extends Component {
             competitionNameList: [],   //全部的List
             rewardLevelList: [],
             competitionNames: [],   //供下拉选择的项
-            competitionName2:[],  //search专用
             competitionTypeId: '',  //第一个下拉框选择的项 
             competitionNameId: '',      //第二个下拉框选择的项 
             isDXJ: false,
@@ -54,15 +54,19 @@ class CompetitionForm extends Component {
     }
     
 
+
     async componentDidMount() {
         await this.setDDList()
         await this.initForm()
   
-        console.log(this.state.isDXJ, this.dxjName)
-        console.log(this.state.competitionNameList, this.name)
+       
+        console.log(7,this.state.competitionNameId,this.state.competitionNames);
         this.formRef.current.setFieldsValue({
-            dxjName: this.dxjName
+            dxjName: this.dxjName,
+            competitionName: parseInt(this.state.competitionNameId)
         })
+
+
     }
     setDDList = async () => {
         const res = await getDDInfo()
@@ -70,11 +74,10 @@ class CompetitionForm extends Component {
             const data = JSON.parse(res.data)
             let tmplist = []
             data.ddType.map(type => {
-                tmplist[type.Id] = data.ddList.filter(item => item.Type === type.Id)
+                tmplist[type.Id] = data.ddList.filter(item => item.Type == type.Id)
             })
             this.competitionType = data.ddType[0] //默认第一组
-            console.log("tmplist",tmplist,tmplist[data.ddType[0].Id][0].Id)
-            console.log("type",data.ddType[0].Id)
+            console.log(1);
             this.setState({
                 competitionLevelList: data.ddLevel,
                 competitionTypeList: data.ddType,
@@ -87,7 +90,7 @@ class CompetitionForm extends Component {
                 competitionNames:tmplist[data.ddType[0].Id],   //供下拉选择
                 
             })
-            
+            console.log(2);
         }
     }
 
@@ -105,6 +108,7 @@ class CompetitionForm extends Component {
                 //console.log(item)
                 item.certificateAppendix && (certificateList = item.certificateAppendix)
                 item.evidenceAppendix && (evidenceList = item.evidenceAppendix)
+                console.log(3);
                 this.formRef.current.setFieldsValue({
                     competitionLevel: item.等级,
                     competitionType: item.类别,
@@ -126,6 +130,7 @@ class CompetitionForm extends Component {
                     evidence: this.getAppendixUrls(evidenceList),
                     remark: item.备注
                 })
+                console.log(4);
                 yuanReview = item.学院意见
                 xiaoReview = item.学校意见
                 this.name = item.竞赛名称
@@ -135,7 +140,7 @@ class CompetitionForm extends Component {
                     competitionNameId: item.竞赛名称,
                     isDXJ: item.获奖等级 === '单项奖'
                 })
-                
+                console.log(5);
             }
         }
         else {
@@ -323,7 +328,6 @@ class CompetitionForm extends Component {
                     <Form.Item
                         label="竞赛名称"
                         name="competitionName"
-                        initialValue={competitionName}
                         rules={[
                             {
                                 required: true,
@@ -332,8 +336,8 @@ class CompetitionForm extends Component {
                         ]}>
                         <Select showSearch style={{ width: 500 }}
                         allowClear
-                         onChange={this.changeCompetitionName} 
-                         initialValue={this.state.competitionNameId}
+                         //onChange={this.changeCompetitionName} 
+                         value={this.state.competitionNameId}
                          optionFilterProp="children"
                          onSearch={this.handleSearch}
                          showArrow={true}
