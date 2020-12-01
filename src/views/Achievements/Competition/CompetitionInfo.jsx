@@ -13,7 +13,7 @@ class CompetitionInfo extends Component {
                     column={3}
                     title='竞赛成果详细信息'
                 >
-                    <Descriptions.Item label={<strong>竞赛名称</strong>}>{info.竞赛名称}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>竞赛名称</strong>}>{info.竞赛名称show}</Descriptions.Item>
                     <Descriptions.Item label={<strong>竞赛等级</strong>}>{info.等级}</Descriptions.Item>
                     <Descriptions.Item label={<strong>获奖等级</strong>}>{`${info.获奖等级}-${info.单项奖名称}`}</Descriptions.Item>
                     
@@ -48,7 +48,7 @@ class CompetitionInfo extends Component {
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>第一指导教师</strong>} span={3}>
                         <Descriptions size='small' column={3} bordered layout='vertical'>
-                            <Descriptions.Item label='工号'>{info.第一指导教师}</Descriptions.Item>
+                            <Descriptions.Item label='工号'>{info.第一指导教师 && info.第一指导教师.split(':')[1]}</Descriptions.Item>
                             <Descriptions.Item label='姓名'>{info.tname}</Descriptions.Item>
                             <Descriptions.Item label='单位'>{info.Tdepartment}</Descriptions.Item>
                             {/* <Descriptions.Item label='身份证号'>{info.tsfzh}</Descriptions.Item> */}

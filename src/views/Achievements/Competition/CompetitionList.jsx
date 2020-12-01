@@ -64,9 +64,9 @@ class CompetitionList extends Component {
                 list.push({
                     key: '竞赛_' + item.id,
                     id: item.id,
-                    title: item.论文名称,
-                    year: item.发表时间year,
-                    author: item.sname,
+                    title: item.竞赛名称show,
+                    yearMonth: item.获奖时间year + '.' + item.获奖时间month,
+                    head: `${item.sname}(${item.sno})`,
                     department: item.departmentName,
                     class: item.className
                 })
@@ -100,19 +100,19 @@ class CompetitionList extends Component {
         const { loading, dataSource, pageSize, _total, info } = this.state
         const columns = [
             {
-                title: '论文题目',
+                title: '竞赛名称',
                 dataIndex: 'title',
                 key: 'title'
             },
             {
-                title: '发表年份',
-                dataIndex: 'year',
-                key: 'year'
+                title: '获奖年月',
+                dataIndex: 'yearMonth',
+                key: 'yearMonth'
             },
             {
-                title: '第一作者',
-                dataIndex: 'author',
-                key: 'author'
+                title: '第一负责人',
+                dataIndex: 'head',
+                key: 'head'
             },
             {
                 title: '所在学院',

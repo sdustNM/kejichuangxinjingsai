@@ -252,7 +252,7 @@ class CompetitionForm extends Component {
                 <h2>
                     <strong>竞赛成果申报</strong>
                 </h2>
-                {id && (
+                {id && item && (
                     <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{item.学院意见}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{item.学校意见}</Descriptions.Item>
