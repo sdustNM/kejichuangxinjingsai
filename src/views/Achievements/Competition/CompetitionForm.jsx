@@ -35,112 +35,97 @@ class CompetitionForm extends Component {
             userName: getUserName(),
             competitionLevelList: [],
             competitionTypeList: [],
-            //competitionTypeName: null,
+            competitionTypeName: {},
             competitionNameList: [],
             rewardLevelList: [],
-            competitionName: '',
-            isDXJ: false,
-            yuanReview: '',
-            xiaoReview: '',
-            certificateList: null,
-            evidenceList: null,
+            item: {},
+            isDXJ: false
         }
         this.formRef = React.createRef();
-        this.dxjName = ''
     }
-    
 
-    async componentDidMount() {
-        await this.setDDList()
-        await this.initForm()
-        console.log(this.state.isDXJ, this.dxjName)
-        console.log(this.state.competitionNameList, this.name)
-        this.formRef.current.setFieldsValue({
-            dxjName: this.dxjName
-        })
-    }
-    setDDList = async () => {
-        const res = await getDDInfo()
-        if (res.result) {
-            const data = JSON.parse(res.data)
-            let competitionName = {}
-            data.ddType.map(type => {
-                competitionName[type.Id] = data.ddList.filter(name => name.Type === type.Id)
-            })
-            this.competitionTypeName = competitionName
-            this.setState({
-                competitionLevelList: data.ddLevel,
-                competitionTypeList: data.ddType,
-                rewardLevelList: data.ddRewardLevel,
-            })
-        }
+
+    componentDidMount() {
+        this.initForm()
     }
 
     initForm = async () => {
         const { id } = this.state
-        let certificateList = []
-        let evidenceList = []
-        let yuanReview = ''
-        let xiaoReview = ''
+        let item = {}
+
+        let competitionLevelList = []
+        let competitionTypeList = []
+        let rewardLevelList = []
+        let competitionTypeName = {}
+        let competitionNameList = []
+
         if (id) {
             const res = await getCompetitionByID({ id })
             //console.log(res)
             if (res.result) {
-                const item = JSON.parse(res.data)
-                //console.log(item)
-                item.certificateAppendix && (certificateList = item.certificateAppendix)
-                item.evidenceAppendix && (evidenceList = item.evidenceAppendix)
-                this.formRef.current.setFieldsValue({
-                    competitionLevel: item.等级,
-                    competitionType: item.类别,
-                    //competitionName: item.竞赛名称,
-                    group: item.组别,
-                    rewardLevel: item.获奖等级,
-                    //dxjName: item.单项奖名称,
-                    zbdw: item.主办单位 && item.主办单位.split(','),
-                    yearMonth: item.获奖时间 ? moment(item.获奖时间, 'YYYY.MM') : null,
-                    works: item.作品名称,
-                    mobile: item.联系方式,
-                    yhkh: item.银行卡号,
-                    sfzh: item.身份证号,
-                    others: !item.成员列表 ? [''] : item.成员列表.split(','),
-                    teacher: item.第一指导教师,
-                    otherTeachers: !item.其他指导教师 ? [''] : item.其他指导教师.split(','),
-                    certificateNo: item.证书编号,
-                    certificate: this.getAppendixUrls(certificateList),
-                    evidence: this.getAppendixUrls(evidenceList),
-                    remark: item.备注
-                })
-                yuanReview = item.学院意见
-                xiaoReview = item.学校意见
-                this.name = item.竞赛名称
-                this.dxjName = item.单项奖名称
-                this.setState({
-                    competitionNameList: this.competitionTypeName[item.类别],
-                    competitionName: item.竞赛名称,
-                    isDXJ: item.获奖等级 === '单项奖'
-                })
-                
+                item = JSON.parse(res.data)
             }
         }
-        else {
+
+        const dd = await getDDInfo()
+        if (dd.result) {
+            const data = JSON.parse(dd.data)
+            let competitionName = {}
+            data.ddType.map(type => {
+                competitionName[type.Id] = data.ddList.filter(name => name.Type === type.Id)
+            })
+            competitionTypeName = competitionName
+            competitionLevelList = data.ddLevel
+            competitionTypeList = data.ddType
+            rewardLevelList = data.ddRewardLevel
+            if (item && item.类别) {
+                competitionNameList = competitionName[item.类别]
+            }
+        }
+
+        this.setState({
+            competitionLevelList,
+            competitionTypeList,
+            rewardLevelList,
+            competitionTypeName,
+            competitionNameList,
+            item,
+            isDXJ: item.类别 === '单项奖' 
+        }, this.setFormValue)
+    }
+
+    setFormValue = () => {
+        const { item } = this.state
+        if (item) {
+            console.log(this.state)
             this.formRef.current.setFieldsValue({
-                others: [''],
-                otherTeachers: ['']
+                competitionLevel: item.等级,
+                competitionType: item.类别,
+                competitionName: item.竞赛名称,
+                group: item.组别,
+                rewardLevel: item.获奖等级,
+                dxjName: item.单项奖名称,
+                zbdw: item.主办单位 && item.主办单位.split(','),
+                yearMonth: item.获奖时间 ? moment(item.获奖时间, 'YYYY.MM') : null,
+                works: item.作品名称,
+                mobile: item.联系方式,
+                yhkh: item.银行卡号,
+                sfzh: item.身份证号,
+                others: !item.成员列表 ? [''] : item.成员列表.split(','),
+                teacher: item.第一指导教师,
+                otherTeachers: !item.其他指导教师 ? [''] : item.其他指导教师.split(','),
+                certificateNo: item.证书编号,
+                certificate: this.getAppendixUrls(item.certificateAppendix),
+                evidence: this.getAppendixUrls(item.evidenceListAppendix),
+                remark: item.备注
             })
         }
-        this.setState({
-            certificateList,
-            evidenceList,
-            yuanReview,
-            xiaoReview,
-        })
+
     }
 
 
-
     getAppendixUrls = list => {
-        return list.reduce((pre, item) => {
+        return list && list.reduce((pre, item) => {
             return pre ? pre + ',' + item.url : item.url
         }, null)
     }
@@ -149,17 +134,6 @@ class CompetitionForm extends Component {
         console.log(values)
         await this.save(values, 1)
     }
-
-    // submit = async () => {
-    //     try {
-    //         const values = await this.formRef.current.validateFields();
-    //         //console.log('Success:', values);
-    //         await this.save(values, 1)
-    //       } catch (errorInfo) {
-    //         //console.log('Failed:', errorInfo);
-    //       }
-
-    // }
 
     save = async (values, flag) => {
         const { id, userID } = this.state
@@ -209,7 +183,10 @@ class CompetitionForm extends Component {
     };
 
     changeType = async value => {
-        this.setState({ competitionNameList: this.state.competitionTypeName[value] })
+        console.log(value)
+        this.setState({ competitionNameList: this.state.competitionTypeName[value] }, () => {
+            this.formRef.current.setFieldsValue({ competitionName: '' })
+        })
     }
     changeRewardLevel = async value => {
         this.setState({
@@ -218,9 +195,8 @@ class CompetitionForm extends Component {
     }
 
     render() {
-        const { id, userID, userName,
-            competitionLevelList, competitionTypeList, competitionNameList, competitionName, rewardLevelList, isDXJ,
-            certificateList, evidenceList, yuanReview, xiaoReview } = this.state
+        const { id, userID, userName, isDXJ,
+            competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, item } = this.state
         //console.log(competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList)
         const title = (
             <Space direction="vertical">
@@ -229,12 +205,13 @@ class CompetitionForm extends Component {
                 </h2>
                 {id && (
                     <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
-                        <Descriptions.Item label='学院意见' span={3}>{yuanReview}</Descriptions.Item>
-                        <Descriptions.Item label='学校意见' span={3}>{xiaoReview}</Descriptions.Item>
+                        <Descriptions.Item label='学院意见' span={3}>{item.学院意见}</Descriptions.Item>
+                        <Descriptions.Item label='学校意见' span={3}>{item.学校意见}</Descriptions.Item>
                     </Descriptions>)
                 }
             </Space>
         )
+
         return (
             <Card title={title}>
                 <Form
@@ -273,15 +250,19 @@ class CompetitionForm extends Component {
                     <Form.Item
                         label="竞赛名称"
                         name="competitionName"
-                        initialValue={competitionName}
                         rules={[
                             {
                                 required: true,
                                 message: '竞赛名称必须选择!',
                             },
                         ]}>
-                        <Select style={{ width: 500 }}>
-                            {competitionNameList.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
+                        <Select
+                            showSearch
+                            optionFilterProp='children'
+                            showArrow={false}
+                            onChange={this.changeName}
+                        >
+                            {competitionNameList.map(item => <Option key={item.Id} value={item.Id.toString()}>{item.Name}</Option>)}
                         </Select>
                     </Form.Item>
                     <Form.Item
@@ -588,13 +569,13 @@ class CompetitionForm extends Component {
                             },
                         ]}
                     >
-                        {certificateList ? <AchievementAppendixUpload appendixList={certificateList} maxNum={1} maxSize={1} fileType='competition' /> : <></>}
+                        {item.certificateAppendix ? <AchievementAppendixUpload appendixList={item.certificateAppendix} maxNum={1} maxSize={1} fileType='competition' /> : <></>}
                     </Form.Item>
                     <Form.Item
                         label="相关证明材料(jpg)"
                         name="evidence"
                     >
-                        {evidenceList ? <AchievementAppendixUpload appendixList={evidenceList} maxSize={1} fileType='competition' /> : <></>}
+                        {item.evidenceAppendix ? <AchievementAppendixUpload appendixList={item.evidenceAppendix} maxSize={1} fileType='competition' /> : <></>}
                     </Form.Item>
                     <Form.Item
                         label="备注"

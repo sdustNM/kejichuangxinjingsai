@@ -23,7 +23,7 @@ export const getDeptID = () => {
 const roleNames = ['管理员', '专家', '学生', '校级管理员']
 export const getRoleName = id => {
   let roleID = id ? id : getRole();
-  console.log(roleID,getDeptID());
+  //console.log(roleID,getDeptID());
   if (roleID == 1 && getDeptID() == 0) return roleNames[3]
   else return roleNames[roleID - 1]    //1
 }
