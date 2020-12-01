@@ -48,7 +48,7 @@ class CompetitionInfo extends Component {
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>第一指导教师</strong>} span={3}>
                         <Descriptions size='small' column={3} bordered layout='vertical'>
-                            <Descriptions.Item label='工号'>{info.第一指导教师}</Descriptions.Item>
+                            <Descriptions.Item label='工号'>{info.第一指导教师 && info.第一指导教师.split(':')[1]}</Descriptions.Item>
                             <Descriptions.Item label='姓名'>{info.tname}</Descriptions.Item>
                             <Descriptions.Item label='单位'>{info.Tdepartment}</Descriptions.Item>
                             {/* <Descriptions.Item label='身份证号'>{info.tsfzh}</Descriptions.Item> */}
