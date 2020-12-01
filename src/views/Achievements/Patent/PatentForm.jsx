@@ -28,7 +28,7 @@ class PatentForm extends Component {
     constructor(...props) {
         super(...props)
         this.state = {
-            id: 4,//props[0].location.state && props[0].location.state.id,
+            id: props[0].location.state && props[0].location.state.id,
             type: '',
             userID: getUserID(),
             userName: getUserName(),

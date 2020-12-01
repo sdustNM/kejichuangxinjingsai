@@ -36,7 +36,7 @@ export const studentMenus = [
       icon: <FileTextOutlined />
     },
     {
-      path: '/student/competitionAchievements',
+      path: '/student/competitionForm',
       isShow: true,
       title: '竞赛成果申报',
       icon: <TrophyOutlined />

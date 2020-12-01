@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { Button, Card, Space, Modal, Input, message } from 'antd'
 import { DoubleLeftOutlined } from '@ant-design/icons'
 import ThesisInfo from './Thesis/ThesisInfo';
-import { getArticleByID } from '../../services/Achievements'
+import CompetitionInfo from './Competition/CompetitionInfo';
+import PatentInfo from './Patent/PatentInfo';
+import { getArticleByID, getCompetitionByID, getPatentByID} from '../../services/Achievements'
 import { isAdminister, isSuperAdminister, isStudent } from '../../utils/auth';
 import { setDepartmentReview, setSchoolReview } from '../../services/Achievements'
 
 const { TextArea } = Input
-
+const stateList = ['驳回修改', '学院审核中', '学校审核中']
 export default class AchievementInfo extends Component {
 
     state = {
@@ -27,32 +29,50 @@ export default class AchievementInfo extends Component {
 
     }
 
-    getAchievementInfo = () => {
+    getAchievementInfo = async () => {
+        let info
         switch (this.state.type) {
             case '论文':
-                this.getThesisInfo()
+                info = await this.getThesisInfo()
                 break;
-            // case 'competition':
-            //     achievementInfo = <ThesisInfo id={id} />
-            //     break;
-            // case 'patent':
-            //     achievementInfo = <ThesisInfo id={id} />
-            //     break;
+            case '竞赛':
+                info = await this.getCompetitionInfo()
+                break;
+            case '专利':
+                info = await this.getPatentInfo()
+                break;
             default:
                 break;
         }
+        console.log(info)
+        if(info){
+            this.setState({
+                info,
+                status: stateList[info.State]
+            })
+        }
+            
     }
 
     getThesisInfo = async () => {
         const { id } = this.state
         const res = await getArticleByID({ id })
         if (res.result) {
-            const info = JSON.parse(res.data)
-            console.log(info)
-            this.setState({
-                info,
-                status: ['驳回修改', '学院审核中', '学校审核中'][info.State]
-            })
+            return JSON.parse(res.data)  
+        }
+    }
+    getCompetitionInfo = async () => {
+        const { id } = this.state
+        const res = await getCompetitionByID({ id })
+        if (res.result) {
+            return JSON.parse(res.data)  
+        }
+    }
+    getPatentInfo = async () => {
+        const { id } = this.state
+        const res = await getPatentByID({ id })
+        if (res.result) {
+            return JSON.parse(res.data)  
         }
     }
 
@@ -71,12 +91,12 @@ export default class AchievementInfo extends Component {
             result,
             remark
         }
+        console.log(params)
         let res = {}
         if (isAdminister()) {
             res = await setDepartmentReview(params)
         }
         else if (isSuperAdminister()) {
-            console.log(params)
             res = await setSchoolReview(params)
         } else {
             message.warning('没有权限，无法操作！')
@@ -104,12 +124,12 @@ export default class AchievementInfo extends Component {
             case '论文':
                 achievementInfo = this.state.info && <ThesisInfo info={this.state.info} size='middle' />
                 break;
-            // case 'competition':
-            //     achievementInfo = <ThesisInfo id={id} />
-            //     break;
-            // case 'patent':
-            //     achievementInfo = <ThesisInfo id={id} />
-            //     break;
+            case '竞赛':
+                achievementInfo = this.state.info && <CompetitionInfo info={this.state.info} size='middle' />
+                break;
+            case '专利':
+                achievementInfo = this.state.info && <PatentInfo info={this.state.info} size='middle' />
+                break;
             default:
                 break;
         }

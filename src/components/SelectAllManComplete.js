@@ -28,11 +28,11 @@ class SelectManComplete extends React.Component {
       db: [],
     };
 
-    console.log('init')
+    //console.log('init')
   }
 
    triggerChange = (changedValue) => {
-    console.log(changedValue)
+    //console.log(changedValue)
     if (this.props.onChange) {
       this.props.onChange(changedValue);
     }
@@ -78,7 +78,7 @@ class SelectManComplete extends React.Component {
     let v = this.props.value
     if (v) {
 
-      console.log(v)
+      //console.log(v)
       let type=v.split(":")[0]
       let idorname=v.split(":")[1]
       this.setState(
@@ -87,13 +87,13 @@ class SelectManComplete extends React.Component {
           type,
         }
       );
-      console.log(type,idorname)
+      //console.log(type,idorname)
 
       if (type == "0") {
         getAllManByFuzzy({ "searchTxt": idorname }).then(res => {
 
           if (res.result) {
-            console.log("find me")
+            //console.log("find me")
             let data = JSON.parse(res.data)
             //console.log(data)
             if (data.length >= 1) {   //只有一条记录
@@ -149,7 +149,7 @@ class SelectManComplete extends React.Component {
   };
 
   personTypeChange = value => {
-    console.log(value);
+    //console.log(value);
     this.setState(
       { type: value });
 

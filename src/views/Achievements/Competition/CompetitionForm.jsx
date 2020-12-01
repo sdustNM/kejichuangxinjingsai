@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions } from 'antd';
+import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions, Tag } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import moment from "moment"
 import { getUserID, getUserName } from "../../../utils/auth"
-import SelectManComplete from '../../../components/SelectAllManComplete'
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
-import { setCompetitionByID, getCompetitionByID } from '../../../services/Achievements'
+import { setCompetitionByID, getCompetitionByID, getDDInfo } from '../../../services/Achievements'
+import SelectAllManComplete from '../../../components/SelectAllManComplete';
 
 const { Option } = Select
 const { TextArea } = Input
@@ -25,24 +25,7 @@ const tailLayout = {
         span: 16,
     },
 }
-const collectionList = [
-    {
-        key: 'null',
-        name: '无'
-    },
-    {
-        key: 'EI',
-        name: 'EI'
-    },
-    {
-        key: 'SCI',
-        name: 'SCI'
-    },
-    {
-        key: 'CSCI',
-        name: 'CSCI'
-    },
-]
+
 class CompetitionForm extends Component {
     constructor(...props) {
         super(...props)
@@ -50,21 +33,53 @@ class CompetitionForm extends Component {
             id: props[0].location.state && props[0].location.state.id,
             userID: getUserID(),
             userName: getUserName(),
-            collectionList: collectionList,
+            competitionLevelList: [],
+            competitionTypeList: [],
+            //competitionTypeName: null,
+            competitionNameList: [],
+            rewardLevelList: [],
+            competitionName: '',
+            isDXJ: false,
             yuanReview: '',
             xiaoReview: '',
-            coverList: null,
-            contentsList: null,
-            articleList: null,
+            certificateList: null,
+            evidenceList: null,
         }
         this.formRef = React.createRef();
+        this.dxjName = ''
     }
+    
 
     async componentDidMount() {
+        await this.setDDList()
+        await this.initForm()
+        console.log(this.state.isDXJ, this.dxjName)
+        console.log(this.state.competitionNameList, this.name)
+        this.formRef.current.setFieldsValue({
+            dxjName: this.dxjName
+        })
+    }
+    setDDList = async () => {
+        const res = await getDDInfo()
+        if (res.result) {
+            const data = JSON.parse(res.data)
+            let competitionName = {}
+            data.ddType.map(type => {
+                competitionName[type.Id] = data.ddList.filter(name => name.Type === type.Id)
+            })
+            this.competitionTypeName = competitionName
+            this.setState({
+                competitionLevelList: data.ddLevel,
+                competitionTypeList: data.ddType,
+                rewardLevelList: data.ddRewardLevel,
+            })
+        }
+    }
+
+    initForm = async () => {
         const { id } = this.state
-        let coverList = []
-        let contentsList = []
-        let articleList = []
+        let certificateList = []
+        let evidenceList = []
         let yuanReview = ''
         let xiaoReview = ''
         if (id) {
@@ -72,42 +87,57 @@ class CompetitionForm extends Component {
             //console.log(res)
             if (res.result) {
                 const item = JSON.parse(res.data)
-                console.log(item)
-                item.coverAppendix && (coverList = item.coverAppendix)
-                item.contentsAppendix && (contentsList = item.contentsAppendix)
-                item.articleAppendix && (articleList = item.articleAppendix)
-
+                //console.log(item)
+                item.certificateAppendix && (certificateList = item.certificateAppendix)
+                item.evidenceAppendix && (evidenceList = item.evidenceAppendix)
                 this.formRef.current.setFieldsValue({
-                    thesisName: item.论文名称,
-                    journal: item.发表期刊,
-                    publishYear: !item.发表时间year ? null : moment(item.发表时间year, 'YYYY'),
-                    issue: item.发表期号,
-                    collection: item.期刊收录,
+                    competitionLevel: item.等级,
+                    competitionType: item.类别,
+                    //competitionName: item.竞赛名称,
+                    group: item.组别,
+                    rewardLevel: item.获奖等级,
+                    //dxjName: item.单项奖名称,
+                    zbdw: item.主办单位 && item.主办单位.split(','),
+                    yearMonth: item.获奖时间 ? moment(item.获奖时间, 'YYYY.MM') : null,
+                    works: item.作品名称,
                     mobile: item.联系方式,
-                    others: !item.其他作者 ? [''] : item.其他作者.split(','),
-                    cover: this.getAppendixUrls(coverList),
-                    contents: this.getAppendixUrls(contentsList),
-                    article: this.getAppendixUrls(articleList),
+                    yhkh: item.银行卡号,
+                    sfzh: item.身份证号,
+                    others: !item.成员列表 ? [''] : item.成员列表.split(','),
+                    teacher: item.第一指导教师,
+                    otherTeachers: !item.其他指导教师 ? [''] : item.其他指导教师.split(','),
+                    certificateNo: item.证书编号,
+                    certificate: this.getAppendixUrls(certificateList),
+                    evidence: this.getAppendixUrls(evidenceList),
                     remark: item.备注
                 })
-
                 yuanReview = item.学院意见
                 xiaoReview = item.学校意见
+                this.name = item.竞赛名称
+                this.dxjName = item.单项奖名称
+                this.setState({
+                    competitionNameList: this.competitionTypeName[item.类别],
+                    competitionName: item.竞赛名称,
+                    isDXJ: item.获奖等级 === '单项奖'
+                })
+                
             }
         }
         else {
             this.formRef.current.setFieldsValue({
-                others: ['']
+                others: [''],
+                otherTeachers: ['']
             })
         }
         this.setState({
-            coverList,
-            contentsList,
-            articleList,
+            certificateList,
+            evidenceList,
             yuanReview,
             xiaoReview,
         })
     }
+
+
 
     getAppendixUrls = list => {
         return list.reduce((pre, item) => {
@@ -116,7 +146,7 @@ class CompetitionForm extends Component {
     }
 
     onFinish = async values => {
-        //console.log(values)
+        console.log(values)
         await this.save(values, 1)
     }
 
@@ -137,21 +167,30 @@ class CompetitionForm extends Component {
         const params = {
             id,
             sno: userID,
-            "论文名称": values.thesisName,
-            "发表期刊": values.journal,
-            "发表时间year": values.publishYear && values.publishYear.format('YYYY'),
-            "发表期号": values.issue,
-            "期刊收录": values.collection,
+            "等级": values.competitionLevel,
+            "类别": values.competitionType,
+            "竞赛名称": values.competitionName,
+            "获奖等级": values.rewardLevel,
+            "组别": values.group,
+            "单项奖名称": values.dxjName,
+            "主办单位": values.zbdw && values.zbdw.join(','),
+            "获奖时间year": values.yearMonth && values.yearMonth.format('YYYY'),
+            "获奖时间month": values.yearMonth && values.yearMonth.format('MM'),
+            "作品名称": values.works,
             "联系方式": values.mobile,
-            "其他作者": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
-            "期刊封面url": values.cover,
-            "目录页url": values.contents,
-            "论文页url": values.article,
+            "银行卡号": values.yhkh,
+            "身份证号": values.sfzh,
+            "成员列表": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
+            "第一指导教师": values.teacher && (values.teacher.type + ":" + values.teacher.value),
+            "其他指导教师": values.otherTeachers && values.otherTeachers.map(x => x.type + ":" + x.value).join(','),
+            "证书编号": values.certificateNo,
+            "证书扫描件url": values.certificate,
+            "证明材料url": values.evidence,
             "备注": values.remark,
             state: flag
         }
 
-        //console.log(params)
+        console.log(params)
         const res = await setCompetitionByID(params)
         if (res.result) {
             message.success('操作成功')
@@ -169,12 +208,24 @@ class CompetitionForm extends Component {
         return Promise.reject("请选择参与人!");
     };
 
+    changeType = async value => {
+        this.setState({ competitionNameList: this.state.competitionTypeName[value] })
+    }
+    changeRewardLevel = async value => {
+        this.setState({
+            isDXJ: value === '单项奖'
+        })
+    }
+
     render() {
-        const { id, userID, userName, collectionList, coverList, contentsList, articleList, yuanReview, xiaoReview } = this.state
+        const { id, userID, userName,
+            competitionLevelList, competitionTypeList, competitionNameList, competitionName, rewardLevelList, isDXJ,
+            certificateList, evidenceList, yuanReview, xiaoReview } = this.state
+        //console.log(competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList)
         const title = (
             <Space direction="vertical">
                 <h2>
-                    <strong>论文成果申报</strong>
+                    <strong>竞赛成果申报</strong>
                 </h2>
                 {id && (
                     <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
@@ -192,119 +243,116 @@ class CompetitionForm extends Component {
                     ref={this.formRef}
                     onFinish={this.onFinish}
                 >
+                    {/* 竞赛等级 */}
                     <Form.Item
-                        label="论文名称"
-                        name="thesisName"
+                        label="竞赛等级"
+                        name="competitionLevel"
                         rules={[
                             {
                                 required: true,
-                                message: '论文名称论文发表期刊不能为空!',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="发表期刊"
-                        name="journal"
-                        rules={[
-                            {
-                                required: true,
-                                message: '论文发表期刊不能为空!',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="发表年份"
-                        name="publishYear"
-                        rules={[
-                            {
-                                required: true,
-                                message: '发表时间不能为空!',
-                            },
-                        ]}
-                    >
-                        <DatePicker picker="year" />
-                    </Form.Item>
-                    <Form.Item
-                        label="期号"
-                        name="issue"
-                        rules={[
-                            {
-                                required: true,
-                                message: '期号不能为空!',
-                            },
-                        ]}
-                    >
-                        <Input style={{ width: 120 }} />
-                    </Form.Item>
-                    <Form.Item
-                        label="收录情况"
-                        name="collection"
-                        rules={[
-                            {
-                                required: true,
-                                message: '收录情况必须选择!',
+                                message: '竞赛等级必须选择!',
                             },
                         ]}>
-                        <Select style={{ width: 200 }}>
-                            {collectionList.map(item => <Option key={item.key} value={item.name}>{item.name}</Option>)}
+                        <Select style={{ width: 100 }}>
+                            {competitionLevelList.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
                         </Select>
                     </Form.Item>
-
                     <Form.Item
-                        label="第一作者"
-                        name="student"
-                        initialValue={`${userName}(${userID})`}
+                        label="竞赛类别"
+                        name="competitionType"
                         rules={[
                             {
                                 required: true,
-                                message: '第一作者不能为空!',
+                                message: '竞赛类别必须选择!',
                             },
-                        ]}
-                    >
-                        <Input readOnly style={{ width: 200 }} />
-
-                    </Form.Item >
-
-                    <Form.Item
-                        label="联系方式"
-                        name="mobile"
-                        rules={[
-                            {
-                                required: true,
-                                message: '联系方式不能为空!',
-                            },
-                        ]}
-                    >
-                        <Input placeholder='请输入手机号' style={{ width: 200 }} />
+                        ]}>
+                        <Select style={{ width: 100 }} onChange={this.changeType}>
+                            {competitionTypeList.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
+                        </Select>
                     </Form.Item>
-
-                    <Form.List name="others">
-                        {(fields, { add, remove }) => {
-                            //console.log(fields)
+                    <Form.Item
+                        label="竞赛名称"
+                        name="competitionName"
+                        initialValue={competitionName}
+                        rules={[
+                            {
+                                required: true,
+                                message: '竞赛名称必须选择!',
+                            },
+                        ]}>
+                        <Select style={{ width: 500 }}>
+                            {competitionNameList.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
+                        </Select>
+                    </Form.Item>
+                    <Form.Item
+                        label="所在组别"
+                        name="group"
+                    >
+                        <Input placeholder='选填，没有可不填' />
+                    </Form.Item>
+                    <Form.Item
+                        label="获奖等级"
+                        name="rewardLevel"
+                        rules={[
+                            {
+                                required: true,
+                                message: '获奖等级必须选择!',
+                            },
+                        ]}>
+                        <Select style={{ width: 100 }} onChange={this.changeRewardLevel}>
+                            {rewardLevelList.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
+                        </Select>
+                    </Form.Item>
+                    {
+                        isDXJ && (
+                            <Form.Item
+                                label="单项奖名称"
+                                name="dxjName"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: '单项奖需填写奖项名称!',
+                                    },
+                                ]}>
+                                <Input placeholder='如最佳创意奖、最佳作品奖等' />
+                            </Form.Item>
+                        )
+                    }
+                    <Form.List
+                        name="zbdw"
+                        rules={[
+                            {
+                                validator: async (_, depts) => {
+                                    if (!depts) {
+                                        return Promise.reject('至少填入一个主办单位！')
+                                    }
+                                    else { return Promise.resolve() }
+                                },
+                            },
+                        ]}>
+                        {(fields, { add, remove }, { errors }) => {
                             return (
                                 <div>
                                     {fields.map((field, index) => (
                                         <Form.Item
                                             {...(index === 0 ? layout : tailLayout)}
-                                            label={index === 0 ? '其他作者' : ''}
+                                            label={index === 0 ? '主办单位' : ''}
                                             required={false}
                                             key={field.key}
                                         >
                                             <Form.Item
                                                 {...field}
-                                                validateTrigger={['onChange']}
+                                                validateTrigger={['onChange', 'onBlur']}
                                                 rules={[
                                                     {
-                                                        validator: this.checkCooperators
+                                                        required: true,
+                                                        whitespace: true,
+                                                        message: "请输入主办单位或删除",
                                                     },
                                                 ]}
                                                 noStyle
                                             >
-                                                <SelectManComplete />
+                                                <Input placeholder="请与证书落款完全一致" style={{ width: '60%' }} />
                                             </Form.Item>
                                             {fields.length > 0 ? (
                                                 <MinusCircleOutlined
@@ -328,51 +376,226 @@ class CompetitionForm extends Component {
                                             }}
                                             style={{ width: '60%' }}
                                         >
-                                            <PlusOutlined /> 添加其他作者
-                        </Button>
+                                            <PlusOutlined /> <span>新增主办单位</span>
+                                        </Button>
+                                        <Form.ErrorList errors={errors} />
                                     </Form.Item>
                                 </div>
                             );
                         }}
                     </Form.List>
-
                     <Form.Item
-                        label="期刊封面"
-                        name="cover"
+                        label="获奖时间"
+                        name="yearMonth"
                         rules={[
                             {
                                 required: true,
-                                message: '至少上传一个期刊封面图片!',
+                                message: '获奖时间不能为空!',
                             },
                         ]}
                     >
-                        {coverList ? <AchievementAppendixUpload appendixList={coverList} maxNum={1} maxSize={3} fileType='article' /> : <></>}
+                        <DatePicker picker="month" />
                     </Form.Item>
                     <Form.Item
-                        label="目录页"
-                        name="contents"
-                        rules={[
-                            {
-                                required: true,
-                                message: '至少上传一个包含论文题目的目录图片!',
-                            },
-                        ]}
+                        label="作品名称"
+                        name="works"
                     >
-                        {contentsList ? <AchievementAppendixUpload appendixList={contentsList} maxNum={1} maxSize={3} fileType='article' /> : <></>}
-                    </Form.Item>
-                    <Form.Item
-                        label="论文页"
-                        name="article"
-                        rules={[
-                            {
-                                required: true,
-                                message: '至少上传一个论文正文页图片!',
-                            },
-                        ]}
-                    >
-                        {articleList ? <AchievementAppendixUpload appendixList={articleList} maxSize={3} fileType='article' /> : <></>}
+                        <Input placeholder='如果没有无需填写' />
                     </Form.Item>
 
+
+                    <Form.Item
+                        label="负责人"
+                        name="head"
+                        initialValue={`${userName}(${userID})`}
+                        rules={[
+                            {
+                                required: true,
+                                message: '负责人不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input readOnly style={{ width: 200 }} />
+                    </Form.Item >
+                    <Form.Item
+                        label="联系方式"
+                        name="mobile"
+                        rules={[
+                            {
+                                required: true,
+                                message: '联系方式不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input placeholder='请输入手机号' style={{ width: 200 }} />
+                    </Form.Item>
+                    <Form.Item
+                        label="银行卡号"
+                        name="yhkh"
+                    // rules={[
+                    //     {
+                    //         required: true,
+                    //         message: '银行卡号不能为空!',
+                    //     },
+                    // ]}
+                    >
+                        <Input placeholder='青岛泰安校区填农行卡，济南校区填建行卡' />
+                    </Form.Item>
+                    <Form.Item
+                        label="身份证号"
+                        name="sfzh"
+                        rules={[
+                            {
+                                required: true,
+                                message: '身份证号不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input placeholder='请输入身份证号' />
+                    </Form.Item>
+
+                    <Form.List name="others">
+                        {(fields, { add, remove }) => {
+                            //console.log(fields)
+                            return (
+                                <div>
+                                    {fields.map((field, index) => (
+                                        <Form.Item
+                                            {...(index === 0 ? layout : tailLayout)}
+                                            label={index === 0 ? '其他成员' : ''}
+                                            required={false}
+                                            key={field.key}
+                                        >
+                                            <Form.Item
+                                                {...field}
+                                                validateTrigger={['onChange']}
+                                                rules={[
+                                                    {
+                                                        validator: this.checkCooperators
+                                                    },
+                                                ]}
+                                                noStyle
+                                            >
+                                                <SelectAllManComplete />
+                                            </Form.Item>
+                                            {fields.length > 0 ? (
+                                                <MinusCircleOutlined
+                                                    className="dynamic-delete-button"
+                                                    style={{ margin: '0 8px' }}
+                                                    onClick={() => {
+                                                        remove(field.name);
+                                                    }}
+                                                />
+                                            ) : null}
+                                        </Form.Item>
+                                    ))}
+
+                                    <Form.Item
+                                        {...tailLayout}
+                                    >
+                                        <Button
+                                            type="dashed"
+                                            onClick={() => {
+                                                add();
+                                            }}
+                                            style={{ width: '60%' }}
+                                        >
+                                            <PlusOutlined /> <span>点击添加团队其他成员</span>
+                                        </Button>
+                                    </Form.Item>
+                                </div>
+                            );
+                        }}
+                    </Form.List>
+                    <Form.Item
+                        label="第一指导教师"
+                        name="teacher"
+                    // rules={[
+                    //     {
+                    //         required: true,
+                    //         message: '第一指导教师不能为空!',
+                    //     },
+                    // ]}
+                    >
+                        <SelectAllManComplete />
+                    </Form.Item>
+                    <Form.List name="otherTeachers">
+                        {(fields, { add, remove }) => {
+                            //console.log(fields)
+                            return (
+                                <div>
+                                    {fields.map((field, index) => (
+                                        <Form.Item
+                                            {...(index === 0 ? layout : tailLayout)}
+                                            label={index === 0 ? '其他指导教师' : ''}
+                                            required={false}
+                                            key={field.key}
+                                        >
+                                            <Form.Item
+                                                {...field}
+                                                validateTrigger={['onChange']}
+                                                rules={[
+                                                    {
+                                                        validator: this.checkCooperators
+                                                    },
+                                                ]}
+                                                noStyle
+                                            >
+                                                <SelectAllManComplete />
+                                            </Form.Item>
+                                            {fields.length > 0 ? (
+                                                <MinusCircleOutlined
+                                                    className="dynamic-delete-button"
+                                                    style={{ margin: '0 8px' }}
+                                                    onClick={() => {
+                                                        remove(field.name);
+                                                    }}
+                                                />
+                                            ) : null}
+                                        </Form.Item>
+                                    ))}
+
+                                    <Form.Item
+                                        {...tailLayout}
+                                    >
+                                        <Button
+                                            type="dashed"
+                                            onClick={() => {
+                                                add();
+                                            }}
+                                            style={{ width: '60%' }}
+                                        >
+                                            <PlusOutlined /> <span>点击添加其他指导教师</span>
+                                        </Button>
+                                    </Form.Item>
+                                </div>
+                            );
+                        }}
+                    </Form.List>
+                    <Form.Item
+                        label="证书编号"
+                        name="certificateNo"
+                    >
+                        <Input placeholder='与证书一致，无编号的证书无需填写' />
+                    </Form.Item>
+                    <Form.Item
+                        label="获奖证书(jpg)"
+                        name="certificate"
+                        rules={[
+                            {
+                                required: true,
+                                message: '至少上传一个获奖证书图片!',
+                            },
+                        ]}
+                    >
+                        {certificateList ? <AchievementAppendixUpload appendixList={certificateList} maxNum={1} maxSize={1} fileType='competition' /> : <></>}
+                    </Form.Item>
+                    <Form.Item
+                        label="相关证明材料(jpg)"
+                        name="evidence"
+                    >
+                        {evidenceList ? <AchievementAppendixUpload appendixList={evidenceList} maxSize={1} fileType='competition' /> : <></>}
+                    </Form.Item>
                     <Form.Item
                         label="备注"
                         name="remark"

@@ -11,39 +11,39 @@ class PatentInfo extends Component {
                 <Descriptions
                     bordered
                     size={this.props.size}
-                    column={2}
+                    column={3}
                     title='专利成果详细信息'
                 >
-                    <Descriptions.Item label={<strong>专利名称</strong>}></Descriptions.Item>
-                    <Descriptions.Item label={<strong>专利申请号</strong>}></Descriptions.Item>
-                    <Descriptions.Item label={<strong>专利形式</strong>}></Descriptions.Item>
-                    <Descriptions.Item label={<strong>专利权人</strong>}></Descriptions.Item>
-                    <Descriptions.Item label={<strong>申请时间</strong>}></Descriptions.Item>
-                    <Descriptions.Item label={<strong>授权公告时间</strong>}></Descriptions.Item>
-                    <Descriptions.Item label={<strong>第一发明人</strong>} span={2}>
-                        <Descriptions size='small' column={3} bordered>
-                            <Descriptions.Item label='学生学号'></Descriptions.Item>
-                            <Descriptions.Item label='学生姓名'></Descriptions.Item>
-                            <Descriptions.Item label='学历层次'></Descriptions.Item>
-                            <Descriptions.Item label='所在学院'></Descriptions.Item>
-                            <Descriptions.Item label='专业班级'></Descriptions.Item>
-                            <Descriptions.Item label='联系方式'></Descriptions.Item>
+                    <Descriptions.Item label={<strong>专利名称</strong>}>{info.专利名称}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>专利申请号</strong>}>{info.专利申请号}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>专利形式</strong>}>{info.专利类型}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>专利权人</strong>}>{info.专利权人}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>申请日期</strong>}>{info.申请时间}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>授权公告日期</strong>}>{info.授权公告日期}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>第一发明人</strong>} span={3}>
+                        <Descriptions size='small' column={6} bordered layout='vertical'>
+                            <Descriptions.Item label='学生学号'>{info.Sno}</Descriptions.Item>
+                            <Descriptions.Item label='学生姓名'>{info.sname}</Descriptions.Item>
+                            <Descriptions.Item label='学历层次'>{info.学历层次}</Descriptions.Item>
+                            <Descriptions.Item label='所在学院'>{info.DepartmentName}</Descriptions.Item>
+                            <Descriptions.Item label='专业班级'>{info.className}</Descriptions.Item>
+                            <Descriptions.Item label='联系方式'>{info.联系方式}</Descriptions.Item>
                             {
                                 info.专利形式 === '发明' && (
                                     <>
-                                        <Descriptions.Item label='身份证号'></Descriptions.Item>
-                                        <Descriptions.Item label='银行卡号'></Descriptions.Item>
-                                        <Descriptions.Item label='开户行'></Descriptions.Item>
+                                        <Descriptions.Item label='身份证号'>{info.身份证号}</Descriptions.Item>
+                                        <Descriptions.Item label='银行卡号'>{info.银行卡号}</Descriptions.Item>
+                                        <Descriptions.Item label='开户行'>{info.开户行}</Descriptions.Item>
                                     </>
                                 )
                             }
                         </Descriptions>
                     </Descriptions.Item>
-                    <Descriptions.Item label={<strong>其他发明人</strong>} span={2}>{info.其他发明人 || '无'}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>专利证书照片</strong>} span={2}>
-                        {info.coverAppendix && <AppendixList fileList={info.coverAppendix} />}
+                    <Descriptions.Item label={<strong>其他发明人</strong>} span={3}>{info.其他发明人show || '无'}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>专利证书照片</strong>} span={3}>
+                        {info.paperAppendix && <AppendixList fileList={info.paperAppendix} />}
                     </Descriptions.Item>
-                    <Descriptions.Item label={<strong>备注</strong>} span={2}></Descriptions.Item>
+                        <Descriptions.Item label={<strong>备注</strong>} span={3}>{info.备注}</Descriptions.Item>
 
                     {info.State >= 2 && <Descriptions.Item label={<strong>审核结果</strong>} span={3}>
                         <Descriptions size='small' column={3} bordered >

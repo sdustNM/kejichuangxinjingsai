@@ -7,7 +7,7 @@ class ThesisInfo extends Component {
         
         const info = this.props.info
         //console.log(info.State)
-        const othersNum = info.其他作者.split(',').filter(item => item.trim() !== '').length
+        const othersNum = info.其他作者 && info.其他作者.split(',').filter(item => item.trim() !== '').length
         return (
             <Card>
                 <Descriptions

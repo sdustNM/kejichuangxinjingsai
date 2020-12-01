@@ -62,7 +62,7 @@ class CompetitionList extends Component {
             let list = []
             res.map(item =>
                 list.push({
-                    key: '论文_' + item.id,
+                    key: '竞赛_' + item.id,
                     id: item.id,
                     title: item.论文名称,
                     year: item.发表时间year,

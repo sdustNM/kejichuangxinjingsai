@@ -58,7 +58,7 @@ export default class ThesisList extends Component {
 
         const res = await getArticleList(params)
         if (res) {
-            console.log(res)
+            //console.log(res)
             let list = []
             res.map(item =>
                 list.push({
@@ -89,7 +89,7 @@ export default class ThesisList extends Component {
         const res = await getArticleByID({ id })
         if (res.result) {
             const info = JSON.parse(res.data)
-            console.log(info)
+            //console.log(info)
             this.setState({
                 info,
                 visible: true

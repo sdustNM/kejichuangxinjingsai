@@ -12,6 +12,7 @@ import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
 import AchievementInfo from "../views/Achievements/AchievementInfo"
 import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 import PatentForm from "../views/Achievements/Patent/PatentForm"
+import CompetitionForm from "../views/Achievements/Competition/CompetitionForm"
 
 
 
@@ -72,6 +73,11 @@ export const studentConfig = [
     component: PatentForm,
     exact: true,
   },
+  {
+    path: '/student/competitionForm',
+    component: CompetitionForm,
+    exact: true,
+  }
 ]
 
 

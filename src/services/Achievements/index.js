@@ -74,3 +74,10 @@ export function setCompetitionByID(params){
 export function deleteCompetitionByID(params){
   return get('/AchieveCompetition/deleteCompetitionByID', params)
 }
+//a获取竞赛成果表单中的下拉选项
+export function getDDInfo(params){
+  return get('/AchieveCompetition/getDDInfo', params)
+}
+export function getTypeList(params){
+  return get('/AchieveCompetition/getTypeList', params)
+}

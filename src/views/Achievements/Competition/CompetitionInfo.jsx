@@ -4,41 +4,73 @@ import AppendixList from '../AppendixList'
 
 class CompetitionInfo extends Component {
     render() {
-        
         const info = this.props.info
-        //console.log(info.State)
-        const othersNum = info.其他作者.split(',').filter(item => item.trim() !== '').length
         return (
             <Card>
                 <Descriptions
                     bordered
                     size={this.props.size}
                     column={3}
-                    title='论文成果详细信息'
+                    title='竞赛成果详细信息'
                 >
-                    <Descriptions.Item label={<strong>论文名称</strong>} span={2}>{info.论文名称}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>发表时间</strong>}>{info.发表时间year}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>发表期刊</strong>}>{info.发表期刊}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>发表期号</strong>}>{info.发表期号}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>期刊收录</strong>}>{info.期刊收录}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>第一作者</strong>} span={3}>
-                        <Descriptions size='small' column={4} bordered layout='vertical'>
-                            <Descriptions.Item label='学生姓名'>{info.sname}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>竞赛名称</strong>}>{info.竞赛名称}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>竞赛等级</strong>}>{info.等级}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>获奖等级</strong>}>{`${info.获奖等级}-${info.单项奖名称}`}</Descriptions.Item>
+                    
+                    <Descriptions.Item label={<strong>竞赛类别</strong>}>{info.类别}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>竞赛组别</strong>}>{info.组别}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>主办单位</strong>}>{info.主办单位}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>获奖时间</strong>}>{info.获奖时间year + '-' + info.获奖时间month}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>作品名称</strong>}>{info.作品名称}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>证书编号</strong>}>{info.证书编号}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>第一负责人</strong>} span={3}>
+                        <Descriptions size='small' column={6} bordered layout='vertical'>
+                            <Descriptions.Item label='学号'>{info.Sno}</Descriptions.Item>
+                            <Descriptions.Item label='姓名'>{info.sname}</Descriptions.Item>
+                            <Descriptions.Item label='学历'>{info.学历层次}</Descriptions.Item>
+                            <Descriptions.Item label='学院'>{info.DepartmentName}</Descriptions.Item>
+                            <Descriptions.Item label='班级'>{info.className}</Descriptions.Item>
                             <Descriptions.Item label='联系方式'>{info.联系方式}</Descriptions.Item>
-                            <Descriptions.Item label='所在学院'>{'能源与矿业工程学院'}</Descriptions.Item>
-                            <Descriptions.Item label='专业班级'>{'采矿2020-1'}</Descriptions.Item>
                         </Descriptions>
                     </Descriptions.Item>
-                    <Descriptions.Item label={<strong>作者人数</strong>}>{othersNum + 1}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>其他作者</strong>} span={2}>{othersNum ? info.其他作者show : '无'}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>期刊封面</strong>} span={3}>
-                        {info.coverAppendix && <AppendixList fileList={info.coverAppendix} />}
+                    <Descriptions.Item label={<strong>团队其他成员</strong>} span={3}>
+                        {info.成员列表show
+                        /* {info.成员列表show && info.成员列表show.map(item => (
+                            <Descriptions size='small' column={6} bordered layout='vertical'>
+                                <Descriptions.Item label='学号'>{item.Sno}</Descriptions.Item>
+                                <Descriptions.Item label='姓名'>{item.sname}</Descriptions.Item>
+                                <Descriptions.Item label='学历'>{item.学历层次}</Descriptions.Item>
+                                <Descriptions.Item label='学院'>{item.DepartmentName}</Descriptions.Item>
+                                <Descriptions.Item label='班级'>{item.className}</Descriptions.Item>
+                                <Descriptions.Item label='联系方式'>{item.联系方式}</Descriptions.Item>
+                            </Descriptions>
+                        ))} */}
                     </Descriptions.Item>
-                    <Descriptions.Item label={<strong>目录页</strong>} span={3}>
-                        {info.contentsAppendix && <AppendixList fileList={info.contentsAppendix} />}
+                    <Descriptions.Item label={<strong>第一指导教师</strong>} span={3}>
+                        <Descriptions size='small' column={3} bordered layout='vertical'>
+                            <Descriptions.Item label='工号'>{info.第一指导教师}</Descriptions.Item>
+                            <Descriptions.Item label='姓名'>{info.tname}</Descriptions.Item>
+                            <Descriptions.Item label='单位'>{info.Tdepartment}</Descriptions.Item>
+                            {/* <Descriptions.Item label='身份证号'>{info.tsfzh}</Descriptions.Item> */}
+                        </Descriptions>
                     </Descriptions.Item>
-                    <Descriptions.Item label={<strong>期刊封面</strong>} span={3}>
-                        {info.articleAppendix && <AppendixList fileList={info.articleAppendix} />}
+                    <Descriptions.Item label={<strong>其他指导教师</strong>} span={3}>
+                        {info.其他指导教师show
+                        /* {info.其他指导教师show && info.其他指导教师show.map(item => (
+                            <Descriptions size='small' column={4} bordered layout='vertical'>
+                                <Descriptions.Item label='工号'>{info.tno}</Descriptions.Item>
+                                <Descriptions.Item label='姓名'>{info.sname}</Descriptions.Item>
+                                <Descriptions.Item label='单位'>{info.tDepartmentName}</Descriptions.Item>
+                                <Descriptions.Item label='身份证号'>{info.tsfzh}</Descriptions.Item>
+                            </Descriptions>
+                        ))} */}
+                    </Descriptions.Item>
+                    
+                    <Descriptions.Item label={<strong>获奖证书(jpg)</strong>} span={3}>
+                        {info.rewardAppendix && <AppendixList fileList={info.rewardAppendix} />}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={<strong>证明材料(jpg)</strong>} span={3}>
+                        {info.supportAppendix && <AppendixList fileList={info.supportAppendix} />}
                     </Descriptions.Item>
                     {info.State >= 2 && <Descriptions.Item label={<strong>审核结果</strong>} span={3}>
                         <Descriptions size='small' column={3} bordered >

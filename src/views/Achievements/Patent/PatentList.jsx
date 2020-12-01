@@ -56,10 +56,10 @@ class PatentList extends Component {
             pageSize
         }
 
-        console.log(params)
+        //console.log(params)
         const res = await getPatentList(params)
         if (res) {
-            console.log(res)
+            //console.log(res)
             let list = []
             res.map(item =>
                 list.push({
@@ -90,7 +90,7 @@ class PatentList extends Component {
         const res = await getPatentByID({ id })
         if (res.result) {
             const info = JSON.parse(res.data)
-            console.log(info)
+            //console.log(info)
             this.setState({
                 info,
                 visible: true
