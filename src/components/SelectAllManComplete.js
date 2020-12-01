@@ -74,11 +74,11 @@ class SelectManComplete extends React.Component {
   }
 
   componentDidMount() {
-    //console.log(props.initValue)
+    console.log(this.props)
     let v = this.props.value
     if (v) {
 
-      //console.log(v)
+      console.log(v)
       let type=v.split(":")[0]
       let idorname=v.split(":")[1]
       this.setState(

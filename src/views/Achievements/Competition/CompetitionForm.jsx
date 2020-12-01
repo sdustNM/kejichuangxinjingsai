@@ -40,7 +40,7 @@ class CompetitionForm extends Component {
             competitionTypeName: {},
             competitionNameList: [],
             rewardLevelList: [],
-            item: {},
+            item: null,
             isDXJ: false,
             rewardList: null,
             supportList: null
@@ -248,7 +248,7 @@ class CompetitionForm extends Component {
                 <h2>
                     <strong>竞赛成果申报</strong>
                 </h2>
-                {id && (
+                {item && (
                     <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{item.学院意见}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{item.学校意见}</Descriptions.Item>
@@ -261,7 +261,7 @@ class CompetitionForm extends Component {
             <Card title={title}>
                 <Form
                     {...layout}
-                    name="thesis"
+                    name="competition"
                     ref={this.formRef}
                     onFinish={this.onFinish}
                 >
@@ -543,7 +543,7 @@ class CompetitionForm extends Component {
                     //     },
                     // ]}
                     >
-                        <SelectAllManComplete />
+                        <SelectAllManComplete value={item && item.第一指导教师} />
                     </Form.Item>
                     <Form.List name="otherTeachers">
                         {(fields, { add, remove }) => {
