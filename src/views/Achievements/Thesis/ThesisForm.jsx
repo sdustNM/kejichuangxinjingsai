@@ -39,9 +39,22 @@ const collectionList = [
         name: 'SCI'
     },
     {
-        key: 'CSCI',
-        name: 'CSCI'
+        key: 'SSCI',
+        name: 'SSCI(社会科学类)'
     },
+    {
+        key: 'ISTP',
+        name: 'ISTP'
+    },
+    {
+        key: 'A&HCI',
+        name: 'A&HCI'
+    },
+    {
+        key: '中文核心期刊',
+        name: '中文核心期刊'
+    }
+]
 ]
 class ThesisForm extends Component {
     constructor(...props) {
