@@ -137,11 +137,15 @@ class PatentForm extends Component {
     checkCooperators = (rule, value) => {
         if (value !== undefined && value.value !== "") {
             //value:{type: x;value: x;selectedValue: x}
-            //console.log(value);
-            if (value.type == 0 && value.selectedValue == undefined) return Promise.reject("校内人员必须从下拉框中区配！");
+            //console.log("ddd",value,value.selectedValue);
+            if (value.type === "0" && value.selectedValue === undefined) 
+            { 
+                return Promise.reject("校内人员必须从下拉框中区配！");
+               
+            }
             return Promise.resolve();
         }
-        return Promise.reject("请选择参与人!");
+        return Promise.reject("校内请选择参与人，校外请输入姓名!");
     };
 
     render() {
