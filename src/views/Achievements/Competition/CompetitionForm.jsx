@@ -523,12 +523,12 @@ class CompetitionForm extends Component {
                     <Form.Item
                         label="第一指导教师"
                         name="teacher"
-                        validateTrigger={['onChange']}
-                        rules={[
-                            {
-                                validator: this.checkCooperators
-                            },
-                        ]}
+                        // validateTrigger={['onChange']}
+                        // rules={[
+                        //     {
+                        //         validator: this.checkCooperators
+                        //     },
+                        // ]}
                     >
                         <SelectAllManComplete initvalue={this.state.item && this.state.item.第一指导教师} />
                     </Form.Item>

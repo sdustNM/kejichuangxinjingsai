@@ -15,7 +15,7 @@ class CompetitionInfo extends Component {
                 >
                     <Descriptions.Item label={<strong>竞赛名称</strong>}>{info.竞赛名称show}</Descriptions.Item>
                     <Descriptions.Item label={<strong>竞赛等级</strong>}>{info.等级}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>获奖等级</strong>}>{`${info.获奖等级}-${info.单项奖名称}`}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>获奖等级</strong>}>{`${info.获奖等级}${info.单项奖名称==null?"":"-"+info.单项奖名称}`}</Descriptions.Item>
                     
                     <Descriptions.Item label={<strong>竞赛类别</strong>}>{info.类别}</Descriptions.Item>
                     <Descriptions.Item label={<strong>竞赛组别</strong>}>{info.组别}</Descriptions.Item>
