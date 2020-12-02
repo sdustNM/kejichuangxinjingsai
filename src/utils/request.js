@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { getJwt } from './jwtHelper'
 
+//export const appRoot = 'http://kcpt.sdust.edu.cn:8080'
 export const appRoot = 'http://192.168.34.201:4000'
 //export const appRoot = 'http://localhost:5000'
 export const baseURL = `${appRoot}/api`

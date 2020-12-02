@@ -84,11 +84,12 @@ class ThesisForm extends Component {
             //console.log(res)
             if (res.result) {
                 const item = JSON.parse(res.data)
-                console.log(item)
+                console.log(res.data, item)
                 item.coverAppendix && (coverList = item.coverAppendix)
                 item.contentsAppendix && (contentsList = item.contentsAppendix)
                 item.articleAppendix && (articleList = item.articleAppendix)
 
+                console.log(coverList,this.getAppendixUrls(coverList))
                 this.formRef.current.setFieldsValue({
                     thesisName: item.论文名称,
                     journal: item.发表期刊,
@@ -96,7 +97,7 @@ class ThesisForm extends Component {
                     issue: item.发表期号,
                     collection: item.期刊收录,
                     mobile: item.联系方式,
-                    others: !item.其他作者 ? [''] : item.其他作者.split(','),
+                    others: !item.其他作者 ? [undefined] : item.其他作者.split(','),
                     cover: this.getAppendixUrls(coverList),
                     contents: this.getAppendixUrls(contentsList),
                     article: this.getAppendixUrls(articleList),
@@ -109,7 +110,7 @@ class ThesisForm extends Component {
         }
         else {
             this.formRef.current.setFieldsValue({
-                others: ['']
+                others: [undefined]
             })
         }
         this.setState({
@@ -163,7 +164,7 @@ class ThesisForm extends Component {
             state: flag
         }
 
-        //console.log(params)
+        console.log(params)
         const res = await setArticleByID(params)
         if (res.result) {
             message.success('操作成功')

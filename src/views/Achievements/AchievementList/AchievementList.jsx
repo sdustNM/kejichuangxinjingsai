@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Table, Button, Space, message } from 'antd'
-import { deleteArticleByID, getNeedReviewList } from '../../../services/Achievements'
+import { deleteArticleByID, getNeedReviewList, deleteCompetitionByID, deletePatentByID } from '../../../services/Achievements'
 export default class AchievementList extends Component {
     constructor(...props) {
         super(...props)
@@ -87,10 +87,10 @@ export default class AchievementList extends Component {
                 res = await deleteArticleByID({ id })
                 break;
             case '竞赛':
-                //res = await deleteArticleByID({id})
+                res = await deleteCompetitionByID({id})
                 break;
             case '专利':
-                //res = await deleteArticleByID({id})
+                res = await deletePatentByID({id})
                 break;
             default:
                 break;

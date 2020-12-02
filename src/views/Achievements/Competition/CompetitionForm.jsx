@@ -70,6 +70,7 @@ class CompetitionForm extends Component {
             const res = await getCompetitionByID({ id })
             if (res.result) {
                 item = JSON.parse(res.data)
+                console.log(item)
                 item.rewardAppendix && (rewardList = item.rewardAppendix)
                 item.supportAppendix && (supportList = item.supportAppendix)
             }
@@ -105,8 +106,10 @@ class CompetitionForm extends Component {
     }
 
     setFormValue = () => {
-        const { item } = this.state
-        if (item) {
+
+        const { id, item, rewardList, supportList } = this.state
+        console.log(rewardList, this.getAppendixUrls(rewardList))
+        if (id) {
             this.formRef.current.setFieldsValue({
                 competitionLevel: item.等级,
                 competitionType: item.类别,
@@ -120,13 +123,19 @@ class CompetitionForm extends Component {
                 mobile: item.联系方式,
                 yhkh: item.银行卡号,
                 sfzh: item.身份证号,
-                others: !item.成员列表 ? [''] : item.成员列表.split(','),
+                others: item.成员列表 && item.成员列表.split(','),
                 teacher: item.第一指导教师,
-                otherTeachers: !item.其他指导教师 ? [''] : item.其他指导教师.split(','),
+                otherTeachers: item.其他指导教师 && item.其他指导教师.split(','),
                 certificateNo: item.证书编号,
-                certificate: this.getAppendixUrls(item.certificateAppendix),
-                evidence: this.getAppendixUrls(item.evidenceListAppendix),
+                certificate: this.getAppendixUrls(rewardList),
+                evidence: this.getAppendixUrls(supportList),
                 remark: item.备注
+            })
+        }
+        else{
+            this.formRef.current.setFieldsValue({
+                others: [undefined],
+                otherTeachers: [undefined]
             })
         }
 
@@ -134,8 +143,9 @@ class CompetitionForm extends Component {
 
 
     getAppendixUrls = list => {
-        return list && list.reduce((pre, item) => {
-            return pre ? pre + ',' + item.url : item.url
+        console.log(list)
+        return list.reduce((pre, item) => {
+            return pre ? pre + ',' + item.rawUrl : item.rawUrl
         }, null)
     }
 
@@ -171,7 +181,8 @@ class CompetitionForm extends Component {
             state: flag
         }
 
-         const res = await setCompetitionByID(params)
+        console.log(params)
+        const res = await setCompetitionByID(params)
         if (res.result) {
             message.success('操作成功')
             this.props.history.replace({ pathname: '/student/ReviewList' })
@@ -180,10 +191,9 @@ class CompetitionForm extends Component {
 
     checkCooperators = (rule, value) => {
         if (value !== undefined && value.value !== "") {
-            if (value.type === "0" && value.selectedValue === undefined) 
-            { 
+            if (value.type === "0" && value.selectedValue === undefined) {
                 return Promise.reject("校内人员必须从下拉框中区配！");
-               
+
             }
             return Promise.resolve();
         }
@@ -210,17 +220,12 @@ class CompetitionForm extends Component {
         })
     }
 
-    handleSearch = value => {
-
-    };
-
-
     render() {
         const { id, userID, userName, isDXJ,
             competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, item,
             rewardList,
             supportList } = this.state
-        //console.log(competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList)
+        console.log(rewardList)
         const title = (
             <Space direction="vertical">
                 <h2>
@@ -514,12 +519,12 @@ class CompetitionForm extends Component {
                     <Form.Item
                         label="第一指导教师"
                         name="teacher"
-                    // rules={[
-                    //     {
-                    //         required: true,
-                    //         message: '第一指导教师不能为空!',
-                    //     },
-                    // ]}
+                        validateTrigger={['onChange']}
+                        rules={[
+                            {
+                                validator: this.checkCooperators
+                            },
+                        ]}
                     >
                         <SelectAllManComplete initvalue={this.state.item && this.state.item.第一指导教师} />
                     </Form.Item>

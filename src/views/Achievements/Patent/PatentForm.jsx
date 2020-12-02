@@ -59,7 +59,7 @@ class PatentForm extends Component {
                     patentType: item.专利类型,
                     patentee: item.专利权人,
                     mobile: item.联系方式,
-                    others: !item.其他发明人 ? [''] : item.其他发明人.split(','),
+                    others: !item.其他发明人 ? [undefined] : item.其他发明人.split(','),
                     applicationDate: !item.申请时间 ? null : moment(item.申请时间, 'YYYY-MM-DD'),
                     publicDate: !item.授权公告日期 ? null : moment(item.授权公告日期, 'YYYY-MM-DD'),                    
                     photo: this.getAppendixUrls(fileList),
@@ -70,11 +70,11 @@ class PatentForm extends Component {
                 xiaoReview = item.学校意见
             }
         }
-        // else {
-        //     this.formRef.current.setFieldsValue({
-        //         others: ['']
-        //     })
-        // }
+        else {
+            this.formRef.current.setFieldsValue({
+                others: [undefined]
+            })
+        }
         this.setState({
             fileList,
             yuanReview,

@@ -75,7 +75,7 @@ class SelectManComplete extends React.Component {
 //父组件更新时，会触发此事件
   componentWillReceiveProps(nextProps)
   {
-    console.log(this.props,nextProps)
+    //console.log(this.props,nextProps)
     if (this.props.initvalue && !this.props.value)
     this.initValue(this.props.initvalue)
   }
@@ -88,7 +88,7 @@ class SelectManComplete extends React.Component {
 
   initValue(v)
   {
-      console.log(v)
+      //console.log(v)
       let type=v.split(":")[0]
       let idorname=v.split(":")[1]
       this.setState(
