@@ -1,8 +1,8 @@
 import React from 'react'
-import { Input, AutoComplete,Select } from 'antd'
+import { Input, AutoComplete, Select } from 'antd'
 import { getAllManByFuzzy } from '../services/administer/deparmentAdminister'
 
-const {Option} = Select;
+const { Option } = Select;
 //使用Demo:
 //<SelectAllManComplete chooseMan={this.chooseMan} initValue={'991823'} key={1}/>
 //在父组件中添加：
@@ -21,9 +21,9 @@ class SelectManComplete extends React.Component {
     //console.log(prop[0].value)
     this.state = {
       value: this.props.value,
-      idorname:'',
-      selectedValue:'',     //选择的id
-      type:"0",
+      idorname: '',
+      selectedValue: '',     //选择的id
+      type: "0",
       options: [],
       db: [],
     };
@@ -31,7 +31,7 @@ class SelectManComplete extends React.Component {
     //console.log('init')
   }
 
-   triggerChange = (changedValue) => {
+  triggerChange = (changedValue) => {
     //console.log(changedValue)
     if (this.props.onChange) {
       this.props.onChange(changedValue);
@@ -43,14 +43,14 @@ class SelectManComplete extends React.Component {
   // const [db, setDb] = useState([]);
 
   onSearch = searchText => {
-    if (this.state.type==1)  return ;   //如果是校外人员，退出
+    if (this.state.type == 1) return;   //如果是校外人员，退出
     if (searchText.length > 1) {
       //!searchText ? [] : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)],
       getAllManByFuzzy({ "searchTxt": searchText }).then(res => {
         let r = []
         if (res.result) {
           let data = JSON.parse(res.data)
-          this.setState({ db:data});
+          this.setState({ db: data });
           r = data.map(item => {
             return {
               value: item.id,
@@ -68,16 +68,15 @@ class SelectManComplete extends React.Component {
 
           })
         }
-        this.setState({ options:r});
+        this.setState({ options: r });
       })
     }
   }
-//父组件更新时，会触发此事件
-  componentWillReceiveProps(nextProps)
-  {
-    console.log(this.props,nextProps)
+  //父组件更新时，会触发此事件
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props, nextProps)
     if (this.props.initvalue && !this.props.value)
-    this.initValue(this.props.initvalue)
+      this.initValue(this.props.initvalue)
   }
 
   componentDidMount() {
@@ -86,21 +85,25 @@ class SelectManComplete extends React.Component {
     }
   }
 
-  initValue(v)
-  {
+  async initValue(v) {
+    let type = '0'
+    let idorname = ''
+
+    if (v.indexOf("undefinded") == -1) {
       console.log(v)
-      let type=v.split(":")[0]
-      let idorname=v.split(":")[1]
+      let type = v.split(":")[0]
+      let idorname = v.split(":")[1]
       this.setState(
         {
           idorname,
           type,
         }
       );
+
       //console.log(type,idorname)
 
       if (type == "0") {
-        getAllManByFuzzy({ "searchTxt": idorname }).then(res => {
+        await getAllManByFuzzy({ "searchTxt": idorname }).then(res => {
 
           if (res.result) {
             //console.log("find me")
@@ -110,12 +113,22 @@ class SelectManComplete extends React.Component {
               this.setState({ value: `${data[0].id}-${data[0].name}` });
             }
           }
+
+          //第二次加载但没有修改的时候，要能提交给父节点
+          this.triggerChange(
+            {
+              type,
+              selectedValue: type == "0" ? idorname : "",
+              value: idorname
+            }
+          );
         })
       }
       else {
         this.setState({ value: idorname });
-
       }
+    }
+    else {
       //第二次加载但没有修改的时候，要能提交给父节点
       this.triggerChange(
         {
@@ -124,6 +137,9 @@ class SelectManComplete extends React.Component {
           value: idorname
         }
       );
+    }
+
+
   }
 
   onSelect = data => {
@@ -141,16 +157,21 @@ class SelectManComplete extends React.Component {
         selectedValue: data
       }
     );
-    
+
   };
 
   onChange = data => {
     // console.log(data)
-    this.setState({ value: data });
-    this.triggerChange( 
-      {type:this.state.type,
-      value:data}
-      );
+    this.setState({
+      value: data,
+      idorname: data
+    });
+    this.triggerChange(
+      {
+        type: this.state.type,
+        value: data
+      }
+    );
     // console.log(props)
     // props.chooseMan(data)
   };
@@ -160,7 +181,7 @@ class SelectManComplete extends React.Component {
     this.setState(
       { type: value });
 
-    this.state.value="";
+    this.state.value = "";
     this.triggerChange(
       {
         type: this.state.type,
@@ -172,25 +193,24 @@ class SelectManComplete extends React.Component {
   render() {
     return (
       <>
-      <Select   defaultValue={"0"} value={String(this.state.type)} style={{width:120}} onChange={this.personTypeChange}>
-        <Option value="0">校内</Option>
-        <Option value="1">校外</Option>
-      </Select>
-      
-      <AutoComplete
-        allowClear
-        dropdownMatchSelectWidth={252}
-        value={this.state.value}
-        options={this.state.options}
-        style={{
-          width: 300,
-        }}
-        onSelect={this.onSelect}
-        onSearch={this.onSearch}
-        onChange={this.onChange}
-        placeholder="选择人员"
-      >  <Input.Search size="large" placeholder="input here" enterButton value={this.state.value} onChange={this.onChange}/>
-      </AutoComplete>
+        <Select defaultValue={"0"} value={String(this.state.type)} style={{ width: 120 }} onChange={this.personTypeChange}>
+          <Option value="0">校内</Option>
+          <Option value="1">校外</Option>
+        </Select>
+
+        <AutoComplete
+          dropdownMatchSelectWidth={252}
+          value={this.state.value}
+          options={this.state.options}
+          style={{
+            width: 300,
+          }}
+          onSelect={this.onSelect}
+          onSearch={this.onSearch}
+          onChange={this.onChange}
+          placeholder="选择人员"
+        > <Input.Search size="large" placeholder="input here" enterButton value={this.state.value} onChange={this.onChange} />
+        </AutoComplete>
       </>
     );
   }
