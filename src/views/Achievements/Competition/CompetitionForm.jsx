@@ -190,14 +190,18 @@ class CompetitionForm extends Component {
     }
 
     checkCooperators = (rule, value) => {
-        if (value !== undefined && value.value !== "") {
-            if (value.type === "0" && value.selectedValue === undefined) {
+        console.log("check:",value)
+        if (value != undefined && value != "" && value.value != "") {
+            if (value.type == "0" && value.selectedValue == undefined) 
+            { 
                 return Promise.reject("校内人员必须从下拉框中区配！");
 
             }
+            console.log("check1:",value)
             return Promise.resolve();
         }
-        return Promise.reject("校内请选择参与人，校外请输入姓名!");
+        
+        return  Promise.reject("校内请选择参与人，校外请输入姓名!");
     };
 
     changeType = async value => {
@@ -477,7 +481,7 @@ class CompetitionForm extends Component {
                                         >
                                             <Form.Item
                                                 {...field}
-                                                validateTrigger={['onChange']}
+                                                validateTrigger={['onChange','blur']}
                                                 rules={[
                                                     {
                                                         validator: this.checkCooperators
