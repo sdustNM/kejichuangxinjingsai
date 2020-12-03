@@ -172,7 +172,7 @@ class CompetitionForm extends Component {
             "银行卡号": values.yhkh,
             "身份证号": values.sfzh,
             "成员列表": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
-            "第一指导教师": values.teacher && (values.teacher.type + ":" + values.teacher.value),
+            "第一指导教师": values.teacher && values.teacher.type && (values.teacher.type + ":" + values.teacher.value),
             "其他指导教师": values.otherTeachers && values.otherTeachers.map(x => x.type + ":" + x.value).join(','),
             "证书编号": values.certificateNo,
             "证书扫描件url": values.certificate,
