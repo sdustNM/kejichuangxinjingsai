@@ -74,7 +74,7 @@ class SelectManComplete extends React.Component {
   }
   //父组件更新时，会触发此事件
   componentWillReceiveProps(nextProps) {
-    console.log(this.props, nextProps)
+    //console.log(this.props, nextProps)
     if (this.props.initvalue && !this.props.value)
       this.initValue(this.props.initvalue)
   }

@@ -190,14 +190,14 @@ class CompetitionForm extends Component {
     }
 
     checkCooperators = (rule, value) => {
-        console.log("check:",value)
+        //console.log("check:",value)
         if (value != undefined && value != "" && value.value != "") {
             if (value.type == "0" && value.selectedValue == undefined) 
             { 
                 return Promise.reject("校内人员必须从下拉框中区配！");
 
             }
-            console.log("check1:",value)
+            //console.log("check1:",value)
             return Promise.resolve();
         }
         

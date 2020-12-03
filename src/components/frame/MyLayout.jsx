@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { Layout, Menu, Space, Dropdown, Avatar } from 'antd'
+import { Layout, Menu, Space, Dropdown, Avatar, Badge } from 'antd'
 
 import { studentMenus } from '../../routes/StudentMenu'
 import { administerMenus } from '../../routes/AdministerMenu'
@@ -9,7 +9,7 @@ import { getJwtUser, removeJwt } from '../../utils/jwtHelper'
 import logo from '../../assets/images/logo.png'
 import './MyLayout.css'
 import { isStudent, isExpert, getRoleName, isAdminister, getRoleList } from '../../utils/auth'
-import {appRoot}   from   '../../utils/request';
+import { appRoot } from '../../utils/request';
 import '../../utils/config'
 import { UserOutlined } from '@ant-design/icons'
 import RoleSelecter from './RoleSelecter'
@@ -20,15 +20,19 @@ const { SubMenu } = Menu;
 
 class MyLayout extends React.Component {
 
+  state = {
+    count: Math.floor(Math.random()*10)
+  }
+
   popMenu = () => {
     return (
       <Menu onClick={p => {
         if (p.key === "logout") {
           removeJwt();
-          if(window.localStorage.isSSO === 'true'){
+          if (window.localStorage.isSSO === 'true') {
             window.location.href = `${appRoot}/api/logout`
           }
-          else{
+          else {
             this.props.history.push('/login')
           }
         }
@@ -48,7 +52,7 @@ class MyLayout extends React.Component {
         element.sub = element.sub.filter(n => n.yuanManager)
       });
     }
-    const openKeys = menus.map( item => item.path)
+    const openKeys = menus.map(item => item.path)
 
     return (
       <Layout>
@@ -92,7 +96,9 @@ class MyLayout extends React.Component {
                             return (
                               <Menu.Item key={y.path} icon={y.icon}
                                 onClick={p => this.props.history.push({ pathname: p.key, state: { myid: 1 } })}
-                              >  {y.title} </Menu.Item>
+                              >
+                                {y.path === '/administer/reviewList' ? <Badge count={this.state.count}>{y.title} </Badge> : y.title}
+                              </Menu.Item>
                             );
                           })
                         }
@@ -101,11 +107,13 @@ class MyLayout extends React.Component {
                   }
                   else {
                     return (
+
                       <Menu.Item
                         key={m.path}
                         onClick={p => this.props.history.push(p.key)}>
                         {m.icon}{m.title}
                       </Menu.Item>
+
                     )
                   }
                 })

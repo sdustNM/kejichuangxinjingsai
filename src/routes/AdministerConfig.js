@@ -13,6 +13,7 @@ import AchievementList from '../views/Achievements/AchievementList/AchievementLi
 import AchievementInfo from '../views/Achievements/AchievementInfo';
 import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
 import DDCompetitionList from '../views/SysManage/DDCompetitionList/DDCompetitionList';
+import Chart from '../views/Charts/Chart';
 
 
 export const administerConfig = [
@@ -87,6 +88,11 @@ export const administerConfig = [
   {
     path:'/administer/DDCompetitionList',
     component:DDCompetitionList,
+    exact:true
+  },
+  {
+    path:'/administer/charts',
+    component:Chart,
     exact:true
   }
 
