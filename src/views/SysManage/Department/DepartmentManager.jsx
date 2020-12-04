@@ -1,9 +1,9 @@
 import React from 'react'
 import { Table, Space, Button, Popconfirm, message, Modal } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined,CheckCircleTwoTone } from '@ant-design/icons'
 import getDepartmentList from '../../../redux/common';
 import DepartmentEdit from './DepartmentEdit'
-import {deleteDepartment} from '../../../services/administer/department'
+import {deleteDepartment,ImportDepartmentFromRemote} from '../../../services/administer/department'
 
 class DeparmentManager extends React.Component {
   state = {
@@ -59,7 +59,7 @@ class DeparmentManager extends React.Component {
             content: '数据云平台完成!',
             okText: '确认',
           });
-          this.refresh(1)
+          this.fetch()
       }
       else {
         message.error(res.message)
