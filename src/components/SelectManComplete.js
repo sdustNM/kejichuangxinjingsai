@@ -1,6 +1,6 @@
 import React from 'react'
 import { Input, AutoComplete } from 'antd'
-import { getTeachersByFuzzy } from '../services/administer/deparmentAdminister'
+import { getExpertsByFuzzy } from '../services/administer/deparmentAdminister'
 
 //使用Demo:
 //<SelectManComplete chooseMan={this.chooseMan} initValue={'991823'} />
@@ -28,7 +28,7 @@ class SelectManComplete extends React.Component {
   onSearch = searchText => {
     if (searchText.length > 1) {
       //!searchText ? [] : [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)],
-      getTeachersByFuzzy({ "searchTxt": searchText }).then(res => {
+      getExpertsByFuzzy({ "searchTxt": searchText }).then(res => {
         let r = []
         if (res.result) {
           let data = JSON.parse(res.data)
@@ -57,7 +57,7 @@ class SelectManComplete extends React.Component {
 
   componentDidMount() {
     //console.log(props.initValue)
-    this.props.initValue && getTeachersByFuzzy({ "searchTxt": this.props.initValue }).then(res => {
+    this.props.initValue && getExpertsByFuzzy({ "searchTxt": this.props.initValue }).then(res => {
       if (res.result) {
 
         let data = JSON.parse(res.data)
