@@ -8,3 +8,7 @@ export function modifyDepartmentInfo(params){
 export function deleteDepartment(params){
   return get('/administer/delDepartment', params)
 }
+
+export function ImportDepartmentFromRemote(){
+  return get('/DBOperation/ImportDepartmentFromRemote',null);
+}

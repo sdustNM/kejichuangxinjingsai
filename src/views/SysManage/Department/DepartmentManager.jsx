@@ -43,7 +43,30 @@ class DeparmentManager extends React.Component {
       })
   }
 
-
+  importDepartment=()=>{
+    this.setState({
+      loading:true
+    })
+    ImportDepartmentFromRemote().then(res=>{
+      this.setState({
+        loading:false
+      })
+      if (res.result)
+      {
+          Modal.confirm({
+            title: '通知',
+            icon: <CheckCircleTwoTone  />,
+            content: '数据云平台完成!',
+            okText: '确认',
+          });
+          this.refresh(1)
+      }
+      else {
+        message.error(res.message)
+      }
+      
+    })
+  }
   showModal = () => {
     this.setState({
       visible: true,
@@ -124,7 +147,7 @@ class DeparmentManager extends React.Component {
         <Button
           type='dashed'
           style={{ marginLeft: 20}}
-          onClick={() => { }}
+          onClick={() => {this.importDepartment()  }}
         >
           <PlusCircleOutlined />云端导入
         </Button>
