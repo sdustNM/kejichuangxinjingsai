@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
 import { Card, Space } from 'antd'
+import getDepartmentList from '../../redux/common'
+
 import MyPie from './MyPie';
+import MyColumn from './MyColumn';
 
 export default class Chart extends Component {
     state = {
         articleData: null,
         patentData: null,
-        competitionData: null
+        competitionData: null,
+        departmentTotal: null
     }
-    componentDidMount() {
+    async componentDidMount() {
         const articleData = [
             {
                 type: '中文核心',
@@ -71,15 +75,38 @@ export default class Chart extends Component {
                 value: 36,
             }
         ]
+        const res = await getDepartmentList()
+        let departmentTotal = []
+        JSON.parse(res).map(item => {
+            if (item.id != 0) {
+                departmentTotal.push({
+                    id: item.id,
+                    name: item.name,
+                    number: Math.floor(Math.random() * 100),
+                    achievement: '论文'
+                }, {
+                    id: item.id,
+                    name: item.name,
+                    number: Math.floor(Math.random() * 10),
+                    achievement: '专利'
+                }, {
+                    id: item.id,
+                    name: item.name,
+                    number: Math.floor(Math.random() * 20),
+                    achievement: '竞赛'
+                })
+            }
+        })
 
         this.setState({
             articleData,
             patentData,
-            competitionData
+            competitionData,
+            departmentTotal
         })
     }
     render() {
-        const { articleData, patentData, competitionData } = this.state
+        const { articleData, patentData, competitionData, departmentTotal } = this.state
         return (
             <Card>
                 <Space>
@@ -87,6 +114,7 @@ export default class Chart extends Component {
                     {patentData && <MyPie title='专利统计' data={patentData} />}
                     {competitionData && <MyPie title='竞赛统计' data={competitionData} />}
                 </Space>
+                {departmentTotal && <MyColumn data={departmentTotal} />}
             </Card>
         )
     }

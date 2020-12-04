@@ -2,9 +2,9 @@ import axios from 'axios'
 import { getJwt } from './jwtHelper'
 import config from '../../public/config.json'
 
-//export const appRoot = config.approot
+export const appRoot = config.approot
 //export const appRoot = 'https://kcpt.sdust.edu.cn/manager'
-export const appRoot = 'http://192.168.34.201:4000'
+//export const appRoot = 'http://192.168.34.201:4000'
 //export const appRoot = 'http://localhost:5000'
 export const baseURL = `${appRoot}/api`
 

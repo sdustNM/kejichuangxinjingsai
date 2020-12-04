@@ -97,7 +97,7 @@ class MyLayout extends React.Component {
                               <Menu.Item key={y.path} icon={y.icon}
                                 onClick={p => this.props.history.push({ pathname: p.key, state: { myid: 1 } })}
                               >
-                                {y.path === '/administer/reviewList' ? <Badge count={this.state.count}>{y.title} </Badge> : y.title}
+                                {y.title/* {y.path === '/administer/reviewList' ? <Badge count={this.state.count}>{y.title} </Badge> : y.title} */}
                               </Menu.Item>
                             );
                           })
