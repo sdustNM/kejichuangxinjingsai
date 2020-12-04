@@ -61,6 +61,8 @@ export default class AchievementList extends Component {
                     key: item.type + '_' + item.id,
                     ID: item.id,
                     name: item.achievementName,
+                    sname:item.sname,
+                    dept: item.departmentName,
                     type: item.type,
                     state: item.state,
                     status: this.statusList[item.state]
@@ -93,6 +95,16 @@ export default class AchievementList extends Component {
                 title: '成果类别',
                 dataIndex: 'type',
                 key: 'type'
+            },
+            {
+                title: '姓名',
+                dataIndex: 'sname',
+                key: 'sname'
+            },
+            {
+                title: '学院',
+                dataIndex: 'dept',
+                key: 'dept'
             },
             {
                 title: '状态',

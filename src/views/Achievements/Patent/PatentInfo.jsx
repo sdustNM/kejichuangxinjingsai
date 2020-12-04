@@ -45,10 +45,10 @@ class PatentInfo extends Component {
                     </Descriptions.Item>
                         <Descriptions.Item label={<strong>备注</strong>} span={3}>{info.备注}</Descriptions.Item>
 
-                    {info.State >= 2 && <Descriptions.Item label={<strong>审核结果</strong>} span={3}>
+                    {(info.State >= 2 || info.State == -1) && <Descriptions.Item label={<strong>审核结果</strong>} span={3}>
                         <Descriptions size='small' column={3} bordered >
                             <Descriptions.Item label='学院意见' span={3}>{info.学院意见}</Descriptions.Item>
-                            {info.State >= 3 && <Descriptions.Item label='学校意见' span={3}>{info.学校意见}</Descriptions.Item>}
+                            {(info.State >= 3 || info.State == -1) && <Descriptions.Item label='学校意见' span={3}>{info.学校意见}</Descriptions.Item>}
                         </Descriptions>
                     </Descriptions.Item>}
                 </Descriptions>

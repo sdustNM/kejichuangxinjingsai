@@ -11,7 +11,7 @@ export default class AchievementList extends Component {
             loading: false,
             _total: 0,
         }
-        this.statusList = ['退回修改', '学院审核中', '学校审核中']
+        this.statusList = ['拒绝', '退回修改', '学院审核中', '学校审核中']
     }
     
     componentDidMount() {
@@ -63,7 +63,7 @@ export default class AchievementList extends Component {
                     name: item.achievementName,
                     type: item.type,
                     state: item.state,
-                    status: this.statusList[item.state]
+                    status: this.statusList[item.state + 1]
                 })
             )
 
@@ -115,8 +115,10 @@ export default class AchievementList extends Component {
             },
             {
                 title: '状态',
-                dataIndex: 'status',
-                key: 'status'
+                //dataIndex: 'status',
+                key: 'status',
+                render: (text, record) => 
+                <span style={record.state < 1 ?{color: 'red'} : {}}>{record.status}</span>
             },
             {
                 title: '操作',
