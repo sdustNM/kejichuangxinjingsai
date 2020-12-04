@@ -27,8 +27,8 @@ const tailLayout = {
 }
 const collectionList = [
     {
-        key: 'null',
-        name: '无'
+        key: 'normal',
+        name: '普通期刊'
     },
     {
         key: 'EI',
@@ -53,6 +53,10 @@ const collectionList = [
     {
         key: '中文核心期刊',
         name: '中文核心期刊'
+    },
+    {
+        key: 'other',
+        name: '其他'
     }
 ]
 class ThesisForm extends Component {
