@@ -26,6 +26,7 @@ class SelectManComplete extends React.Component {
       type: "0",
       options: [],
       db: [],
+      autocomDisable:true
     };
 
     //console.log('init')
@@ -158,6 +159,7 @@ class SelectManComplete extends React.Component {
       }
     );
 
+
   };
 
   onChange = data => {
@@ -169,7 +171,8 @@ class SelectManComplete extends React.Component {
     this.triggerChange(
       {
         type: this.state.type,
-        value: data
+        value: data,
+        selectedValue:''
       }
     );
     // console.log(props)
@@ -178,17 +181,18 @@ class SelectManComplete extends React.Component {
 
   personTypeChange = value => {
     //console.log(value);
-    this.setState(
-      { type: value });
-
     this.state.value = "";
     this.triggerChange(
       {
-        type: this.state.type,
+        type: value,
         value: "",
         selectedValue: ""
       }
     );
+    this.setState({
+      type: value,
+      autocomDisable:value!="2"
+    });
   };
   render() {
     return (
@@ -196,9 +200,11 @@ class SelectManComplete extends React.Component {
         <Select defaultValue={"0"} value={String(this.state.type)} style={{ width: 120 }} onChange={this.personTypeChange}>
           <Option value="0">校内</Option>
           <Option value="1">校外</Option>
+          <Option value="2">无</Option>
         </Select>
 
         <AutoComplete
+          disabled={this.state.autocomDisable}
           dropdownMatchSelectWidth={252}
           value={this.state.value}
           options={this.state.options}

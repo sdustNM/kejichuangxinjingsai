@@ -177,18 +177,18 @@ class ThesisForm extends Component {
     }
 
     checkCooperators = (rule, value) => {
-        if (value !== undefined && value.value !== "") {
-            //value:{type: x;value: x;selectedValue: x}
-            //console.log("ddd",value,value.selectedValue);
-            if (value.type === "0" && value.selectedValue === undefined) 
+        console.log("check:",value)
+        if (value != undefined && value != ""  &&value.type!="undefined") {
+            if (value.type == "0" && (value.selectedValue == undefined || value.selectedValue == ''))
             { 
                 return Promise.reject("校内人员必须从下拉框中区配！");
-               
             }
-            return Promise.resolve();
+            if (value.type=="2" || value.value != "")  return Promise.resolve();
         }
-        return Promise.reject("校内请选择参与人，校外请输入姓名!");
+        
+        return  Promise.reject("校内请选择人员，校外请输入姓名!");
     };
+
 
     render() {
         const { id, userID, userName, collectionList, coverList, contentsList, articleList, yuanReview, xiaoReview } = this.state

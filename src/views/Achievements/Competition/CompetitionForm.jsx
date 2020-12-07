@@ -190,18 +190,16 @@ class CompetitionForm extends Component {
     }
 
     checkCooperators = (rule, value) => {
-        //console.log("check:",value)
-        if (value != undefined && value != "" && value.value != "") {
-            if (value.type == "0" && value.selectedValue == undefined) 
+        console.log("check:",value)
+        if (value != undefined && value != ""  &&value.type!="undefined") {
+            if (value.type == "0" && (value.selectedValue == undefined || value.selectedValue == ''))
             { 
                 return Promise.reject("校内人员必须从下拉框中区配！");
-
             }
-            //console.log("check1:",value)
-            return Promise.resolve();
+            if (value.type=="2" || value.value != "")  return Promise.resolve();
         }
         
-        return  Promise.reject("校内请选择参与人，校外请输入姓名!");
+        return  Promise.reject("校内请选择人员，校外请输入姓名!");
     };
 
     changeType = async value => {
@@ -523,12 +521,12 @@ class CompetitionForm extends Component {
                     <Form.Item
                         label="第一指导教师"
                         name="teacher"
-                        // validateTrigger={['onChange']}
-                        // rules={[
-                        //     {
-                        //         validator: this.checkCooperators
-                        //     },
-                        // ]}
+                        validateTrigger={['onChange']}
+                        rules={[
+                            {
+                                validator: this.checkCooperators
+                            },
+                        ]}
                     >
                         <SelectAllManComplete initvalue={this.state.item && this.state.item.第一指导教师} />
                     </Form.Item>
