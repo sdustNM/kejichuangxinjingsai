@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { Card } from 'antd';
+import { Button, Card } from 'antd';
 import { TrophyOutlined, ExperimentOutlined, FileTextOutlined, } from '@ant-design/icons'
 
 import ThesisList from './Thesis/ThesisList'
 import PatentList from './Patent/PatentList'
 import CompetitionList from './Competition/CompetitionList'
+
+import {exportTest} from '../../services/Achievements'
 
 const tabList = [
   {
@@ -34,12 +36,15 @@ class ConfirmAchieveList extends Component {
   }
 
   render() {
+    let extra=
+    (<Button onClick={()=>exportTest({},'学生竞赛成果一览表.xls')}> 导出</Button>)
     return (
       <Card
         style={{ width: '100%' }}
         tabList={tabList}
         activeTabKey={this.state.key}
         onTabChange={key => this.setState({ key })}
+        extra={extra}
       >
         {contentList[this.state.key]}
       </Card>

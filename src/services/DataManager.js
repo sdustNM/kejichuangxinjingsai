@@ -1,7 +1,7 @@
 import { get } from '../utils/request'
 
 export function getExpertList(params) {
-  return get('/administer/getExpertsByFuzzy', params)
+  return get('/administer/getExpertsByFuzzyV2', params)
 }
 
 // export function getCompetitionByID(id) {

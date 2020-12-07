@@ -4,8 +4,8 @@ import { getExpertsByFuzzy } from '../../services/administer/expert'
 import { addExpertForCompetition } from '../../services/administer/competition'
 class CompetitionEditExpert extends React.Component {
 
-  constructor(props) {
-    super(props)
+  constructor(...props) {
+    super(...props)
     this.state = {
       id: '',
       name: '',

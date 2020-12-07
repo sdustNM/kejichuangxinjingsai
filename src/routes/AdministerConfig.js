@@ -94,6 +94,11 @@ export const administerConfig = [
     path:'/administer/charts',
     component:Chart,
     exact:true
+  },
+  {
+    path:'/administer/exportTest',
+    component:Chart,
+    exact:true
   }
 
   // {

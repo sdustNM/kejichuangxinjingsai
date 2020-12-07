@@ -21,8 +21,8 @@ export function addDepartmentAdminister(params){
 }
 
 //模糊匹配教师信息 searchTxt
-export function getExpertsByFuzzy(params){
-  return get('/administer/getExpertsByFuzzy', params)
+export function getExpertsByFuzzyV2(params){
+  return get('/administer/getExpertsByFuzzyV2', params)
 }
 
 //模糊匹配所有人信息 searchTxt
