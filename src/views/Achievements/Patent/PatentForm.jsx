@@ -35,6 +35,7 @@ class PatentForm extends Component {
             yuanReview: '',
             xiaoReview: '',
             fileList: null,
+            stateBz:''
         }
         this.formRef = React.createRef();
     }
@@ -44,6 +45,7 @@ class PatentForm extends Component {
         let fileList = []
         let yuanReview = ''
         let xiaoReview = ''
+        let stateBz = ''
         if (id) {
             const res = await getPatentByID({ id })
             //console.log(res)
@@ -65,7 +67,7 @@ class PatentForm extends Component {
                     photo: this.getAppendixUrls(fileList),
                     remark: item.备注
                 })
-
+                stateBz = item.状态备注
                 yuanReview = item.学院意见
                 xiaoReview = item.学校意见
             }
@@ -79,6 +81,7 @@ class PatentForm extends Component {
             fileList,
             yuanReview,
             xiaoReview,
+            stateBz
         })
     }
 
@@ -100,6 +103,7 @@ class PatentForm extends Component {
             await this.save(values, 0)
           } catch (errorInfo) {
             //console.log('Failed:', errorInfo);
+            alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
           }
     }
 
@@ -146,14 +150,14 @@ class PatentForm extends Component {
 
 
     render() {
-        const { id, type, userID, userName, fileList, yuanReview, xiaoReview } = this.state
+        const { id, type, userID, userName, fileList, yuanReview, xiaoReview, stateBz } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
                     <strong>专利成果申报</strong>
                 </h2>
-                {id && (
-                    <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
+                {(id && stateBz) && (
+                    <Descriptions title={<span style={{color:'red'}}>{stateBz}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{yuanReview}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{xiaoReview}</Descriptions.Item>
                     </Descriptions>)

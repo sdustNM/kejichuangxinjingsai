@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined, PlusOutlined, DoubleLeftOutlined } from '@ant-design/icons'
 import moment from "moment"
 import { getUserID, getUserName } from "../../../utils/auth"
 import SelectManComplete from '../../../components/SelectAllManComplete'
@@ -72,6 +72,7 @@ class ThesisForm extends Component {
             coverList: null,
             contentsList: null,
             articleList: null,
+            stateBz:''
         }
         this.formRef = React.createRef();
     }
@@ -83,12 +84,13 @@ class ThesisForm extends Component {
         let articleList = []
         let yuanReview = ''
         let xiaoReview = ''
+        let stateBz = ''
         if (id) {
             const res = await getArticleByID({ id })
             //console.log(res)
             if (res.result) {
                 const item = JSON.parse(res.data)
-                console.log(res.data, item)
+                console.log(item)
                 item.coverAppendix && (coverList = item.coverAppendix)
                 item.contentsAppendix && (contentsList = item.contentsAppendix)
                 item.articleAppendix && (articleList = item.articleAppendix)
@@ -107,7 +109,7 @@ class ThesisForm extends Component {
                     article: this.getAppendixUrls(articleList),
                     remark: item.备注
                 })
-
+                stateBz = item.stateBz
                 yuanReview = item.学院意见
                 xiaoReview = item.学校意见
             }
@@ -123,6 +125,7 @@ class ThesisForm extends Component {
             articleList,
             yuanReview,
             xiaoReview,
+            stateBz
         })
     }
 
@@ -143,6 +146,7 @@ class ThesisForm extends Component {
             //console.log('Success:', values);
             await this.save(values, 0)
         } catch (errorInfo) {
+            alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
             //console.log('Failed:', errorInfo);
         }
     }
@@ -189,22 +193,25 @@ class ThesisForm extends Component {
 
 
     render() {
-        const { id, userID, userName, collectionList, coverList, contentsList, articleList, yuanReview, xiaoReview } = this.state
+        const { id, userID, userName, collectionList, coverList, contentsList, articleList, yuanReview, xiaoReview, stateBz } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
                     <strong>论文成果申报</strong>
                 </h2>
-                {id && (
-                    <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
+                {(id && stateBz) && (
+                    <Descriptions title={<span style={{color:'red'}}>{stateBz}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{yuanReview}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{xiaoReview}</Descriptions.Item>
                     </Descriptions>)
                 }
             </Space>
         )
+        const extra = (
+            <Button onClick={() => { this.props.history.go(-1) }}><DoubleLeftOutlined />返回</Button>
+        )
         return (
-            <Card title={title}>
+            <Card title={title} extra={extra}>
                 <Form
                     {...layout}
                     name="thesis"

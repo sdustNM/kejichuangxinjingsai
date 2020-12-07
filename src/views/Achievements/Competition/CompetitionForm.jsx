@@ -40,11 +40,10 @@ class CompetitionForm extends Component {
             competitionTypeName: {},
             competitionNameList: [],
             rewardLevelList: [],
-            item: null,
+            item: {},
             isDXJ: false,
             rewardList: null,
             supportList: null
-
         }
         this.formRef = React.createRef();
     }
@@ -159,7 +158,8 @@ class CompetitionForm extends Component {
             //console.log('Success:', values);
             await this.save(values, 0)
         } catch (errorInfo) {
-            //console.log('Failed:', errorInfo);
+            alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
+             //console.log('errorInfo:', errorInfo);
         }
     }
 
@@ -242,8 +242,8 @@ class CompetitionForm extends Component {
                 <h2>
                     <strong>竞赛成果申报</strong>
                 </h2>
-                {id && item && (
-                    <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
+                {(id && item.状态备注) && (
+                    <Descriptions title={<span style={{color:'red'}}>{item.状态备注}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{item.学院意见}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{item.学校意见}</Descriptions.Item>
                     </Descriptions>)
