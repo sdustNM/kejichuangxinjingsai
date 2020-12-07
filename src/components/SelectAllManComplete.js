@@ -26,7 +26,7 @@ class SelectManComplete extends React.Component {
       type: "0",
       options: [],
       db: [],
-      autocomDisable:true
+      autocomDisable:false
     };
 
     //console.log('init')
@@ -191,7 +191,7 @@ class SelectManComplete extends React.Component {
     );
     this.setState({
       type: value,
-      autocomDisable:value!="2"
+      autocomDisable:value == "2"
     });
   };
   render() {
