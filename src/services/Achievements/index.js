@@ -82,6 +82,6 @@ export function getTypeList(params){
   return get('/AchieveCompetition/getTypeList', params)
 }
 
-export function exportTest(params,filename){
-  return download('/AchieveCommon/exportTest', params,filename)
+export function exportCompetition(params,filename){
+  return download('/AchieveCommon/exportCompetition', params,filename)
 }

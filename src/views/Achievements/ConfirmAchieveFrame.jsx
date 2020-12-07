@@ -6,7 +6,7 @@ import ThesisList from './Thesis/ThesisList'
 import PatentList from './Patent/PatentList'
 import CompetitionList from './Competition/CompetitionList'
 
-import {exportTest} from '../../services/Achievements'
+import {exportCompetition} from '../../services/Achievements'
 
 const tabList = [
   {
@@ -37,7 +37,7 @@ class ConfirmAchieveList extends Component {
 
   render() {
     let extra=
-    (<Button onClick={()=>exportTest({},'学生竞赛成果一览表.xls')}> 导出</Button>)
+    (<Button onClick={()=>exportCompetition({},'学生竞赛成果一览表.xls')}> 导出</Button>)
     return (
       <Card
         style={{ width: '100%' }}

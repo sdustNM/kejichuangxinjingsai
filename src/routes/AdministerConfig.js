@@ -96,7 +96,7 @@ export const administerConfig = [
     exact:true
   },
   {
-    path:'/administer/exportTest',
+    path:'/administer/exportCompetition',
     component:Chart,
     exact:true
   }
