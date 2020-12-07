@@ -35,6 +35,7 @@ class PatentForm extends Component {
             yuanReview: '',
             xiaoReview: '',
             fileList: null,
+            stateBz:''
         }
         this.formRef = React.createRef();
     }
@@ -44,6 +45,7 @@ class PatentForm extends Component {
         let fileList = []
         let yuanReview = ''
         let xiaoReview = ''
+        let stateBz = ''
         if (id) {
             const res = await getPatentByID({ id })
             //console.log(res)
@@ -61,11 +63,11 @@ class PatentForm extends Component {
                     mobile: item.联系方式,
                     others: !item.其他发明人 ? [undefined] : item.其他发明人.split(','),
                     applicationDate: !item.申请时间 ? null : moment(item.申请时间, 'YYYY-MM-DD'),
-                    publicDate: !item.授权公告日期 ? null : moment(item.授权公告日期, 'YYYY-MM-DD'),                    
+                    publicDate: !item.授权公告日期 ? null : moment(item.授权公告日期, 'YYYY-MM-DD'),
                     photo: this.getAppendixUrls(fileList),
                     remark: item.备注
                 })
-
+                stateBz = item.状态备注
                 yuanReview = item.学院意见
                 xiaoReview = item.学校意见
             }
@@ -79,6 +81,7 @@ class PatentForm extends Component {
             fileList,
             yuanReview,
             xiaoReview,
+            stateBz
         })
     }
 
@@ -93,16 +96,16 @@ class PatentForm extends Component {
         await this.save(values, 1)
     }
 
-    // submit = async () => {
-    //     try {
-    //         const values = await this.formRef.current.validateFields();
-    //         //console.log('Success:', values);
-    //         await this.save(values, 1)
-    //       } catch (errorInfo) {
-    //         //console.log('Failed:', errorInfo);
-    //       }
-
-    // }
+    submit = async () => {
+        try {
+            const values = await this.formRef.current.validateFields();
+            //console.log('Success:', values);
+            await this.save(values, 0)
+          } catch (errorInfo) {
+            //console.log('Failed:', errorInfo);
+            alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
+          }
+    }
 
     save = async (values, flag) => {
         const { id, userID } = this.state
@@ -134,28 +137,27 @@ class PatentForm extends Component {
         }
     }
     checkCooperators = (rule, value) => {
-        console.log("check:",value)
-        if (value != undefined && value != ""  &&value.type!="undefined") {
-            if (value.type == "0" && (value.selectedValue == undefined || value.selectedValue == ''))
-            { 
+        console.log("check:", value)
+        if (value != undefined && value != "" && value.type != "undefined") {
+            if (value.type == "0" && (value.selectedValue == undefined || value.selectedValue == '')) {
                 return Promise.reject("校内人员必须从下拉框中区配！");
             }
-            if (value.type=="2" || value.value != "")  return Promise.resolve();
+            if (value.type == "2" || value.value != "") return Promise.resolve();
         }
-        
-        return  Promise.reject("校内请选择人员，校外请输入姓名!");
+
+        return Promise.reject("校内请选择人员，校外请输入姓名!");
     };
 
 
     render() {
-        const { id, type, userID, userName, fileList, yuanReview, xiaoReview } = this.state
+        const { id, type, userID, userName, fileList, yuanReview, xiaoReview, stateBz } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
                     <strong>专利成果申报</strong>
                 </h2>
-                {id && (
-                    <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
+                {(id && stateBz) && (
+                    <Descriptions title={<span style={{color:'red'}}>{stateBz}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{yuanReview}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{xiaoReview}</Descriptions.Item>
                     </Descriptions>)
@@ -395,8 +397,9 @@ class PatentForm extends Component {
 
                     <Form.Item {...tailLayout}>
                         <Space>
+                            <Button type="primary" onClick={this.submit}>保存</Button>
                             <Button type="primary" htmlType="submit">保存并提交</Button>
-                            {/* <Button type="primary" onClick={this.submit}>保存并提交</Button> */}
+                            {/*  */}
                         </Space>
                     </Form.Item>
                 </Form>

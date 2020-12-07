@@ -9,17 +9,15 @@ import qs from 'qs'
 import React from 'react';
 import { getJwt } from '../../utils/jwtHelper';
 class LoginSSO_Recieve extends React.Component {
-    constructor(...props) {
-        super(...props);
-      }
-    
-    
-  render()
-  {
+  constructor(...props) {
+    super(...props);
+  }
+
+
+  render() {
     return <div></div>
   }
-  componentDidMount()
-  {
+  componentDidMount() {
     const queryString = this.props.location.search ? this.props.location.search.substring(1) : ''
     const queryObject = qs.parse(queryString)
     console.log(queryObject)
@@ -29,8 +27,13 @@ class LoginSSO_Recieve extends React.Component {
     console.log(queryObject.code)
 
     if (queryObject.code) {
-      window.localStorage.isSSO = true
-      getPage(queryObject.code, this.props.history)
+      if (queryObject.code == 1) {
+        alert('登陆异常，请关闭所有浏览器后重试。若问题无法解决，请联系管理员！')
+      }
+      else {
+        window.localStorage.isSSO = true
+        getPage(queryObject.code, this.props.history)
+      }
     } else {
       message.error("获取Token异常");
     }
@@ -39,5 +42,4 @@ class LoginSSO_Recieve extends React.Component {
 
 export default LoginSSO_Recieve;
 
-    
-   
+

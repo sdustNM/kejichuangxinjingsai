@@ -11,7 +11,7 @@ export default class AchievementList extends Component {
             loading: false,
             _total: 0,
         }
-        this.statusList = ['拒绝', '退回修改', '学院审核中', '学校审核中']
+        this.statusList = ['拒绝', '修改', '学院审核中', '学校审核中']
     }
     
     componentDidMount() {

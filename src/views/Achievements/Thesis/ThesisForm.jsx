@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined, PlusOutlined, DoubleLeftOutlined } from '@ant-design/icons'
 import moment from "moment"
 import { getUserID, getUserName } from "../../../utils/auth"
 import SelectManComplete from '../../../components/SelectAllManComplete'
@@ -72,6 +72,7 @@ class ThesisForm extends Component {
             coverList: null,
             contentsList: null,
             articleList: null,
+            stateBz:''
         }
         this.formRef = React.createRef();
     }
@@ -83,17 +84,18 @@ class ThesisForm extends Component {
         let articleList = []
         let yuanReview = ''
         let xiaoReview = ''
+        let stateBz = ''
         if (id) {
             const res = await getArticleByID({ id })
             //console.log(res)
             if (res.result) {
                 const item = JSON.parse(res.data)
-                console.log(res.data, item)
+                console.log(item)
                 item.coverAppendix && (coverList = item.coverAppendix)
                 item.contentsAppendix && (contentsList = item.contentsAppendix)
                 item.articleAppendix && (articleList = item.articleAppendix)
 
-                console.log(coverList,this.getAppendixUrls(coverList))
+                console.log(coverList, this.getAppendixUrls(coverList))
                 this.formRef.current.setFieldsValue({
                     thesisName: item.论文名称,
                     journal: item.发表期刊,
@@ -107,7 +109,7 @@ class ThesisForm extends Component {
                     article: this.getAppendixUrls(articleList),
                     remark: item.备注
                 })
-
+                stateBz = item.stateBz
                 yuanReview = item.学院意见
                 xiaoReview = item.学校意见
             }
@@ -123,6 +125,7 @@ class ThesisForm extends Component {
             articleList,
             yuanReview,
             xiaoReview,
+            stateBz
         })
     }
 
@@ -137,16 +140,16 @@ class ThesisForm extends Component {
         await this.save(values, 1)
     }
 
-    // submit = async () => {
-    //     try {
-    //         const values = await this.formRef.current.validateFields();
-    //         //console.log('Success:', values);
-    //         await this.save(values, 1)
-    //       } catch (errorInfo) {
-    //         //console.log('Failed:', errorInfo);
-    //       }
-
-    // }
+    submit = async () => {
+        try {
+            const values = await this.formRef.current.validateFields();
+            //console.log('Success:', values);
+            await this.save(values, 0)
+        } catch (errorInfo) {
+            alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
+            //console.log('Failed:', errorInfo);
+        }
+    }
 
     save = async (values, flag) => {
         const { id, userID } = this.state
@@ -177,36 +180,38 @@ class ThesisForm extends Component {
     }
 
     checkCooperators = (rule, value) => {
-        console.log("check:",value)
-        if (value != undefined && value != ""  &&value.type!="undefined") {
-            if (value.type == "0" && (value.selectedValue == undefined || value.selectedValue == ''))
-            { 
+        console.log("check:", value)
+        if (value != undefined && value != "" && value.type != "undefined") {
+            if (value.type == "0" && (value.selectedValue == undefined || value.selectedValue == '')) {
                 return Promise.reject("校内人员必须从下拉框中区配！");
             }
-            if (value.type=="2" || value.value != "")  return Promise.resolve();
+            if (value.type == "2" || value.value != "") return Promise.resolve();
         }
-        
-        return  Promise.reject("校内请选择人员，校外请输入姓名!");
+
+        return Promise.reject("校内请选择人员，校外请输入姓名!");
     };
 
 
     render() {
-        const { id, userID, userName, collectionList, coverList, contentsList, articleList, yuanReview, xiaoReview } = this.state
+        const { id, userID, userName, collectionList, coverList, contentsList, articleList, yuanReview, xiaoReview, stateBz } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
                     <strong>论文成果申报</strong>
                 </h2>
-                {id && (
-                    <Descriptions style={{ width: '100%' }} size='small' column={3} bordered >
+                {(id && stateBz) && (
+                    <Descriptions title={<span style={{color:'red'}}>{stateBz}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{yuanReview}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{xiaoReview}</Descriptions.Item>
                     </Descriptions>)
                 }
             </Space>
         )
+        const extra = (
+            <Button onClick={() => { this.props.history.go(-1) }}><DoubleLeftOutlined />返回</Button>
+        )
         return (
-            <Card title={title}>
+            <Card title={title} extra={extra}>
                 <Form
                     {...layout}
                     name="thesis"
@@ -403,8 +408,8 @@ class ThesisForm extends Component {
 
                     <Form.Item {...tailLayout}>
                         <Space>
+                            <Button type="primary" onClick={this.submit}>保存</Button>
                             <Button type="primary" htmlType="submit">保存并提交</Button>
-                            {/* <Button type="primary" onClick={this.submit}>保存并提交</Button> */}
                         </Space>
                     </Form.Item>
                 </Form>
