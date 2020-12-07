@@ -132,7 +132,7 @@ class CompetitionForm extends Component {
                 remark: item.备注
             })
         }
-        else{
+        else {
             this.formRef.current.setFieldsValue({
                 others: [undefined],
                 otherTeachers: [undefined]
@@ -151,6 +151,16 @@ class CompetitionForm extends Component {
 
     onFinish = async values => {
         await this.save(values, 1)
+    }
+
+    submit = async () => {
+        try {
+            const values = await this.formRef.current.validateFields();
+            //console.log('Success:', values);
+            await this.save(values, 0)
+        } catch (errorInfo) {
+            //console.log('Failed:', errorInfo);
+        }
     }
 
     save = async (values, flag) => {
@@ -190,16 +200,15 @@ class CompetitionForm extends Component {
     }
 
     checkCooperators = (rule, value) => {
-        console.log("check:",value)
-        if (value != undefined && value != ""  &&value.type!="undefined") {
-            if (value.type == "0" && (value.selectedValue == undefined || value.selectedValue == ''))
-            { 
+        console.log("check:", value)
+        if (value != undefined && value != "" && value.type != "undefined") {
+            if (value.type == "0" && (value.selectedValue == undefined || value.selectedValue == '')) {
                 return Promise.reject("校内人员必须从下拉框中区配！");
             }
-            if (value.type=="2" || value.value != "")  return Promise.resolve();
+            if (value.type == "2" || value.value != "") return Promise.resolve();
         }
-        
-        return  Promise.reject("校内请选择人员，校外请输入姓名!");
+
+        return Promise.reject("校内请选择人员，校外请输入姓名!");
     };
 
     changeType = async value => {
@@ -479,7 +488,7 @@ class CompetitionForm extends Component {
                                         >
                                             <Form.Item
                                                 {...field}
-                                                validateTrigger={['onChange','blur']}
+                                                validateTrigger={['onChange', 'blur']}
                                                 rules={[
                                                     {
                                                         validator: this.checkCooperators
@@ -616,8 +625,8 @@ class CompetitionForm extends Component {
 
                     <Form.Item {...tailLayout}>
                         <Space>
+                            <Button type="primary" onClick={this.submit}>保存</Button>
                             <Button type="primary" htmlType="submit">保存并提交</Button>
-                            {/* <Button type="primary" onClick={this.submit}>保存并提交</Button> */}
                         </Space>
                     </Form.Item>
                 </Form>

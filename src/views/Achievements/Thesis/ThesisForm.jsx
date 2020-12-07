@@ -93,7 +93,7 @@ class ThesisForm extends Component {
                 item.contentsAppendix && (contentsList = item.contentsAppendix)
                 item.articleAppendix && (articleList = item.articleAppendix)
 
-                console.log(coverList,this.getAppendixUrls(coverList))
+                console.log(coverList, this.getAppendixUrls(coverList))
                 this.formRef.current.setFieldsValue({
                     thesisName: item.论文名称,
                     journal: item.发表期刊,
@@ -137,16 +137,15 @@ class ThesisForm extends Component {
         await this.save(values, 1)
     }
 
-    // submit = async () => {
-    //     try {
-    //         const values = await this.formRef.current.validateFields();
-    //         //console.log('Success:', values);
-    //         await this.save(values, 1)
-    //       } catch (errorInfo) {
-    //         //console.log('Failed:', errorInfo);
-    //       }
-
-    // }
+    submit = async () => {
+        try {
+            const values = await this.formRef.current.validateFields();
+            //console.log('Success:', values);
+            await this.save(values, 0)
+        } catch (errorInfo) {
+            //console.log('Failed:', errorInfo);
+        }
+    }
 
     save = async (values, flag) => {
         const { id, userID } = this.state
@@ -177,16 +176,15 @@ class ThesisForm extends Component {
     }
 
     checkCooperators = (rule, value) => {
-        console.log("check:",value)
-        if (value != undefined && value != ""  &&value.type!="undefined") {
-            if (value.type == "0" && (value.selectedValue == undefined || value.selectedValue == ''))
-            { 
+        console.log("check:", value)
+        if (value != undefined && value != "" && value.type != "undefined") {
+            if (value.type == "0" && (value.selectedValue == undefined || value.selectedValue == '')) {
                 return Promise.reject("校内人员必须从下拉框中区配！");
             }
-            if (value.type=="2" || value.value != "")  return Promise.resolve();
+            if (value.type == "2" || value.value != "") return Promise.resolve();
         }
-        
-        return  Promise.reject("校内请选择人员，校外请输入姓名!");
+
+        return Promise.reject("校内请选择人员，校外请输入姓名!");
     };
 
 
@@ -403,8 +401,8 @@ class ThesisForm extends Component {
 
                     <Form.Item {...tailLayout}>
                         <Space>
+                            <Button type="primary" onClick={this.submit}>保存</Button>
                             <Button type="primary" htmlType="submit">保存并提交</Button>
-                            {/* <Button type="primary" onClick={this.submit}>保存并提交</Button> */}
                         </Space>
                     </Form.Item>
                 </Form>

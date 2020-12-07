@@ -9,7 +9,7 @@ import { isAdminister, isSuperAdminister, isStudent } from '../../utils/auth';
 import { setDepartmentReview, setSchoolReview } from '../../services/Achievements'
 
 const { TextArea } = Input
-const stateList = ['拒绝', '驳回修改', '学院审核中', '学校审核中']
+const stateList = ['拒绝', '修改', '学院审核中', '学校审核中']
 export default class AchievementInfo extends Component {
 
     state = {
