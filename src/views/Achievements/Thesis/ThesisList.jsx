@@ -79,27 +79,29 @@ export default class ThesisList extends Component {
 
         console.log(params)
         const res = await getArticleList(params)
-        if (res) {
-            console.log(res)
+        if (res.result) {
+            //console.log(res)
+            const data = JSON.parse(res.data)
+            //console.log(data)
             let list = []
-            res.map(item =>
+            data.list.map(item =>
                 list.push({
-                    key: '论文_' + item.id,
-                    id: item.id,
+                    key: '论文_' + item.Id,
+                    id: item.Id,
                     title: item.论文名称,
                     collection: item.期刊收录,
                     year: item.发表时间year,
                     issue: item.发表期号,
-                    author: item.sname,
-                    sno: item.sno,
-                    department: item.departmentName,
-                    class: item.className
+                    author: item.Sname,
+                    sno: item.Sno,
+                    department: item.DepartmentName,
+                    class: item.ClassName
                 })
             )
 
             this.setState({
                 dataSource: list,
-                _total: list.length,
+                _total: data.totalNum,
                 loading: false
             })
         }
@@ -187,7 +189,7 @@ export default class ThesisList extends Component {
         const title = (
             <Space>
                 <span>
-                    <span>学院:</span>
+                    <span>学院 </span>
                     <Select
                         value={departmentNo}
                         style={{ width: 180 }}
@@ -198,7 +200,7 @@ export default class ThesisList extends Component {
                     </Select>
                 </span>
                 <span>
-                    <span>状态:</span>
+                    <span>状态 </span>
                     <Select
                         value={state}
                         style={{ width: 100 }}
@@ -210,7 +212,7 @@ export default class ThesisList extends Component {
                     </Select>
                 </span>
                 <span>
-                    <span>题目:</span>
+                    <span>论文题目 </span>
                     <Input
                         allowClear
                         style={{ width: 180 }}
@@ -222,7 +224,7 @@ export default class ThesisList extends Component {
                     />
                 </span>
                 <span>
-                    <span>学号:</span>
+                    <span>学号 </span>
                     <Input
                         allowClear
                         style={{ width: 180 }}

@@ -49,15 +49,15 @@ class ConfirmAchieveList extends Component {
       competition: departmentList && <CompetitionList departmentList={departmentList} />,
       patent: departmentList && <PatentList departmentList={departmentList} />,
     };
-    let extra=
-    (<Button onClick={()=>exportCompetition({},'学生竞赛成果一览表.xls')}> 导出</Button>)
+    // let extra=
+    // (<Button onClick={()=>exportCompetition({},'学生竞赛成果一览表.xls')}> 导出</Button>)
     return (
       <Card
         style={{ width: '100%' }}
         tabList={tabList}
         activeTabKey={key}
         onTabChange={key => this.setState({ key })}
-        extra={extra}
+        //extra={extra}
       >
         {contentList[this.state.key]}
       </Card>

@@ -3,6 +3,7 @@ import { Modal, Table, Button, Card, Space, Select, Input } from 'antd'
 import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
 import { getCompetitionList, getCompetitionByID } from '../../../services/Achievements'
 import CompetitionInfo from './CompetitionInfo'
+import { exportCompetition } from '../../../services/Achievements'
 
 const { Option } = Select
 
@@ -76,24 +77,25 @@ class CompetitionList extends Component {
         }
 
         const res = await getCompetitionList(params)
-        if (res) {
-            console.log(res)
+        if (res.result) {
+            //console.log(res)
+            const data = JSON.parse(res.data)
             let list = []
-            res.map(item =>
+            data.list.map(item =>
                 list.push({
-                    key: '竞赛_' + item.id,
-                    id: item.id,
+                    key: '竞赛_' + item.Id,
+                    id: item.Id,
                     title: item.竞赛名称show,
                     yearMonth: item.获奖时间year + '.' + item.获奖时间month,
-                    head: `${item.sname}(${item.sno})`,
-                    department: item.departmentName,
-                    class: item.className
+                    head: `${item.Sname}(${item.Sno})`,
+                    department: item.DepartmentName,
+                    class: item.ClassName
                 })
             )
 
             this.setState({
                 dataSource: list,
-                _total: list.length,
+                _total: data.totalNum,
                 loading: false
             })
         }
@@ -161,39 +163,55 @@ class CompetitionList extends Component {
         ];
         const title = (
             <Space>
-                <Select
-                    value={departmentNo}
-                    style={{ width: 180 }}
-                    onChange={this.handleDeptChange}
-                >
-                    {departmentList.map(
-                        item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
-                </Select>
-                <Select
-                    value={state}
-                    style={{ width: 100 }}
-                    onChange={this.handleStateChange}
-                >
-                    <Option key='审核通过' value='审核通过' >审核通过</Option>
-                    <Option key='等待审核' value='等待审核' >等待审核</Option>
-                    <Option key='全部' value='全部' >全部</Option>
-                </Select>
-                <Input
-                    style={{ width: 180 }}
-                    addonBefore='学号'
-                    name='sno'
-                    value={sno}
-                    onChange={this.changeValue}
-                    placeholder='精确匹配'
-                />
-                <Input
-                    style={{ width: 180 }}
-                    addonBefore='姓名'
-                    name='partName'
-                    value={partName}
-                    onChange={this.changeValue}
-                    placeholder='模糊匹配'
-                />
+                <span>
+                    <span>学院 </span>
+                    <Select
+                        value={departmentNo}
+                        style={{ width: 180 }}
+                        onChange={this.handleDeptChange}
+                    >
+                        {departmentList.map(
+                            item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
+                    </Select>
+                </span>
+                <span>
+                    <span>状态 </span>
+                    <Select
+                        value={state}
+                        style={{ width: 100 }}
+                        onChange={this.handleStateChange}
+                    >
+                        <Option key='审核通过' value='审核通过' >审核通过</Option>
+                        <Option key='等待审核' value='等待审核' >等待审核</Option>
+                        <Option key='全部' value='全部' >全部</Option>
+                    </Select>
+                </span>
+                <span>
+                    <span>竞赛或作品 </span>
+                    <Input
+                        allowClear
+                        style={{ width: 180 }}
+                        //addonBefore=''
+                        name='partName'
+                        value={partName}
+                        onChange={this.changeValue}
+                        placeholder='模糊匹配'
+                    />
+                </span>
+                <span>
+                    <span>学号 </span>
+                    <Input
+                        allowClear
+                        style={{ width: 180 }}
+                        //addonBefore='学号'
+                        name='sno'
+                        value={sno}
+                        onChange={this.changeValue}
+                        placeholder='精确匹配'
+                    />
+                </span>
+
+
                 <Button
                     type='primary'
                     shape='round'
@@ -204,7 +222,7 @@ class CompetitionList extends Component {
                 </Button>
             </Space>
         )
-        const extra = <Button type='primary'>导出</Button>
+        const extra = <Button type='primary' onClick={()=>exportCompetition({},'学生竞赛成果一览表.xls')}>导出</Button>
         return (
             <Card title={title} extra={extra}>
                 <Table
