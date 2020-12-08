@@ -10,8 +10,8 @@ import SelectManComplete from '../../../components/SelectManComplete'
 
 
 class DepartmentAdministerEdit extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor(...props) {
+    super(...props)
     this.state = {
       dataSource: [],
       visible: false,

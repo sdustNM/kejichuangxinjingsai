@@ -1,4 +1,4 @@
-import { get, post } from '../../utils/request'
+import { get, post,download } from '../../utils/request'
 
 /////////////////////////公共部分////////////////////////////////
 //删除附件
@@ -80,4 +80,8 @@ export function getDDInfo(params){
 }
 export function getTypeList(params){
   return get('/AchieveCompetition/getTypeList', params)
+}
+
+export function exportCompetition(params,filename){
+  return download('/AchieveCommon/exportCompetition', params,filename)
 }
