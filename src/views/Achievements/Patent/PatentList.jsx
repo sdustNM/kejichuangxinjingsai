@@ -6,7 +6,7 @@ import PatentInfo from './PatentInfo'
 import { exportPatent } from '../../../services/Achievements'
 
 const { Option } = Select
-
+const statusList = ['已拒绝', '未提交', '学院审核中', '学校审核中', '审核通过']
 
 class PatentList extends Component {
     state = {
@@ -91,7 +91,8 @@ class PatentList extends Component {
                     patentNo: item.专利申请号,
                     inventor: item.姓名,
                     department: item.学院,
-                    class: item.班级
+                    class: item.班级,
+                    status: statusList[item.State + 1]
                 })
             )
 
@@ -159,8 +160,15 @@ class PatentList extends Component {
                 key: 'class'
             },
             {
+                title: '状态',
+                dataIndex: 'status',
+                key: 'status',
+                fixed: 'right'
+            },
+            {
                 title: '操作',
                 key: 'action',
+                fixed: 'right',
                 render: (text, record) => (
                     <Button
                         type='link'
