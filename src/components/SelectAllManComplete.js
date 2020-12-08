@@ -91,13 +91,16 @@ class SelectManComplete extends React.Component {
     let idorname = ''
 
     if (v.indexOf("undefinded") == -1) {
-      console.log(v)
+      console.log("VVV",v)
       let type = v.split(":")[0]
       let idorname = v.split(":")[1]
+      console.log("VVV",type,idorname)
       this.setState(
         {
           idorname,
           type,
+          autocomDisable:type == "2",
+          selectedValue:'',
         }
       );
 
@@ -115,19 +118,22 @@ class SelectManComplete extends React.Component {
             }
           }
 
-          //第二次加载但没有修改的时候，要能提交给父节点
-          this.triggerChange(
-            {
-              type,
-              selectedValue: type == "0" ? idorname : "",
-              value: idorname
-            }
-          );
         })
       }
       else {
-        this.setState({ value: idorname });
+        this.setState({
+          value: idorname
+        });
       }
+
+      this.triggerChange(
+        {
+          type,
+          selectedValue: type == "0" ? idorname : "",
+          value: idorname
+        }
+      );
+
     }
     else {
       //第二次加载但没有修改的时候，要能提交给父节点

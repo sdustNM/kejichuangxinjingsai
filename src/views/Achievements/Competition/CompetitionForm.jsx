@@ -116,7 +116,7 @@ class CompetitionForm extends Component {
             this.formRef.current.setFieldsValue({
                 competitionLevel: item.等级,
                 competitionType: item.类别,
-                competitionName: item.竞赛名称,
+                competitionName: item.竞赛名称id,
                 group: item.组别,
                 rewardLevel: item.获奖等级,
                 dxjName: item.单项奖名称,
@@ -126,9 +126,9 @@ class CompetitionForm extends Component {
                 mobile: item.联系方式,
                 yhkh: item.银行卡号,
                 sfzh: item.身份证号,
-                others: item.成员列表 && item.成员列表.split(','),
-                teacher: item.第一指导教师,
-                otherTeachers: item.其他指导教师 && item.其他指导教师.split(','),
+                others: item.成员列表id && item.成员列表id.split(','),
+                teacher: item.第一指导教师id,
+                otherTeachers: item.其他指导教师id && item.其他指导教师id.split(','),
                 certificateNo: item.证书编号,
                 reward: this.getAppendixUrls(rewardList),
                 support: this.getAppendixUrls(supportList),
@@ -542,7 +542,7 @@ class CompetitionForm extends Component {
                             },
                         ]}
                     >
-                        <SelectAllManComplete initvalue={this.state.item && this.state.item.第一指导教师} />
+                        <SelectAllManComplete initvalue={this.state.item && this.state.item.第一指导教师id} />
                     </Form.Item>
                     <Form.List name="otherTeachers">
                         {(fields, { add, remove }) => {
