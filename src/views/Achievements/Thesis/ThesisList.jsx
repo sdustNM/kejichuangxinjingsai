@@ -92,10 +92,10 @@ export default class ThesisList extends Component {
                     collection: item.期刊收录,
                     year: item.发表时间year,
                     issue: item.发表期号,
-                    author: item.Sname,
-                    sno: item.Sno,
-                    department: item.DepartmentName,
-                    class: item.ClassName
+                    author: item.姓名,
+                    sno: item.学号,
+                    department: item.学院,
+                    class: item.班级
                 })
             )
 

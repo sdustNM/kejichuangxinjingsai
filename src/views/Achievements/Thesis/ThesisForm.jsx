@@ -103,7 +103,7 @@ class ThesisForm extends Component {
                     issue: item.发表期号,
                     collection: item.期刊收录,
                     mobile: item.联系方式,
-                    others: !item.其他作者 ? [undefined] : item.其他作者.split(','),
+                    others: !item.其他作者id ? [undefined] : item.其他作者id.split(','),
                     cover: this.getAppendixUrls(coverList),
                     contents: this.getAppendixUrls(contentsList),
                     article: this.getAppendixUrls(articleList),
