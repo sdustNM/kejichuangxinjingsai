@@ -80,16 +80,17 @@ class CompetitionList extends Component {
         if (res.result) {
             //console.log(res)
             const data = JSON.parse(res.data)
+            console.log(data)
             let list = []
             data.list.map(item =>
                 list.push({
-                    key: '竞赛_' + item.Id,
-                    id: item.Id,
-                    title: item.竞赛名称show,
-                    yearMonth: item.获奖时间year + '.' + item.获奖时间month,
-                    head: `${item.Sname}(${item.Sno})`,
-                    department: item.DepartmentName,
-                    class: item.ClassName
+                    key: '竞赛_' + item.编号,
+                    id: item.编号,
+                    title: item.竞赛名称,
+                    yearMonth: item.获奖时间,
+                    head: item.学生姓名,
+                    department: item.学院,
+                    class: item.班级
                 })
             )
 

@@ -13,59 +13,41 @@ class CompetitionInfo extends Component {
                     column={3}
                     title='竞赛成果详细信息'
                 >
-                    <Descriptions.Item label={<strong>竞赛名称</strong>}>{info.竞赛名称show}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>竞赛名称</strong>}>{info.竞赛名称}</Descriptions.Item>
                     <Descriptions.Item label={<strong>竞赛等级</strong>}>{info.等级}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>获奖等级</strong>}>{`${info.获奖等级}${info.单项奖名称==null?"":"-"+info.单项奖名称}`}</Descriptions.Item>
-                    
+                    <Descriptions.Item label={<strong>获奖等级</strong>}>{`${info.获奖等级}${info.单项奖名称 == null ? "" : "-" + info.单项奖名称}`}</Descriptions.Item>
+
                     <Descriptions.Item label={<strong>竞赛类别</strong>}>{info.类别}</Descriptions.Item>
                     <Descriptions.Item label={<strong>竞赛组别</strong>}>{info.组别}</Descriptions.Item>
                     <Descriptions.Item label={<strong>主办单位</strong>}>{info.主办单位}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>获奖时间</strong>}>{info.获奖时间year + '-' + info.获奖时间month}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>获奖时间</strong>}>{info.获奖时间}</Descriptions.Item>
                     <Descriptions.Item label={<strong>作品名称</strong>}>{info.作品名称}</Descriptions.Item>
                     <Descriptions.Item label={<strong>证书编号</strong>}>{info.证书编号}</Descriptions.Item>
                     <Descriptions.Item label={<strong>第一负责人</strong>} span={3}>
                         <Descriptions size='small' column={6} bordered layout='vertical'>
-                            <Descriptions.Item label='学号'>{info.Sno}</Descriptions.Item>
-                            <Descriptions.Item label='姓名'>{info.sname}</Descriptions.Item>
+                            <Descriptions.Item label='学号'>{info.学号}</Descriptions.Item>
+                            <Descriptions.Item label='姓名'>{info.学生姓名}</Descriptions.Item>
                             <Descriptions.Item label='学历'>{info.学历层次}</Descriptions.Item>
-                            <Descriptions.Item label='学院'>{info.DepartmentName}</Descriptions.Item>
-                            <Descriptions.Item label='班级'>{info.className}</Descriptions.Item>
+                            <Descriptions.Item label='学院'>{info.学院}</Descriptions.Item>
+                            <Descriptions.Item label='班级'>{info.班级}</Descriptions.Item>
                             <Descriptions.Item label='联系方式'>{info.联系方式}</Descriptions.Item>
                         </Descriptions>
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>团队其他成员</strong>} span={3}>
-                        {info.成员列表show
-                        /* {info.成员列表show && info.成员列表show.map(item => (
-                            <Descriptions size='small' column={6} bordered layout='vertical'>
-                                <Descriptions.Item label='学号'>{item.Sno}</Descriptions.Item>
-                                <Descriptions.Item label='姓名'>{item.sname}</Descriptions.Item>
-                                <Descriptions.Item label='学历'>{item.学历层次}</Descriptions.Item>
-                                <Descriptions.Item label='学院'>{item.DepartmentName}</Descriptions.Item>
-                                <Descriptions.Item label='班级'>{item.className}</Descriptions.Item>
-                                <Descriptions.Item label='联系方式'>{item.联系方式}</Descriptions.Item>
-                            </Descriptions>
-                        ))} */}
+                        {info.成员列表}
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>第一指导教师</strong>} span={3}>
                         <Descriptions size='small' column={3} bordered layout='vertical'>
-                            <Descriptions.Item label='工号'>{info.第一指导教师 && info.第一指导教师.split(':')[1]}</Descriptions.Item>
-                            <Descriptions.Item label='姓名'>{info.tname}</Descriptions.Item>
-                            <Descriptions.Item label='单位'>{info.Tdepartment}</Descriptions.Item>
+                            {/* <Descriptions.Item label='工号'>{info.第一指导教师 && info.第一指导教师.split(':')[1]}</Descriptions.Item> */}
+                            <Descriptions.Item label='姓名'>{info.第一指导教师}</Descriptions.Item>
+                            <Descriptions.Item label='单位'>{info.教师单位}</Descriptions.Item>
                             {/* <Descriptions.Item label='身份证号'>{info.tsfzh}</Descriptions.Item> */}
                         </Descriptions>
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>其他指导教师</strong>} span={3}>
-                        {info.其他指导教师show
-                        /* {info.其他指导教师show && info.其他指导教师show.map(item => (
-                            <Descriptions size='small' column={4} bordered layout='vertical'>
-                                <Descriptions.Item label='工号'>{info.tno}</Descriptions.Item>
-                                <Descriptions.Item label='姓名'>{info.sname}</Descriptions.Item>
-                                <Descriptions.Item label='单位'>{info.tDepartmentName}</Descriptions.Item>
-                                <Descriptions.Item label='身份证号'>{info.tsfzh}</Descriptions.Item>
-                            </Descriptions>
-                        ))} */}
+                        {info.其他指导教师}
                     </Descriptions.Item>
-                    
+
                     <Descriptions.Item label={<strong>获奖证书</strong>} span={3}>
                         {info.rewardAppendix && <AppendixList fileList={info.rewardAppendix} />}
                     </Descriptions.Item>
