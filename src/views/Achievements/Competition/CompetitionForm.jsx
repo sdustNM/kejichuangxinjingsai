@@ -7,7 +7,7 @@ import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
 import { setCompetitionByID, getCompetitionByID, getDDInfo } from '../../../services/Achievements'
 import SelectAllManComplete from '../../../components/SelectAllManComplete';
-import { template } from '@babel/core';
+///import { template } from '@babel/core';
 
 const { Option } = Select
 const { TextArea } = Input
@@ -43,7 +43,8 @@ class CompetitionForm extends Component {
             item: {},
             isDXJ: false,
             rewardList: null,
-            supportList: null
+            supportList: null,
+            noticeList: null
         }
         this.formRef = React.createRef();
     }
@@ -58,6 +59,7 @@ class CompetitionForm extends Component {
         let item = {}
         let rewardList = []
         let supportList = []
+        let noticeList = []
 
         let competitionLevelList = []
         let competitionTypeList = []
@@ -72,6 +74,7 @@ class CompetitionForm extends Component {
                 console.log(item)
                 item.rewardAppendix && (rewardList = item.rewardAppendix)
                 item.supportAppendix && (supportList = item.supportAppendix)
+                item.rewardNoticeAppendix && (noticeList = item.rewardNoticeAppendix)
             }
         }
 
@@ -100,14 +103,15 @@ class CompetitionForm extends Component {
             item,
             isDXJ: item.获奖等级 === '单项奖',
             rewardList,
-            supportList
+            supportList,
+            noticeList
         }, this.setFormValue)
     }
 
     setFormValue = () => {
 
-        const { id, item, rewardList, supportList } = this.state
-        console.log(rewardList, this.getAppendixUrls(rewardList))
+        const { id, item, rewardList, supportList, noticeList } = this.state
+        //console.log(rewardList, this.getAppendixUrls(rewardList))
         if (id) {
             this.formRef.current.setFieldsValue({
                 competitionLevel: item.等级,
@@ -126,8 +130,9 @@ class CompetitionForm extends Component {
                 teacher: item.第一指导教师,
                 otherTeachers: item.其他指导教师 && item.其他指导教师.split(','),
                 certificateNo: item.证书编号,
-                certificate: this.getAppendixUrls(rewardList),
-                evidence: this.getAppendixUrls(supportList),
+                reward: this.getAppendixUrls(rewardList),
+                support: this.getAppendixUrls(supportList),
+                notice: this.getAppendixUrls(noticeList),
                 remark: item.备注
             })
         }
@@ -159,7 +164,7 @@ class CompetitionForm extends Component {
             await this.save(values, 0)
         } catch (errorInfo) {
             alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
-             //console.log('errorInfo:', errorInfo);
+            //console.log('errorInfo:', errorInfo);
         }
     }
 
@@ -185,8 +190,9 @@ class CompetitionForm extends Component {
             "第一指导教师": values.teacher && values.teacher.type && (values.teacher.type + ":" + values.teacher.value),
             "其他指导教师": values.otherTeachers && values.otherTeachers.map(x => x.type + ":" + x.value).join(','),
             "证书编号": values.certificateNo,
-            "证书扫描件url": values.certificate,
-            "证明材料url": values.evidence,
+            "获奖证书url": values.reward,
+            "指导教师证书url": values.support,
+            "获奖通知url": values.notice,
             "备注": values.remark,
             state: flag
         }
@@ -234,8 +240,7 @@ class CompetitionForm extends Component {
     render() {
         const { id, userID, userName, isDXJ,
             competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, item,
-            rewardList,
-            supportList } = this.state
+            rewardList, supportList, noticeList } = this.state
         console.log(rewardList)
         const title = (
             <Space direction="vertical">
@@ -243,7 +248,7 @@ class CompetitionForm extends Component {
                     <strong>竞赛成果申报</strong>
                 </h2>
                 {(id && item.状态备注) && (
-                    <Descriptions title={<span style={{color:'red'}}>{item.状态备注}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
+                    <Descriptions title={<span style={{ color: 'red' }}>{item.状态备注}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{item.学院意见}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{item.学校意见}</Descriptions.Item>
                     </Descriptions>)
@@ -600,7 +605,7 @@ class CompetitionForm extends Component {
                     </Form.Item>
                     <Form.Item
                         label="获奖证书(jpg)"
-                        name="certificate"
+                        name="reward"
                         rules={[
                             {
                                 required: true,
@@ -611,8 +616,20 @@ class CompetitionForm extends Component {
                         {rewardList ? <AchievementAppendixUpload appendixList={rewardList} maxNum={1} maxSize={1} fileType='competition' /> : <></>}
                     </Form.Item>
                     <Form.Item
-                        label="证明材料(jpg)"
-                        name="evidence"
+                        label="获奖通知(jpg)"
+                        name="notice"
+                        rules={[
+                            {
+                                required: true,
+                                message: '至少上传一个盖有主办单位公章的通知图片!',
+                            },
+                        ]}
+                    >
+                        {noticeList ? <AchievementAppendixUpload appendixList={noticeList} maxSize={1} fileType='competition' /> : <></>}
+                    </Form.Item>
+                    <Form.Item
+                        label="项目指导教师证书(jpg)"
+                        name="support"
                     >
                         {supportList ? <AchievementAppendixUpload appendixList={supportList} maxSize={1} fileType='competition' /> : <></>}
                     </Form.Item>

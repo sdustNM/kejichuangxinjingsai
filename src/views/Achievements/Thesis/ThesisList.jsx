@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
-import { Modal, Table, Button } from 'antd'
-import { SearchOutlined, CloseSquareFilled } from '@ant-design/icons'
+import { Modal, Table, Button, Card, Space, Select, Input } from 'antd'
+import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
 import { getArticleList, getArticleByID } from '../../../services/Achievements'
 import ThesisInfo from './ThesisInfo'
 
-
+const { Option } = Select
 
 export default class ThesisList extends Component {
     state = {
+        departmentList: this.props.departmentList,
+        departmentNo: '0',
         sno: '',
         partName: '',
+        state: '审核通过',
         currentPage: 1,
         pageSize: 10,
         loading: false,
@@ -18,7 +21,7 @@ export default class ThesisList extends Component {
     }
 
     componentDidMount() {
-        this.refresh();
+        this.refresh()
     }
 
     pageChange = (currentPage, pageSize) => {
@@ -37,6 +40,22 @@ export default class ThesisList extends Component {
         this.refresh(1, pageSize);
     }
 
+    handleDeptChange = value => {
+        this.setState({
+            departmentNo: value
+        }, this.search)
+    }
+    handleStateChange = value => {
+        this.setState({
+            state: value
+        }, this.search)
+    }
+    changeValue = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
     search = () => {
         this.setState({
             currentPage: 1
@@ -45,28 +64,34 @@ export default class ThesisList extends Component {
     }
 
     refresh = async (currentPage, pageSize) => {
-        const { sno, partName } = this.state
-        this.setState({ loading: true });
+        this.setState({ loading: true })
+        const { departmentNo, state, sno, partName } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
         pageSize = pageSize ? pageSize : this.state.pageSize
         let params = {
+            departmentNo,
+            state,
             sno,
             partName,
             currentPage,
             pageSize
         }
 
+        console.log(params)
         const res = await getArticleList(params)
         if (res) {
-            //console.log(res)
+            console.log(res)
             let list = []
             res.map(item =>
                 list.push({
                     key: '论文_' + item.id,
                     id: item.id,
                     title: item.论文名称,
+                    collection: item.期刊收录,
                     year: item.发表时间year,
+                    issue: item.发表期号,
                     author: item.sname,
+                    sno: item.sno,
                     department: item.departmentName,
                     class: item.className
                 })
@@ -97,12 +122,25 @@ export default class ThesisList extends Component {
         }
     }
     render() {
-        const { loading, dataSource, pageSize, _total, info } = this.state
+        const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state } = this.state
         const columns = [
             {
                 title: '论文题目',
                 dataIndex: 'title',
-                key: 'title'
+                key: 'title',
+                width: 200,
+                fixed: 'left',
+            },
+            {
+                title: '第一作者',
+                dataIndex: 'author',
+                key: 'author',
+                fixed: 'left',
+            },
+            {
+                title: '期刊收录',
+                dataIndex: 'collection',
+                key: 'collection'
             },
             {
                 title: '发表年份',
@@ -110,9 +148,14 @@ export default class ThesisList extends Component {
                 key: 'year'
             },
             {
-                title: '第一作者',
-                dataIndex: 'author',
-                key: 'author'
+                title: '发表期号',
+                dataIndex: 'issue',
+                key: 'issue'
+            },
+            {
+                title: '作者学号',
+                dataIndex: 'sno',
+                key: 'sno'
             },
             {
                 title: '所在学院',
@@ -127,25 +170,89 @@ export default class ThesisList extends Component {
             {
                 title: '操作',
                 key: 'action',
-                render: (text, record) =>
+                fixed: 'right',
+                render: (text, record) => (
                     <Button
-                        type='primary'
+                        type='link'
                         size='small'
-                        shape='round'
                         onClick={() => {
                             this.showInfo(record.id)
                         }}
                     >
-                        <SearchOutlined />
+                        <DoubleRightOutlined />详情
                     </Button>
+                )
             },
         ];
+        const title = (
+            <Space>
+                <span>
+                    <span>学院:</span>
+                    <Select
+                        value={departmentNo}
+                        style={{ width: 180 }}
+                        onChange={this.handleDeptChange}
+                    >
+                        {departmentList.map(
+                            item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
+                    </Select>
+                </span>
+                <span>
+                    <span>状态:</span>
+                    <Select
+                        value={state}
+                        style={{ width: 100 }}
+                        onChange={this.handleStateChange}
+                    >
+                        <Option key='审核通过' value='审核通过' >审核通过</Option>
+                        <Option key='等待审核' value='等待审核' >等待审核</Option>
+                        <Option key='全部' value='全部' >全部</Option>
+                    </Select>
+                </span>
+                <span>
+                    <span>题目:</span>
+                    <Input
+                        allowClear
+                        style={{ width: 180 }}
+                        //addonBefore=''
+                        name='partName'
+                        value={partName}
+                        onChange={this.changeValue}
+                        placeholder='模糊匹配'
+                    />
+                </span>
+                <span>
+                    <span>学号:</span>
+                    <Input
+                        allowClear
+                        style={{ width: 180 }}
+                        //addonBefore='学号'
+                        name='sno'
+                        value={sno}
+                        onChange={this.changeValue}
+                        placeholder='精确匹配'
+                    />
+                </span>
+
+
+                <Button
+                    type='primary'
+                    shape='round'
+                    size='small'
+                    onClick={this.search}
+                >
+                    <SearchOutlined />
+                </Button>
+            </Space>
+        )
+        const extra = <Button type='primary'>导出</Button>
         return (
-            <>
+            <Card title={title} extra={extra}>
                 <Table
                     dataSource={dataSource}
                     columns={columns}
                     loading={loading}
+                    scroll={{ x: 1200 }}
                     pagination={{
                         pageSize: pageSize,
                         pageSizeOptions: ['10', '20', '50', '100'],
@@ -166,7 +273,7 @@ export default class ThesisList extends Component {
                 >
                     {info && <ThesisInfo info={info} size='small' />}
                 </Modal>
-            </>
+            </Card>
         )
     }
 }

@@ -66,10 +66,13 @@ class CompetitionInfo extends Component {
                         ))} */}
                     </Descriptions.Item>
                     
-                    <Descriptions.Item label={<strong>获奖证书(jpg)</strong>} span={3}>
+                    <Descriptions.Item label={<strong>获奖证书</strong>} span={3}>
                         {info.rewardAppendix && <AppendixList fileList={info.rewardAppendix} />}
                     </Descriptions.Item>
-                    <Descriptions.Item label={<strong>证明材料(jpg)</strong>} span={3}>
+                    <Descriptions.Item label={<strong>获奖通知</strong>} span={3}>
+                        {info.rewardNoticeAppendix && <AppendixList fileList={info.rewardNoticeAppendix} />}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={<strong>指导教师证书</strong>} span={3}>
                         {info.supportAppendix && <AppendixList fileList={info.supportAppendix} />}
                     </Descriptions.Item>
                     {(info.State >= 2 || info.State == -1) && <Descriptions.Item label={<strong>审核结果</strong>} span={3}>

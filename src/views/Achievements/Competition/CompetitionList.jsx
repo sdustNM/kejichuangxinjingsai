@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
-import { Modal, Table, Button } from 'antd'
-import { SearchOutlined, CloseSquareFilled } from '@ant-design/icons'
+import { Modal, Table, Button, Card, Space, Select, Input } from 'antd'
+import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
 import { getCompetitionList, getCompetitionByID } from '../../../services/Achievements'
 import CompetitionInfo from './CompetitionInfo'
 
-
+const { Option } = Select
 
 class CompetitionList extends Component {
     state = {
+        departmentList: this.props.departmentList,
+        departmentNo: '0',
         sno: '',
         partName: '',
+        state: '审核通过',
         currentPage: 1,
         pageSize: 10,
         loading: false,
@@ -29,7 +32,6 @@ class CompetitionList extends Component {
         this.refresh(currentPage, pageSize);
     }
     showSizeChange = (current, pageSize) => {
-
         this.setState({
             currentPage: 1,
             pageSize
@@ -37,6 +39,21 @@ class CompetitionList extends Component {
         this.refresh(1, pageSize);
     }
 
+    handleDeptChange = value => {
+        this.setState({
+            departmentNo: value
+        }, this.search)
+    }
+    handleStateChange = value => {
+        this.setState({
+            state: value
+        }, this.search)
+    }
+    changeValue = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
     search = () => {
         this.setState({
             currentPage: 1
@@ -45,11 +62,13 @@ class CompetitionList extends Component {
     }
 
     refresh = async (currentPage, pageSize) => {
-        const { sno, partName } = this.state
         this.setState({ loading: true });
+        const { departmentNo, state, sno, partName } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
         pageSize = pageSize ? pageSize : this.state.pageSize
         let params = {
+            departmentNo,
+            state,
             sno,
             partName,
             currentPage,
@@ -97,7 +116,7 @@ class CompetitionList extends Component {
         }
     }
     render() {
-        const { loading, dataSource, pageSize, _total, info } = this.state
+        const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state } = this.state
         const columns = [
             {
                 title: '竞赛名称',
@@ -127,21 +146,67 @@ class CompetitionList extends Component {
             {
                 title: '操作',
                 key: 'action',
-                render: (text, record) =>
+                render: (text, record) => (
                     <Button
-                        type='primary'
+                        type='link'
                         size='small'
-                        shape='round'
                         onClick={() => {
                             this.showInfo(record.id)
                         }}
                     >
-                        <SearchOutlined />
+                        <DoubleRightOutlined />详情
                     </Button>
+                )
             },
         ];
+        const title = (
+            <Space>
+                <Select
+                    value={departmentNo}
+                    style={{ width: 180 }}
+                    onChange={this.handleDeptChange}
+                >
+                    {departmentList.map(
+                        item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
+                </Select>
+                <Select
+                    value={state}
+                    style={{ width: 100 }}
+                    onChange={this.handleStateChange}
+                >
+                    <Option key='审核通过' value='审核通过' >审核通过</Option>
+                    <Option key='等待审核' value='等待审核' >等待审核</Option>
+                    <Option key='全部' value='全部' >全部</Option>
+                </Select>
+                <Input
+                    style={{ width: 180 }}
+                    addonBefore='学号'
+                    name='sno'
+                    value={sno}
+                    onChange={this.changeValue}
+                    placeholder='精确匹配'
+                />
+                <Input
+                    style={{ width: 180 }}
+                    addonBefore='姓名'
+                    name='partName'
+                    value={partName}
+                    onChange={this.changeValue}
+                    placeholder='模糊匹配'
+                />
+                <Button
+                    type='primary'
+                    shape='round'
+                    size='small'
+                    onClick={this.search}
+                >
+                    <SearchOutlined />
+                </Button>
+            </Space>
+        )
+        const extra = <Button type='primary'>导出</Button>
         return (
-            <>
+            <Card title={title} extra={extra}>
                 <Table
                     dataSource={dataSource}
                     columns={columns}
@@ -166,7 +231,7 @@ class CompetitionList extends Component {
                 >
                     {info && <CompetitionInfo info={info} size='small' />}
                 </Modal>
-            </>
+            </Card>
         )
     }
 }

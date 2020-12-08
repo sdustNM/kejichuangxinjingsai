@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Card } from 'antd';
 import { TrophyOutlined, ExperimentOutlined, FileTextOutlined, } from '@ant-design/icons'
-
 import ThesisList from './Thesis/ThesisList'
 import PatentList from './Patent/PatentList'
 import CompetitionList from './Competition/CompetitionList'
+import getDepartmentList from '../../redux/common'
 
 const tabList = [
   {
@@ -21,24 +21,37 @@ const tabList = [
   }
 ]
 
-const contentList = {
-  article: <ThesisList />,
-  competition: <CompetitionList />,
-  patent: <PatentList />,
-};
+
 
 class ConfirmAchieveList extends Component {
 
   state = {
-    key: 'article'
+    key: 'article',
+    departmentList: null
+  }
+
+  async componentDidMount() {
+    const res = await getDepartmentList()
+    if (res) {
+      let departmentList = JSON.parse(res)
+      if (departmentList.length !== 0) {
+        this.setState({ departmentList })
+      }
+    }
   }
 
   render() {
+    const { key, departmentList } = this.state
+    const contentList = {
+      article: departmentList && <ThesisList departmentList={departmentList} />,
+      competition: departmentList && <CompetitionList departmentList={departmentList} />,
+      patent: departmentList && <PatentList departmentList={departmentList} />,
+    };
     return (
       <Card
         style={{ width: '100%' }}
         tabList={tabList}
-        activeTabKey={this.state.key}
+        activeTabKey={key}
         onTabChange={key => this.setState({ key })}
       >
         {contentList[this.state.key]}
