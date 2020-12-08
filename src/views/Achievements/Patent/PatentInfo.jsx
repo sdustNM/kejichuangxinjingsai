@@ -22,11 +22,11 @@ class PatentInfo extends Component {
                     <Descriptions.Item label={<strong>授权公告日期</strong>}>{info.授权公告日期.substr(0,7)}</Descriptions.Item>
                     <Descriptions.Item label={<strong>第一发明人</strong>} span={3}>
                         <Descriptions size='small' column={6} bordered layout='vertical'>
-                            <Descriptions.Item label='学生学号'>{info.Sno}</Descriptions.Item>
-                            <Descriptions.Item label='学生姓名'>{info.sname}</Descriptions.Item>
+                            <Descriptions.Item label='学生学号'>{info.学号}</Descriptions.Item>
+                            <Descriptions.Item label='学生姓名'>{info.姓名}</Descriptions.Item>
                             <Descriptions.Item label='学历层次'>{info.学历层次}</Descriptions.Item>
-                            <Descriptions.Item label='所在学院'>{info.DepartmentName}</Descriptions.Item>
-                            <Descriptions.Item label='专业班级'>{info.className}</Descriptions.Item>
+                            <Descriptions.Item label='所在学院'>{info.学院}</Descriptions.Item>
+                            <Descriptions.Item label='专业班级'>{info.班级}</Descriptions.Item>
                             <Descriptions.Item label='联系方式'>{info.联系方式}</Descriptions.Item>
                             {
                                 info.专利形式 === '发明' && (
@@ -39,7 +39,7 @@ class PatentInfo extends Component {
                             }
                         </Descriptions>
                     </Descriptions.Item>
-                    <Descriptions.Item label={<strong>其他发明人</strong>} span={3}>{info.其他发明人show || '无'}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>其他发明人</strong>} span={3}>{info.其他发明人 || '无'}</Descriptions.Item>
                     <Descriptions.Item label={<strong>专利证书照片</strong>} span={3}>
                         {info.paperAppendix && <AppendixList fileList={info.paperAppendix} />}
                     </Descriptions.Item>

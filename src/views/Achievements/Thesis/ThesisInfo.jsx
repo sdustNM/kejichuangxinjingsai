@@ -7,7 +7,7 @@ class ThesisInfo extends Component {
         
         const info = this.props.info
         //console.log(info.State)
-        const othersNum = info.otherAuthors? info.otherAuthors.split(',').filter(item => item.trim() !== '').length:0
+        const othersNum = info.其他作者id? info.其他作者id.split(',').filter(item => item.trim() !== '').length:0
         return (
             <Card>
                 <Descriptions
@@ -23,14 +23,14 @@ class ThesisInfo extends Component {
                     <Descriptions.Item label={<strong>期刊收录</strong>}>{info.期刊收录}</Descriptions.Item>
                     <Descriptions.Item label={<strong>第一作者</strong>} span={3}>
                         <Descriptions size='small' column={4} bordered layout='vertical'>
-                            <Descriptions.Item label='学生姓名'>{info.sname}</Descriptions.Item>
+                            <Descriptions.Item label='学生姓名'>{info.姓名}</Descriptions.Item>
                             <Descriptions.Item label='联系方式'>{info.联系方式}</Descriptions.Item>
-                            <Descriptions.Item label='所在学院'>{info.departmentName}</Descriptions.Item>
-                            <Descriptions.Item label='专业班级'>{info.className}</Descriptions.Item>
+                            <Descriptions.Item label='所在学院'>{info.学院}</Descriptions.Item>
+                            <Descriptions.Item label='专业班级'>{info.班级}</Descriptions.Item>
                         </Descriptions>
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>作者人数</strong>}>{othersNum + 1}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>其他作者</strong>} span={2}>{othersNum ? info.otherAuthorsShow : '无'}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>其他作者</strong>} span={2}>{othersNum ? info.其他作者 : '无'}</Descriptions.Item>
                     <Descriptions.Item label={<strong>期刊封面</strong>} span={3}>
                         {info.coverAppendix && <AppendixList fileList={info.coverAppendix} />}
                     </Descriptions.Item>

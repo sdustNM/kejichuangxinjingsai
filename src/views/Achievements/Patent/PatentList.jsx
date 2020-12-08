@@ -88,9 +88,9 @@ class PatentList extends Component {
                     id: item.Id,
                     patentName: item.专利名称,
                     patentNo: item.专利申请号,
-                    inventor: item.Sname,
-                    department: item.DepartmentName,
-                    class: item.ClassName
+                    inventor: item.姓名,
+                    department: item.学院,
+                    class: item.班级
                 })
             )
 
