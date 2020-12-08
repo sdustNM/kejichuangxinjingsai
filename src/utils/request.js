@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { getJwt } from './jwtHelper'
 import config from '../../public/config.json'
+import Axios from 'axios'
 
-export const appRoot = config.approot
+//export const appRoot = config.approot
 //export const appRoot = 'https://kcpt.sdust.edu.cn/manager'
 //export const appRoot = 'http://192.168.34.201:4000'
-//export const appRoot = 'http://localhost:5000'
+export const appRoot = 'http://localhost:5000'
 export const baseURL = `${appRoot}/api`
 
 
@@ -81,6 +82,11 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   //return response;
+  if (response.headers['content-type'].indexOf('application/vnd.ms-excel') > -1
+    && !response.data.hasOwnProperty('responseCode')) {
+    return response;
+  }
+
   if (response.data.hasOwnProperty('result') && !response.data.result) {
     if (response.data.message === "请先登录") {
       window.location.href = "/";
@@ -113,4 +119,27 @@ export function del(url, params) {
   return instance.delete(url, { params })
 }
 
+export function download(url,params,filename)
+{
+  return instance.post(url, params, {
+    headers: {
+        'Content-Type': 'application/vnd.ms-excel', //请求的数据类型为form data格式
+     },
+    'responseType': 'blob'  //设置响应的数据类型为一个包含二进制数据的 Blob 对象，必须设置！！！
+  }).then(function (response) {
+    const blob = new Blob([response.data]); 
 
+    const linkNode = document.createElement('a');
+  
+    linkNode.download = filename; //a标签的download属性规定下载文件的名称
+    linkNode.style.display = 'none';
+    linkNode.href = URL.createObjectURL(blob); //生成一个Blob URL
+    document.body.appendChild(linkNode);
+    linkNode.click();  //模拟在按钮上的一次鼠标单击
+  
+    URL.revokeObjectURL(linkNode.href); // 释放URL 对象
+    document.body.removeChild(linkNode);
+  
+  }).catch(function (error) {
+    console.log(error);
+  })};
