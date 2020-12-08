@@ -6,6 +6,7 @@ import CompetitionInfo from './CompetitionInfo'
 import { exportCompetition } from '../../../services/Achievements'
 
 const { Option } = Select
+const statusList = ['已拒绝', '未提交', '学院审核中', '学校审核中', '审核通过']
 
 class CompetitionList extends Component {
     state = {
@@ -90,7 +91,8 @@ class CompetitionList extends Component {
                     yearMonth: item.获奖时间,
                     head: item.学生姓名,
                     department: item.学院,
-                    class: item.班级
+                    class: item.班级,
+                    status: statusList[item.State + 1]
                 })
             )
 
@@ -145,6 +147,12 @@ class CompetitionList extends Component {
                 title: '专业班级',
                 dataIndex: 'class',
                 key: 'class'
+            },
+            {
+                title: '状态',
+                dataIndex: 'status',
+                key: 'status',
+                //fixed: 'right'
             },
             {
                 title: '操作',

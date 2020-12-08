@@ -6,6 +6,7 @@ import ThesisInfo from './ThesisInfo'
 
 const { Option } = Select
 
+const statusList = ['已拒绝', '未提交', '学院审核中', '学校审核中', '审核通过']
 export default class ThesisList extends Component {
     state = {
         departmentList: this.props.departmentList,
@@ -77,12 +78,12 @@ export default class ThesisList extends Component {
             pageSize
         }
 
-        console.log(params)
+        //console.log(params)
         const res = await getArticleList(params)
         if (res.result) {
             //console.log(res)
             const data = JSON.parse(res.data)
-            //console.log(data)
+            console.log(data)
             let list = []
             data.list.map(item =>
                 list.push({
@@ -95,7 +96,8 @@ export default class ThesisList extends Component {
                     author: item.姓名,
                     sno: item.学号,
                     department: item.学院,
-                    class: item.班级
+                    class: item.班级,
+                    status: statusList[item.State + 1]
                 })
             )
 
@@ -168,6 +170,12 @@ export default class ThesisList extends Component {
                 title: '专业班级',
                 dataIndex: 'class',
                 key: 'class'
+            },
+            {
+                title: '状态',
+                dataIndex: 'status',
+                key: 'status',
+                fixed: 'right'
             },
             {
                 title: '操作',
