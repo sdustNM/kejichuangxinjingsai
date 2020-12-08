@@ -82,6 +82,15 @@ export function getTypeList(params){
   return get('/AchieveCompetition/getTypeList', params)
 }
 
+//导出到Excel中
 export function exportCompetition(params,filename){
   return download('/AchieveCommon/exportCompetition', params,filename)
+}
+
+export function exportPatent(params,filename){
+  return download('/AchieveCommon/exportPatent', params,filename)
+}
+
+export function exportArticle(params,filename){
+  return download('/AchieveCommon/exportArticle', params,filename)
 }

@@ -120,6 +120,17 @@ class CompetitionList extends Component {
             })
         }
     }
+    export =()=>{
+        this.setState({
+            loading:true
+        });
+        exportCompetition({},'学生竞赛成果一览表.xls').then(()=>{
+            this.setState({
+                loading:false
+            });
+
+        })
+    }
     render() {
         const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state } = this.state
         const columns = [
@@ -231,7 +242,7 @@ class CompetitionList extends Component {
                 </Button>
             </Space>
         )
-        const extra = <Button type='primary' onClick={()=>exportCompetition({},'学生竞赛成果一览表.xls')}>导出</Button>
+        const extra = <Button type='primary' onClick={()=>this.export()}>导出</Button>
         return (
             <Card title={title} extra={extra}>
                 <Table
