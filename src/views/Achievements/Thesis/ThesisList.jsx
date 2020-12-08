@@ -3,7 +3,7 @@ import { Modal, Table, Button, Card, Space, Select, Input } from 'antd'
 import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
 import { getArticleList, getArticleByID } from '../../../services/Achievements'
 import ThesisInfo from './ThesisInfo'
-
+import { exportArticle } from '../../../services/Achievements'
 const { Option } = Select
 
 export default class ThesisList extends Component {
@@ -123,6 +123,19 @@ export default class ThesisList extends Component {
             })
         }
     }
+
+    export =()=>{
+        this.setState({
+            loading:true
+        });
+        exportArticle({},'学生论文成果一览表.xls').then(()=>{
+            this.setState({
+                loading:false
+            });
+
+        })
+    }
+
     render() {
         const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state } = this.state
         const columns = [
@@ -247,7 +260,7 @@ export default class ThesisList extends Component {
                 </Button>
             </Space>
         )
-        const extra = <Button type='primary'>导出</Button>
+        const extra = <Button type='primary' onClick={()=>this.export()}>导出</Button>
         return (
             <Card title={title} extra={extra}>
                 <Table

@@ -14,6 +14,11 @@ const bgStyle = {
 }
 export default class Home extends React.Component {
 
+  componentDidMount()
+  {
+    document.title = "大学生科创平台"
+
+  }
   render() {
     return (
       <div style={bgStyle} className="bg">

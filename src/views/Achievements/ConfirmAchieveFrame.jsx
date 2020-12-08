@@ -6,7 +6,6 @@ import PatentList from './Patent/PatentList'
 import CompetitionList from './Competition/CompetitionList'
 import getDepartmentList from '../../redux/common'
 
-import {exportCompetition} from '../../services/Achievements'
 
 const tabList = [
   {

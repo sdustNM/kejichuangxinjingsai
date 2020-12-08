@@ -3,6 +3,7 @@ import { Modal, Table, Button, Card, Space, Select, Input } from 'antd'
 import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
 import { getPatentList, getPatentByID } from '../../../services/Achievements'
 import PatentInfo from './PatentInfo'
+import { exportPatent } from '../../../services/Achievements'
 
 const { Option } = Select
 
@@ -118,6 +119,17 @@ class PatentList extends Component {
             })
         }
     }
+    export =()=>{
+        this.setState({
+            loading:true
+        });
+        exportPatent({},'学生专利成果一览表.xls').then(()=>{
+            this.setState({
+                loading:false
+            });
+
+        })
+    }
     render() {
         const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state } = this.state
         const columns = [
@@ -223,7 +235,7 @@ class PatentList extends Component {
                 </Button>
             </Space>
         )
-        const extra = <Button type='primary'>导出</Button>
+        const extra = <Button type='primary' onClick={()=>this.export()}>导出</Button>
         return (
             <Card title={title} extra={extra}>
                 <Table
