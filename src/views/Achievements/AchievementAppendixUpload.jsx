@@ -64,7 +64,7 @@ class AchievementAppendixUpload extends React.Component {
     });
 
     //console.log(fileList)
-    const urlString = this.getAppendixUrls()
+    const urlString = this.getAppendixUrls(fileList)
     this.setState({
       fileList,
       urlString
@@ -83,10 +83,11 @@ class AchievementAppendixUpload extends React.Component {
       }
     })
   }
-
-  getAppendixUrls = () => {
+List
+  getAppendixUrls = fileList => {
     //console.log(this.state.fileList)
-    return this.state.fileList.reduce((pre, item) => {
+    fileList = fileList || this.state.fileList
+    return fileList.reduce((pre, item) => {
       return pre ? pre + ',' + item.rawUrl : item.rawUrl
     }, null)
   }
