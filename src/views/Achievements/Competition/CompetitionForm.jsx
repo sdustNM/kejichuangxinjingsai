@@ -164,7 +164,7 @@ class CompetitionForm extends Component {
             await this.save(values, 0)
         } catch (errorInfo) {
             alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
-            //console.log('errorInfo:', errorInfo);
+            console.log('errorInfo:', errorInfo);
         }
     }
 
@@ -348,7 +348,7 @@ class CompetitionForm extends Component {
                         rules={[
                             {
                                 validator: async (_, depts) => {
-                                    if (!depts) {
+                                    if (!depts || depts.length < 1) {
                                         return Promise.reject('至少填入一个主办单位！')
                                     }
                                     else { return Promise.resolve() }
