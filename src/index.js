@@ -1,3 +1,9 @@
+import  "./polyfill";
+import 'core-js/es'  
+import  "mutation-observer";
+import  "react-app-polyfill/ie9";
+import  "react-app-polyfill/stable";
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App'
@@ -10,6 +16,11 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import store from './redux/store';
 import {persistor} from './redux/store';
+
+
+
+
+
 import {getJwt} from './utils/jwtHelper'
 // redux 使用举例
 //import store from  './redux/store'
