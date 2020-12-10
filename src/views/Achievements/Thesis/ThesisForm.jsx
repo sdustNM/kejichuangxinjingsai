@@ -59,6 +59,8 @@ const collectionList = [
         name: '其他'
     }
 ]
+const index = ['中文核心期刊', 'SCI', 'EI']
+
 class ThesisForm extends Component {
     constructor(...props) {
         super(...props)
@@ -72,7 +74,10 @@ class ThesisForm extends Component {
             coverList: null,
             contentsList: null,
             articleList: null,
-            stateBz:''
+            stateBz: '',
+            isIndex: false,
+            indexList: null,
+            rewardList: null
         }
         this.formRef = React.createRef();
     }
@@ -85,6 +90,9 @@ class ThesisForm extends Component {
         let yuanReview = ''
         let xiaoReview = ''
         let stateBz = ''
+        let isIndex = false
+        let indexList = []
+        let rewardList = []
         if (id) {
             const res = await getArticleByID({ id })
             //console.log(res)
@@ -94,6 +102,8 @@ class ThesisForm extends Component {
                 item.coverAppendix && (coverList = item.coverAppendix)
                 item.contentsAppendix && (contentsList = item.contentsAppendix)
                 item.articleAppendix && (articleList = item.articleAppendix)
+                item.indexAppendix && (indexList = item.indexAppendix)
+                item.rewardAppendix && (rewardList = item.rewardAppendix)
 
                 console.log(coverList, this.getAppendixUrls(coverList))
                 this.formRef.current.setFieldsValue({
@@ -107,11 +117,14 @@ class ThesisForm extends Component {
                     cover: this.getAppendixUrls(coverList),
                     contents: this.getAppendixUrls(contentsList),
                     article: this.getAppendixUrls(articleList),
+                    index: this.getAppendixUrls(indexList),
+                    reward: this.getAppendixUrls(rewardList),
                     remark: item.备注
                 })
                 stateBz = item.stateBz
                 yuanReview = item.学院意见
                 xiaoReview = item.学校意见
+                isIndex = index.includes(item.期刊收录)
             }
         }
         else {
@@ -125,7 +138,10 @@ class ThesisForm extends Component {
             articleList,
             yuanReview,
             xiaoReview,
-            stateBz
+            stateBz,
+            isIndex,
+            indexList,
+            rewardList
         })
     }
 
@@ -133,6 +149,10 @@ class ThesisForm extends Component {
         return list.reduce((pre, item) => {
             return pre ? pre + ',' + item.url : item.url
         }, null)
+    }
+
+    changeCollection = value => {
+        this.setState({ isIndex: index.includes(value) })
     }
 
     onFinish = async values => {
@@ -147,7 +167,7 @@ class ThesisForm extends Component {
             await this.save(values, 0)
         } catch (errorInfo) {
             alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
-            //console.log('Failed:', errorInfo);
+            console.log('Failed:', errorInfo);
         }
     }
 
@@ -167,6 +187,8 @@ class ThesisForm extends Component {
             "coverUrl": values.cover,
             "contentUrl": values.contents,
             "paperUrl": values.article,
+            "indexUrl": values.index,
+            "rewardUrl": values.reward,
             "bz": values.remark,
             state: flag
         }
@@ -193,14 +215,18 @@ class ThesisForm extends Component {
 
 
     render() {
-        const { id, userID, userName, collectionList, coverList, contentsList, articleList, yuanReview, xiaoReview, stateBz } = this.state
+        console.log(this.formRef)
+        console.log(this.formRef && this.formRef.current && this.formRef.current.getFieldInstance('article'))
+        const { id, userID, userName, collectionList,
+            coverList, contentsList, articleList, yuanReview, xiaoReview, stateBz,
+            isIndex, indexList, rewardList } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
                     <strong>论文成果申报</strong>
                 </h2>
                 {(id && stateBz) && (
-                    <Descriptions title={<span style={{color:'red'}}>{stateBz}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
+                    <Descriptions title={<span style={{ color: 'red' }}>{stateBz}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{yuanReview}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{xiaoReview}</Descriptions.Item>
                     </Descriptions>)
@@ -275,7 +301,7 @@ class ThesisForm extends Component {
                                 message: '收录情况必须选择!',
                             },
                         ]}>
-                        <Select style={{ width: 200 }}>
+                        <Select style={{ width: 200 }} onChange={this.changeCollection}>
                             {collectionList.map(item => <Option key={item.key} value={item.name}>{item.name}</Option>)}
                         </Select>
                     </Form.Item>
@@ -398,7 +424,33 @@ class ThesisForm extends Component {
                     >
                         {articleList ? <AchievementAppendixUpload appendixList={articleList} maxSize={3} fileType='article' /> : <></>}
                     </Form.Item>
-
+                    {
+                        isIndex && (
+                            <Form.Item
+                                label="检索证明"
+                                name="index"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: '中文核心期刊发表或被SCI、EI等检索的的论文，需提交检索证明！',
+                                    },
+                                ]}
+                            >
+                                {indexList ? <AchievementAppendixUpload appendixList={indexList} maxSize={1} fileType='article' /> : <></>}
+                            </Form.Item>
+                        )
+                    }
+                    <Form.Item
+                        label="相关材料"
+                        name="reward"
+                    >
+                        {rewardList ? <AchievementAppendixUpload
+                            appendixList={rewardList}
+                            maxSize={3}
+                            fileType='article'
+                            tip='在校内外会议上获奖的论文，需提交会议通知、获奖作品名单或获奖证书照片或扫描件'
+                        /> : <></>}
+                    </Form.Item>
                     <Form.Item
                         label="备注"
                         name="remark"

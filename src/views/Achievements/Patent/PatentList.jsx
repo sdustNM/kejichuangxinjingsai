@@ -4,6 +4,7 @@ import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-des
 import { getPatentList, getPatentByID } from '../../../services/Achievements'
 import PatentInfo from './PatentInfo'
 import { exportPatent } from '../../../services/Achievements'
+import { isSuperAdminister } from '../../../utils/auth'
 
 const { Option } = Select
 const statusList = ['已拒绝', '未提交', '学院审核中', '学校审核中', '审核通过']
@@ -245,7 +246,7 @@ class PatentList extends Component {
         )
         const extra = <Button type='primary' onClick={()=>this.export()}>导出</Button>
         return (
-            <Card title={title} extra={extra}>
+            <Card title={title} extra={isSuperAdminister() && extra}>
                 <Table
                     dataSource={dataSource}
                     columns={columns}
@@ -265,7 +266,7 @@ class PatentList extends Component {
                     visible={this.state.visible}
                     closeIcon={<CloseSquareFilled style={{ fontSize: 35 }} />}
                     onCancel={() => this.setState({ visible: false })}
-                    width={1000}
+                    width={1200}
                     footer={null}
                 >
                     {info && <PatentInfo info={info} size='small' />}

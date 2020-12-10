@@ -6,7 +6,7 @@ class ThesisInfo extends Component {
     render() {
         
         const info = this.props.info
-        //console.log(info.State)
+        console.log(info)
         const othersNum = info.其他作者id? info.其他作者id.split(',').filter(item => item.trim() !== '').length:0
         return (
             <Card>
@@ -37,9 +37,16 @@ class ThesisInfo extends Component {
                     <Descriptions.Item label={<strong>目录页</strong>} span={3}>
                         {info.contentsAppendix && <AppendixList fileList={info.contentsAppendix} />}
                     </Descriptions.Item>
-                    <Descriptions.Item label={<strong>期刊封面</strong>} span={3}>
+                    <Descriptions.Item label={<strong>论文页</strong>} span={3}>
                         {info.articleAppendix && <AppendixList fileList={info.articleAppendix} />}
                     </Descriptions.Item>
+                    <Descriptions.Item label={<strong>检索证明</strong>} span={3}>
+                        {info.indexAppendix && <AppendixList fileList={info.indexAppendix} />}
+                    </Descriptions.Item>
+                    <Descriptions.Item label={<strong>相关材料</strong>} span={3}>
+                        {info.rewardAppendix && <AppendixList fileList={info.rewardAppendix} />}
+                    </Descriptions.Item>
+
                     {(info.State >= 2 || info.State == -1) && <Descriptions.Item label={<strong>审核结果</strong>} span={3}>
                         <Descriptions size='small' column={3} bordered >
                             <Descriptions.Item label='学院意见' span={3}>{info.学院意见}</Descriptions.Item>

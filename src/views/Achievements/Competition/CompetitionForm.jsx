@@ -241,7 +241,7 @@ class CompetitionForm extends Component {
         const { id, userID, userName, isDXJ,
             competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, item,
             rewardList, supportList, noticeList } = this.state
-        console.log(rewardList)
+        //console.log(rewardList)
         const title = (
             <Space direction="vertical">
                 <h2>
@@ -474,6 +474,10 @@ class CompetitionForm extends Component {
                                 required: true,
                                 message: '身份证号不能为空!',
                             },
+                            {
+                                pattern: /^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|30|31)|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}([0-9]|x|X)$/,
+                                message: '身份证号不合法!',
+                            }
                         ]}
                     >
                         <Input placeholder='请输入身份证号' />

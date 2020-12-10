@@ -111,6 +111,7 @@ List
           <UploadOutlined />
           上传
         </Button>
+        {this.props.tip && <><br></br><sub>{this.props.tip}</sub></>}
       </Upload>
     )
   }
