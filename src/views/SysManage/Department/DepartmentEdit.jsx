@@ -16,25 +16,36 @@ class DepartmentEdit extends React.Component {
 
   formRef = React.createRef();
 
+  refresh = () => {
+    getDepartmentList(true).then(res => {
+      let data = JSON.parse(res);
+      let getone = data.filter(item => item.id === this.props.departmentId)
+      console.log("getone", getone)
+      if (getone && getone.length > 0) {
+        console.log(getone[0].id, getone[0].name)
+        this.formRef.current.setFieldsValue({
+          id: getone[0].id,
+          name: getone[0].name
+        })
+      }
+    })
+   };
+
+  componentDidUpdate(prevProps,prevState) 
+  {
+   // console.log("componentDidUpdate",prevProps,prevState,this.props)
+   let { departmentId } = this.props
+   if (departmentId!=prevProps.departmentId) {
+      this.refresh()
+     }
+   }
+
   componentDidMount() {
-    console.log(this.props)
+    console.log("componentDidMount",this.props)
     const { departmentId } = this.props
     if (departmentId) {
-      getDepartmentList(true).then(res => {
-        let data=JSON.parse(res);
-        let getone=data.filter(item=>item.id===departmentId)
-        console.log("getone",getone)
-        if (getone && getone.length>0) {
-            console.log(getone[0].id,getone[0].name)
-          this.formRef.current.setFieldsValue({
-            id:getone[0].id,
-            name:getone[0].name
-          })
-        }
-      })
-
-
-    }
+        this.refresh()
+      };
   }
 
   onFinish = value => {
