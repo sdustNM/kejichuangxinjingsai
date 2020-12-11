@@ -44,7 +44,8 @@ class CompetitionForm extends Component {
             isDXJ: false,
             rewardList: null,
             supportList: null,
-            noticeList: null
+            noticeList: null,
+            clickDisabled: false
         }
         this.formRef = React.createRef();
     }
@@ -154,17 +155,20 @@ class CompetitionForm extends Component {
     }
 
     onFinish = async values => {
+        this.setState({clickDisabled:true})
         await this.save(values, 1)
     }
 
     submit = async () => {
         try {
+            this.setState({clickDisabled:true})
             const values = await this.formRef.current.validateFields();
             //console.log('Success:', values);
             await this.save(values, 0)
         } catch (errorInfo) {
             alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
             console.log('errorInfo:', errorInfo);
+            this.setState({clickDisabled:false})
         }
     }
 
@@ -203,6 +207,7 @@ class CompetitionForm extends Component {
             message.success('操作成功')
             this.props.history.replace({ pathname: '/student/ReviewList' })
         }
+        this.setState({clickDisabled:false})
     }
 
     checkCooperators = (rule, value) => {
@@ -240,7 +245,7 @@ class CompetitionForm extends Component {
     render() {
         const { id, userID, userName, isDXJ,
             competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, item,
-            rewardList, supportList, noticeList } = this.state
+            rewardList, supportList, noticeList, clickDisabled } = this.state
         //console.log(rewardList)
         const title = (
             <Space direction="vertical">
@@ -645,9 +650,9 @@ class CompetitionForm extends Component {
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>
-                        <Space>
-                            <Button type="primary" onClick={this.submit}>保存</Button>
-                            <Button type="primary" htmlType="submit">保存并提交</Button>
+                    <Space>
+                            <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
+                            <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>
                         </Space>
                     </Form.Item>
                 </Form>

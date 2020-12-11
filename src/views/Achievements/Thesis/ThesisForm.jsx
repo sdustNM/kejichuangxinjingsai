@@ -77,7 +77,8 @@ class ThesisForm extends Component {
             stateBz: '',
             isIndex: false,
             indexList: null,
-            rewardList: null
+            rewardList: null,
+            clickDisabled: false
         }
         this.formRef = React.createRef();
     }
@@ -156,18 +157,21 @@ class ThesisForm extends Component {
     }
 
     onFinish = async values => {
+        this.setState({clickDisabled:true})
         //console.log(values)
         await this.save(values, 1)
     }
 
     submit = async () => {
         try {
+            this.setState({clickDisabled:true})
             const values = await this.formRef.current.validateFields();
             //console.log('Success:', values);
             await this.save(values, 0)
         } catch (errorInfo) {
             alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
             console.log('Failed:', errorInfo);
+            this.setState({clickDisabled:false})
         }
     }
 
@@ -199,6 +203,7 @@ class ThesisForm extends Component {
             message.success('操作成功')
             this.props.history.replace({ pathname: '/student/ReviewList' })
         }
+        this.setState({clickDisabled:false})
     }
 
     checkCooperators = (rule, value) => {
@@ -219,7 +224,7 @@ class ThesisForm extends Component {
         console.log(this.formRef && this.formRef.current && this.formRef.current.getFieldInstance('article'))
         const { id, userID, userName, collectionList,
             coverList, contentsList, articleList, yuanReview, xiaoReview, stateBz,
-            isIndex, indexList, rewardList } = this.state
+            isIndex, indexList, rewardList, clickDisabled } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
@@ -460,8 +465,8 @@ class ThesisForm extends Component {
 
                     <Form.Item {...tailLayout}>
                         <Space>
-                            <Button type="primary" onClick={this.submit}>保存</Button>
-                            <Button type="primary" htmlType="submit">保存并提交</Button>
+                            <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
+                            <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>
                         </Space>
                     </Form.Item>
                 </Form>

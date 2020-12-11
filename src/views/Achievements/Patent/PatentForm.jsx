@@ -35,7 +35,8 @@ class PatentForm extends Component {
             yuanReview: '',
             xiaoReview: '',
             fileList: null,
-            stateBz:''
+            stateBz:'',
+            clickDisabled: false
         }
         this.formRef = React.createRef();
     }
@@ -92,18 +93,21 @@ class PatentForm extends Component {
     }
 
     onFinish = async values => {
+        this.setState({clickDisabled:true})
         console.log(values)
         await this.save(values, 1)
     }
 
     submit = async () => {
         try {
+            this.setState({clickDisabled:true})
             const values = await this.formRef.current.validateFields();
             //console.log('Success:', values);
             await this.save(values, 0)
           } catch (errorInfo) {
             //console.log('Failed:', errorInfo);
             alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
+            this.setState({clickDisabled:false})
           }
     }
 
@@ -128,13 +132,15 @@ class PatentForm extends Component {
             state: flag
         }
 
-        console.log(values)
-        console.log(params)
+        //console.log(values)
+        //console.log(params)
         const res = await setPatentByID(params)
         if (res.result) {
             message.success('操作成功')
             this.props.history.replace({ pathname: '/student/reviewList' })
         }
+        this.setState({clickDisabled:false})
+        
     }
     checkCooperators = (rule, value) => {
         console.log("check:", value)
@@ -150,7 +156,7 @@ class PatentForm extends Component {
 
 
     render() {
-        const { id, type, userID, userName, fileList, yuanReview, xiaoReview, stateBz } = this.state
+        const { id, type, userID, userName, fileList, yuanReview, xiaoReview, stateBz, clickDisabled } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
@@ -401,8 +407,8 @@ class PatentForm extends Component {
 
                     <Form.Item {...tailLayout}>
                         <Space>
-                            <Button type="primary" onClick={this.submit}>保存</Button>
-                            <Button type="primary" htmlType="submit">保存并提交</Button>
+                            <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
+                            <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>
                             {/*  */}
                         </Space>
                     </Form.Item>
