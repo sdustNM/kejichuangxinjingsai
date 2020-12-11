@@ -13,17 +13,18 @@ export default class MyColumn extends Component {
             yField: 'number',
             seriesField: 'achievement',
             //scrollbar: { type: 'horizontal'},
-            slider: {
-                start: 0,
-                end: 0.1
-            },
+            // slider: {
+            //     start: 0,
+            //     end: 0.1
+            // },
+            color: ['red', 'green', 'blue'],
             columnWidthRatio: 0.8,
             marginRatio: 0.2,
-            // xAxis: {
-            //     label: {
-            //         autoRotate: true
-            //     }
-            // },
+            xAxis: {
+                label: {
+                    autoRotate: true
+                }
+            },
             label: {
                 position: 'middle',
                 layout: [

@@ -109,7 +109,7 @@ export default class Chart extends Component {
         const { articleData, patentData, competitionData, departmentTotal } = this.state
         return (
             <Card>
-                <Space>
+                <Space size='large'>
                     {articleData && <MyPie title='论文统计' data={articleData} />}
                     {patentData && <MyPie title='专利统计' data={patentData} />}
                     {competitionData && <MyPie title='竞赛统计' data={competitionData} />}
