@@ -4,7 +4,7 @@ import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-des
 import { getArticleList, getArticleByID } from '../../../services/Achievements'
 import ThesisInfo from './ThesisInfo'
 import { exportArticle } from '../../../services/Achievements'
-import { isSuperAdminister } from '../../../utils/auth'
+import { isStudent } from '../../../utils/auth'
 const { Option } = Select
 
 const statusList = ['已拒绝', '未提交', '学院审核中', '学校审核中', '审核通过']
@@ -280,7 +280,7 @@ export default class ThesisList extends Component {
         )
         const extra = <Button type='primary' onClick={()=>this.export()}>导出</Button>
         return (
-            <Card title={title} extra={isSuperAdminister() && extra}>
+            <Card title={!isStudent() && title} extra={!isStudent() && extra}>
                 <Table
                     dataSource={dataSource}
                     columns={columns}

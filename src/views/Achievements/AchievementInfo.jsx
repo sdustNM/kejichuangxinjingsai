@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Card, Space, Modal, Input, message } from 'antd'
+import { Button, Card, Space, Modal, Input, message, Popconfirm } from 'antd'
 import { DoubleLeftOutlined } from '@ant-design/icons'
 import ThesisInfo from './Thesis/ThesisInfo';
 import CompetitionInfo from './Competition/CompetitionInfo';
 import PatentInfo from './Patent/PatentInfo';
-import { getArticleByID, getCompetitionByID, getPatentByID} from '../../services/Achievements'
+import { getArticleByID, getCompetitionByID, getPatentByID } from '../../services/Achievements'
 import { isAdminister, isSuperAdminister, isStudent } from '../../utils/auth';
 import { setDepartmentReview, setSchoolReview } from '../../services/Achievements'
 
@@ -45,34 +45,34 @@ export default class AchievementInfo extends Component {
                 break;
         }
         console.log(info)
-        if(info){
+        if (info) {
             this.setState({
                 info,
                 status: stateList[info.State + 1]
             })
         }
-            
+
     }
 
     getThesisInfo = async () => {
         const { id } = this.state
         const res = await getArticleByID({ id })
         if (res.result) {
-            return JSON.parse(res.data)  
+            return JSON.parse(res.data)
         }
     }
     getCompetitionInfo = async () => {
         const { id } = this.state
         const res = await getCompetitionByID({ id })
         if (res.result) {
-            return JSON.parse(res.data)  
+            return JSON.parse(res.data)
         }
     }
     getPatentInfo = async () => {
         const { id } = this.state
         const res = await getPatentByID({ id })
         if (res.result) {
-            return JSON.parse(res.data)  
+            return JSON.parse(res.data)
         }
     }
 
@@ -137,7 +137,14 @@ export default class AchievementInfo extends Component {
             <Space size='large'>
                 <Button type='primary' onClick={() => this.showModal(1)}>审核通过</Button>
                 <Button type='primary' onClick={() => this.showModal(0)}>驳回修改</Button>
-                <Button type='danger' onClick={() => this.showModal(-1)}>终止</Button>
+                <Popconfirm
+                    title="终止后的项目，将不能再次修改提交，请确认！"
+                    onConfirm={() => this.showModal(-1)}
+                    okText="确认"
+                    cancelText="取消"
+                >
+                    <Button type='danger'>终止</Button>
+                </Popconfirm>
             </Space>
         )
         const extra = (
