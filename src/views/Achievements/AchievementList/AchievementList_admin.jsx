@@ -17,7 +17,7 @@ export default class AchievementList extends Component {
             student: '',
             dataSource: null,
             currentPage: 1,
-            pageSize: 5,
+            pageSize: 10,
             loading: false,
             _total: 0,
         }
