@@ -5,7 +5,7 @@ import ThesisList from './Thesis/ThesisList'
 import PatentList from './Patent/PatentList'
 import CompetitionList from './Competition/CompetitionList'
 import getDepartmentList from '../../redux/common'
-
+import { getDeptID, isStudent } from '../../utils/auth';
 
 const tabList = [
   {
@@ -27,14 +27,19 @@ const tabList = [
 class ConfirmAchieveList extends Component {
 
   state = {
+    departmentNo: getDeptID(),
+    showSearch: !isStudent(),
     key: 'article',
-    departmentList: null
+    departmentList: null,
   }
 
   async componentDidMount() {
     const res = await getDepartmentList()
     if (res) {
       let departmentList = JSON.parse(res)
+      if (this.state.departmentNo != 0) {
+        departmentList = departmentList.filter(item => item.id == this.state.departmentNo)
+      }
       if (departmentList.length !== 0) {
         this.setState({ departmentList })
       }
@@ -42,11 +47,12 @@ class ConfirmAchieveList extends Component {
   }
 
   render() {
-    const { key, departmentList } = this.state
+    console.log(this.state.showSearch)
+    const { key, departmentList, showSearch, departmentNo } = this.state
     const contentList = {
-      article: departmentList && <ThesisList departmentList={departmentList} />,
-      competition: departmentList && <CompetitionList departmentList={departmentList} />,
-      patent: departmentList && <PatentList departmentList={departmentList} />,
+      article: departmentList && <ThesisList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
+      competition: departmentList && <CompetitionList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
+      patent: departmentList && <PatentList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
     };
     // let extra=
     // (<Button onClick={()=>exportCompetition({},'学生竞赛成果一览表.xls')}> 导出</Button>)
@@ -56,7 +62,7 @@ class ConfirmAchieveList extends Component {
         tabList={tabList}
         activeTabKey={key}
         onTabChange={key => this.setState({ key })}
-        //extra={extra}
+      //extra={extra}
       >
         {contentList[this.state.key]}
       </Card>
