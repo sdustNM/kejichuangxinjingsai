@@ -4,15 +4,15 @@ import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-des
 import { getPatentList, getPatentByID } from '../../../services/Achievements'
 import PatentInfo from './PatentInfo'
 import { exportPatent } from '../../../services/Achievements'
-import { isSuperAdminister } from '../../../utils/auth'
 
 const { Option } = Select
 const statusList = ['已拒绝', '未提交', '学院审核中', '学校审核中', '审核通过']
 
 class PatentList extends Component {
     state = {
+        showSearch: this.props.showSearch,
         departmentList: this.props.departmentList,
-        departmentNo: '0',
+        departmentNo: this.props.departmentNo,
         sno: '',
         partName: '',
         state: '审核通过',
@@ -125,7 +125,9 @@ class PatentList extends Component {
         this.setState({
             loading:true
         });
-        exportPatent({},'学生专利成果一览表.xls').then(()=>{
+        const { departmentNo, state, sno, partName } = this.state
+        const params = { departmentNo, state, sno, partName }
+        exportPatent(params,'学生专利成果一览表.xls').then(()=>{
             this.setState({
                 loading:false
             });
@@ -133,7 +135,7 @@ class PatentList extends Component {
         })
     }
     render() {
-        const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state } = this.state
+        const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state, showSearch } = this.state
         const columns = [
             {
                 title: '成果编号',
@@ -251,7 +253,7 @@ class PatentList extends Component {
         )
         const extra = <Button type='primary' onClick={()=>this.export()}>导出</Button>
         return (
-            <Card title={title} extra={isSuperAdminister() && extra}>
+            <Card title={showSearch && title} extra={showSearch && extra}>
                 <Table
                     dataSource={dataSource}
                     columns={columns}
