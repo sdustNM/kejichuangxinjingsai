@@ -34,28 +34,26 @@ class CompetitionInfo extends Component {
                         </Descriptions>
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>团队其他成员</strong>} span={3}>
-                        {info.成员列表}
+                        {info.成员列表 || '无'}
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>第一指导教师</strong>} span={3}>
-                        <Descriptions size='small' column={3} bordered layout='vertical'>
-                            {/* <Descriptions.Item label='工号'>{info.第一指导教师 && info.第一指导教师.split(':')[1]}</Descriptions.Item> */}
+                        {info.第一指导教师 ? (<Descriptions size='small' column={3} bordered layout='vertical'>
                             <Descriptions.Item label='姓名'>{info.第一指导教师}</Descriptions.Item>
                             <Descriptions.Item label='单位'>{info.教师单位}</Descriptions.Item>
-                            {/* <Descriptions.Item label='身份证号'>{info.tsfzh}</Descriptions.Item> */}
-                        </Descriptions>
+                        </Descriptions>) : '无'}
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>其他指导教师</strong>} span={3}>
-                        {info.其他指导教师}
+                        {info.其他指导教师 || '无'}
                     </Descriptions.Item>
 
                     <Descriptions.Item label={<strong>获奖证书</strong>} span={3}>
-                        {info.rewardAppendix && <AppendixList fileList={info.rewardAppendix} />}
+                        {info.rewardAppendix.length > 0 ? <AppendixList fileList={info.rewardAppendix} /> : '无'}
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>获奖通知</strong>} span={3}>
-                        {info.rewardNoticeAppendix && <AppendixList fileList={info.rewardNoticeAppendix} />}
+                        {info.rewardNoticeAppendix.length > 0 ? <AppendixList fileList={info.rewardNoticeAppendix} /> : '无'}
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>指导教师证书</strong>} span={3}>
-                        {info.supportAppendix && <AppendixList fileList={info.supportAppendix} />}
+                        {info.supportAppendix.length > 0 ? <AppendixList fileList={info.supportAppendix} /> : '无'}
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>备注</strong>} span={3}>{info.备注}</Descriptions.Item>
 
