@@ -122,9 +122,9 @@ export function del(url, params) {
 export function download(url,params,filename)
 {
   return instance.post(url, params, {
-    headers: {
-        'Content-Type': 'application/vnd.ms-excel', //请求的数据类型为form data格式
-     },
+    // headers: {
+    //     'Content-Type': 'application/vnd.ms-excel', //请求的数据类型为form data格式
+    //  },
     'responseType': 'blob'  //设置响应的数据类型为一个包含二进制数据的 Blob 对象，必须设置！！！
   }).then(function (response) {
     const blob = new Blob([response.data]); 
