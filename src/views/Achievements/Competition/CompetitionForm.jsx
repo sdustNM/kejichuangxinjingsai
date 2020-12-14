@@ -72,7 +72,7 @@ class CompetitionForm extends Component {
             const res = await getCompetitionByID({ id })
             if (res.result) {
                 item = JSON.parse(res.data)
-                console.log(item)
+                //console.log(item)
                 item.rewardAppendix && (rewardList = item.rewardAppendix)
                 item.supportAppendix && (supportList = item.supportAppendix)
                 item.rewardNoticeAppendix && (noticeList = item.rewardNoticeAppendix)
@@ -246,13 +246,13 @@ class CompetitionForm extends Component {
         const { id, userID, userName, isDXJ,
             competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, item,
             rewardList, supportList, noticeList, clickDisabled } = this.state
-        //console.log(rewardList)
+        //console.log(item)
         const title = (
             <Space direction="vertical">
                 <h2>
                     <strong>竞赛成果申报</strong>
                 </h2>
-                {(id && item.状态备注) && (
+                {id  && (
                     <Descriptions title={<span style={{ color: 'red' }}>{item.状态备注}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{item.学院意见}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{item.学校意见}</Descriptions.Item>
