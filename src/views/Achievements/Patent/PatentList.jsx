@@ -136,14 +136,19 @@ class PatentList extends Component {
         const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state } = this.state
         const columns = [
             {
-                title: '专利申请号',
-                dataIndex: 'patentNo',
-                key: 'patentNo'
+                title: '成果编号',
+                dataIndex: 'id',
+                key: 'id'
             },
             {
                 title: '专利名称',
                 dataIndex: 'patentName',
                 key: 'patentName'
+            },
+            {
+                title: '专利申请号',
+                dataIndex: 'patentNo',
+                key: 'patentNo'
             },
             {
                 title: '第一发明人',

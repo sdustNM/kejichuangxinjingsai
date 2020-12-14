@@ -131,7 +131,9 @@ export default class ThesisList extends Component {
         this.setState({
             loading:true
         });
-        exportArticle({},'学生论文成果一览表.xls').then(()=>{
+        const { departmentNo, state, sno, partName } = this.state
+        const params = { departmentNo, state, sno, partName }
+        exportArticle(params,'学生论文成果一览表.xls').then(()=>{
             this.setState({
                 loading:false
             });
@@ -142,6 +144,13 @@ export default class ThesisList extends Component {
     render() {
         const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state } = this.state
         const columns = [
+            {
+                title: '成果编号',
+                dataIndex: 'id',
+                key: 'id',
+                width: 100,
+                fixed: 'left',
+            },
             {
                 title: '论文题目',
                 dataIndex: 'title',

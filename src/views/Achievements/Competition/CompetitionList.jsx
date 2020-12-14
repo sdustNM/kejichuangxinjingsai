@@ -136,6 +136,11 @@ class CompetitionList extends Component {
         const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state } = this.state
         const columns = [
             {
+                title: '成果编号',
+                dataIndex: 'id',
+                key: 'id'
+            },
+            {
                 title: '竞赛名称',
                 dataIndex: 'title',
                 key: 'title'
