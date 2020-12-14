@@ -89,6 +89,7 @@ class CompetitionList extends Component {
                     key: '竞赛_' + item.编号,
                     id: item.编号,
                     title: item.竞赛名称,
+                    work: item.作品名称,
                     yearMonth: item.获奖时间,
                     head: item.学生姓名,
                     department: item.学院,
@@ -136,6 +137,7 @@ class CompetitionList extends Component {
     }
     render() {
         const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state, showSearch } = this.state
+        console.log(info)
         const columns = [
             {
                 title: '成果编号',
@@ -146,6 +148,11 @@ class CompetitionList extends Component {
                 title: '竞赛名称',
                 dataIndex: 'title',
                 key: 'title'
+            },
+            {
+                title: '作品名称',
+                dataIndex: 'work',
+                key: 'work'
             },
             {
                 title: '获奖年月',
@@ -215,7 +222,7 @@ class CompetitionList extends Component {
                     </Select>
                 </span>
                 <span>
-                    <span>竞赛或作品 </span>
+                    <span>成果编号或竞赛、作品名称 </span>
                     <Input
                         allowClear
                         style={{ width: 180 }}
@@ -223,11 +230,11 @@ class CompetitionList extends Component {
                         name='partName'
                         value={partName}
                         onChange={this.changeValue}
-                        placeholder='模糊匹配'
+                        placeholder=''
                     />
                 </span>
                 <span>
-                    <span>学号 </span>
+                    <span>学号或姓名 </span>
                     <Input
                         allowClear
                         style={{ width: 180 }}

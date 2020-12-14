@@ -244,7 +244,7 @@ export default class ThesisList extends Component {
                     </Select>
                 </span>
                 <span>
-                    <span>论文题目 </span>
+                    <span>编号或题目 </span>
                     <Input
                         allowClear
                         style={{ width: 180 }}
@@ -252,11 +252,11 @@ export default class ThesisList extends Component {
                         name='partName'
                         value={partName}
                         onChange={this.changeValue}
-                        placeholder='模糊匹配'
+                        placeholder=''
                     />
                 </span>
                 <span>
-                    <span>学号 </span>
+                    <span>学号或姓名 </span>
                     <Input
                         allowClear
                         style={{ width: 180 }}

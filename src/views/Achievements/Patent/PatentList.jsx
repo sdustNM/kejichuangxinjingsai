@@ -216,7 +216,7 @@ class PatentList extends Component {
                     </Select>
                 </span>
                 <span>
-                    <span>专利名称 </span>
+                    <span>成果编号或专利名称 </span>
                     <Input
                         allowClear
                         style={{ width: 180 }}
@@ -228,7 +228,7 @@ class PatentList extends Component {
                     />
                 </span>
                 <span>
-                    <span>学号 </span>
+                    <span>学号或姓名 </span>
                     <Input
                         allowClear
                         style={{ width: 180 }}

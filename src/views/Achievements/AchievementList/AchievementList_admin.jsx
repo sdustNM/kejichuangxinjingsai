@@ -188,7 +188,7 @@ export default class AchievementList extends Component {
                     <span>成果信息 </span>
                     <Input
                         allowClear
-                        style={{ width: 180 }}
+                        style={{ width: 200 }}
                         //addonBefore=''
                         name='achieve'
                         value={achieve}
@@ -200,7 +200,7 @@ export default class AchievementList extends Component {
                     <span>学生信息 </span>
                     <Input
                         allowClear
-                        style={{ width: 180 }}
+                        style={{ width: 200 }}
                         //addonBefore='学号'
                         name='student'
                         value={student}
