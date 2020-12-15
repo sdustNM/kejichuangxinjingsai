@@ -11,9 +11,9 @@ class CompetitionInfo extends Component {
                     bordered
                     size={this.props.size}
                     column={3}
-                    title='竞赛成果详细信息'
+                    title={`竞赛成果详细信息(编号：${info.编号})`}
                 >
-                    <Descriptions.Item label={<strong>编号</strong>}>{info.编号}</Descriptions.Item>
+                    {/* <Descriptions.Item label={<strong>编号</strong>}>{info.编号}</Descriptions.Item> */}
                     <Descriptions.Item label={<strong>竞赛名称</strong>}>{info.竞赛名称}</Descriptions.Item>
                     <Descriptions.Item label={<strong>竞赛等级</strong>}>{info.等级}</Descriptions.Item>
                     <Descriptions.Item label={<strong>获奖等级</strong>}>{`${info.获奖等级}${info.单项奖名称 == null ? "" : "-" + info.单项奖名称}`}</Descriptions.Item>

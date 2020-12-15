@@ -13,6 +13,7 @@ import { appRoot } from '../../utils/request';
 import '../../utils/config'
 import { UserOutlined } from '@ant-design/icons'
 import RoleSelecter from './RoleSelecter'
+import { getNeedReviewCount } from '../../services/Dashboard'
 const { Header, Content, Sider, Footer } = Layout;
 const { SubMenu } = Menu;
 
@@ -21,7 +22,14 @@ const { SubMenu } = Menu;
 class MyLayout extends React.Component {
 
   state = {
-    count: Math.floor(Math.random()*10)
+    count: 0
+  }
+
+  async componentDidMount() {
+    const res = await getNeedReviewCount()
+    if (res.result) {
+      this.setState({ count: res.data })
+    }
   }
 
   popMenu = () => {
@@ -97,7 +105,13 @@ class MyLayout extends React.Component {
                               <Menu.Item key={y.path} icon={y.icon}
                                 onClick={p => this.props.history.push({ pathname: p.key, state: { myid: 1 } })}
                               >
-                                {y.title/* {y.path === '/administer/reviewList' ? <Badge count={this.state.count}>{y.title} </Badge> : y.title} */}
+                                {y.path.indexOf('/reviewList') != -1 ? (
+                                  <Badge
+                                    count={this.state.count}
+                                    showZero
+                                  >
+                                    {y.title}
+                                  </Badge>) : <>{y.title}</>}
                               </Menu.Item>
                             );
                           })
@@ -110,7 +124,8 @@ class MyLayout extends React.Component {
 
                       <Menu.Item
                         key={m.path}
-                        onClick={p => this.props.history.push(p.key)}>
+                        onClick={p => this.props.history.push(p.key)}
+                      >
                         {m.icon}{m.title}
                       </Menu.Item>
 
