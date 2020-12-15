@@ -59,20 +59,16 @@ export default class Chart extends Component {
         ]
         const competitionData = [
             {
-                type: 'A类',
+                type: '国赛',
                 value: 27,
             },
             {
-                type: 'B类',
+                type: '省赛',
                 value: 25,
             },
             {
-                type: 'C类',
+                type: '市赛',
                 value: 18,
-            },
-            {
-                type: '其他',
-                value: 36,
             }
         ]
         const res = await getDepartmentList()
