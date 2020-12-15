@@ -16,8 +16,8 @@ export default class AchievementList extends Component {
             achieve: '',
             student: '',
             dataSource: null,
-            currentPage: 1,
-            pageSize: 5,
+            currentPage: this.props.location.state.currentPage || 1,
+            pageSize: this.props.location.state.pageSize || 10,
             loading: false,
             _total: 0,
         }
@@ -31,7 +31,6 @@ export default class AchievementList extends Component {
             if (this.state.departmentNo != 0) {
                 departmentList = departmentList.filter(item => item.id == this.state.departmentNo)
             }
-            console.log(getDeptID(), departmentList)
             if (departmentList.length !== 0) {
                 this.setState({ departmentList }, this.refresh)
             }
@@ -43,23 +42,21 @@ export default class AchievementList extends Component {
         this.setState({
             currentPage,
             pageSize
-        })
-        this.refresh(currentPage, pageSize);
+        }, this.refresh)
+
     }
     showSizeChange = (current, pageSize) => {
 
         this.setState({
             currentPage: 1,
             pageSize
-        })
-        this.refresh(1, pageSize);
+        }, this.refresh)
     }
 
     search = () => {
         this.setState({
             currentPage: 1
-        })
-        this.refresh(1)
+        }, this.refresh)   
     }
 
     handleDeptChange = value => {
@@ -75,6 +72,7 @@ export default class AchievementList extends Component {
     }
 
     refresh = async (currentPage, pageSize) => {
+        console.log(this.state.currentPage, this.state.pageSize)
         this.setState({ loading: true });
         const { departmentNo, achieve, student } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
@@ -121,7 +119,7 @@ export default class AchievementList extends Component {
 
 
     render() {
-        const { dataSource, loading, pageSize, _total, departmentList, departmentNo, achieve, student } = this.state
+        const { dataSource, loading, currentPage, pageSize, _total, departmentList, departmentNo, achieve, student } = this.state
         const columns = [
             {
                 title: '成果类别',
@@ -164,7 +162,15 @@ export default class AchievementList extends Component {
                             shape='round'
                             onClick={() => {
                                 //console.log("record.name:", record.name)
-                                this.props.history.push({ pathname: '/administer/achievementsInfo', state: { id: record.ID, type: record.type } })
+                                this.props.history.push({
+                                    pathname: '/administer/achievementsInfo',
+                                    state: {
+                                        id: record.ID,
+                                        type: record.type,
+                                        currentPage,
+                                        pageSize
+                                    }
+                                })
                             }}
                         >查看</Button>
                     </Space>
@@ -227,8 +233,9 @@ export default class AchievementList extends Component {
                     columns={columns}
                     loading={loading}
                     pagination={{
+                        defaultCurrent: currentPage,
                         pageSize: pageSize,
-                        pageSizeOptions: ['5', '10', '20', '50'],
+                        pageSizeOptions: ['10', '20', '50', '100'],
                         showSizeChanger: true,
                         showQuickJumper: true,
                         total: _total,

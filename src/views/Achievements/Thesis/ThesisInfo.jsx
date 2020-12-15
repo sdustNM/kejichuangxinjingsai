@@ -32,24 +32,24 @@ class ThesisInfo extends Component {
                     <Descriptions.Item label={<strong>作者人数</strong>}>{othersNum + 1}</Descriptions.Item>
                     <Descriptions.Item label={<strong>其他作者</strong>} span={2}>{othersNum ? info.其他作者 : '无'}</Descriptions.Item>
                     <Descriptions.Item label={<strong>期刊封面</strong>} span={3}>
-                        {info.coverAppendix && <AppendixList fileList={info.coverAppendix} />}
+                        {info.coverAppendix && info.coverAppendix.length > 0 ? <AppendixList fileList={info.coverAppendix} /> : '无'}
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>目录页</strong>} span={3}>
-                        {info.contentsAppendix && <AppendixList fileList={info.contentsAppendix} />}
+                        {info.contentsAppendix && info.contentsAppendix.length > 0 ? <AppendixList fileList={info.contentsAppendix} /> : '无'}
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>论文页</strong>} span={3}>
-                        {info.articleAppendix && <AppendixList fileList={info.articleAppendix} />}
+                        {info.articleAppendix && info.articleAppendix.length > 0 ? <AppendixList fileList={info.articleAppendix} /> : '无'}
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>检索证明</strong>} span={3}>
-                        {info.indexAppendix && <AppendixList fileList={info.indexAppendix} />}
+                        {info.indexAppendix && info.indexAppendix.length > 0 ? <AppendixList fileList={info.indexAppendix} /> : '无'}
                     </Descriptions.Item>
                     <Descriptions.Item label={<strong>相关材料</strong>} span={3}>
-                        {info.rewardAppendix && <AppendixList fileList={info.rewardAppendix} />}
+                        {info.rewardAppendix && info.rewardAppendix.length > 0 ? <AppendixList fileList={info.rewardAppendix} /> : '无'}
                     </Descriptions.Item>
 
                     {(info.State >= 2 || info.State == -1) && <Descriptions.Item label={<strong>审核结果</strong>} span={3}>
                         <Descriptions size='small' column={3} bordered >
-                            <Descriptions.Item label='学院意见' span={3}>{info.学院意见}</Descriptions.Item>
+                            <Descriptions.Item label='学院意见' span={3}>{info.学院意见 || '无'}</Descriptions.Item>
                             {(info.State >= 3 || info.State == -1) && <Descriptions.Item label='学校意见' span={3}>{info.学校意见}</Descriptions.Item>}
                         </Descriptions>
                     </Descriptions.Item>}

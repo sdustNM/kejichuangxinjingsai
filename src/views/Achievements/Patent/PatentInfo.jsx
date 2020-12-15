@@ -18,8 +18,8 @@ class PatentInfo extends Component {
                     <Descriptions.Item label={<strong>专利申请号</strong>}>{info.专利申请号}</Descriptions.Item>
                     <Descriptions.Item label={<strong>专利形式</strong>}>{info.专利类型}</Descriptions.Item>
                     <Descriptions.Item label={<strong>专利权人</strong>}>{info.专利权人}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>申请日期</strong>}>{info.申请时间.substr(0,7)}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>授权公告日期</strong>}>{info.授权公告日期.substr(0,7)}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>申请日期</strong>}>{info.申请时间.substr(0,10)}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>授权公告日期</strong>}>{info.授权公告日期.substr(0,10)}</Descriptions.Item>
                     <Descriptions.Item label={<strong>第一发明人</strong>} span={3}>
                         <Descriptions size='small' column={6} bordered layout='vertical'>
                             <Descriptions.Item label='学生学号'>{info.学号}</Descriptions.Item>

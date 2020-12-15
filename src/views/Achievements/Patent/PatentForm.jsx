@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Card, Form, Radio, Input, Button, DatePicker, Space, message, Descriptions } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { MinusCircleOutlined, PlusOutlined, DoubleLeftOutlined } from '@ant-design/icons'
 import moment from "moment"
-import { getUserID, getUserName } from "../../../utils/auth"
+import { getUserID, getUserName, isStudent } from "../../../utils/auth"
 import SelectManComplete from '../../../components/SelectAllManComplete'
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
@@ -28,6 +28,7 @@ class PatentForm extends Component {
     constructor(...props) {
         super(...props)
         this.state = {
+            isStudent: isStudent(),
             id: props[0].location.state && props[0].location.state.id,
             type: '',
             userID: getUserID(),
@@ -35,8 +36,9 @@ class PatentForm extends Component {
             yuanReview: '',
             xiaoReview: '',
             fileList: null,
-            stateBz:'',
-            clickDisabled: false
+            stateBz: '',
+            clickDisabled: false,
+            state: 0
         }
         this.formRef = React.createRef();
     }
@@ -47,6 +49,8 @@ class PatentForm extends Component {
         let yuanReview = ''
         let xiaoReview = ''
         let stateBz = ''
+        let state = 0
+
         if (id) {
             const res = await getPatentByID({ id })
             //console.log(res)
@@ -54,13 +58,13 @@ class PatentForm extends Component {
                 const item = JSON.parse(res.data)
                 console.log(item)
                 item.paperAppendix && (fileList = item.paperAppendix)
-
-
                 this.formRef.current.setFieldsValue({
                     patentName: item.专利名称,
                     patentNo: item.专利申请号,
                     patentType: item.专利类型,
                     patentee: item.专利权人,
+                    studentName: item.姓名,
+                    studentNo: item.学号,
                     mobile: item.联系方式,
                     others: !item.其他发明人id ? [undefined] : item.其他发明人id.split(','),
                     applicationDate: !item.申请时间 ? null : moment(item.申请时间, 'YYYY-MM-DD'),
@@ -68,6 +72,7 @@ class PatentForm extends Component {
                     photo: this.getAppendixUrls(fileList),
                     remark: item.备注
                 })
+                state = item.State
                 stateBz = item.状态备注
                 yuanReview = item.学院意见
                 xiaoReview = item.学校意见
@@ -75,14 +80,17 @@ class PatentForm extends Component {
         }
         else {
             this.formRef.current.setFieldsValue({
-                others: [undefined]
+                others: [undefined],
+                studentName: getUserName(),
+                studentNo: getUserID(),
             })
         }
         this.setState({
             fileList,
             yuanReview,
             xiaoReview,
-            stateBz
+            stateBz,
+            state
         })
     }
 
@@ -93,29 +101,40 @@ class PatentForm extends Component {
     }
 
     onFinish = async values => {
-        this.setState({clickDisabled:true})
-        console.log(values)
+        this.setState({ clickDisabled: true })
+        //console.log(values)
         await this.save(values, 1)
     }
 
     submit = async () => {
         try {
-            this.setState({clickDisabled:true})
+            this.setState({ clickDisabled: true })
             const values = await this.formRef.current.validateFields();
             //console.log('Success:', values);
             await this.save(values, 0)
-          } catch (errorInfo) {
+        } catch (errorInfo) {
             //console.log('Failed:', errorInfo);
             alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
-            this.setState({clickDisabled:false})
-          }
+            this.setState({ clickDisabled: false })
+        }
+    }
+    adminSubmit = async () => {
+        try {
+            this.setState({ clickDisabled: true })
+            const values = await this.formRef.current.validateFields();
+            await this.save(values, this.state.state)
+        } catch (errorInfo) {
+            alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
+            //console.log('Failed:', errorInfo);
+            this.setState({ clickDisabled: false })
+        }
     }
 
     save = async (values, flag) => {
-        const { id, userID } = this.state
+        const { id } = this.state
         const params = {
             id,
-            sno: userID,
+            sno: values.studentNo,
             "专利名称": values.patentName,
             "专利权人": values.patentee,
             "专利类型": values.patentType,
@@ -137,10 +156,10 @@ class PatentForm extends Component {
         const res = await setPatentByID(params)
         if (res.result) {
             message.success('操作成功')
-            this.props.history.replace({ pathname: '/student/reviewList' })
+            this.back()
         }
-        this.setState({clickDisabled:false})
-        
+        this.setState({ clickDisabled: false })
+
     }
     checkCooperators = (rule, value) => {
         console.log("check:", value)
@@ -154,24 +173,34 @@ class PatentForm extends Component {
         return Promise.reject("校内请选择人员，校外请输入姓名!");
     };
 
+    back = () => {
+        if (this.state.isStudent) {
+            this.props.history.replace({ pathname: '/student/ReviewList' })
+        } else {
+            this.props.history.go(-1)
+        }
+    }
 
     render() {
-        const { id, type, userID, userName, fileList, yuanReview, xiaoReview, stateBz, clickDisabled } = this.state
+        const { id, type, fileList, yuanReview, xiaoReview, stateBz, clickDisabled } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
                     <strong>专利成果申报</strong>
                 </h2>
                 {(id && stateBz) && (
-                    <Descriptions title={<span style={{color:'red'}}>{stateBz}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
+                    <Descriptions title={<span style={{ color: 'red' }}>{stateBz}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
                         <Descriptions.Item label='学院意见' span={3}>{yuanReview}</Descriptions.Item>
                         <Descriptions.Item label='学校意见' span={3}>{xiaoReview}</Descriptions.Item>
                     </Descriptions>)
                 }
             </Space>
         )
+        const extra = (
+            <Button onClick={this.back}><DoubleLeftOutlined />返回</Button>
+        )
         return (
-            <Card title={title}>
+            <Card title={title} extra={extra}>
                 <Form
                     {...layout}
                     name="patent"
@@ -236,13 +265,25 @@ class PatentForm extends Component {
                         <Input placeholder='山东科技大学或其它单位、个人' />
                     </Form.Item>
                     <Form.Item
-                        label="第一发明人"
-                        name="inventor"
-                        initialValue={`${userName}(${userID})`}
+                        label="发明人姓名"
+                        name="studentName"
                         rules={[
                             {
                                 required: true,
-                                message: '第一发明人不能为空!',
+                                message: '第一发明人姓名不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input readOnly style={{ width: 200 }} />
+
+                    </Form.Item >
+                    <Form.Item
+                        label="发明人学号"
+                        name="studentNo"
+                        rules={[
+                            {
+                                required: true,
+                                message: '第一发明人学号不能为空!',
                             },
                         ]}
                     >
@@ -406,11 +447,14 @@ class PatentForm extends Component {
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>
-                        <Space>
+                        {this.state.isStudent ? (<Space>
                             <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
                             <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>
-                            {/*  */}
-                        </Space>
+                            <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
+                        </Space>) : (<Space>
+                            <Button type="primary" onClick={this.adminSubmit} disabled={clickDisabled}>保存</Button>
+                            <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
+                        </Space>)}
                     </Form.Item>
                 </Form>
             </Card>

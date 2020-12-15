@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions } from 'antd';
 import { MinusCircleOutlined, PlusOutlined, DoubleLeftOutlined } from '@ant-design/icons'
 import moment from "moment"
-import { getUserID, getUserName } from "../../../utils/auth"
+import { getUserID, getUserName, isStudent } from "../../../utils/auth"
 import SelectManComplete from '../../../components/SelectAllManComplete'
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
@@ -66,8 +66,6 @@ class ThesisForm extends Component {
         super(...props)
         this.state = {
             id: props[0].location.state && props[0].location.state.id,
-            userID: getUserID(),
-            userName: getUserName(),
             collectionList: collectionList,
             yuanReview: '',
             xiaoReview: '',
@@ -78,7 +76,9 @@ class ThesisForm extends Component {
             isIndex: false,
             indexList: null,
             rewardList: null,
-            clickDisabled: false
+            clickDisabled: false,
+            state: 0,
+            isStudent: isStudent()
         }
         this.formRef = React.createRef();
     }
@@ -94,25 +94,28 @@ class ThesisForm extends Component {
         let isIndex = false
         let indexList = []
         let rewardList = []
+        let state = 0
         if (id) {
             const res = await getArticleByID({ id })
             //console.log(res)
             if (res.result) {
                 const item = JSON.parse(res.data)
-                console.log(item)
+                //console.log(item)
                 item.coverAppendix && (coverList = item.coverAppendix)
                 item.contentsAppendix && (contentsList = item.contentsAppendix)
                 item.articleAppendix && (articleList = item.articleAppendix)
                 item.indexAppendix && (indexList = item.indexAppendix)
                 item.rewardAppendix && (rewardList = item.rewardAppendix)
 
-                console.log(coverList, this.getAppendixUrls(coverList))
+                //console.log(coverList, this.getAppendixUrls(coverList))
                 this.formRef.current.setFieldsValue({
                     thesisName: item.论文名称,
                     journal: item.发表期刊,
                     publishYear: !item.发表时间year ? null : moment(item.发表时间year, 'YYYY'),
                     issue: item.发表期号,
                     collection: item.期刊收录,
+                    studentName: item.姓名,
+                    studentNo: item.学号,
                     mobile: item.联系方式,
                     others: !item.其他作者id ? [undefined] : item.其他作者id.split(','),
                     cover: this.getAppendixUrls(coverList),
@@ -120,17 +123,21 @@ class ThesisForm extends Component {
                     article: this.getAppendixUrls(articleList),
                     index: this.getAppendixUrls(indexList),
                     reward: this.getAppendixUrls(rewardList),
-                    remark: item.备注
+                    remark: item.备注,
                 })
                 stateBz = item.stateBz
                 yuanReview = item.学院意见
                 xiaoReview = item.学校意见
                 isIndex = index.includes(item.期刊收录)
+                state = item.State
             }
+
         }
         else {
             this.formRef.current.setFieldsValue({
-                others: [undefined]
+                others: [undefined],
+                studentName: getUserName(),
+                studentNo: getUserID(),
             })
         }
         this.setState({
@@ -142,7 +149,8 @@ class ThesisForm extends Component {
             stateBz,
             isIndex,
             indexList,
-            rewardList
+            rewardList,
+            state
         })
     }
 
@@ -157,30 +165,40 @@ class ThesisForm extends Component {
     }
 
     onFinish = async values => {
-        this.setState({clickDisabled:true})
+        this.setState({ clickDisabled: true })
         //console.log(values)
         await this.save(values, 1)
     }
 
     submit = async () => {
         try {
-            this.setState({clickDisabled:true})
+            this.setState({ clickDisabled: true })
             const values = await this.formRef.current.validateFields();
-            //console.log('Success:', values);
             await this.save(values, 0)
         } catch (errorInfo) {
             alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
-            console.log('Failed:', errorInfo);
-            this.setState({clickDisabled:false})
+            //console.log('Failed:', errorInfo);
+            this.setState({ clickDisabled: false })
+        }
+    }
+    adminSubmit = async () => {
+        try {
+            this.setState({ clickDisabled: true })
+            const values = await this.formRef.current.validateFields();
+            await this.save(values, this.state.state)
+        } catch (errorInfo) {
+            alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
+            //console.log('Failed:', errorInfo);
+            this.setState({ clickDisabled: false })
         }
     }
 
     save = async (values, flag) => {
-        const { id, userID } = this.state
-        console.log(values.others)
+        const { id } = this.state
+        //console.log(values.others)
         const params = {
             id,
-            sno: userID,
+            sno: values.studentNo,
             "articleName": values.thesisName,
             "journal": values.journal,
             "publishYear": values.publishYear && values.publishYear.format('YYYY'),
@@ -197,13 +215,13 @@ class ThesisForm extends Component {
             state: flag
         }
 
-        console.log(params)
+        //console.log(params)
         const res = await setArticleByID(params)
         if (res.result) {
             message.success('操作成功')
-            this.props.history.replace({ pathname: '/student/ReviewList' })
+            this.back()
         }
-        this.setState({clickDisabled:false})
+        this.setState({ clickDisabled: false })
     }
 
     checkCooperators = (rule, value) => {
@@ -218,11 +236,19 @@ class ThesisForm extends Component {
         return Promise.reject("校内请选择人员，校外请输入姓名!");
     };
 
+    back = () => {
+        if (this.state.isStudent) {
+            this.props.history.replace({ pathname: '/student/ReviewList' })
+        } else {
+            this.props.history.go(-1)
+        }
+    }
+
 
     render() {
-        console.log(this.formRef)
-        console.log(this.formRef && this.formRef.current && this.formRef.current.getFieldInstance('article'))
-        const { id, userID, userName, collectionList,
+        //console.log(this.formRef)
+        //console.log(this.formRef && this.formRef.current && this.formRef.current.getFieldInstance('article'))
+        const { id, collectionList,
             coverList, contentsList, articleList, yuanReview, xiaoReview, stateBz,
             isIndex, indexList, rewardList, clickDisabled } = this.state
         const title = (
@@ -238,9 +264,8 @@ class ThesisForm extends Component {
                 }
             </Space>
         )
-        const extra = (
-            <Button onClick={() => { this.props.history.go(-1) }}><DoubleLeftOutlined />返回</Button>
-        )
+        const extra = <Button onClick={this.back}><DoubleLeftOutlined />返回</Button>
+
         return (
             <Card title={title} extra={extra}>
                 <Form
@@ -312,13 +337,25 @@ class ThesisForm extends Component {
                     </Form.Item>
 
                     <Form.Item
-                        label="第一作者"
-                        name="student"
-                        initialValue={`${userName}(${userID})`}
+                        label="作者姓名"
+                        name="studentName"
                         rules={[
                             {
                                 required: true,
-                                message: '第一作者不能为空!',
+                                message: '作者姓名不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input readOnly style={{ width: 200 }} />
+
+                    </Form.Item >
+                    <Form.Item
+                        label="作者学号"
+                        name="studentNo"
+                        rules={[
+                            {
+                                required: true,
+                                message: '作者学号不能为空!',
                             },
                         ]}
                     >
@@ -464,10 +501,14 @@ class ThesisForm extends Component {
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>
-                        <Space>
+                        {this.state.isStudent ? (<Space>
                             <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
                             <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>
-                        </Space>
+                            <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
+                        </Space>) : (<Space>
+                            <Button type="primary" onClick={this.adminSubmit} disabled={clickDisabled}>保存</Button>
+                            <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
+                        </Space>)}
                     </Form.Item>
                 </Form>
             </Card>

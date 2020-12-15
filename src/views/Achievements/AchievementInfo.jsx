@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Card, Space, Modal, Input, message, Popconfirm } from 'antd'
-import { DoubleLeftOutlined } from '@ant-design/icons'
+import { DoubleLeftOutlined, EditOutlined } from '@ant-design/icons'
 import ThesisInfo from './Thesis/ThesisInfo';
 import CompetitionInfo from './Competition/CompetitionInfo';
 import PatentInfo from './Patent/PatentInfo';
@@ -13,6 +13,8 @@ const stateList = ['拒绝', '修改', '学院审核中', '学校审核中']
 export default class AchievementInfo extends Component {
 
     state = {
+        currentPage: this.props.location.state && this.props.location.state.currentPage,
+        pageSize: this.props.location.state && this.props.location.state.pageSize,
         id: this.props.location.state && this.props.location.state.id,
         type: this.props.location.state && this.props.location.state.type,
         info: null,
@@ -103,8 +105,14 @@ export default class AchievementInfo extends Component {
         }
         if (res.result) {
             message.success('操作成功！')
-            this.props.history.replace({ pathname: '/administer/reviewList' })
+            this.backToList()
         }
+    }
+
+    backToList = () => {
+        const { currentPage, pageSize } = this.state
+        //console.log(currentPage, pageSize)
+        this.props.history.replace({ pathname: '/administer/reviewList', state: { currentPage, pageSize } })
     }
 
     handleCancel = () => {
@@ -116,6 +124,25 @@ export default class AchievementInfo extends Component {
 
     changeRemark = e => {
         this.setState({ remark: e.target.value })
+    }
+
+    handleEdit = () => {
+        const { id, type, currentPage, pageSize } = this.state
+        let pathname
+        switch (type) {
+            case '论文':
+                pathname = '/administer/thesisForm'
+                break;
+            case '竞赛':
+                pathname = '/administer/competitionForm'
+                break;
+            case '专利':
+                pathname = '/administer/patentForm'
+                break;
+            default:
+                break;
+        }
+        this.props.history.push({ pathname, state: { id } })
     }
 
     render() {
@@ -148,7 +175,12 @@ export default class AchievementInfo extends Component {
             </Space>
         )
         const extra = (
-            <Button onClick={() => { this.props.history.go(-1) }}><DoubleLeftOutlined />返回</Button>
+            <Space>
+                <Button type='link' onClick={this.handleEdit}><EditOutlined />修改</Button>
+                <Button
+                    onClick={this.backToList}
+                ><DoubleLeftOutlined />返回</Button>
+            </Space>
         )
         return (
             <>

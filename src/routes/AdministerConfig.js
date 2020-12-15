@@ -14,7 +14,9 @@ import AchievementInfo from '../views/Achievements/AchievementInfo';
 import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
 import DDCompetitionList from '../views/SysManage/DDCompetitionList/DDCompetitionList';
 import Chart from '../views/Charts/Chart';
-
+import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
+import PatentForm from "../views/Achievements/Patent/PatentForm"
+import CompetitionForm from "../views/Achievements/Competition/CompetitionForm"
 
 export const administerConfig = [
 
@@ -96,9 +98,19 @@ export const administerConfig = [
     exact:true
   },
   {
-    path:'/administer/exportCompetition',
-    component:Chart,
-    exact:true
+    path: '/administer/thesisForm',
+    component: ThesisForm,
+    exact: true,
+  },
+  {
+    path: '/administer/patentForm',
+    component: PatentForm,
+    exact: true,
+  },
+  {
+    path: '/administer/competitionForm',
+    component: CompetitionForm,
+    exact: true,
   }
 
   // {

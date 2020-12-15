@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions, Tag } from 'antd';
-import { ConsoleSqlOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { DoubleLeftOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import moment from "moment"
-import { getUserID, getUserName } from "../../../utils/auth"
+import { getUserID, getUserName, isStudent } from "../../../utils/auth"
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
 import { setCompetitionByID, getCompetitionByID, getDDInfo } from '../../../services/Achievements'
@@ -33,23 +33,21 @@ class CompetitionForm extends Component {
         super(...props)
         this.state = {
             id: props[0].location.state && props[0].location.state.id,
-            userID: getUserID(),
-            userName: getUserName(),
             competitionLevelList: [],
             competitionTypeList: [],
             competitionTypeName: {},
             competitionNameList: [],
             rewardLevelList: [],
-            item: {},
+            competition: {},
             isDXJ: false,
             rewardList: null,
             supportList: null,
             noticeList: null,
-            clickDisabled: false
+            clickDisabled: false,
+            isStudent: isStudent()
         }
         this.formRef = React.createRef();
     }
-
 
     componentDidMount() {
         this.initForm()
@@ -57,7 +55,7 @@ class CompetitionForm extends Component {
 
     initForm = async () => {
         const { id } = this.state
-        let item = {}
+        let competition = {}
         let rewardList = []
         let supportList = []
         let noticeList = []
@@ -71,11 +69,10 @@ class CompetitionForm extends Component {
         if (id) {
             const res = await getCompetitionByID({ id })
             if (res.result) {
-                item = JSON.parse(res.data)
-                //console.log(item)
-                item.rewardAppendix && (rewardList = item.rewardAppendix)
-                item.supportAppendix && (supportList = item.supportAppendix)
-                item.rewardNoticeAppendix && (noticeList = item.rewardNoticeAppendix)
+                competition = JSON.parse(res.data)
+                competition.rewardAppendix && (rewardList = competition.rewardAppendix)
+                competition.supportAppendix && (supportList = competition.supportAppendix)
+                competition.rewardNoticeAppendix && (noticeList = competition.rewardNoticeAppendix)
             }
         }
 
@@ -90,8 +87,8 @@ class CompetitionForm extends Component {
             competitionLevelList = data.ddLevel
             competitionTypeList = data.ddType
             rewardLevelList = data.ddRewardLevel
-            if (item && item.类别) {
-                competitionNameList = competitionName[item.类别]
+            if (competition && competition.类别) {
+                competitionNameList = competitionName[competition.类别]
             }
         }
 
@@ -101,8 +98,8 @@ class CompetitionForm extends Component {
             rewardLevelList,
             competitionTypeName,
             competitionNameList,
-            item,
-            isDXJ: item.获奖等级 === '单项奖',
+            competition,
+            isDXJ: competition.获奖等级 === '单项奖',
             rewardList,
             supportList,
             noticeList
@@ -111,36 +108,40 @@ class CompetitionForm extends Component {
 
     setFormValue = () => {
 
-        const { id, item, rewardList, supportList, noticeList } = this.state
+        const { id, competition, rewardList, supportList, noticeList } = this.state
         //console.log(rewardList, this.getAppendixUrls(rewardList))
         if (id) {
             this.formRef.current.setFieldsValue({
-                competitionLevel: item.等级,
-                competitionType: item.类别,
-                competitionName: item.竞赛名称id,
-                group: item.组别,
-                rewardLevel: item.获奖等级,
-                dxjName: item.单项奖名称,
-                zbdw: item.主办单位 && item.主办单位.split(','),
-                yearMonth: item.获奖时间 ? moment(item.获奖时间, 'YYYY.MM') : null,
-                works: item.作品名称,
-                mobile: item.联系方式,
-                yhkh: item.银行卡号,
-                sfzh: item.身份证号,
-                others: item.成员列表id && item.成员列表id.split(','),
-                teacher: item.第一指导教师id,
-                otherTeachers: item.其他指导教师id && item.其他指导教师id.split(','),
-                certificateNo: item.证书编号,
+                competitionLevel: competition.等级,
+                competitionType: competition.类别,
+                competitionName: competition.竞赛名称id,
+                group: competition.组别,
+                rewardLevel: competition.获奖等级,
+                dxjName: competition.单项奖名称,
+                zbdw: competition.主办单位 && competition.主办单位.split(','),
+                yearMonth: competition.获奖时间 ? moment(competition.获奖时间, 'YYYY.MM') : null,
+                works: competition.作品名称,
+                studentName: competition.学生姓名,
+                studentNo: competition.学号,
+                mobile: competition.联系方式,
+                yhkh: competition.银行卡号,
+                sfzh: competition.身份证号,
+                others: competition.成员列表id && competition.成员列表id.split(','),
+                teacher: competition.第一指导教师id,
+                otherTeachers: competition.其他指导教师id && competition.其他指导教师id.split(','),
+                certificateNo: competition.证书编号,
                 reward: this.getAppendixUrls(rewardList),
                 support: this.getAppendixUrls(supportList),
                 notice: this.getAppendixUrls(noticeList),
-                remark: item.备注
+                remark: competition.备注
             })
         }
         else {
             this.formRef.current.setFieldsValue({
                 others: [undefined],
-                otherTeachers: [undefined]
+                otherTeachers: [undefined],
+                studentName: getUserName(),
+                studentNo: getUserID(),
             })
         }
 
@@ -149,34 +150,42 @@ class CompetitionForm extends Component {
 
     getAppendixUrls = list => {
         console.log(list)
-        return list.reduce((pre, item) => {
-            return pre ? pre + ',' + item.rawUrl : item.rawUrl
+        return list.reduce((pre, competition) => {
+            return pre ? pre + ',' + competition.rawUrl : competition.rawUrl
         }, null)
     }
 
     onFinish = async values => {
-        this.setState({clickDisabled:true})
+        this.setState({ clickDisabled: true })
         await this.save(values, 1)
     }
 
     submit = async () => {
         try {
-            this.setState({clickDisabled:true})
+            this.setState({ clickDisabled: true })
             const values = await this.formRef.current.validateFields();
-            //console.log('Success:', values);
             await this.save(values, 0)
         } catch (errorInfo) {
             alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
-            console.log('errorInfo:', errorInfo);
-            this.setState({clickDisabled:false})
+            this.setState({ clickDisabled: false })
+        }
+    }
+    adminSubmit = async () => {
+        try {
+            this.setState({ clickDisabled: true })
+            const values = await this.formRef.current.validateFields();
+            await this.save(values, this.state.competition.State)
+        } catch (errorInfo) {
+            alert(`保存失败,请认真核对所填信息:${errorInfo.errorFields[0].errors[0]}`)
+            this.setState({ clickDisabled: false })
         }
     }
 
     save = async (values, flag) => {
-        const { id, userID } = this.state
+        const { id } = this.state
         const params = {
             id,
-            sno: userID,
+            sno: values.studentNo,
             "等级": values.competitionLevel,
             "类别": values.competitionType,
             "竞赛名称": values.competitionName,
@@ -205,9 +214,17 @@ class CompetitionForm extends Component {
         const res = await setCompetitionByID(params)
         if (res.result) {
             message.success('操作成功')
-            this.props.history.replace({ pathname: '/student/ReviewList' })
+            this.back()
         }
-        this.setState({clickDisabled:false})
+        this.setState({ clickDisabled: false })
+    }
+
+    back = () => {
+        if (this.state.isStudent) {
+            this.props.history.replace({ pathname: '/student/ReviewList' })
+        } else {
+            this.props.history.go(-1)
+        }
     }
 
     checkCooperators = (rule, value) => {
@@ -244,25 +261,24 @@ class CompetitionForm extends Component {
 
     render() {
         const { id, userID, userName, isDXJ,
-            competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, item,
+            competitionLevelList, competitionTypeList, competitionNameList, rewardLevelList, competition,
             rewardList, supportList, noticeList, clickDisabled } = this.state
-        //console.log(item)
         const title = (
             <Space direction="vertical">
                 <h2>
                     <strong>竞赛成果申报</strong>
                 </h2>
-                {id  && (
-                    <Descriptions title={<span style={{ color: 'red' }}>{item.状态备注}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
-                        <Descriptions.Item label='学院意见' span={3}>{item.学院意见}</Descriptions.Item>
-                        <Descriptions.Item label='学校意见' span={3}>{item.学校意见}</Descriptions.Item>
+                {id && (
+                    <Descriptions title={<span style={{ color: 'red' }}>{competition.状态备注}</span>} style={{ width: '100%' }} size='small' column={3} bordered >
+                        <Descriptions.Item label='学院意见' span={3}>{competition.学院意见}</Descriptions.Item>
+                        <Descriptions.Item label='学校意见' span={3}>{competition.学校意见}</Descriptions.Item>
                     </Descriptions>)
                 }
             </Space>
         )
-
+        const extra = <Button onClick={this.back}><DoubleLeftOutlined />返回</Button>
         return (
-            <Card title={title}>
+            <Card title={title} extra={extra}>
                 <Form
                     {...layout}
                     name="competition"
@@ -435,17 +451,30 @@ class CompetitionForm extends Component {
 
 
                     <Form.Item
-                        label="负责人"
-                        name="head"
-                        initialValue={`${userName}(${userID})`}
+                        label="负责人姓名"
+                        name="studentName"
                         rules={[
                             {
                                 required: true,
-                                message: '负责人不能为空!',
+                                message: '负责人姓名不能为空!',
                             },
                         ]}
                     >
                         <Input readOnly style={{ width: 200 }} />
+
+                    </Form.Item >
+                    <Form.Item
+                        label="负责人学号"
+                        name="studentNo"
+                        rules={[
+                            {
+                                required: true,
+                                message: '负责人学号不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input readOnly style={{ width: 200 }} />
+
                     </Form.Item >
                     <Form.Item
                         label="联系方式"
@@ -551,7 +580,7 @@ class CompetitionForm extends Component {
                             },
                         ]}
                     >
-                        <SelectAllManComplete initvalue={this.state.item && this.state.item.第一指导教师id} />
+                        <SelectAllManComplete initvalue={this.state.competition && this.state.competition.第一指导教师id} />
                     </Form.Item>
                     <Form.List name="otherTeachers">
                         {(fields, { add, remove }) => {
@@ -650,10 +679,15 @@ class CompetitionForm extends Component {
                     </Form.Item>
 
                     <Form.Item {...tailLayout}>
-                    <Space>
-                            <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
-                            <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>
-                        </Space>
+                        {this.state.isStudent ? (
+                            <Space>
+                                <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
+                                <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>
+                                <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
+                            </Space>) : (<Space>
+                                <Button type="primary" onClick={this.adminSubmit} disabled={clickDisabled}>保存</Button>
+                                <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
+                            </Space>)}
                     </Form.Item>
                 </Form>
             </Card>
