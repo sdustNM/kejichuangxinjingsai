@@ -14,7 +14,7 @@ export default class ThesisList extends Component {
         departmentNo: this.props.departmentNo,
         sno: '',
         partName: '',
-        state: '审核通过',
+        state: '学校审核通过',
         currentPage: 1,
         pageSize: 10,
         loading: false,
@@ -235,11 +235,12 @@ export default class ThesisList extends Component {
                     <span>状态 </span>
                     <Select
                         value={state}
-                        style={{ width: 100 }}
+                        style={{ width: 150 }}
                         onChange={this.handleStateChange}
                     >
-                        <Option key='审核通过' value='审核通过' >审核通过</Option>
-                        <Option key='等待审核' value='等待审核' >等待审核</Option>
+                        <Option key='学校审核通过' value='学校审核通过' >学校审核通过</Option>
+                        <Option key='等待学校审核' value='等待学校审核' >等待学校审核</Option>
+                        <Option key='等待学院审核' value='等待学院审核' >等待学院审核</Option>
                         <Option key='全部' value='全部' >全部</Option>
                     </Select>
                 </span>
