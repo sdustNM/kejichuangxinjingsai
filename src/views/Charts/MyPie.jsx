@@ -6,10 +6,9 @@ class MyPie extends Component {
     render() {
         const { title, data } = this.props
         const config = {
-            appendPadding: 10,
-            width: 400,
-            height: 150,
-            //autoFit: true,
+            appendPadding: 1,
+            width: this.props.width, 
+            height: this.props.height,
             data: data,
             angleField: 'value',
             colorField: 'type',
@@ -38,7 +37,7 @@ class MyPie extends Component {
 
         }
         return (
-            <Card title={title}>
+            <Card>
                 <Pie {...config} />
             </Card>
         )

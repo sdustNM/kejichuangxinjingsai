@@ -10,14 +10,18 @@ export default class MyColumn extends Component {
             data: data,
             isGroup: true,
             xField: 'name',
-            yField: 'number',
+            yField: 'cnt',
             seriesField: 'achievement',
+            legend: {
+                layout: 'verticle',
+                position: 'right'
+            },
             //scrollbar: { type: 'horizontal'},
             // slider: {
             //     start: 0,
             //     end: 0.1
             // },
-            color: ['red', 'green', 'blue'],
+            color: ['#CCB227', '#BD6ECC', '#2EC9CC'],
             columnWidthRatio: 0.8,
             marginRatio: 0.2,
             xAxis: {
@@ -35,7 +39,7 @@ export default class MyColumn extends Component {
             }
         }
         return (
-            <Card>
+            <Card title='学院成果统计'>
                 <Column {...config} />
             </Card>
         )

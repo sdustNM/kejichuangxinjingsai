@@ -108,7 +108,6 @@ class MyLayout extends React.Component {
                                 {y.path.indexOf('/reviewList') != -1 ? (
                                   <Badge
                                     count={this.state.count}
-                                    showZero
                                   >
                                     {y.title}
                                   </Badge>) : <>{y.title}</>}

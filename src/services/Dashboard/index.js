@@ -4,6 +4,6 @@ export function getNeedReviewCount(){
   return get('/Dashboard/getNeedReviewCount')
 }
 
-export function getTj(){
-  return get('/Dashboard/getTj')
+export function getTj(params){
+  return get('/Dashboard/getTj', params)
 }
