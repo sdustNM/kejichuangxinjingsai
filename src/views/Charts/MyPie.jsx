@@ -7,32 +7,28 @@ class MyPie extends Component {
         const { title, data } = this.props
         const config = {
             appendPadding: 1,
-            width: this.props.width, 
-            height: this.props.height,
+            width: 300, 
+            height: 200,
             data: data,
             angleField: 'value',
             colorField: 'type',
-            radius: 1,
-            innerRadius: 0.6,
-
+            radius: 0.5,
             legend: {
                 layout: 'horizontal',
                 position: 'bottom'
             },
             label: {
-                type: 'inner',
-                offset: '-50%',
-                content: '{value}',
-                autoRotate: false,
+                type: 'spider',
+                labelHeight: 40,
+                content: '{name}\n{value}({percentage})',
                 style: {
-                    textAlign: 'center',
-                    fontSize: 14,
-                },
-            },
+                    //opacity: 0.6,
+                    fontSize: 12
+                  },
+              },
             interactions: [
                 { type: 'element-selected' },
                 { type: 'element-active' },
-                { type: 'pie-statistic-active' }
             ],
 
         }

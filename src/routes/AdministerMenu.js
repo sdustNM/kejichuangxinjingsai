@@ -57,6 +57,12 @@ export const administerMenus = [
       title: '学生成果',
       icon: <SmileOutlined />,
       yuanManager: true,
+    }, {
+      path: '/administer/charts',
+      isShow: true,
+      title: '成果统计',
+      icon: <SmileOutlined />,
+      yuanManager: true,
     }]
   },
   // {

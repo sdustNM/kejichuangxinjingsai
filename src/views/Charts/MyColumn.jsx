@@ -5,7 +5,7 @@ import { Column } from '@ant-design/charts';
 export default class MyColumn extends Component {
     render() {
         const { data } = this.props
-        console.log(data)
+        //console.log(data)
         const config = {
             data: data,
             isGroup: true,
@@ -21,7 +21,7 @@ export default class MyColumn extends Component {
             //     start: 0,
             //     end: 0.1
             // },
-            color: ['#CCB227', '#BD6ECC', '#2EC9CC'],
+            color: ['#2B6ACC', '#BD6ECC', '#2EC9CC'],
             columnWidthRatio: 0.8,
             marginRatio: 0.2,
             xAxis: {
