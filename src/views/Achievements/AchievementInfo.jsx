@@ -15,6 +15,9 @@ export default class AchievementInfo extends Component {
     state = {
         currentPage: this.props.location.state && this.props.location.state.currentPage,
         pageSize: this.props.location.state && this.props.location.state.pageSize,
+        departmentNo: this.props.location.state && this.props.location.state.departmentNo,
+        achieve: this.props.location.state && this.props.location.state.achieve,
+        student: this.props.location.state && this.props.location.state.student,
         id: this.props.location.state && this.props.location.state.id,
         type: this.props.location.state && this.props.location.state.type,
         info: null,
@@ -25,6 +28,7 @@ export default class AchievementInfo extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.location.state)
         const { id, type } = this.state
         //console.log(this.props.location.state)
         if (id) this.getAchievementInfo(id, type)
@@ -46,7 +50,7 @@ export default class AchievementInfo extends Component {
             default:
                 break;
         }
-        console.log(info)
+        //console.log(info)
         if (info) {
             this.setState({
                 info,
@@ -110,9 +114,12 @@ export default class AchievementInfo extends Component {
     }
 
     backToList = () => {
-        const { currentPage, pageSize } = this.state
-        //console.log(currentPage, pageSize)
-        this.props.history.replace({ pathname: '/administer/reviewList', state: { currentPage, pageSize } })
+        const { currentPage, pageSize, departmentNo, achieve, student } = this.state
+        console.log(currentPage, pageSize, departmentNo, achieve, student)
+        this.props.history.replace({
+            pathname: '/administer/reviewList',
+            state: { currentPage, pageSize, departmentNo, achieve, student }
+        })
     }
 
     handleCancel = () => {

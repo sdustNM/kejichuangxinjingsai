@@ -10,11 +10,13 @@ const { Option } = Select
 export default class AchievementList extends Component {
     constructor(...props) {
         super(...props)
+        console.log(this.props.location.state)
+        this.departmentNo = getDeptID()
         this.state = {
             departmentList: [],
-            departmentNo: getDeptID(),
-            achieve: '',
-            student: '',
+            departmentNo: this.props.location.state.departmentNo || getDeptID(),
+            achieve: this.props.location.state.achieve || '',
+            student: this.props.location.state.student || '',
             dataSource: null,
             currentPage: this.props.location.state.currentPage || 1,
             pageSize: this.props.location.state.pageSize || 10,
@@ -28,8 +30,8 @@ export default class AchievementList extends Component {
         const res = await getDepartmentList()
         if (res) {
             let departmentList = JSON.parse(res)
-            if (this.state.departmentNo != 0) {
-                departmentList = departmentList.filter(item => item.id == this.state.departmentNo)
+            if (this.departmentNo != 0) {
+                departmentList = departmentList.filter(item => item.id == this.departmentNo)
             }
             if (departmentList.length !== 0) {
                 this.setState({ departmentList }, this.refresh)
@@ -72,7 +74,7 @@ export default class AchievementList extends Component {
     }
 
     refresh = async (currentPage, pageSize) => {
-        console.log(this.state.currentPage, this.state.pageSize)
+        console.log(this.state, this.state.departmentList)
         this.setState({ loading: true });
         const { departmentNo, achieve, student } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
@@ -168,7 +170,10 @@ export default class AchievementList extends Component {
                                         id: record.ID,
                                         type: record.type,
                                         currentPage,
-                                        pageSize
+                                        pageSize,
+                                        departmentNo,
+                                        achieve,
+                                        student
                                     }
                                 })
                             }}
