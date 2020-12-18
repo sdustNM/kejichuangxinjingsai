@@ -19,7 +19,7 @@ class AppendixList extends Component {
                         <Tooltip title={
                             <Image
                                 placement='topRight'
-                                width={300}
+                                width={600}
                                 src={appRoot + item.url}
                             />
                         }>
