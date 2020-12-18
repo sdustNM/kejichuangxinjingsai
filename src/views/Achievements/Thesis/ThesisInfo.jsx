@@ -3,7 +3,7 @@ import { Card, Descriptions, Space, Button } from 'antd'
 import { PictureOutlined } from '@ant-design/icons'
 import AppendixList from '../AppendixList'
 import { appRoot } from '../../../utils/request'
-import Zmage from 'react-zmage'
+// import Zmage from 'react-zmage'
 
 
 class ThesisInfo extends Component {
@@ -11,29 +11,28 @@ class ThesisInfo extends Component {
         const info = this.props.info
         console.log(info)
         const othersNum = info.其他作者id ? info.其他作者id.split(',').filter(item => item.trim() !== '').length : 0
-        const picList = []
-            .concat(info.coverAppendix)
-            .concat(info.contentsAppendix)
-            .concat(info.articleAppendix)
-            .concat(info.indexAppendix)
-            .concat(info.rewardAppendix).map(item => {
-                return {
-                    src: appRoot + item.url,
-                    alt: item.name
-                }
-            })
+        // const picList = []
+        //     .concat(info.coverAppendix)
+        //     .concat(info.contentsAppendix)
+        //     .concat(info.articleAppendix)
+        //     .concat(info.indexAppendix)
+        //     .concat(info.rewardAppendix).map(item => {
+        //         return {
+        //             src: appRoot + item.url,
+        //             alt: item.name
+        //         }
+        //     })
 
-        console.log(picList)
         const title = (
             <Space>
                 <h3>论文成果详细信息(编号：{info.Id})</h3>
-                <Button
+                {/* <Button
                     type='link'
                     onClick={() => Zmage.browsing({ set: picList || [] })}
                 >
                     <PictureOutlined />
                     <span>点击查看附件图片</span>
-                </Button>
+                </Button> */}
             </Space>
         )
         return (
