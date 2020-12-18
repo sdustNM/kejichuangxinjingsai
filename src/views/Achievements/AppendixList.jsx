@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
-import { List } from 'antd'
+import { List, Tooltip, Image } from 'antd'
 import { appRoot } from '../../utils/request'
 
 class AppendixList extends Component {
     render() {
         const fileList = this.props.fileList
+        const title = <Image
+            width={200}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+        />
         return (
             <List
                 size="small"
@@ -12,13 +16,21 @@ class AppendixList extends Component {
                 dataSource={fileList}
                 renderItem={item => (
                     <List.Item>
-                        <a
-                            href={appRoot + item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {item.name}
-                        </a>
+                        <Tooltip title={
+                            <Image
+                                placement='topRight'
+                                width={300}
+                                src={appRoot + item.url}
+                            />
+                        }>
+                            <a
+                                href={appRoot + item.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {item.name}
+                            </a>
+                        </Tooltip>
                     </List.Item>)}
             />
         )

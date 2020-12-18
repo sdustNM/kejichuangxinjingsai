@@ -3,8 +3,8 @@ import { Card, Descriptions, Space, Button } from 'antd'
 import { PictureOutlined } from '@ant-design/icons'
 import AppendixList from '../AppendixList'
 import { appRoot } from '../../../utils/request'
-//import PictureDisplay from '../PictureDisplay'
 import Zmage from 'react-zmage'
+
 
 class ThesisInfo extends Component {
     render() {
@@ -29,14 +29,8 @@ class ThesisInfo extends Component {
                 <h3>论文成果详细信息(编号：{info.Id})</h3>
                 <Button
                     type='link'
-                    onClick={
-                        () => {
-                            Zmage.browsing({ set: picList || [] });
-                            
-
-                        }
-
-                    }>
+                    onClick={() => Zmage.browsing({ set: picList || [] })}
+                >
                     <PictureOutlined />
                     <span>点击查看附件图片</span>
                 </Button>
@@ -89,7 +83,6 @@ class ThesisInfo extends Component {
                         </Descriptions>
                     </Descriptions.Item>}
                 </Descriptions>
-
             </Card>
             <div className="topshow" >我在这里</div>
             </div>
