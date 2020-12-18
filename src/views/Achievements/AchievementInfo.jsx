@@ -167,10 +167,25 @@ export default class AchievementInfo extends Component {
             default:
                 break;
         }
-        const title = isStudent() ? this.state.status : (
+        const title = isStudent() ? this.state.status : isSuperAdminister()?(
             <Space size='large'>
                 <Button type='primary' onClick={() => this.showModal(1)}>审核通过</Button>
-                <Button type='primary' onClick={() => this.showModal(0)}>驳回修改</Button>
+                <Button type='primary' onClick={() => this.showModal(0)}>退回本人修改</Button>
+                <Button type='primary' onClick={() => this.showModal(2)}>退回学院修改</Button>
+                <Popconfirm
+                    title="终止后的项目，将不能再次修改提交，请确认！"
+                    onConfirm={() => this.showModal(-1)}
+                    okText="确认"
+                    cancelText="取消"
+                >
+                    <Button type='danger'>终止</Button>
+                </Popconfirm>
+            </Space>
+        ):
+        (
+            <Space size='large'>
+                <Button type='primary' onClick={() => this.showModal(1)}>审核通过</Button>
+                <Button type='primary' onClick={() => this.showModal(0)}>退回本人修改</Button>
                 <Popconfirm
                     title="终止后的项目，将不能再次修改提交，请确认！"
                     onConfirm={() => this.showModal(-1)}
