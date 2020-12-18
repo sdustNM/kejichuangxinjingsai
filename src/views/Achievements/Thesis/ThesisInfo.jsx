@@ -29,13 +29,21 @@ class ThesisInfo extends Component {
                 <h3>论文成果详细信息(编号：{info.Id})</h3>
                 <Button
                     type='link'
-                    onClick={() => Zmage.browsing({ set: picList || [] })}>
+                    onClick={
+                        () => {
+                            Zmage.browsing({ set: picList || [] });
+                            
+
+                        }
+
+                    }>
                     <PictureOutlined />
                     <span>点击查看附件图片</span>
                 </Button>
             </Space>
         )
         return (
+            <div>
             <Card>
                 <Descriptions
                     bordered
@@ -83,6 +91,8 @@ class ThesisInfo extends Component {
                 </Descriptions>
 
             </Card>
+            <div className="topshow" >我在这里</div>
+            </div>
         )
     }
 }
