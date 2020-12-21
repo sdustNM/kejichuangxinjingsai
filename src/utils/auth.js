@@ -44,6 +44,10 @@ export const isSuperAdminister = () => {
   return getRoleName() === "校级管理员"
 }
 
+export const isGod = () => {
+  return getRoleName() === "校级管理员" && getUserID() === 'admin'
+}
+
 export const getPage = (jsonwebtoken, history) => {
   sessionStorage.setItem('myjwt', jsonwebtoken);
   //console.log("write jwtInfo:",jsonwebtoken);

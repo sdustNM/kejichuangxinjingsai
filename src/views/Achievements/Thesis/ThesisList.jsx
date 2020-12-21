@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Modal, Table, Button, Card, Space, Select, Input } from 'antd'
+import { Modal, Table, Button, Card, Space, Select, Input, Popconfirm, message } from 'antd'
 import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
 import { getArticleList, getArticleByID } from '../../../services/Achievements'
 import ThesisInfo from './ThesisInfo'
-import { exportArticle } from '../../../services/Achievements'
+import { exportArticle, setSchoolReview } from '../../../services/Achievements'
+import { isGod } from '../../../utils/auth'
 const { Option } = Select
 
 const statusList = ['已拒绝', '未提交', '学院审核中', '学校审核中', '审核通过']
@@ -128,6 +129,21 @@ export default class ThesisList extends Component {
         }
     }
 
+    changeState = async id => {
+        const params = {
+            id,
+            type: '论文',
+            result: 99,
+            remark: '管理员修改状态'
+        }
+        console.log(params)
+        let res = await setSchoolReview(params)
+        if (res.result) {
+            message.success('操作成功！')
+        }
+        this.refresh()
+    }
+
     export = () => {
         this.setState({
             loading: true
@@ -205,16 +221,31 @@ export default class ThesisList extends Component {
                 title: '操作',
                 key: 'action',
                 fixed: 'right',
+                width: 180,
                 render: (text, record) => (
-                    <Button
-                        type='link'
-                        size='small'
-                        onClick={() => {
-                            this.showInfo(record.id)
-                        }}
-                    >
-                        <DoubleRightOutlined />详情
+                    <Space>
+                        <Button
+                            type='link'
+                            size='small'
+                            onClick={() => {
+                                this.showInfo(record.id)
+                            }}
+                        >
+                            <DoubleRightOutlined />详情
                     </Button>
+                        {
+                            isGod() && (
+                                <Popconfirm
+                                    title="确认将成果状态改为【学校待审】吗?"
+                                    onConfirm={() => this.changeState(record.id)}
+                                    okText="确定"
+                                    cancelText="取消"
+                                >
+                                    <Button type='danger' size='small'>恢复待审</Button>
+                                </Popconfirm>
+                            )
+                        }
+                    </Space>
                 )
             },
         ];
@@ -241,6 +272,7 @@ export default class ThesisList extends Component {
                         <Option key='学校审核通过' value='学校审核通过' >学校审核通过</Option>
                         <Option key='等待学校审核' value='等待学校审核' >等待学校审核</Option>
                         <Option key='等待学院审核' value='等待学院审核' >等待学院审核</Option>
+                        <Option key='被拒绝' value='被拒绝' >被拒绝</Option>
                         <Option key='全部' value='全部' >全部</Option>
                     </Select>
                 </span>
