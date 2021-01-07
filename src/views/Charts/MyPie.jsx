@@ -7,8 +7,8 @@ class MyPie extends Component {
         const { title, data } = this.props
         const config = {
             appendPadding: 1,
-            width: 300, 
-            height: 200,
+            width: 400, 
+            height: 300,
             data: data,
             angleField: 'value',
             colorField: 'type',

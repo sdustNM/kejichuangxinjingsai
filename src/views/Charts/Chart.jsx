@@ -17,7 +17,7 @@ export default class Chart extends Component {
         departmentTotal: null
     }
     componentDidMount() {
-        this.getData()   
+        this.getData()
     }
 
     getData = async () => {
@@ -60,6 +60,7 @@ export default class Chart extends Component {
         const title = <Space>
             <span>起止年份</span>
             <RangePicker
+                allowClear={false}
                 picker="year"
                 value={[moment(startYear, 'YYYY'), moment(endYear, 'YYYY')]}
                 onChange={this.changeYear} />
