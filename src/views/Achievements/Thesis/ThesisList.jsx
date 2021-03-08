@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Table, Button, Card, Space, Select, Input, Popconfirm, message } from 'antd'
 import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
-import { getArticleList, getArticleByID } from '../../../services/Achievements'
+import { getArticleList, getArticleByID, getArticleDDInfo } from '../../../services/Achievements'
 import ThesisInfo from './ThesisInfo'
 import { exportArticle, setSchoolReview } from '../../../services/Achievements'
 import { isGod } from '../../../utils/auth'
@@ -16,15 +16,21 @@ export default class ThesisList extends Component {
         sno: '',
         partName: '',
         state: '学校审核通过',
+        collection: '0',
         currentPage: 1,
         pageSize: 10,
         loading: false,
         visible: false,
         info: null
     }
+    collections = []
 
-    componentDidMount() {
-        console.log(this.props.showSearch)
+    async componentDidMount() {
+
+        const res = await getArticleDDInfo()
+        if (res.result) {
+            this.collections = JSON.parse(res.data).ddType
+        }
         this.refresh()
     }
 
@@ -54,6 +60,9 @@ export default class ThesisList extends Component {
             state: value
         }, this.search)
     }
+    handleCollectionChange = collection => {
+        this.setState({ collection }, this.search)
+    }
     changeValue = e => {
         this.setState({
             [e.target.name]: e.target.value
@@ -69,12 +78,13 @@ export default class ThesisList extends Component {
 
     refresh = async (currentPage, pageSize) => {
         this.setState({ loading: true })
-        const { departmentNo, state, sno, partName } = this.state
+        const { departmentNo, state, collection, sno, partName } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
         pageSize = pageSize ? pageSize : this.state.pageSize
         let params = {
             departmentNo,
             state,
+            indexType: collection,
             sno,
             partName,
             currentPage,
@@ -144,12 +154,13 @@ export default class ThesisList extends Component {
         this.refresh()
     }
 
+
     export = () => {
         this.setState({
             loading: true
         });
-        const { departmentNo, state, sno, partName } = this.state
-        const params = { departmentNo, state, sno, partName }
+        const { departmentNo, state, collection, sno, partName } = this.state
+        const params = { departmentNo, state, indexType: collection, sno, partName }
         exportArticle(params, '学生论文成果一览表.xls').then(() => {
             this.setState({
                 loading: false
@@ -159,7 +170,11 @@ export default class ThesisList extends Component {
     }
 
     render() {
-        const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state, showSearch } = this.state
+        const {
+            loading, dataSource, pageSize, _total,
+            info, departmentList, departmentNo, sno, partName,
+            state, collection, showSearch
+        } = this.state
         const columns = [
             {
                 title: '成果编号',
@@ -274,6 +289,19 @@ export default class ThesisList extends Component {
                         <Option key='等待学院审核' value='等待学院审核' >等待学院审核</Option>
                         <Option key='被拒绝' value='被拒绝' >被拒绝</Option>
                         <Option key='全部' value='全部' >全部</Option>
+                    </Select>
+                </span>
+                <span>
+                    <span>收录 </span>
+                    <Select
+                        value={collection}
+                        style={{ width: 150 }}
+                        onChange={this.handleCollectionChange}
+                    >
+                        <Option key='all' value='0' >全部</Option>
+                        {
+                            this.collections.map(collection => <Option key={collection.Id} value={collection.Name} >{collection.Name}</Option>)
+                        }
                     </Select>
                 </span>
                 <span>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Table, Button, Card, Space, Select, Input, Popconfirm, message } from 'antd'
 import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
-import { getCompetitionList, getCompetitionByID } from '../../../services/Achievements'
+import { getCompetitionList, getCompetitionByID, getDDInfo } from '../../../services/Achievements'
 import CompetitionInfo from './CompetitionInfo'
 import { exportCompetition, setSchoolReview } from '../../../services/Achievements'
 import { isGod } from '../../../utils/auth'
@@ -17,14 +17,24 @@ class CompetitionList extends Component {
         sno: '',
         partName: '',
         state: '学校审核通过',
+        level: '0',
+        type: '0',
         currentPage: 1,
         pageSize: 10,
         loading: false,
         visible: false,
         info: null
     }
+    competitionLevelList = []
+    competitionTypeList = []
 
-    componentDidMount() {
+    async componentDidMount() {
+        const res = await getDDInfo()
+        if (res.result) {
+            const data = JSON.parse(res.data)
+            this.competitionLevelList = data.ddLevel
+            this.competitionTypeList = data.ddType
+        }
         this.refresh();
     }
 
@@ -53,6 +63,12 @@ class CompetitionList extends Component {
             state: value
         }, this.search)
     }
+    handleLevelChange = level => {
+        this.setState({ level }, this.search)
+    }
+    handleTypeChange = type => {
+        this.setState({ type }, this.search)
+    }
     changeValue = e => {
         this.setState({
             [e.target.name]: e.target.value
@@ -67,12 +83,14 @@ class CompetitionList extends Component {
 
     refresh = async (currentPage, pageSize) => {
         this.setState({ loading: true });
-        const { departmentNo, state, sno, partName } = this.state
+        const { departmentNo, state, level, type, sno, partName } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
         pageSize = pageSize ? pageSize : this.state.pageSize
         let params = {
             departmentNo,
             state,
+            competitionLevel: level,
+            competitionType: type,
             sno,
             partName,
             currentPage,
@@ -142,8 +160,8 @@ class CompetitionList extends Component {
         this.setState({
             loading: true
         });
-        const { departmentNo, state, sno, partName } = this.state
-        const params = { departmentNo, state, sno, partName }
+        const { departmentNo, state, level, type, sno, partName } = this.state
+        const params = { departmentNo, state, competitionLevel: level, competitionType: type, sno, partName }
         exportCompetition(params, '学生竞赛成果一览表.xls').then(() => {
             this.setState({
                 loading: false
@@ -152,7 +170,10 @@ class CompetitionList extends Component {
         })
     }
     render() {
-        const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state, showSearch } = this.state
+        const {
+            loading, dataSource, pageSize, _total, info,
+            departmentList, departmentNo, sno, partName, state,
+            level, type, showSearch } = this.state
         console.log(info)
         const columns = [
             {
@@ -251,6 +272,32 @@ class CompetitionList extends Component {
                         <Option key='等待学院审核' value='等待学院审核' >等待学院审核</Option>
                         <Option key='被拒绝' value='被拒绝' >被拒绝</Option>
                         <Option key='全部' value='全部' >全部</Option>
+                    </Select>
+                </span>
+                <span>
+                    <span>等级 </span>
+                    <Select
+                        value={level}
+                        style={{ width: 120 }}
+                        onChange={this.handleLevelChange}
+                    >
+                        <Option key='0' value='0' >全部</Option>
+                        {
+                            this.competitionLevelList.map(level => <Option key={level.Id} value={level.Name} >{level.Name}</Option>)
+                        }
+                    </Select>
+                </span>
+                <span>
+                    <span>类别 </span>
+                    <Select
+                        value={type}
+                        style={{ width: 120 }}
+                        onChange={this.handleTypeChange}
+                    >
+                        <Option key='0' value='0' >全部</Option>
+                        {
+                            this.competitionTypeList.map(type => <Option key={type.Id} value={type.Name} >{type.Name}</Option>)
+                        }
                     </Select>
                 </span>
                 <span>

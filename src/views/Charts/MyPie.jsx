@@ -4,7 +4,7 @@ import { Pie } from '@ant-design/charts';
 
 class MyPie extends Component {
     render() {
-        const { title, data } = this.props
+        const { data } = this.props
         const config = {
             appendPadding: 1,
             width: 400, 

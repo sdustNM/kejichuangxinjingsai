@@ -6,7 +6,7 @@ import { getUserID, getUserName, isStudent } from "../../../utils/auth"
 import SelectManComplete from '../../../components/SelectAllManComplete'
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
-import { setArticleByID, getArticleByID } from '../../../services/Achievements'
+import { setArticleByID, getArticleByID, getArticleDDInfo } from '../../../services/Achievements'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -25,40 +25,7 @@ const tailLayout = {
         span: 16,
     },
 }
-const collectionList = [
-    {
-        key: 'normal',
-        name: '普通期刊'
-    },
-    {
-        key: 'EI',
-        name: 'EI'
-    },
-    {
-        key: 'SCI',
-        name: 'SCI'
-    },
-    {
-        key: 'SSCI',
-        name: 'SSCI(社会科学类)'
-    },
-    {
-        key: 'ISTP',
-        name: 'ISTP'
-    },
-    {
-        key: 'A&HCI',
-        name: 'A&HCI'
-    },
-    {
-        key: '中文核心期刊',
-        name: '中文核心期刊'
-    },
-    {
-        key: 'other',
-        name: '其他'
-    }
-]
+
 const index = ['中文核心期刊', 'SCI', 'EI']
 
 class ThesisForm extends Component {
@@ -66,7 +33,6 @@ class ThesisForm extends Component {
         super(...props)
         this.state = {
             id: props[0].location.state && props[0].location.state.id,
-            collectionList: collectionList,
             yuanReview: '',
             xiaoReview: '',
             coverList: null,
@@ -80,10 +46,15 @@ class ThesisForm extends Component {
             state: 0,
             isStudent: isStudent()
         }
-        this.formRef = React.createRef();
+        this.formRef = React.createRef()
+        this.collectionList = []
     }
 
     async componentDidMount() {
+        const res = await getArticleDDInfo()
+        if (res.result) {
+            this.collectionList = JSON.parse(res.data).ddType
+        }
         const { id } = this.state
         let coverList = []
         let contentsList = []
@@ -248,8 +219,7 @@ class ThesisForm extends Component {
     render() {
         //console.log(this.formRef)
         //console.log(this.formRef && this.formRef.current && this.formRef.current.getFieldInstance('article'))
-        const { id, collectionList,
-            coverList, contentsList, articleList, yuanReview, xiaoReview, stateBz,
+        const { id, coverList, contentsList, articleList, yuanReview, xiaoReview, stateBz,
             isIndex, indexList, rewardList, clickDisabled } = this.state
         const title = (
             <Space direction="vertical">
@@ -332,7 +302,7 @@ class ThesisForm extends Component {
                             },
                         ]}>
                         <Select style={{ width: 200 }} onChange={this.changeCollection}>
-                            {collectionList.map(item => <Option key={item.key} value={item.name}>{item.name}</Option>)}
+                            {this.collectionList.map(item => <Option key={item.Id} value={item.Name}>{item.Name}</Option>)}
                         </Select>
                     </Form.Item>
 

@@ -17,6 +17,7 @@ class PatentList extends Component {
         sno: '',
         partName: '',
         state: '学校审核通过',
+        type: '0',
         currentPage: 1,
         pageSize: 10,
         loading: false,
@@ -53,6 +54,9 @@ class PatentList extends Component {
             state: value
         }, this.search)
     }
+    handleTypeChange = type => {
+        this.setState({ type }, this.search)
+    }
     changeValue = e => {
         this.setState({
             [e.target.name]: e.target.value
@@ -67,12 +71,13 @@ class PatentList extends Component {
 
     refresh = async (currentPage, pageSize) => {
         this.setState({ loading: true });
-        const { departmentNo, state, sno, partName } = this.state
+        const { departmentNo, state, type, sno, partName } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
         pageSize = pageSize ? pageSize : this.state.pageSize
         let params = {
             departmentNo,
             state,
+            patentType: type,
             sno,
             partName,
             currentPage,
@@ -136,21 +141,21 @@ class PatentList extends Component {
         }
         this.refresh()
     }
-    export =()=>{
+    export = () => {
         this.setState({
-            loading:true
+            loading: true
         });
-        const { departmentNo, state, sno, partName } = this.state
-        const params = { departmentNo, state, sno, partName }
-        exportPatent(params,'学生专利成果一览表.xls').then(()=>{
+        const { departmentNo, state, type, sno, partName } = this.state
+        const params = { departmentNo, state, patentType: type, sno, partName }
+        exportPatent(params, '学生专利成果一览表.xls').then(() => {
             this.setState({
-                loading:false
+                loading: false
             });
 
         })
     }
     render() {
-        const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state, showSearch } = this.state
+        const { loading, dataSource, pageSize, _total, info, departmentList, departmentNo, sno, partName, state, type, showSearch } = this.state
         const columns = [
             {
                 title: '成果编号',
@@ -247,6 +252,19 @@ class PatentList extends Component {
                     </Select>
                 </span>
                 <span>
+                    <span>类型 </span>
+                    <Select
+                        value={type}
+                        style={{ width: 150 }}
+                        onChange={this.handleTypeChange}
+                    >
+                        <Option key='0' value='0' >全部</Option>
+                        <Option key='发明' value='发明' >发明</Option>
+                        <Option key='实用新型' value='实用新型' >实用新型</Option>
+                        <Option key='外观设计' value='外观设计' >外观设计</Option>
+                    </Select>
+                </span>
+                <span>
                     <span>成果编号或专利名称 </span>
                     <Input
                         allowClear
@@ -282,7 +300,7 @@ class PatentList extends Component {
                 </Button>
             </Space>
         )
-        const extra = <Button type='primary' onClick={()=>this.export()}>导出</Button>
+        const extra = <Button type='primary' onClick={() => this.export()}>导出</Button>
         return (
             <Card title={showSearch && title} extra={showSearch && extra}>
                 <Table

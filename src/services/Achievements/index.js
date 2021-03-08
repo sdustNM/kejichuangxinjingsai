@@ -20,7 +20,10 @@ export function setSchoolReview(params){
 }
 
 ///////////////////////////论文部分//////////////////////////////
-
+//获取论文收录类型列表
+export function getArticleDDInfo(){
+  return get('/AchieveArticle/getArticleDDInfo')
+}
 //获取论文列表
 export function getArticleList(params){
   return get('/AchieveArticle/getArticleList', params)
