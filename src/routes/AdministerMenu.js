@@ -12,7 +12,7 @@ import ProjectManager from '../views/SysManage/ProjectManager';
 
 
 export const administerMenus = [
-  {
+  { //校级竞赛
     component: null,
     path: 'competitionsXiao',
     isShow: true,
@@ -65,6 +65,72 @@ export const administerMenus = [
       yuanManager: true,
     }]
   },
+  { //归档管理
+    component: null,
+    path: 'fileManage',
+    isShow: true,
+    title: '归档管理',
+    icon: <HomeOutlined />,
+    sub: [{
+      isShow: true,
+      title: '批次管理',
+      path: '/administer/batch',
+      icon: <SmileOutlined />,
+    }, {
+      isShow: true,
+      title: '历史数据查询',
+      path: '/administer/history',
+      icon: <SmileOutlined />,
+    }]
+  },
+  { //系统管理
+    component: null,
+    path: 'systemManage',
+    isShow: true,
+    title: '系统管理',
+    icon: <HomeOutlined />,
+    yuanManager: true,
+    sub: [{
+      isShow: true,
+      title: '比赛名称审核',
+      path: '/administer/competitionName',
+      icon: <SmileOutlined />,
+      yuanManager: true,
+    }, {
+      isShow: true,
+      title: '学院信息',
+      path: '/administer/departments',
+      icon: <SmileOutlined />,
+    }, {
+      path: '/administer/administers',
+      isShow: true,
+      title: '学院管理员信息',
+      icon: <SmileOutlined />,
+    }, {
+      isShow: true,
+      title: '专家信息',
+      path: '/administer/Experts',
+      icon: <SmileOutlined />,
+    },
+    //  {
+    //   isShow: true,
+    //   title: '教师信息',
+    //   path: '/administer/teachers',
+    //   icon: <SmileOutlined />,
+    // }, 
+    {
+      isShow: true,
+      title: '学生信息',
+      path: '/administer/studentList',
+      icon: <SmileOutlined />,
+    },
+    {
+      isShow: true,
+      title: '比赛名称列表',
+      path: '/administer/DDCompetitionList',
+      icon: <SmileOutlined />,
+    }]
+  }
   // {
   //   component: null,
   //   path: 'competitionsYuan',
@@ -106,46 +172,5 @@ export const administerMenus = [
   //     //}
   //   ]
   // },
-  {
-    component: null,
-    path: 'systemManage',
-    isShow: true,
-    title: '系统管理',
-    icon: <HomeOutlined />,
-    sub: [{
-      isShow: true,
-      title: '学院信息',
-      path: '/administer/departments',
-      icon: <SmileOutlined />,
-    }, {
-      path: '/administer/administers',
-      isShow: true,
-      title: '学院管理员信息',
-      icon: <SmileOutlined />,
-    }, {
-      isShow: true,
-      title: '专家信息',
-      path: '/administer/Experts',
-      icon: <SmileOutlined />,
-    },
-    //  {
-    //   isShow: true,
-    //   title: '教师信息',
-    //   path: '/administer/teachers',
-    //   icon: <SmileOutlined />,
-    // }, 
-    {
-      isShow: true,
-      title: '学生信息',
-      path: '/administer/studentList',
-      icon: <SmileOutlined />,
-    },
-    {
-      isShow: true,
-      title: '比赛名称列表',
-      path: '/administer/DDCompetitionList',
-      icon: <SmileOutlined />,
-    }]
-  }
 ]
 

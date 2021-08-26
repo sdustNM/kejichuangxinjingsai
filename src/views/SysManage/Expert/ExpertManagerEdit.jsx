@@ -16,7 +16,7 @@ class ExpertManagerEdit extends React.Component {
   }
   formRef = React.createRef();
   componentDidMount() {
-    console.log(this.props)
+    //console.log(this.props)
     const { id } = this.props
     if (id) {
         getExpertById({"id":id}).then(res => {
