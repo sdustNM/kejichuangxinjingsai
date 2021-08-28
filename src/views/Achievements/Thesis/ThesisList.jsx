@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Modal, Table, Button, Card, Space, Select, Input, Popconfirm, message } from 'antd'
+import { Modal, Table, Button, Card, Space, Select, Input, Popconfirm, message, Alert } from 'antd'
 import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
-import { getArticleList, getArticleByID, getArticleDDInfo } from '../../../services/Achievements'
+import { getArticleList, getArticleByID, getArticleDDInfo, fileArticle } from '../../../services/Achievements'
 import ThesisInfo from './ThesisInfo'
 import { exportArticle, setSchoolReview } from '../../../services/Achievements'
 import { isGod } from '../../../utils/auth'
@@ -21,6 +21,8 @@ export default class ThesisList extends Component {
         pageSize: 10,
         loading: false,
         visible: false,
+        fileVisible: false,
+        batch: '',
         info: null
     }
     collections = []
@@ -96,7 +98,7 @@ export default class ThesisList extends Component {
         if (res.result) {
             //console.log(res)
             const data = JSON.parse(res.data)
-            console.log(data)
+            //console.log(data)
             let list = []
             data.list.map(item =>
                 list.push({
@@ -169,11 +171,46 @@ export default class ThesisList extends Component {
         })
     }
 
+    handleFile = async () => {
+
+        const batchName = this.state.batch.trim()
+        //alert(this.state.batch)
+        if (batchName === '') {
+            Modal.error({
+                content: `请输入正确的批次名称！`,
+            });
+            return
+        }
+
+        const res = await fileArticle({ batchId: batchName })
+        if (res.result) {
+            Modal.success({
+                content: `批次【${this.state.batch}】归档成功，可在历史成果中进行查看！`,
+            });
+        }
+        else {
+            Modal.error({
+                content: `批次【${this.state.batch}】归档失败！`,
+            });
+        }
+
+        this.fileModalClose()
+
+    }
+
+    fileModalClose = () => {
+
+        this.setState({
+            batch: '',
+            fileVisible: false
+        })
+    }
+
     render() {
         const {
             loading, dataSource, pageSize, _total,
             info, departmentList, departmentNo, sno, partName,
-            state, collection, showSearch
+            state, collection, showSearch, batch, visible, fileVisible
         } = this.state
         const columns = [
             {
@@ -247,7 +284,7 @@ export default class ThesisList extends Component {
                             }}
                         >
                             <DoubleRightOutlined />详情
-                    </Button>
+                        </Button>
                         {
                             isGod() && (
                                 <Popconfirm
@@ -340,7 +377,11 @@ export default class ThesisList extends Component {
                 </Button>
             </Space>
         )
-        const extra = <Button type='primary' onClick={() => this.export()}>导出</Button>
+        const extra = (
+            <Space>
+                <Button type='primary' onClick={() => this.export()}>导出</Button>
+                {isGod() && <Button type='danger' onClick={() => this.setState({ fileVisible: true })}>归档</Button>}
+            </Space>)
         return (
             <Card title={showSearch && title} extra={showSearch && extra}>
                 <Table
@@ -360,7 +401,7 @@ export default class ThesisList extends Component {
                     }} />
                 <Modal
                     //title={<br/>}
-                    visible={this.state.visible}
+                    visible={visible}
                     closeIcon={<CloseSquareFilled style={{ fontSize: 35 }} />}
                     onCancel={() => this.setState({ visible: false })}
                     width={1200}
@@ -368,7 +409,29 @@ export default class ThesisList extends Component {
                 >
                     {info && <ThesisInfo info={info} size='small' />}
                 </Modal>
-            </Card>
+                <Modal
+                    title='归档确认'
+                    closeIcon={null}
+                    visible={fileVisible}
+                    onOk={this.handleFile}
+                    onCancel={this.fileModalClose}
+                    maskClosable={false}
+                >
+                    <Space direction='vertical'>
+                        <Input
+                            placeholder="请输入归档批次"
+                            name='batch'
+                            value={batch}
+                            onChange={this.changeValue} />
+                        <Alert
+                            message="注意"
+                            description="按照批次归档后，当前已审核成果将成为历史数据，请谨慎操作！"
+                            type="warning"
+                            showIcon
+                        />
+                    </Space>
+                </Modal>
+            </Card >
         )
     }
 }

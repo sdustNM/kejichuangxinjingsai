@@ -38,11 +38,11 @@ export const administerMenus = [
       yuanManager: true,
     },]
   },
-  {   //科技成果
+  {   //成果申报
     component: null,
     path: '/administer/archievements/',
     isShow: true,
-    title: '科技成果',
+    title: '成果申报',
     icon: <HomeOutlined />,
     yuanManager: true,
     sub: [{
@@ -54,7 +54,7 @@ export const administerMenus = [
     }, {
       path: '/administer/archievementList',
       isShow: true,
-      title: '学生成果',
+      title: '成果查看',
       icon: <SmileOutlined />,
       yuanManager: true,
     }, {
@@ -65,22 +65,29 @@ export const administerMenus = [
       yuanManager: true,
     }]
   },
-  { //归档管理
+  { //历史成果
     component: null,
-    path: 'fileManage',
+    path: '/administer/history/',
     isShow: true,
-    title: '归档管理',
+    title: '历史成果',
     icon: <HomeOutlined />,
     sub: [{
-      isShow: true,
+      isShow: false,
       title: '批次管理',
       path: '/administer/batch',
       icon: <SmileOutlined />,
     }, {
       isShow: true,
-      title: '历史数据查询',
-      path: '/administer/history',
+      title: '历史查看',
+      path: '/administer/historyArchievements',
       icon: <SmileOutlined />,
+      yuanManager: true,
+    }, {
+      path: '/administer/historyCharts',
+      isShow: true,
+      title: '历史统计',
+      icon: <SmileOutlined />,
+      yuanManager: true,
     }]
   },
   { //系统管理

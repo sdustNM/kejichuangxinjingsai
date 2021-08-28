@@ -27,7 +27,7 @@ export const studentMenus = [
   {
     path: '/student/achievements',
     isShow: true,
-    title: '科技成果',
+    title: '成果申报',
     icon: <IdcardOutlined />,
     sub: [{
       path: '/student/thesisForm',
@@ -60,5 +60,17 @@ export const studentMenus = [
       icon: <WalletOutlined />
     }]
   },
+  {
+    path: '/student/history',
+    isShow: true,
+    title: '历史成果',
+    icon: <IdcardOutlined />,
+    sub: [{
+      path: '/student/historyList',
+      isShow: true,
+      title: '我的成果',
+      icon: <WalletOutlined />
+    }]
+  }
 
 ]

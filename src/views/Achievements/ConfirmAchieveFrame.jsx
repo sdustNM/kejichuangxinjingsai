@@ -47,7 +47,7 @@ class ConfirmAchieveList extends Component {
   }
 
   render() {
-    console.log(this.state.showSearch)
+    //console.log(this.state.showSearch)
     const { key, departmentList, showSearch, departmentNo } = this.state
     const contentList = {
       article: departmentList && <ThesisList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
