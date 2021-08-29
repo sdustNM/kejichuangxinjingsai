@@ -66,7 +66,7 @@ export const studentMenus = [
     title: '历史成果',
     icon: <IdcardOutlined />,
     sub: [{
-      path: '/student/historyList',
+      path: '/student/filedAchievements',
       isShow: true,
       title: '我的成果',
       icon: <WalletOutlined />

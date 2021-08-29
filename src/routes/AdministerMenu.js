@@ -67,28 +67,32 @@ export const administerMenus = [
   },
   { //历史成果
     component: null,
-    path: '/administer/history/',
+    path: '/administer/file/',
     isShow: true,
     title: '历史成果',
     icon: <HomeOutlined />,
-    sub: [{
-      isShow: false,
-      title: '批次管理',
-      path: '/administer/batch',
-      icon: <SmileOutlined />,
-    }, {
-      isShow: true,
-      title: '历史查看',
-      path: '/administer/historyArchievements',
-      icon: <SmileOutlined />,
-      yuanManager: true,
-    }, {
-      path: '/administer/historyCharts',
-      isShow: true,
-      title: '历史统计',
-      icon: <SmileOutlined />,
-      yuanManager: true,
-    }]
+    yuanManager: true,
+    sub: [
+      // {
+      //   isShow: false,
+      //   title: '批次管理',
+      //   path: '/administer/batch',
+      //   icon: <SmileOutlined />,
+      // },
+      {
+        isShow: true,
+        title: '历史查看',
+        path: '/administer/filedAchievements',
+        icon: <SmileOutlined />,
+        yuanManager: true,
+      },
+      {
+        path: '/administer/filedCharts',
+        isShow: true,
+        title: '历史统计',
+        icon: <SmileOutlined />,
+        yuanManager: true,
+      }]
   },
   { //系统管理
     component: null,

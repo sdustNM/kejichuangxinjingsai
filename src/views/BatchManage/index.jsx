@@ -1,9 +1,9 @@
 import React from 'react'
 import { Table, Space, Button, Modal, Popconfirm, Tag } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getBatchList } from '../../services/Achievements/batchApi'
-import ExpertManagerEdit from './ExpertManagerEdit';
-import { CheckCircleTwoTone } from '@ant-design/icons';
+//import { getBatchList } from '../../services/Achievements/batchApi'
+//import ExpertManagerEdit from './ExpertManagerEdit';
+//import { CheckCircleTwoTone } from '@ant-design/icons';
 
 const initBatches = [
   { id: 1, batchName: '2020一批次', fileTime: '2020-06-30', isValid: false },

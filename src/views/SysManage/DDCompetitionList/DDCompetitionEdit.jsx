@@ -23,7 +23,7 @@ class DDCompetitionEdit extends React.Component {
         getTypeList().then(res => {
             if (res.result) {
                 let typeList = JSON.parse(res.data)
-                this.setState({typeList})
+                this.setState({ typeList })
             }
         });
 
@@ -37,7 +37,7 @@ class DDCompetitionEdit extends React.Component {
                         id: item.Id,
                         name: item.Name,
                         type: item.Type,
-                        sortid: item.Sortid ? item.Sortid: item.Id,
+                        sortid: item.Sortid ? item.Sortid : item.Id,
                     });
 
                 }
@@ -55,7 +55,7 @@ class DDCompetitionEdit extends React.Component {
 
     onFinish = value => {
         //console.log(value)
-        const { id } = this.props
+        //const { id } = this.props
         let competition = {
             name: value.name,
             id: value.id,
@@ -72,7 +72,7 @@ class DDCompetitionEdit extends React.Component {
     }
 
     render() {
-        const { readonly,typeList } = this.state
+        const { readonly, typeList } = this.state
         return (
             <Form
                 {...layout}
@@ -99,12 +99,12 @@ class DDCompetitionEdit extends React.Component {
                     label="类型"
                     name="type"
                 >
-                    <Select  style={{ width: 120 }} onChange={this.handleSelectChange}>
+                    <Select style={{ width: 120 }} onChange={this.handleSelectChange}>
                         {
                             typeList.map(item => (<Option value={item.id} key={item.Id}>{item.Name}</Option>))
-                            
+
                         }
-                     
+
                     </Select>
 
                 </Form.Item>
@@ -124,7 +124,7 @@ class DDCompetitionEdit extends React.Component {
                         </Button>
                         <Button type="primary" onClick={() => this.props.hideModal()}>
                             取消
-          </Button>
+                        </Button>
                     </Space>
                 </Form.Item>
             </Form>

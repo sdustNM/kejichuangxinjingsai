@@ -17,7 +17,8 @@ import Chart from '../views/Charts/Chart';
 import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 import PatentForm from "../views/Achievements/Patent/PatentForm"
 import CompetitionForm from "../views/Achievements/Competition/CompetitionForm"
-import BatchManager from '../views/BatchManage';
+import FiledAchieveList from "../views/Achievements/FiledAchieveFrame"
+//import BatchManager from '../views/BatchManage';
 
 export const administerConfig = [
 
@@ -114,10 +115,15 @@ export const administerConfig = [
     exact: true,
   },
   {
-    path: '/administer/batch',
-    component: BatchManager,
-    exact: true
-  }
+    path: '/administer/filedAchievements',
+    component: FiledAchieveList,
+    exact: true,
+  },
+  // {
+  //   path: '/administer/batch',
+  //   component: BatchManager,
+  //   exact: true
+  // }
 
   // {
   //   path: '/administer/AnnouncementList',
