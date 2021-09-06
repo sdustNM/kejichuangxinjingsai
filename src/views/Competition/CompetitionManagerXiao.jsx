@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Space, Button, Select, Input, Card, message } from 'antd';
+import { Table, Space, Button, Select, Input, Card, message, Popconfirm } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { getCompetitionList } from '../../services/administer/competition'
 //import { getDeptID } from '../../utils/auth'
@@ -55,7 +55,7 @@ class CompetitionManagerXiao extends React.Component {
     })
     this.refresh(1)
   }
-  refresh = (currentPage, pageSize ) => {
+  refresh = (currentPage, pageSize) => {
 
     currentPage = currentPage ? currentPage : this.state.currentPage
     pageSize = pageSize ? pageSize : this.state.pageSize
@@ -72,7 +72,7 @@ class CompetitionManagerXiao extends React.Component {
       if (res.result) {
         let list = []
         let data = JSON.parse(res.data)
-        console.log(data)
+        //console.log(data)
         data.list.map(item =>
           list.push({
             id: item.id,
@@ -108,7 +108,7 @@ class CompetitionManagerXiao extends React.Component {
 
   delete = competitionID => {
     deleteCompetiton({ competitionID }).then(res => {
-      if(res.result){
+      if (res.result) {
         message.success('删除成功')
         this.refresh()
       }
@@ -155,12 +155,19 @@ class CompetitionManagerXiao extends React.Component {
             >详细</Button>
             {
               isSuperAdminister() && (
-                <Button
-                  type='danger'
-                  size='small'
-                  shape='round'
-                  onClick={() => { this.delete(record.id) }}
-                >删除</Button>
+                <Popconfirm
+                  title="确认删除该比赛吗?"
+                  onConfirm={() => this.delete(record.id)}
+                  okText="确定"
+                  cancelText="取消"
+                >
+                  <Button
+                    type='danger'
+                    size='small'
+                    shape='round'
+                  >删除</Button>
+                </Popconfirm>
+
               )
             }
           </Space>
@@ -211,7 +218,7 @@ class CompetitionManagerXiao extends React.Component {
             onShowSizeChange: this.showSizeChange,
           }}
           loading={loading}
-          //scroll={{ y: 320 }}
+        //scroll={{ y: 320 }}
         />
       </Card>
     )

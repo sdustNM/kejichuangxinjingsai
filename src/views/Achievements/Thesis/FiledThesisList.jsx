@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { Modal, Table, Button, Card, Space, Select, Input, Popconfirm, message, Alert } from 'antd'
+import { Modal, Table, Button, Card, Space, Select, Input, Popconfirm } from 'antd'
 import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
-import { getArticleList, getArticleByID, getArticleDDInfo, fileArticle } from '../../../services/Achievements'
 import ThesisInfo from './ThesisInfo'
-import { exportArticle, setSchoolReview } from '../../../services/Achievements'
+import { getArticleBatchList, getArticleList, getArticleByID, getArticleDDInfo, deleteArticleByID, exportArticle } from '../../../services/Achievements/historyAchieve'
 import { isGod } from '../../../utils/auth'
 const { Option } = Select
 
@@ -21,17 +20,21 @@ export default class ThesisList extends Component {
         pageSize: 10,
         loading: false,
         visible: false,
-        fileVisible: false,
         batch: '',
         info: null
     }
     collections = []
+    batches = []
 
     async componentDidMount() {
 
         const res = await getArticleDDInfo()
         if (res.result) {
             this.collections = JSON.parse(res.data).ddType
+        }
+        const res2 = await getArticleBatchList()
+        if (res2.result) {
+            this.batches = JSON.parse(res2.data)
         }
         this.refresh()
     }
@@ -44,7 +47,6 @@ export default class ThesisList extends Component {
         this.refresh(currentPage, pageSize);
     }
     showSizeChange = (current, pageSize) => {
-
         this.setState({
             currentPage: 1,
             pageSize
@@ -65,6 +67,9 @@ export default class ThesisList extends Component {
     handleCollectionChange = collection => {
         this.setState({ collection }, this.search)
     }
+    handleBatchChange = batch => {
+        this.setState({ batch }, this.search)
+    }
     changeValue = e => {
         this.setState({
             [e.target.name]: e.target.value
@@ -80,7 +85,7 @@ export default class ThesisList extends Component {
 
     refresh = async (currentPage, pageSize) => {
         this.setState({ loading: true })
-        const { departmentNo, state, collection, sno, partName } = this.state
+        const { departmentNo, state, collection, sno, partName, batch } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
         pageSize = pageSize ? pageSize : this.state.pageSize
         let params = {
@@ -90,7 +95,8 @@ export default class ThesisList extends Component {
             sno,
             partName,
             currentPage,
-            pageSize
+            pageSize,
+            batch
         }
 
         //console.log(params)
@@ -103,6 +109,7 @@ export default class ThesisList extends Component {
             data.list.map(item =>
                 list.push({
                     key: '论文_' + item.Id,
+                    batch: item.批次,
                     id: item.Id,
                     title: item.论文名称,
                     collection: item.期刊收录,
@@ -141,28 +148,26 @@ export default class ThesisList extends Component {
         }
     }
 
-    changeState = async id => {
-        const params = {
-            id,
-            type: '论文',
-            result: 99,
-            remark: '管理员修改状态'
-        }
-        console.log(params)
-        let res = await setSchoolReview(params)
+    del = async id => {
+        const res = await deleteArticleByID({ id })
         if (res.result) {
-            message.success('操作成功！')
+            Modal.success({
+                content: `删除成功！`,
+            });
+        } else {
+            Modal.error({
+                content: `删除失败！`,
+            });
         }
         this.refresh()
     }
-
 
     export = () => {
         this.setState({
             loading: true
         });
-        const { departmentNo, state, collection, sno, partName } = this.state
-        const params = { departmentNo, state, indexType: collection, sno, partName }
+        const { departmentNo, state, collection, sno, partName, batch } = this.state
+        const params = { departmentNo, state, indexType: collection, sno, partName, batch }
         exportArticle(params, '学生论文成果一览表.xls').then(() => {
             this.setState({
                 loading: false
@@ -171,48 +176,20 @@ export default class ThesisList extends Component {
         })
     }
 
-    handleFile = async () => {
-
-        const batchName = this.state.batch.trim()
-        //alert(this.state.batch)
-        if (batchName === '') {
-            Modal.error({
-                content: `请输入正确的批次名称！`,
-            });
-            return
-        }
-
-        const res = await fileArticle({ batchId: batchName })
-        if (res.result) {
-            Modal.success({
-                content: `批次【${this.state.batch}】归档成功，可在历史成果中进行查看！`,
-            });
-            this.refresh()
-        }
-        else {
-            Modal.error({
-                content: `批次【${this.state.batch}】归档失败！`,
-            });
-        }
-
-        this.fileModalClose()
-
-    }
-
-    fileModalClose = () => {
-        this.setState({
-            batch: '',
-            fileVisible: false
-        })
-    }
-
     render() {
         const {
             loading, dataSource, pageSize, _total,
             info, departmentList, departmentNo, sno, partName,
-            state, collection, showSearch, batch, visible, fileVisible
+            state, collection, showSearch, batch, visible
         } = this.state
         const columns = [
+            {
+                title: '归档批次',
+                dataIndex: 'batch',
+                key: 'batch',
+                width: 100,
+                fixed: 'left',
+            },
             {
                 title: '成果编号',
                 dataIndex: 'id',
@@ -288,12 +265,12 @@ export default class ThesisList extends Component {
                         {
                             isGod() && (
                                 <Popconfirm
-                                    title="确认将成果状态改为【学校待审】吗?"
-                                    onConfirm={() => this.changeState(record.id)}
+                                    title="确认将已存档的成果删除吗?删除后不可恢复，请谨慎操作！"
+                                    onConfirm={() => this.del(record.id)}
                                     okText="确定"
                                     cancelText="取消"
                                 >
-                                    <Button type='danger' size='small'>恢复待审</Button>
+                                    <Button type='danger' size='small'>彻底删除</Button>
                                 </Popconfirm>
                             )
                         }
@@ -304,6 +281,18 @@ export default class ThesisList extends Component {
         const title = (
             <Space direction='vertical'>
                 <Space>
+                    <span>
+                        <span>批次 </span>
+                        <Select
+                            value={batch}
+                            style={{ width: 180 }}
+                            onChange={this.handleBatchChange}
+                        >
+                            <Option key='all' value='' >全部</Option>
+                            {this.batches.map(
+                                item => <Option key={item} value={item} >{item}</Option>)}
+                        </Select>
+                    </span>
                     <span>
                         <span>学院 </span>
                         <Select
@@ -323,8 +312,6 @@ export default class ThesisList extends Component {
                             onChange={this.handleStateChange}
                         >
                             <Option key='学校审核通过' value='学校审核通过' >学校审核通过</Option>
-                            <Option key='等待学校审核' value='等待学校审核' >等待学校审核</Option>
-                            <Option key='等待学院审核' value='等待学院审核' >等待学院审核</Option>
                             <Option key='被拒绝' value='被拒绝' >被拒绝</Option>
                             <Option key='全部' value='全部' >全部</Option>
                         </Select>
@@ -381,11 +368,7 @@ export default class ThesisList extends Component {
                 </Space>
             </Space>
         )
-        const extra = (
-            <Space>
-                <Button type='primary' onClick={() => this.export()}>导出</Button>
-                {isGod() && <Button type='danger' onClick={() => this.setState({ fileVisible: true })}>归档</Button>}
-            </Space>)
+        const extra = <Button type='primary' onClick={() => this.export()}>导出</Button>
         return (
             <Card title={showSearch && title} extra={showSearch && extra}>
                 <Table
@@ -407,34 +390,13 @@ export default class ThesisList extends Component {
                     //title={<br/>}
                     visible={visible}
                     closeIcon={<CloseSquareFilled style={{ fontSize: 35 }} />}
-                    onCancel={() => this.setState({ visible: false })}
+                    onCancel={() => this.setState({ visible: false, info: null })}
                     width={1200}
                     footer={null}
                 >
                     {info && <ThesisInfo info={info} size='small' />}
                 </Modal>
-                <Modal
-                    title='归档确认'
-                    closeIcon={null}
-                    visible={fileVisible}
-                    onOk={this.handleFile}
-                    onCancel={this.fileModalClose}
-                    maskClosable={false}
-                >
-                    <Space direction='vertical'>
-                        <Input
-                            placeholder="请输入归档批次"
-                            name='batch'
-                            value={batch}
-                            onChange={this.changeValue} />
-                        <Alert
-                            message="注意"
-                            description="按照批次归档后，当前已审核成果将成为历史数据，请谨慎操作！"
-                            type="warning"
-                            showIcon
-                        />
-                    </Space>
-                </Modal>
+
             </Card >
         )
     }

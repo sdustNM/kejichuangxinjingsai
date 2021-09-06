@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { getJwt } from './jwtHelper'
-import config from '../../public/config.json'
-import Axios from 'axios'
+
 
 ///export const appRoot = config.approot
 //export const appRoot = 'https://kcpt.sdust.edu.cn/manager'

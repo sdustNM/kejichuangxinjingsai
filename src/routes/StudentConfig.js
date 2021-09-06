@@ -8,11 +8,12 @@ import CompetitionListXiao from '../views/Competition/Students/CompetitionListXi
 import Competition from "../views/Competition/Students/Competition"
 import ProjectList from "../views/Project/Student/ProjectList"
 import AchievementList from "../views/Achievements/AchievementList/AchievementList"
-import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
+import ConfirmAchieveFrame from "../views/Achievements/ConfirmAchieveFrame"
 import AchievementInfo from "../views/Achievements/AchievementInfo"
 import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 import PatentForm from "../views/Achievements/Patent/PatentForm"
 import CompetitionForm from "../views/Achievements/Competition/CompetitionForm"
+import FiledAchieveFrame from "../views/Achievements/FiledAchieveFrame"
 
 
 
@@ -50,7 +51,7 @@ export const studentConfig = [
   },
   {
     path: '/student/archievementList',
-    component: ConfirmAchieveList,
+    component: ConfirmAchieveFrame,
     exact: true,
   },
   {
@@ -76,6 +77,11 @@ export const studentConfig = [
   {
     path: '/student/competitionForm',
     component: CompetitionForm,
+    exact: true,
+  },
+  {
+    path: '/student/filedAchievements',
+    component: FiledAchieveFrame,
     exact: true,
   }
 ]

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Button, Card } from 'antd';
+import { Card } from 'antd';
 import { TrophyOutlined, ExperimentOutlined, FileTextOutlined, } from '@ant-design/icons'
-import ThesisList from './Thesis/ThesisList'
-import PatentList from './Patent/PatentList'
-import CompetitionList from './Competition/CompetitionList'
+import FiledThesisList from './Thesis/FiledThesisList'
+import FiledPatentList from './Patent/FiledPatentList'
+import FiledCompetitionList from './Competition/FiledCompetitionList'
 import getDepartmentList from '../../redux/common'
 import { getDeptID, isStudent } from '../../utils/auth';
 
@@ -24,7 +24,7 @@ const tabList = [
 
 
 
-class ConfirmAchieveList extends Component {
+class FiledAchieveList extends Component {
 
   state = {
     departmentNo: getDeptID(),
@@ -47,15 +47,13 @@ class ConfirmAchieveList extends Component {
   }
 
   render() {
-    //console.log(this.state.showSearch)
     const { key, departmentList, showSearch, departmentNo } = this.state
     const contentList = {
-      article: departmentList && <ThesisList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
-      competition: departmentList && <CompetitionList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
-      patent: departmentList && <PatentList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
+      article: departmentList && <FiledThesisList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
+      competition: departmentList && <FiledCompetitionList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
+      patent: departmentList && <FiledPatentList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
     };
-    // let extra=
-    // (<Button onClick={()=>exportCompetition({},'学生竞赛成果一览表.xls')}> 导出</Button>)
+
     return (
       <Card
         style={{ width: '100%' }}
@@ -70,4 +68,4 @@ class ConfirmAchieveList extends Component {
   }
 }
 
-export default ConfirmAchieveList
+export default FiledAchieveList

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Space, Button, Input, Modal,Popconfirm,message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { CheckCircleTwoTone  } from '@ant-design/icons';
+//import { CheckCircleTwoTone  } from '@ant-design/icons';
 import { delDDCompetitionById,getDDCompetitionListByFuzzy } from '../../../services/Achievements/ddOperation';
 import DDCompetitionEdit from './DDCompetitionEdit';
 

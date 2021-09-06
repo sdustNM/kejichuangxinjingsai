@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Modal, Table, Button, Card, Space, Select, Input, Popconfirm, message } from 'antd'
+import { Modal, Table, Button, Card, Space, Select, Input, Popconfirm, message, Alert } from 'antd'
 import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
-import { getCompetitionList, getCompetitionByID, getDDInfo } from '../../../services/Achievements'
+import { getCompetitionList, getCompetitionByID, getDDInfo, fileCompetition } from '../../../services/Achievements'
 import CompetitionInfo from './CompetitionInfo'
 import { exportCompetition, setSchoolReview } from '../../../services/Achievements'
 import { isGod } from '../../../utils/auth'
@@ -23,6 +23,8 @@ class CompetitionList extends Component {
         pageSize: 10,
         loading: false,
         visible: false,
+        fileVisible: false,
+        batch: '',
         info: null
     }
     competitionLevelList = []
@@ -169,11 +171,47 @@ class CompetitionList extends Component {
 
         })
     }
+
+    handleFile = async () => {
+
+        //alert(this.state.batch)
+        const batchName = this.state.batch.trim()
+        if (batchName === '') {
+            Modal.error({
+                content: `请输入正确的批次名称！`,
+            });
+            return
+        }
+        const res = await fileCompetition({ batchId: batchName })
+        if (res.result) {
+            Modal.success({
+                content: `批次【${this.state.batch}】归档成功，可在历史成果中进行查看！`,
+            });
+            this.refresh()
+        }
+        else {
+            Modal.error({
+                content: `批次【${this.state.batch}】归档失败！`,
+            });
+        }
+
+        this.fileModalClose()
+
+    }
+
+    fileModalClose = () => {
+
+        this.setState({
+            batch: '',
+            fileVisible: false
+        })
+    }
+
     render() {
         const {
             loading, dataSource, pageSize, _total, info,
             departmentList, departmentNo, sno, partName, state,
-            level, type, showSearch } = this.state
+            level, type, showSearch, visible, fileVisible, batch } = this.state
         console.log(info)
         const columns = [
             {
@@ -230,7 +268,7 @@ class CompetitionList extends Component {
                             }}
                         >
                             <DoubleRightOutlined />详情
-                    </Button>
+                        </Button>
                         {
                             isGod() && (
                                 <Popconfirm
@@ -248,95 +286,103 @@ class CompetitionList extends Component {
             },
         ];
         const title = (
-            <Space>
-                <span>
-                    <span>学院 </span>
-                    <Select
-                        value={departmentNo}
-                        style={{ width: 180 }}
-                        onChange={this.handleDeptChange}
-                    >
-                        {departmentList.map(
-                            item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
-                    </Select>
-                </span>
-                <span>
-                    <span>状态 </span>
-                    <Select
-                        value={state}
-                        style={{ width: 150 }}
-                        onChange={this.handleStateChange}
-                    >
-                        <Option key='学校审核通过' value='学校审核通过' >学校审核通过</Option>
-                        <Option key='等待学校审核' value='等待学校审核' >等待学校审核</Option>
-                        <Option key='等待学院审核' value='等待学院审核' >等待学院审核</Option>
-                        <Option key='被拒绝' value='被拒绝' >被拒绝</Option>
-                        <Option key='全部' value='全部' >全部</Option>
-                    </Select>
-                </span>
-                <span>
-                    <span>等级 </span>
-                    <Select
-                        value={level}
-                        style={{ width: 120 }}
-                        onChange={this.handleLevelChange}
-                    >
-                        <Option key='0' value='0' >全部</Option>
-                        {
-                            this.competitionLevelList.map(level => <Option key={level.Id} value={level.Name} >{level.Name}</Option>)
-                        }
-                    </Select>
-                </span>
-                <span>
-                    <span>类别 </span>
-                    <Select
-                        value={type}
-                        style={{ width: 120 }}
-                        onChange={this.handleTypeChange}
-                    >
-                        <Option key='0' value='0' >全部</Option>
-                        {
-                            this.competitionTypeList.map(type => <Option key={type.Id} value={type.Name} >{type.Name}</Option>)
-                        }
-                    </Select>
-                </span>
-                <span>
-                    <span>成果编号或竞赛、作品名称 </span>
-                    <Input
-                        allowClear
-                        style={{ width: 180 }}
-                        //addonBefore=''
-                        name='partName'
-                        value={partName}
-                        onChange={this.changeValue}
-                        placeholder=''
-                    />
-                </span>
-                <span>
-                    <span>学号或姓名 </span>
-                    <Input
-                        allowClear
-                        style={{ width: 180 }}
-                        //addonBefore='学号'
-                        name='sno'
-                        value={sno}
-                        onChange={this.changeValue}
-                        placeholder='精确匹配'
-                    />
-                </span>
+            <Space direction='vertical'>
+                <Space>
+                    <span>
+                        <span>学院 </span>
+                        <Select
+                            value={departmentNo}
+                            style={{ width: 180 }}
+                            onChange={this.handleDeptChange}
+                        >
+                            {departmentList.map(
+                                item => <Option key={'department_' + item.id} value={item.id} >{item.name}</Option>)}
+                        </Select>
+                    </span>
+                    <span>
+                        <span>状态 </span>
+                        <Select
+                            value={state}
+                            style={{ width: 150 }}
+                            onChange={this.handleStateChange}
+                        >
+                            <Option key='学校审核通过' value='学校审核通过' >学校审核通过</Option>
+                            <Option key='等待学校审核' value='等待学校审核' >等待学校审核</Option>
+                            <Option key='等待学院审核' value='等待学院审核' >等待学院审核</Option>
+                            <Option key='被拒绝' value='被拒绝' >被拒绝</Option>
+                            <Option key='全部' value='全部' >全部</Option>
+                        </Select>
+                    </span>
+                    <span>
+                        <span>等级 </span>
+                        <Select
+                            value={level}
+                            style={{ width: 120 }}
+                            onChange={this.handleLevelChange}
+                        >
+                            <Option key='0' value='0' >全部</Option>
+                            {
+                                this.competitionLevelList.map(level => <Option key={level.Id} value={level.Name} >{level.Name}</Option>)
+                            }
+                        </Select>
+                    </span>
+                    <span>
+                        <span>类别 </span>
+                        <Select
+                            value={type}
+                            style={{ width: 120 }}
+                            onChange={this.handleTypeChange}
+                        >
+                            <Option key='0' value='0' >全部</Option>
+                            {
+                                this.competitionTypeList.map(type => <Option key={type.Id} value={type.Name} >{type.Name}</Option>)
+                            }
+                        </Select>
+                    </span>
+                </Space>
+                <Space>
+                    <span>
+                        <span>成果编号或竞赛、作品名称 </span>
+                        <Input
+                            allowClear
+                            style={{ width: 180 }}
+                            //addonBefore=''
+                            name='partName'
+                            value={partName}
+                            onChange={this.changeValue}
+                            placeholder=''
+                        />
+                    </span>
+                    <span>
+                        <span>学号或姓名 </span>
+                        <Input
+                            allowClear
+                            style={{ width: 180 }}
+                            //addonBefore='学号'
+                            name='sno'
+                            value={sno}
+                            onChange={this.changeValue}
+                            placeholder='精确匹配'
+                        />
+                    </span>
 
 
-                <Button
-                    type='primary'
-                    shape='round'
-                    size='small'
-                    onClick={this.search}
-                >
-                    <SearchOutlined />
-                </Button>
+                    <Button
+                        type='primary'
+                        shape='round'
+                        size='small'
+                        onClick={this.search}
+                    >
+                        <SearchOutlined />
+                    </Button>
+                </Space>
             </Space>
         )
-        const extra = <Button type='primary' onClick={() => this.export()}>导出</Button>
+        const extra = (
+            <Space>
+                <Button type='primary' onClick={() => this.export()}>导出</Button>
+                {isGod() && <Button type='danger' onClick={() => this.setState({ fileVisible: true })}>归档</Button>}
+            </Space>)
         return (
             <Card title={showSearch && title} extra={showSearch && extra}>
                 <Table
@@ -355,13 +401,35 @@ class CompetitionList extends Component {
                     }} />
                 <Modal
                     //title={<br/>}
-                    visible={this.state.visible}
+                    visible={visible}
                     closeIcon={<CloseSquareFilled style={{ fontSize: 35 }} />}
                     onCancel={() => this.setState({ visible: false })}
                     width={1200}
                     footer={null}
                 >
                     {info && <CompetitionInfo info={info} size='small' />}
+                </Modal>
+                <Modal
+                    title='归档确认'
+                    closeIcon={null}
+                    visible={fileVisible}
+                    onOk={this.handleFile}
+                    onCancel={this.fileModalClose}
+                    maskClosable={false}
+                >
+                    <Space direction='vertical'>
+                        <Input
+                            placeholder="请输入归档批次"
+                            name='batch'
+                            value={batch}
+                            onChange={this.changeValue} />
+                        <Alert
+                            message="注意"
+                            description="按照批次归档后，当前已审核成果将成为历史数据，请谨慎操作！"
+                            type="warning"
+                            showIcon
+                        />
+                    </Space>
                 </Modal>
             </Card>
         )

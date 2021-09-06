@@ -17,6 +17,8 @@ import Chart from '../views/Charts/Chart';
 import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 import PatentForm from "../views/Achievements/Patent/PatentForm"
 import CompetitionForm from "../views/Achievements/Competition/CompetitionForm"
+import FiledAchieveList from "../views/Achievements/FiledAchieveFrame"
+//import BatchManager from '../views/BatchManage';
 
 export const administerConfig = [
 
@@ -66,7 +68,7 @@ export const administerConfig = [
     path: '/administer/Experts',
     component: ExpertManagerList,
     exact: true
-  }, 
+  },
   {
     path: '/administer/ExpertsEdit',
     component: ExpertManagerEdit,
@@ -88,14 +90,14 @@ export const administerConfig = [
     exact: true,
   },
   {
-    path:'/administer/DDCompetitionList',
-    component:DDCompetitionList,
-    exact:true
+    path: '/administer/DDCompetitionList',
+    component: DDCompetitionList,
+    exact: true
   },
   {
-    path:'/administer/charts',
-    component:Chart,
-    exact:true
+    path: '/administer/charts',
+    component: Chart,
+    exact: true
   },
   {
     path: '/administer/thesisForm',
@@ -111,7 +113,17 @@ export const administerConfig = [
     path: '/administer/competitionForm',
     component: CompetitionForm,
     exact: true,
-  }
+  },
+  {
+    path: '/administer/filedAchievements',
+    component: FiledAchieveList,
+    exact: true,
+  },
+  // {
+  //   path: '/administer/batch',
+  //   component: BatchManager,
+  //   exact: true
+  // }
 
   // {
   //   path: '/administer/AnnouncementList',
