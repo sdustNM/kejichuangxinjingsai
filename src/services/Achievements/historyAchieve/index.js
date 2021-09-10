@@ -10,8 +10,8 @@ export function getCompetitionByID(params) {
   return get('/AchieveFileCompetition/getCompetitionByID', params)
 }
 //​删除历史竞赛成果
-export function deleteCompetitionByID() {
-  return get('/AchieveFileCompetition/deleteCompetitionByID')
+export function deleteCompetitionByID(params) {
+  return get('/AchieveFileCompetition/deleteCompetitionByID', params)
 }
 //​获取历史竞赛批次 
 export function getCompetitionBatchList(params) {
@@ -37,8 +37,8 @@ export function getArticleByID(params) {
   return get('/AchieveFileArticle/getArticleByID', params)
 }
 //​删除历史论文成果
-export function deleteArticleByID() {
-  return get('/AchieveFileArticle/deleteArticleByID')
+export function deleteArticleByID(params) {
+  return get('/AchieveFileArticle/deleteArticleByID', params)
 }
 //​获取历史论文批次 
 export function getArticleBatchList() {
@@ -64,8 +64,8 @@ export function getPatentBatchList(params) {
   return get('/AchieveFilePatent/getBatchList', params)
 }
 //​删除历史专利成果
-export function deletePatentByID() {
-  return get('/AchieveFilePatent/deletePatentByID')
+export function deletePatentByID(params) {
+  return get('/AchieveFilePatent/deletePatentByID', params)
 }
 //导出历史专利Excel
 export function exportPatent(params, filename) {

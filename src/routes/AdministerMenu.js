@@ -103,8 +103,8 @@ export const administerMenus = [
     yuanManager: true,
     sub: [{
       isShow: true,
-      title: '比赛名称审核',
-      path: '/administer/competitionName',
+      title: '竞赛名称审核',
+      path: '/administer/reviewCompetitionName',
       icon: <SmileOutlined />,
       yuanManager: true,
     }, {
@@ -137,8 +137,14 @@ export const administerMenus = [
     },
     {
       isShow: true,
-      title: '比赛名称列表',
-      path: '/administer/DDCompetitionList',
+      title: '固定比赛名称列表',
+      path: '/administer/DDBaseCompetitionList',
+      icon: <SmileOutlined />,
+    },
+    {
+      isShow: true,
+      title: '实际比赛名称列表',
+      path: '/administer/DDRealCompetitionList',
       icon: <SmileOutlined />,
     }]
   }

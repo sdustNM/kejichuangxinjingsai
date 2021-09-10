@@ -71,7 +71,7 @@ class ThesisForm extends Component {
             //console.log(res)
             if (res.result) {
                 const item = JSON.parse(res.data)
-                //console.log(item)
+                console.log(item)
                 item.coverAppendix && (coverList = item.coverAppendix)
                 item.contentsAppendix && (contentsList = item.contentsAppendix)
                 item.articleAppendix && (articleList = item.articleAppendix)
@@ -88,6 +88,8 @@ class ThesisForm extends Component {
                     studentName: item.姓名,
                     studentNo: item.学号,
                     mobile: item.联系方式,
+                    yhkh: item.银行卡号,
+                    sfzh: item.身份证号,
                     others: !item.其他作者id ? [undefined] : item.其他作者id.split(','),
                     cover: this.getAppendixUrls(coverList),
                     contents: this.getAppendixUrls(contentsList),
@@ -176,6 +178,8 @@ class ThesisForm extends Component {
             "volumn": values.issue,
             "cite": values.collection,
             "link": values.mobile,
+            "银行卡号": values.yhkh,
+            "身份证号": values.sfzh,
             "otherAuthors": values.others && values.others.map(x => x.type + ":" + x.value).join(','),
             "coverUrl": values.cover,
             "contentUrl": values.contents,
@@ -345,6 +349,34 @@ class ThesisForm extends Component {
                     >
                         <Input placeholder='请输入手机号' style={{ width: 200 }} />
                     </Form.Item>
+                    <Form.Item
+                        label="银行卡号"
+                        name="yhkh"
+                        rules={[
+                            {
+                                required: true,
+                                message: '银行卡号不能为空!',
+                            },
+                        ]}
+                    >
+                        <Input placeholder='青岛泰安校区填农行卡，济南校区填建行卡' />
+                    </Form.Item>
+                    <Form.Item
+                        label="身份证号"
+                        name="sfzh"
+                        rules={[
+                            {
+                                required: true,
+                                message: '身份证号不能为空!',
+                            },
+                            {
+                                pattern: /^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|30|31)|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}([0-9]|x|X)$/,
+                                message: '身份证号不合法!',
+                            }
+                        ]}
+                    >
+                        <Input placeholder='请输入身份证号' />
+                    </Form.Item>
 
                     <Form.List name="others">
                         {(fields, { add, remove }) => {
@@ -393,7 +425,7 @@ class ThesisForm extends Component {
                                             style={{ width: '60%' }}
                                         >
                                             <PlusOutlined /> 添加其他作者
-                        </Button>
+                                        </Button>
                                     </Form.Item>
                                 </div>
                             );

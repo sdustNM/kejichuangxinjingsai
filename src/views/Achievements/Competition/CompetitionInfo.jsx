@@ -14,13 +14,13 @@ class CompetitionInfo extends Component {
                     title={`竞赛成果详细信息(编号：${info.编号})`}
                 >
                     {/* <Descriptions.Item label={<strong>编号</strong>}>{info.编号}</Descriptions.Item> */}
-                    <Descriptions.Item label={<strong>竞赛名称</strong>}>{info.竞赛名称}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>竞赛名称</strong>} span={3}>{info.竞赛名称}</Descriptions.Item>
                     <Descriptions.Item label={<strong>竞赛等级</strong>}>{info.等级}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>获奖等级</strong>}>{`${info.获奖等级}${info.单项奖名称 == null ? "" : "-" + info.单项奖名称}`}</Descriptions.Item>
-
                     <Descriptions.Item label={<strong>竞赛类别</strong>}>{info.类别}</Descriptions.Item>
                     <Descriptions.Item label={<strong>竞赛组别</strong>}>{info.组别}</Descriptions.Item>
-                    <Descriptions.Item label={<strong>主办单位</strong>}>{info.主办单位}</Descriptions.Item>
+                    
+                    <Descriptions.Item label={<strong>获奖等级</strong>}>{`${info.获奖等级}${info.单项奖名称 == null ? "" : "-" + info.单项奖名称}`}</Descriptions.Item>
+                    <Descriptions.Item label={<strong>主办单位</strong>} span={2}>{info.主办单位}</Descriptions.Item>
                     <Descriptions.Item label={<strong>获奖时间</strong>}>{info.获奖时间}</Descriptions.Item>
                     <Descriptions.Item label={<strong>作品名称</strong>}>{info.作品名称}</Descriptions.Item>
                     <Descriptions.Item label={<strong>证书编号</strong>}>{info.证书编号}</Descriptions.Item>

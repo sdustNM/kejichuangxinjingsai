@@ -90,12 +90,16 @@ export function fileCompetition(params) {
   return get('/AchieveCompetition/File', params)
 }
 
-//a获取竞赛成果表单中的下拉选项
+//获取竞赛成果表单中的下拉选项
 export function getDDInfo(params) {
   return get('/AchieveCompetition/getDDInfo', params)
 }
 export function getTypeList(params) {
   return get('/AchieveCompetition/getTypeList', params)
+}
+//根据固定比赛名称获取实际比赛名称列表
+export function getRealCompetitionNameList(params) {
+  return get('/AchieveCompetition/getRealCompetitionList', params)
 }
 
 //导出到Excel中

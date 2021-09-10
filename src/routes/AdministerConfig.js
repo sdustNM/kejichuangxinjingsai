@@ -18,6 +18,7 @@ import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 import PatentForm from "../views/Achievements/Patent/PatentForm"
 import CompetitionForm from "../views/Achievements/Competition/CompetitionForm"
 import FiledAchieveList from "../views/Achievements/FiledAchieveFrame"
+import ReviewRealCompetitionNameList from '../views/Achievements/Competition/RealName/ReviewRealCompetitionNameList';
 //import BatchManager from '../views/BatchManage';
 
 export const administerConfig = [
@@ -75,24 +76,34 @@ export const administerConfig = [
     exact: true
   },
   {
+    path: '/administer/reviewCompetitionName',
+    component: ReviewRealCompetitionNameList,
+    //exact: true,
+  },
+  {
     path: '/administer/reviewList',
     component: AchievementList,
-    exact: true
+    //exact: true
   },
   {
     path: '/administer/achievementsInfo',
     component: AchievementInfo,
-    exact: true,
+    //exact: true,
   },
   {
     path: '/administer/archievementList',
     component: ConfirmAchieveList,
-    exact: true,
+    //exact: true,
   },
   {
-    path: '/administer/DDCompetitionList',
+    path: '/administer/DDBaseCompetitionList',
     component: DDCompetitionList,
-    exact: true
+    //exact: true
+  },
+  {
+    path: '/administer/DDRealCompetitionList',
+    component: DDCompetitionList,
+    //exact: true
   },
   {
     path: '/administer/charts',
@@ -119,6 +130,7 @@ export const administerConfig = [
     component: FiledAchieveList,
     exact: true,
   },
+  
   // {
   //   path: '/administer/batch',
   //   component: BatchManager,

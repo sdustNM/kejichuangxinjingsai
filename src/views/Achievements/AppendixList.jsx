@@ -11,6 +11,7 @@ class AppendixList extends Component {
         // />
         return (
             <List
+                bordered={this.props.bordered}
                 size="small"
                 //bordered
                 dataSource={fileList}

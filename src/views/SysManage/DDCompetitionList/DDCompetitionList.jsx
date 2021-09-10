@@ -60,7 +60,7 @@ class DDCompetitionList extends React.Component {
 
   refresh = (currentPage, pageSize) => {
     const { id, name } = this.state
-    console.log(this.state)
+    //console.log(this.state)
     if (!currentPage) currentPage=this.state.currentPage
     if (!pageSize) pageSize=this.state.pageSize
     getDDCompetitionListByFuzzy({
@@ -69,7 +69,7 @@ class DDCompetitionList extends React.Component {
       currentPage,
       pageSize
     }).then(res => {
-      console.log(res)
+      //console.log(res)
       if (res.result) {
         let list = []
         let data = JSON.parse(res.data)

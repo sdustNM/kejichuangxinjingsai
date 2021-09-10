@@ -55,7 +55,7 @@ class AchievementAppendixUpload extends React.Component {
     fileList = fileList.filter(file => !!file.status).slice(0, this.props.maxNum).map(file => {
       if (file.response) {
         let data = JSON.parse(file.response.data)
-        console.log(data)
+        //console.log(data)
         file.rawUrl = data.url
         file.url = appRoot + data.url
         file.id = data.id
@@ -83,7 +83,7 @@ class AchievementAppendixUpload extends React.Component {
       }
     })
   }
-List
+//List
   getAppendixUrls = fileList => {
     //console.log(this.state.fileList)
     fileList = fileList || this.state.fileList

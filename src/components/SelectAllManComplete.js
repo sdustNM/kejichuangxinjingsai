@@ -91,10 +91,10 @@ class SelectManComplete extends React.Component {
     let idorname = ''
 
     if (v.indexOf("undefinded") == -1) {
-      console.log("VVV",v)
+      //console.log("VVV",v)
       let type = v.split(":")[0]
       let idorname = v.split(":")[1]
-      console.log("VVV",type,idorname)
+      //console.log("VVV",type,idorname)
       this.setState(
         {
           idorname,
