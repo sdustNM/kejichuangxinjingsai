@@ -144,7 +144,6 @@ export function download(url, params, filename) {
 
     URL.revokeObjectURL(linkNode.href); // 释放URL 对象
     document.body.removeChild(linkNode);
-
   }).catch(function (error) {
     console.log(error);
   })
