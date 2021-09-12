@@ -12,13 +12,14 @@ import ProjectInfoWithComInfo from "../views/Project/ProjectInfo_withComInfo"
 import AchievementList from '../views/Achievements/AchievementList/AchievementList_admin';
 import AchievementInfo from '../views/Achievements/AchievementInfo';
 import ConfirmAchieveList from "../views/Achievements/ConfirmAchieveFrame"
-import DDCompetitionList from '../views/SysManage/DDCompetitionList/DDCompetitionList';
 import Chart from '../views/Charts/Chart';
 import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 import PatentForm from "../views/Achievements/Patent/PatentForm"
 import CompetitionForm from "../views/Achievements/Competition/CompetitionForm"
 import FiledAchieveList from "../views/Achievements/FiledAchieveFrame"
 import ReviewRealCompetitionNameList from '../views/Achievements/Competition/RealName/ReviewRealCompetitionNameList';
+import BaseCompetitionManager from '../views/SysManage/BaseCompetitionName/List';
+import RealCompetitionManager from '../views/SysManage/RealCompetitionName/List';
 //import BatchManager from '../views/BatchManage';
 
 export const administerConfig = [
@@ -97,12 +98,12 @@ export const administerConfig = [
   },
   {
     path: '/administer/DDBaseCompetitionList',
-    component: DDCompetitionList,
+    component: BaseCompetitionManager,
     //exact: true
   },
   {
     path: '/administer/DDRealCompetitionList',
-    component: DDCompetitionList,
+    component: RealCompetitionManager,
     //exact: true
   },
   {
@@ -130,7 +131,7 @@ export const administerConfig = [
     component: FiledAchieveList,
     exact: true,
   },
-  
+
   // {
   //   path: '/administer/batch',
   //   component: BatchManager,

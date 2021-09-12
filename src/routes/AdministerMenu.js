@@ -137,13 +137,13 @@ export const administerMenus = [
     },
     {
       isShow: true,
-      title: '固定比赛名称列表',
+      title: '固定竞赛管理',
       path: '/administer/DDBaseCompetitionList',
       icon: <SmileOutlined />,
     },
     {
       isShow: true,
-      title: '实际比赛名称列表',
+      title: '实际比竞赛理',
       path: '/administer/DDRealCompetitionList',
       icon: <SmileOutlined />,
     }]

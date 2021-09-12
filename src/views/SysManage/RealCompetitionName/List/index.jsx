@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Card, Table, Space, Button, Input, Modal, Popconfirm, message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getBaseNameList, deleteBaseName } from '../../../../services/Achievements/competitionName'
-import BaseCompetitionEdit from '../Edit';
+import { getRealNameList, deleteRealName } from '../../../../services/Achievements/competitionName'
+import RealCompetitionEdit from '../Edit';
 
-export default class BaseCompetitionManager extends Component {
+export default class RealCompetitionManager extends Component {
     state = {
         id: '',             //比赛ID
         name: '',           //比赛名称关键字
@@ -28,7 +28,7 @@ export default class BaseCompetitionManager extends Component {
     refresh = async () => {
         const { id, name, currentPage, pageSize } = this.state
         const params = { id, name, currentPage, pageSize }
-        const res = await getBaseNameList(params)
+        const res = await getRealNameList(params)
         if (res.result) {
             const data = JSON.parse(res.data)
             console.log(data)
@@ -66,7 +66,7 @@ export default class BaseCompetitionManager extends Component {
     }
     //删除指定记录
     del = async id => {
-        const res = await deleteBaseName({ id })
+        const res = await deleteRealName({ id })
         if (res.result) {
             message.success('删除成功！', 1)
             this.refresh()
@@ -86,7 +86,6 @@ export default class BaseCompetitionManager extends Component {
         this.setState({ visible: false }, this.refresh)
     }
 
-
     render() {
         const { id, name, dataSource, pageSize, _total, loading, visible, record } = this.state;
         const columns = [
@@ -104,6 +103,21 @@ export default class BaseCompetitionManager extends Component {
                 title: '类型',
                 dataIndex: 'Type',
                 key: 'Type',
+            },
+            {
+                title: '级别',
+                dataIndex: 'ComLevel',
+                key: 'ComLevel',
+            },
+            {
+                title: '年份',
+                dataIndex: 'Batch',
+                key: 'Batch',
+            },
+            {
+                title: '届数',
+                dataIndex: 'SessionNumber',
+                key: 'SessionNumber',
             },
             {
                 title: '排序',
@@ -143,7 +157,7 @@ export default class BaseCompetitionManager extends Component {
         ];
         const title =
             <Space>
-                <Button type='primary' ghost onClick={() => this.edit({})}><PlusCircleOutlined />添加</Button>
+                {/* <Button type='primary' ghost onClick={() => this.edit({})}><PlusCircleOutlined />添加</Button> */}
                 <Input addonBefore='编号' name='id' onPressEnter={this.search} value={id} onChange={this.changeValue} />
                 <Input addonBefore='名称' name='name' onPressEnter={this.search} value={name} onChange={this.changeValue} />
                 <Button type='primary' onClick={this.search}>搜索</Button>
@@ -171,13 +185,13 @@ export default class BaseCompetitionManager extends Component {
                 />
                 <Modal
                     width={640}
-                    title={record.id ? "修改比赛信息" : "添加比赛信息"}
+                    title='修改比赛信息'
                     visible={visible}
                     onCancel={this.hideModal}
                     //destroyOnClose={true}
                     footer={null}
                 >
-                    <BaseCompetitionEdit record={record} hideModal={this.hideModal}></BaseCompetitionEdit>
+                    <RealCompetitionEdit record={record} hideModal={this.hideModal}></RealCompetitionEdit>
                 </Modal>
 
             </Card>
