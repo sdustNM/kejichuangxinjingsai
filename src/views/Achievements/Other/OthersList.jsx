@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { Modal, Table, Button, Card, Space, Select, Input, Popconfirm, message, Alert } from 'antd'
 import { SearchOutlined, CloseSquareFilled, DoubleRightOutlined } from '@ant-design/icons'
-import { getPatentList, getPatentByID, filePatent } from '../../../services/Achievements'
-import PatentInfo from './PatentInfo'
-import { exportPatent, setSchoolReview } from '../../../services/Achievements'
+import { getOthersList, getOthersByID, fileOthers } from '../../../services/Achievements'
+import { exportOthers, setSchoolReview } from '../../../services/Achievements'
+import OthersInfo from './OthersInfo'
 import { isGod } from '../../../utils/auth'
 
 const { Option } = Select
 const statusList = ['已拒绝', '未提交', '学院审核中', '学校审核中', '审核通过']
 
-class PatentList extends Component {
+class OthersList extends Component {
     state = {
         showSearch: this.props.showSearch,
         departmentList: this.props.departmentList,
@@ -18,6 +18,7 @@ class PatentList extends Component {
         partName: '',
         state: '学校审核通过',
         type: '0',
+        level: '0',
         currentPage: 1,
         pageSize: 10,
         loading: false,
@@ -31,55 +32,25 @@ class PatentList extends Component {
         this.refresh();
     }
 
-    pageChange = (currentPage, pageSize) => {
-        this.setState({
-            currentPage,
-            pageSize
-        })
-        this.refresh(currentPage, pageSize);
-    }
-    showSizeChange = (current, pageSize) => {
-        this.setState({
-            currentPage: 1,
-            pageSize
-        })
-        this.refresh(1, pageSize);
-    }
+    pageChange = (currentPage, pageSize) => this.setState({ currentPage, pageSize }, this.refresh)
+    showSizeChange = (_, pageSize) => this.setState({ currentPage: 1, pageSize }, this.refresh)
 
-    handleDeptChange = value => {
-        this.setState({
-            departmentNo: value
-        }, this.search)
-    }
-    handleStateChange = value => {
-        this.setState({
-            state: value
-        }, this.search)
-    }
-    handleTypeChange = type => {
-        this.setState({ type }, this.search)
-    }
-    changeValue = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
-    search = () => {
-        this.setState({
-            currentPage: 1
-        })
-        this.refresh(1)
-    }
+    handleDeptChange = value => this.setState({ departmentNo: value }, this.search)
+    handleStateChange = value => this.setState({ state: value }, this.search)
+    handleLevelChange = level => this.setState({ level }, this.search)
+    handleTypeChange = type => this.setState({ type }, this.search)
+    changeValue = e => this.setState({ [e.target.name]: e.target.value })
 
-    refresh = async (currentPage, pageSize) => {
+    search = () => this.setState({ currentPage: 1 }, this.refresh)
+
+    refresh = async () => {
         this.setState({ loading: true });
-        const { departmentNo, state, type, sno, partName } = this.state
-        currentPage = currentPage ? currentPage : this.state.currentPage
-        pageSize = pageSize ? pageSize : this.state.pageSize
+        const { departmentNo, state, type, level, sno, partName, currentPage, pageSize } = this.state
         let params = {
             departmentNo,
             state,
-            patentType: type,
+            type,
+            level,
             sno,
             partName,
             currentPage,
@@ -87,24 +58,23 @@ class PatentList extends Component {
         }
 
         //console.log(params)
-        const res = await getPatentList(params)
+        const res = await getOthersList(params)
         if (res.result) {
             //console.log(res)
             const data = JSON.parse(res.data)
+            console.log(data)
             let list = []
             data.list.map(item =>
                 list.push({
-                    key: '专利_' + item.Id,
-                    id: item.Id,
-                    patentName: item.专利名称,
-                    patentNo: item.专利申请号,
-                    inventor: item.姓名,
+                    id: item.编号,
+                    honourName: item.荣誉名称,
+                    yearMonth: item.获奖时间,
+                    head: item.学生姓名,
                     department: item.学院,
                     class: item.班级,
                     status: statusList[item.State + 1]
                 })
             )
-
             this.setState({
                 dataSource: list,
                 _total: data.totalNum,
@@ -119,7 +89,7 @@ class PatentList extends Component {
     }
 
     showInfo = async id => {
-        const res = await getPatentByID({ id })
+        const res = await getOthersByID({ id })
         if (res.result) {
             const info = JSON.parse(res.data)
             //console.log(info)
@@ -132,7 +102,7 @@ class PatentList extends Component {
     changeState = async id => {
         const params = {
             id,
-            type: '专利',
+            type: '其他成果',
             result: 99,
             remark: '管理员修改状态'
         }
@@ -148,8 +118,8 @@ class PatentList extends Component {
             loading: true
         });
         const { departmentNo, state, type, sno, partName } = this.state
-        const params = { departmentNo, state, patentType: type, sno, partName }
-        exportPatent(params, '学生专利成果一览表.xls').then(() => {
+        const params = { departmentNo, state, sno, partName }
+        exportOthers(params, '学生其他成果一览表.xls').then(() => {
             this.setState({
                 loading: false
             });
@@ -167,7 +137,7 @@ class PatentList extends Component {
             });
             return
         }
-        const res = await filePatent({ batchId: batchName })
+        const res = await fileOthers({ batchId: batchName })
         if (res.result) {
             Modal.success({
                 content: `批次【${this.state.batch}】归档成功，可在历史成果中进行查看！`,
@@ -194,7 +164,7 @@ class PatentList extends Component {
 
     render() {
         const { loading, dataSource, pageSize, _total, info, departmentList,
-            departmentNo, sno, partName, state, type, showSearch,
+            departmentNo, sno, partName, state, type, level, showSearch,
             batch, visible, fileVisible } = this.state
         const columns = [
             {
@@ -203,19 +173,19 @@ class PatentList extends Component {
                 key: 'id'
             },
             {
-                title: '专利名称',
-                dataIndex: 'patentName',
-                key: 'patentName'
+                title: '荣誉名称',
+                dataIndex: 'honourName',
+                key: 'honourName'
             },
             {
-                title: '专利申请号',
-                dataIndex: 'patentNo',
-                key: 'patentNo'
+                title: '获奖年月',
+                dataIndex: 'yearMonth',
+                key: 'yearMonth'
             },
             {
-                title: '第一发明人',
-                dataIndex: 'inventor',
-                key: 'inventor'
+                title: '负责人',
+                dataIndex: 'head',
+                key: 'head'
             },
             {
                 title: '所在学院',
@@ -293,6 +263,19 @@ class PatentList extends Component {
                         </Select>
                     </span>
                     <span>
+                        <span>级别 </span>
+                        <Select
+                            value={level}
+                            style={{ width: 150 }}
+                            onChange={this.handleLevelChange}
+                        >
+                            <Option key='0' value='0' >全部</Option>
+                            <Option key='国赛' value='国赛'>国赛</Option>
+                            <Option key='省赛' value='省赛'>省赛</Option>
+                            <Option key='市赛' value='市赛'>市赛</Option>
+                        </Select>
+                    </span>
+                    <span>
                         <span>类型 </span>
                         <Select
                             value={type}
@@ -300,9 +283,9 @@ class PatentList extends Component {
                             onChange={this.handleTypeChange}
                         >
                             <Option key='0' value='0' >全部</Option>
-                            <Option key='发明' value='发明' >发明</Option>
-                            <Option key='实用新型' value='实用新型' >实用新型</Option>
-                            <Option key='外观设计' value='外观设计' >外观设计</Option>
+                            <Option key='1' value='1' >1</Option>
+                            <Option key='2' value='2' >2</Option>
+                            <Option key='3' value='3' >3</Option>
                         </Select>
                     </span>
 
@@ -356,6 +339,7 @@ class PatentList extends Component {
             <Card title={showSearch && title} extra={showSearch && extra}>
                 <Table
                     dataSource={dataSource}
+                    rowKey={record => record.id}
                     columns={columns}
                     loading={loading}
                     pagination={{
@@ -376,7 +360,7 @@ class PatentList extends Component {
                     width={1200}
                     footer={null}
                 >
-                    {info && <PatentInfo info={info} size='small' />}
+                    {info && <OthersInfo info={info} size='small' />}
                 </Modal>
                 <Modal
                     title='归档确认'
@@ -405,4 +389,4 @@ class PatentList extends Component {
     }
 }
 
-export default PatentList
+export default OthersList

@@ -16,6 +16,7 @@ import Chart from '../views/Charts/Chart';
 import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 import PatentForm from "../views/Achievements/Patent/PatentForm"
 import CompetitionForm from "../views/Achievements/Competition/CompetitionForm"
+import OthersForm from '../views/Achievements/Other/OthersForm'
 import FiledAchieveList from "../views/Achievements/FiledAchieveFrame"
 import ReviewRealCompetitionNameList from '../views/Achievements/Competition/RealName/ReviewRealCompetitionNameList';
 import BaseCompetitionManager from '../views/SysManage/BaseCompetitionName/List';
@@ -109,27 +110,32 @@ export const administerConfig = [
   {
     path: '/administer/charts',
     component: Chart,
-    exact: true
+    //exact: true
   },
   {
     path: '/administer/thesisForm',
     component: ThesisForm,
-    exact: true,
+    //exact: true,
   },
   {
     path: '/administer/patentForm',
     component: PatentForm,
-    exact: true,
+    //exact: true,
   },
   {
     path: '/administer/competitionForm',
     component: CompetitionForm,
-    exact: true,
+    //exact: true,
+  },
+  {
+    path: '/administer/othersForm',
+    component: OthersForm,
+    //exact: true,
   },
   {
     path: '/administer/filedAchievements',
     component: FiledAchieveList,
-    exact: true,
+    //exact: true,
   },
 
   // {

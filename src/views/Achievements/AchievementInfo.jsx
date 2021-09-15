@@ -4,7 +4,8 @@ import { DoubleLeftOutlined, EditOutlined } from '@ant-design/icons'
 import ThesisInfo from './Thesis/ThesisInfo';
 import CompetitionInfo from './Competition/CompetitionInfo';
 import PatentInfo from './Patent/PatentInfo';
-import { getArticleByID, getCompetitionByID, getPatentByID } from '../../services/Achievements'
+import OthersInfo from './Other/OthersInfo';
+import { getArticleByID, getCompetitionByID, getPatentByID, getOthersByID } from '../../services/Achievements'
 import { isAdminister, isSuperAdminister, isStudent } from '../../utils/auth';
 import { setDepartmentReview, setSchoolReview } from '../../services/Achievements'
 
@@ -47,6 +48,9 @@ export default class AchievementInfo extends Component {
             case '专利':
                 info = await this.getPatentInfo()
                 break;
+            case '其他成果':
+                info = await this.getOthersInfo()
+                break;
             default:
                 break;
         }
@@ -77,6 +81,13 @@ export default class AchievementInfo extends Component {
     getPatentInfo = async () => {
         const { id } = this.state
         const res = await getPatentByID({ id })
+        if (res.result) {
+            return JSON.parse(res.data)
+        }
+    }
+    getOthersInfo = async () => {
+        const { id } = this.state
+        const res = await getOthersByID({ id })
         if (res.result) {
             return JSON.parse(res.data)
         }
@@ -115,9 +126,10 @@ export default class AchievementInfo extends Component {
 
     backToList = () => {
         const { currentPage, pageSize, departmentNo, achieve, student } = this.state
-        console.log(currentPage, pageSize, departmentNo, achieve, student)
+        //console.log(currentPage, pageSize, departmentNo, achieve, student)
+        const pathname = isStudent() ? '/student/reviewList' : '/administer/reviewList'
         this.props.history.replace({
-            pathname: '/administer/reviewList',
+            pathname,
             state: { currentPage, pageSize, departmentNo, achieve, student }
         })
     }
@@ -146,6 +158,9 @@ export default class AchievementInfo extends Component {
             case '专利':
                 pathname = '/administer/patentForm'
                 break;
+            case '其他成果':
+                pathname = '/administer/othersForm'
+                break;
             default:
                 break;
         }
@@ -164,10 +179,14 @@ export default class AchievementInfo extends Component {
             case '专利':
                 achievementInfo = this.state.info && <PatentInfo info={this.state.info} size='middle' />
                 break;
+            case '其他成果':
+                achievementInfo = this.state.info && <OthersInfo info={this.state.info} size='middle' />
+                break;
             default:
                 break;
         }
-        const title = isStudent() ? this.state.status : isSuperAdminister()?(
+        //console.log(achievementInfo)
+        const title = isStudent() ? this.state.status : isSuperAdminister() ? (
             <Space size='large'>
                 <Button type='primary' onClick={() => this.showModal(1)}>审核通过</Button>
                 <Button type='primary' onClick={() => this.showModal(0)}>退回本人修改</Button>
@@ -181,27 +200,25 @@ export default class AchievementInfo extends Component {
                     <Button type='danger'>终止</Button>
                 </Popconfirm>
             </Space>
-        ):
-        (
-            <Space size='large'>
-                <Button type='primary' onClick={() => this.showModal(1)}>审核通过</Button>
-                <Button type='primary' onClick={() => this.showModal(0)}>退回本人修改</Button>
-                <Popconfirm
-                    title="终止后的项目，将不能再次修改提交，请确认！"
-                    onConfirm={() => this.showModal(-1)}
-                    okText="确认"
-                    cancelText="取消"
-                >
-                    <Button type='danger'>终止</Button>
-                </Popconfirm>
-            </Space>
-        )
+        ) :
+            (
+                <Space size='large'>
+                    <Button type='primary' onClick={() => this.showModal(1)}>审核通过</Button>
+                    <Button type='primary' onClick={() => this.showModal(0)}>退回本人修改</Button>
+                    <Popconfirm
+                        title="终止后的项目，将不能再次修改提交，请确认！"
+                        onConfirm={() => this.showModal(-1)}
+                        okText="确认"
+                        cancelText="取消"
+                    >
+                        <Button type='danger'>终止</Button>
+                    </Popconfirm>
+                </Space>
+            )
         const extra = (
             <Space>
-                <Button type='link' onClick={this.handleEdit}><EditOutlined />修改</Button>
-                <Button
-                    onClick={this.backToList}
-                ><DoubleLeftOutlined />返回</Button>
+                {isStudent() || <Button type='link' onClick={this.handleEdit}><EditOutlined />修改</Button>}
+                <Button onClick={this.backToList}><DoubleLeftOutlined />返回</Button>
             </Space>
         )
         return (

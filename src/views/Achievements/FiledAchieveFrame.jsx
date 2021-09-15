@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Card } from 'antd';
-import { TrophyOutlined, ExperimentOutlined, FileTextOutlined, } from '@ant-design/icons'
+import { TrophyOutlined, ExperimentOutlined, FileTextOutlined, FileUnknownOutlined } from '@ant-design/icons'
 import FiledThesisList from './Thesis/FiledThesisList'
 import FiledPatentList from './Patent/FiledPatentList'
 import FiledCompetitionList from './Competition/FiledCompetitionList'
+import FiledOthersList from './Other/FiledOthersList'
 import getDepartmentList from '../../redux/common'
 import { getDeptID, isStudent } from '../../utils/auth';
 
@@ -19,6 +20,10 @@ const tabList = [
   {
     key: 'patent',
     tab: <span><ExperimentOutlined />专利成果</span>
+  },
+  {
+    key: 'others',
+    tab: <span><FileUnknownOutlined />其他成果</span>
   }
 ]
 
@@ -52,6 +57,7 @@ class FiledAchieveList extends Component {
       article: departmentList && <FiledThesisList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
       competition: departmentList && <FiledCompetitionList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
       patent: departmentList && <FiledPatentList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
+      others: departmentList && <FiledOthersList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
     };
 
     return (

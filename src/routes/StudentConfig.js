@@ -14,6 +14,7 @@ import ThesisForm from "../views/Achievements/Thesis/ThesisForm"
 import PatentForm from "../views/Achievements/Patent/PatentForm"
 import CompetitionForm from "../views/Achievements/Competition/CompetitionForm"
 import FiledAchieveFrame from "../views/Achievements/FiledAchieveFrame"
+import OthersForm from "../views/Achievements/Other/OthersForm"
 
 
 
@@ -67,22 +68,27 @@ export const studentConfig = [
   {
     path: '/student/thesisForm',
     component: ThesisForm,
-    exact: true,
+    //exact: true,
   },
   {
     path: '/student/patentForm',
     component: PatentForm,
-    exact: true,
+    //exact: true,
   },
   {
     path: '/student/competitionForm',
     component: CompetitionForm,
-    exact: true,
+    //exact: true,
+  },
+  {
+    path: '/student/othersForm',
+    component: OthersForm,
+    //exact: true,
   },
   {
     path: '/student/filedAchievements',
     component: FiledAchieveFrame,
-    exact: true,
+    //exact: true,
   }
 ]
 

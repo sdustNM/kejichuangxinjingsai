@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Button, Card } from 'antd';
-import { TrophyOutlined, ExperimentOutlined, FileTextOutlined, } from '@ant-design/icons'
+import { Card } from 'antd';
+import { TrophyOutlined, ExperimentOutlined, FileTextOutlined, FileUnknownOutlined} from '@ant-design/icons'
 import ThesisList from './Thesis/ThesisList'
 import PatentList from './Patent/PatentList'
 import CompetitionList from './Competition/CompetitionList'
+import OthersList from './Other/OthersList';
 import getDepartmentList from '../../redux/common'
 import { getDeptID, isStudent } from '../../utils/auth';
 
@@ -19,6 +20,10 @@ const tabList = [
   {
     key: 'patent',
     tab: <span><ExperimentOutlined />专利成果</span>
+  },
+  {
+    key: 'others',
+    tab: <span><FileUnknownOutlined />其他成果</span>
   }
 ]
 
@@ -53,6 +58,7 @@ class ConfirmAchieveList extends Component {
       article: departmentList && <ThesisList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
       competition: departmentList && <CompetitionList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
       patent: departmentList && <PatentList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
+      others: departmentList && <OthersList departmentList={departmentList} showSearch={showSearch} departmentNo={departmentNo} />,
     };
     // let extra=
     // (<Button onClick={()=>exportCompetition({},'学生竞赛成果一览表.xls')}> 导出</Button>)

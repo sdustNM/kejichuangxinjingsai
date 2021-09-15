@@ -72,3 +72,26 @@ export function exportPatent(params, filename) {
   return download('/AchieveFilePatent/exportPatent', params, filename)
 }
 //#endregion
+
+//#region 历史其他成果api
+//获取历史其他成果列表
+export function getOthersList(params) {
+  return get('/AchieveFileOthers/getArticleList', params)
+}
+//​获取历史其他成果成果
+export function getOthersByID(params) {
+  return get('/AchieveFileOthers/getOthersByID', params)
+}
+//​获取历史其他成果批次 
+export function getOthersBatchList(params) {
+  return get('/AchieveFileOthers/getBatchList', params)
+}
+//​删除历史其他成果成果
+export function deleteOthersByID(params) {
+  return get('/AchieveFileOthers/deleteOthersByID', params)
+}
+//导出历史其他成果Excel
+export function exportOthers(params, filename) {
+  return download('/AchieveFileOthers/exportOthers', params, filename)
+}
+//#endregion

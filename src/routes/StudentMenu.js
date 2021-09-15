@@ -7,7 +7,8 @@ import {
   ExperimentOutlined,
   IdcardOutlined,
   FileTextOutlined,
-  WalletOutlined
+  WalletOutlined,
+  FileUnknownOutlined
 } from '@ant-design/icons';
 
 
@@ -46,6 +47,12 @@ export const studentMenus = [
       isShow: true,
       title: '专利成果申报',
       icon: <ExperimentOutlined />
+    },
+    {
+      path: '/student/OthersForm',
+      isShow: true,
+      title: '其他成果申报',
+      icon: <FileUnknownOutlined />
     },
     {
       path: '/student/reviewList',

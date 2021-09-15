@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Table, Button, Space, message } from 'antd'
-import { deleteArticleByID, getNeedReviewList, deleteCompetitionByID, deletePatentByID } from '../../../services/Achievements'
+import { deleteArticleByID, getNeedReviewList, deleteCompetitionByID, deletePatentByID, deleteOthersByID } from '../../../services/Achievements'
 export default class AchievementList extends Component {
     constructor(...props) {
         super(...props)
@@ -13,7 +13,7 @@ export default class AchievementList extends Component {
         }
         this.statusList = ['拒绝', '修改', '学院审核中', '学校审核中']
     }
-    
+
     componentDidMount() {
         this.refresh();
     }
@@ -22,39 +22,35 @@ export default class AchievementList extends Component {
         this.setState({
             currentPage,
             pageSize
-        })
-        this.refresh(currentPage, pageSize);
+        }, this.refresh)
+
     }
     showSizeChange = (current, pageSize) => {
 
         this.setState({
             currentPage: 1,
             pageSize
-        })
-        this.refresh(1, pageSize);
+        }, this.refresh)
+
     }
 
     search = () => {
         this.setState({
             currentPage: 1
-        })
-        this.refresh(1)
+        }, this.refresh)
+
     }
 
-    refresh = async (currentPage, pageSize) => {
+    refresh = async () => {
         this.setState({ loading: true });
-        currentPage = currentPage ? currentPage : this.state.currentPage
-        pageSize = pageSize ? pageSize : this.state.pageSize
-        let params = {
-            currentPage,
-            pageSize
-        }
+        const { currentPage, pageSize } = this.state
+        const params = { currentPage, pageSize }
         //console.log(params)
         const res = await getNeedReviewList(params)
         //console.log(res)
         if (res.result) {
             let list = []
-            let data = JSON.parse(res.data)
+            const data = JSON.parse(res.data)
             //console.log(data)
             data.list.map(item =>
                 list.push({
@@ -80,17 +76,20 @@ export default class AchievementList extends Component {
         }
     }
 
-    delete = async (id, type) => {
+    del = async (id, type) => {
         let res
         switch (type) {
             case '论文':
                 res = await deleteArticleByID({ id })
                 break;
             case '竞赛':
-                res = await deleteCompetitionByID({id})
+                res = await deleteCompetitionByID({ id })
                 break;
             case '专利':
-                res = await deletePatentByID({id})
+                res = await deletePatentByID({ id })
+                break;
+                case '其他成果':
+                res = await deleteOthersByID({ id })
                 break;
             default:
                 break;
@@ -117,8 +116,8 @@ export default class AchievementList extends Component {
                 title: '状态',
                 //dataIndex: 'status',
                 key: 'status',
-                render: (text, record) => 
-                <span style={record.state < 1 ?{color: 'red'} : {}}>{record.status}</span>
+                render: (text, record) =>
+                    <span style={record.state < 1 ? { color: 'red' } : {}}>{record.status}</span>
             },
             {
                 title: '操作',
@@ -142,6 +141,9 @@ export default class AchievementList extends Component {
                                         case '专利':
                                             pathname = '/student/patentForm'
                                             break;
+                                        case '其他成果':
+                                            pathname = '/student/OthersForm'
+                                            break;
                                         default:
                                             break;
                                     }
@@ -153,22 +155,22 @@ export default class AchievementList extends Component {
                                 size='small'
                                 shape='round'
                                 onClick={() => {
-                                    this.delete(record.ID, record.type)
+                                    this.del(record.ID, record.type)
                                 }}
                             >删除</Button>
                         </Space>) : (
-                            <Space>
-                                <Button
-                                    type='primary'
-                                    size='small'
-                                    shape='round'
-                                    onClick={() => {
-                                        //console.log("record.name:", record.name)
-                                        this.props.history.push({ pathname: '/student/achievementsInfo', state: { id: record.ID, type: record.type } })
-                                    }}
-                                >查看</Button>
-                            </Space>
-                        )
+                        <Space>
+                            <Button
+                                type='primary'
+                                size='small'
+                                shape='round'
+                                onClick={() => {
+                                    //console.log("record.name:", record.name)
+                                    this.props.history.push({ pathname: '/student/achievementsInfo', state: { id: record.ID, type: record.type } })
+                                }}
+                            >查看</Button>
+                        </Space>
+                    )
 
                 ,
             },

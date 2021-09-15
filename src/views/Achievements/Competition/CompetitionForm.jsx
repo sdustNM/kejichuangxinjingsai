@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions, Modal } from 'antd';
-import { ConsoleSqlOutlined, DoubleLeftOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
+import { DoubleLeftOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import moment from "moment"
 import { getUserID, getUserName, isStudent } from "../../../utils/auth"
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
@@ -217,7 +217,7 @@ class CompetitionForm extends Component {
         }
 
         //console.log(values)
-        //console.log(params)
+        console.log(params)
         const res = await setCompetitionByID(params)
         if (res.result) {
             message.success('操作成功')

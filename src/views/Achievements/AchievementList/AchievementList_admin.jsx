@@ -74,7 +74,7 @@ export default class AchievementList extends Component {
     }
 
     refresh = async (currentPage, pageSize) => {
-        console.log(this.state, this.state.departmentList)
+        //console.log(this.state, this.state.departmentList)
         this.setState({ loading: true });
         const { departmentNo, achieve, student } = this.state
         currentPage = currentPage ? currentPage : this.state.currentPage
@@ -86,7 +86,7 @@ export default class AchievementList extends Component {
             achieve,
             student
         }
-        console.log(params)
+        //console.log(params)
         const res = await getNeedReviewList(params)
         //console.log(res)
         if (res.result) {
@@ -204,6 +204,7 @@ export default class AchievementList extends Component {
                         name='achieve'
                         value={achieve}
                         onChange={this.searchange}
+                        onPressEnter={this.search}
                         placeholder='请输入成果编号或名称'
                     />
                 </span>
@@ -216,6 +217,7 @@ export default class AchievementList extends Component {
                         name='student'
                         value={student}
                         onChange={this.searchange}
+                        onPressEnter={this.search}
                         placeholder='请输入学生学号或姓名'
                     />
                 </span>

@@ -68,6 +68,29 @@ export function filePatent(params) {
   return get('/AchievePatent/File', params)
 }
 
+///////////////////////////其他部分//////////////////////////////
+
+//获取其他成果列表
+export function getOthersList(params) {
+  return get('/AchieveOthers/getOthersList', params)
+}
+//​获取其他成果
+export function getOthersByID(params) {
+  return get('/AchieveOthers/getOthersByID', params)
+}
+//设置其他成果
+export function setOthersByID(params) {
+  return post('/AchieveOthers/setOthersByID', params)
+}
+//​删除其他成果
+export function deleteOthersByID(params) {
+  return get('/AchieveOthers/deleteOthersByID', params)
+}
+//其他归档 /api/AchievePatent/File
+export function fileOthers(params) {
+  return get('/AchieveOthers/File', params)
+}
+
 ///////////////////////////竞赛部分//////////////////////////////
 //获取竞赛列表
 export function getCompetitionList(params) {
@@ -113,4 +136,8 @@ export function exportPatent(params, filename) {
 
 export function exportArticle(params, filename) {
   return download('/AchieveArticle/exportArticle', params, filename)
+}
+
+export function exportOthers(params, filename) {
+  return download('/AchieveArticle/exportOthers', params, filename)
 }

@@ -341,6 +341,7 @@ class CompetitionList extends Component {
                             name='partName'
                             value={partName}
                             onChange={this.changeValue}
+                            onPressEnter={this.search}
                             placeholder=''
                         />
                     </span>
@@ -353,6 +354,7 @@ class CompetitionList extends Component {
                             name='sno'
                             value={sno}
                             onChange={this.changeValue}
+                            onPressEnter={this.search}
                             placeholder='精确匹配'
                         />
                     </span>

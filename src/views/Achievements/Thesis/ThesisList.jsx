@@ -353,6 +353,7 @@ export default class ThesisList extends Component {
                             name='partName'
                             value={partName}
                             onChange={this.changeValue}
+                            onPressEnter={this.search}
                             placeholder=''
                         />
                     </span>
@@ -365,6 +366,7 @@ export default class ThesisList extends Component {
                             name='sno'
                             value={sno}
                             onChange={this.changeValue}
+                            onPressEnter={this.search}
                             placeholder='精确匹配'
                         />
                     </span>
