@@ -139,5 +139,5 @@ export function exportArticle(params, filename) {
 }
 
 export function exportOthers(params, filename) {
-  return download('/AchieveArticle/exportOthers', params, filename)
+  return download('/AchieveOthers/exportOthers', params, filename)
 }
