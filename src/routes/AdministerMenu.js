@@ -51,13 +51,22 @@ export const administerMenus = [
       path: '/administer/reviewList',
       icon: <SmileOutlined />,
       yuanManager: true,
-    }, {
+    }, 
+    {
+      path: '/administer/checkRepeat',
+      isShow: true,
+      title: '重复检查',
+      icon: <SmileOutlined />,
+      yuanManager: true,
+    }, 
+    {
       path: '/administer/archievementList',
       isShow: true,
       title: '成果查看',
       icon: <SmileOutlined />,
       yuanManager: true,
-    }, {
+    }, 
+    {
       path: '/administer/charts',
       isShow: true,
       title: '成果统计',
@@ -86,13 +95,14 @@ export const administerMenus = [
         icon: <SmileOutlined />,
         yuanManager: true,
       },
-      {
-        path: '/administer/filedCharts',
-        isShow: true,
-        title: '历史统计',
-        icon: <SmileOutlined />,
-        yuanManager: true,
-      }]
+      // {
+      //   path: '/administer/filedCharts',
+      //   isShow: true,
+      //   title: '历史统计',
+      //   icon: <SmileOutlined />,
+      //   yuanManager: true,
+      // }
+    ]
   },
   { //系统管理
     component: null,
