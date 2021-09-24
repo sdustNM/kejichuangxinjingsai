@@ -21,6 +21,7 @@ import FiledAchieveList from "../views/Achievements/FiledAchieveFrame"
 import ReviewRealCompetitionNameList from '../views/Achievements/Competition/RealName/ReviewRealCompetitionNameList';
 import BaseCompetitionManager from '../views/SysManage/BaseCompetitionName/List';
 import RealCompetitionManager from '../views/SysManage/RealCompetitionName/List';
+import RepeatCompetitionManager from '../views/Achievements/Competition/CheckRepeat/List';
 //import BatchManager from '../views/BatchManage';
 
 export const administerConfig = [
@@ -49,7 +50,8 @@ export const administerConfig = [
   }, {
     path: '/administer/projectDetail',
     component: ProjectDetail
-  }, {
+  }, 
+  {
     path: '/administer/administers',
     component: DepartmentAdministerList,
     exact: true
@@ -86,6 +88,11 @@ export const administerConfig = [
     path: '/administer/reviewList',
     component: AchievementList,
     //exact: true
+  },
+  {
+    path: '/administer/checkRepeat',
+    component: RepeatCompetitionManager,
+    //exact: true,
   },
   {
     path: '/administer/achievementsInfo',

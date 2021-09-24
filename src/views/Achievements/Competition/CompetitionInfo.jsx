@@ -5,6 +5,7 @@ import AppendixList from '../AppendixList'
 class CompetitionInfo extends Component {
     render() {
         const info = this.props.info
+        console.log(info)
         return (
             <Card>
                 <Descriptions

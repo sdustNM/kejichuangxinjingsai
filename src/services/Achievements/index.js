@@ -141,3 +141,8 @@ export function exportArticle(params, filename) {
 export function exportOthers(params, filename) {
   return download('/AchieveOthers/exportOthers', params, filename)
 }
+
+//列举所有可能重复的项目：/api/AchieveCompetition/listRepeatCompetition
+export function getRepeatCompetitions(){
+  return get('/AchieveCompetition/listRepeatCompetition')
+}

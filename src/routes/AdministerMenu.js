@@ -12,32 +12,32 @@ import ProjectManager from '../views/SysManage/ProjectManager';
 
 
 export const administerMenus = [
-  { //校级竞赛
-    component: null,
-    path: 'competitionsXiao',
-    isShow: true,
-    title: '校级竞赛',
-    icon: <HomeOutlined />,
-    yuanManager: true,
-    sub: [{
-      isShow: true,
-      title: '比赛列表',
-      path: '/administer/competitions/xiao',
-      icon: <SmileOutlined />,
-      yuanManager: true,
-    }, {
-      path: '/administer/recommendedProjects',
-      isShow: true,
-      title: '推荐作品',
-      icon: <SmileOutlined />
-    }, {
-      path: '/administer/projects',
-      isShow: true,
-      title: '全部作品',
-      icon: <SmileOutlined />,
-      yuanManager: true,
-    },]
-  },
+  // { //校级竞赛
+  //   component: null,
+  //   path: 'competitionsXiao',
+  //   isShow: true,
+  //   title: '校级竞赛',
+  //   icon: <HomeOutlined />,
+  //   yuanManager: true,
+  //   sub: [{
+  //     isShow: true,
+  //     title: '比赛列表',
+  //     path: '/administer/competitions/xiao',
+  //     icon: <SmileOutlined />,
+  //     yuanManager: true,
+  //   }, {
+  //     path: '/administer/recommendedProjects',
+  //     isShow: true,
+  //     title: '推荐作品',
+  //     icon: <SmileOutlined />
+  //   }, {
+  //     path: '/administer/projects',
+  //     isShow: true,
+  //     title: '全部作品',
+  //     icon: <SmileOutlined />,
+  //     yuanManager: true,
+  //   },]
+  // },
   {   //成果申报
     component: null,
     path: '/administer/archievements/',
