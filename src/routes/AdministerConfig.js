@@ -35,7 +35,8 @@ export const administerConfig = [
   // }, 
   {
     path: '/administer/',
-    component: AchievementList
+    component: AchievementList,
+    exact: true
   }, 
   // {
   //   path: '/administer/competitionEdit',
