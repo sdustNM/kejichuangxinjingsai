@@ -17,7 +17,7 @@ class OthersList extends Component {
         sno: '',
         partName: '',
         state: '学校审核通过',
-        type: '0',
+        type: '',
         level: '0',
         currentPage: 1,
         pageSize: 10,
@@ -282,17 +282,17 @@ class OthersList extends Component {
                             style={{ width: 150 }}
                             onChange={this.handleTypeChange}
                         >
-                            <Option key='0' value='0' >全部</Option>
-                            <Option key='1' value='1' >1</Option>
-                            <Option key='2' value='2' >2</Option>
-                            <Option key='3' value='3' >3</Option>
+                            <Option key='0' value='' >全部</Option>
+                            <Option key='个人荣誉称号' value='个人荣誉称号'>个人荣誉称号</Option>
+                            <Option key='团体荣誉称号' value='团体荣誉称号'>团体荣誉称号</Option>
+                            <Option key='其他' value='其他3'>其他</Option>
                         </Select>
                     </span>
 
                 </Space>
                 <Space>
                     <span>
-                        <span>成果编号或专利名称 </span>
+                        <span>成果编号或成果名称 </span>
                         <Input
                             allowClear
                             style={{ width: 180 }}

@@ -265,9 +265,9 @@ class OthersForm extends Component {
                         ]}
                     >
                         <Select>
-                            <Option key='1' value='1'>1</Option>
-                            <Option key='2' value='2'>2</Option>
-                            <Option key='3' value='3'>3</Option>
+                            <Option key='个人荣誉称号' value='个人荣誉称号'>个人荣誉称号</Option>
+                            <Option key='团体荣誉称号' value='团体荣誉称号'>团体荣誉称号</Option>
+                            <Option key='其他' value='其他3'>其他</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item

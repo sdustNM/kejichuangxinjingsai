@@ -57,7 +57,7 @@ export const administerMenus = [
       isShow: true,
       title: '重复检查',
       icon: <SmileOutlined />,
-      yuanManager: true,
+      //yuanManager: true,
     }, 
     {
       path: '/administer/archievementList',

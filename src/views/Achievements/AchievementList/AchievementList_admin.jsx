@@ -14,12 +14,12 @@ export default class AchievementList extends Component {
         this.departmentNo = getDeptID()
         this.state = {
             departmentList: [],
-            departmentNo: this.props.location.state.departmentNo || getDeptID(),
-            achieve: this.props.location.state.achieve || '',
-            student: this.props.location.state.student || '',
+            departmentNo: this.props.location.state && this.props.location.state.departmentNo || getDeptID(),
+            achieve: this.props.location.state && this.props.location.state.achieve || '',
+            student: this.props.location.state && this.props.location.state.student || '',
             dataSource: null,
-            currentPage: this.props.location.state.currentPage || 1,
-            pageSize: this.props.location.state.pageSize || 10,
+            currentPage: this.props.location.state && this.props.location.state.currentPage || 1,
+            pageSize: this.props.location.state && this.props.location.state.pageSize || 10,
             loading: false,
             _total: 0,
         }

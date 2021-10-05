@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions, Modal } from 'antd';
+import { Card, Form, Input, Button, Select, DatePicker, Space, message, Descriptions, Modal, Typography } from 'antd';
 import { DoubleLeftOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import moment from "moment"
 import { getUserID, getUserName, isStudent } from "../../../utils/auth"
@@ -12,6 +12,7 @@ import CompetitionNameForm from './RealName/CompetitionNameForm';
 
 const { Option } = Select
 const { TextArea } = Input
+const { Text } = Typography
 
 const layout = {
     labelCol: { span: 4, },
@@ -370,7 +371,8 @@ class CompetitionForm extends Component {
                         </Form.Item>
                         {noCompetitionName ?
                             <Form.Item {...tailLayout}>
-                                <Button type="link" onClick={this.applyCompetitionName} >点击申请实际竞赛名称</Button>
+                                <Text type="warning">若在下拉列表中找不到实际竞赛名称,请点击此处</Text>
+                                <Button type="link" onClick={this.applyCompetitionName} >申请实际竞赛名称</Button>
                             </Form.Item>
                             :
                             <Form.Item label="竞赛等级、类别">

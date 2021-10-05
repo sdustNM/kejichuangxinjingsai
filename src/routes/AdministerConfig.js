@@ -3,7 +3,7 @@ import CompetitionEdit from '../views/Competition/CompetitionEdit'
 import ProjectDetail from '../views/SysManage/ProjectDetail'
 import DepartmentManager from '../views/SysManage/Department/DepartmentManager';
 import StudentList from '../views/SysManage/StudentList';
-import CompetitionManagerXiao from '../views/Competition/CompetitionManagerXiao'
+//import CompetitionManagerXiao from '../views/Competition/CompetitionManagerXiao'
 import ExpertManagerList from '../views/SysManage/Expert/ExpertManagerList';
 import ExpertManagerEdit from '../views/SysManage/Expert/ExpertManagerEdit';
 import DepartmentAdministerList from '../views/SysManage/DepartmentAdminister/DepartmentAdministerList'
@@ -26,24 +26,32 @@ import RepeatCompetitionManager from '../views/Achievements/Competition/CheckRep
 
 export const administerConfig = [
 
+  // {
+  //   path: '/administer/competitions/xiao',
+  //   component: CompetitionManagerXiao,
+  //   isShow: true,
+  //   title: '校级竞赛',
+  //   exact: true
+  // }, 
   {
-    path: '/administer/competitions/xiao',
-    component: CompetitionManagerXiao,
-    isShow: true,
-    title: '校级竞赛',
-    exact: true
-  }, {
-    path: '/administer/competitionEdit',
-    component: CompetitionEdit
-  }, {
+    path: '/administer/',
+    component: AchievementList
+  }, 
+  // {
+  //   path: '/administer/competitionEdit',
+  //   component: CompetitionEdit
+  // }, 
+  {
     path: '/administer/recommendedProjects',
     component: ProjectList,
     exact: true
-  }, {
+  }, 
+  {
     path: '/administer/projects',
     component: ProjectList,
     exact: true
-  }, {
+  }, 
+  {
     path: '/administer/projectInfoWithCompetitonInfo',
     component: ProjectInfoWithComInfo,
     exact: true

@@ -152,7 +152,7 @@ export default class RepeatCompetitionManager extends Component {
             <Drawer
                 title="重复竞赛详情查看"
                 placement='right'
-                width={720}
+                width={960}
                 onClose={this.onClose}
                 visible={visible}
                 destroyOnClose={true}
