@@ -41,14 +41,14 @@ export default class RealCompetitionEdit extends Component {
         const { record } = this.props
         console.log(record)
         const initialValues = {
-            id: record.Id,
-            sortid: record.Sortid,
-            realName: record.Name,
-            baseCompetitionName: record.BaseCompetitionid,
-            competitionType: record.Type,
-            competitionLevel: record.ComLevel,
-            year: !record.Batch ? null : moment(record.Batch, 'YYYY'),
-            session: record.SessionNumber
+            id: record.id,
+            sortid: record.sortid,
+            realName: record.name,
+            baseCompetitionName: record.baseCompetitionid,
+            competitionType: record.type,
+            competitionLevel: record.comLevel,
+            year: !record.batch ? null : moment(record.batch, 'YYYY'),
+            session: record.sessionNumber
         }
         this.formRef.current.setFieldsValue(initialValues)
     }

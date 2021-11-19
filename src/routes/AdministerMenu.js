@@ -153,7 +153,7 @@ export const administerMenus = [
     },
     {
       isShow: true,
-      title: '实际比竞赛理',
+      title: '实际竞赛管理',
       path: '/administer/DDRealCompetitionList',
       icon: <SmileOutlined />,
     }]

@@ -5,6 +5,7 @@ import { appRoot } from '../../utils/request'
 class AppendixList extends Component {
     render() {
         const fileList = this.props.fileList
+        console.log(fileList)
         // const title = <Image
         //     width={200}
         //     src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"

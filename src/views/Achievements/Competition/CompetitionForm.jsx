@@ -35,6 +35,7 @@ class CompetitionForm extends Component {
             noCompetitionName: true,
             competitionType: '',
             competitionLevel: '',
+            competitionSponsors: '',
             rewardLevelList: [],
             competition: {},
             isDXJ: false, //是否单项奖
@@ -61,6 +62,7 @@ class CompetitionForm extends Component {
 
         let competitionLevel = ''
         let competitionType = ''
+        let competitionSponsors = ''
         let competitionLevelList = []
         let competitionTypeList = []
         let rewardLevelList = []
@@ -90,6 +92,7 @@ class CompetitionForm extends Component {
                 realCompetitionNameList = await this.getNameList(competition.固定竞赛id)
                 competitionLevel = competition.等级
                 competitionType = competition.类别
+                competitionSponsors = competition.主办单位
             }
 
         }
@@ -98,6 +101,7 @@ class CompetitionForm extends Component {
             noCompetitionName: !competition.竞赛名称id,
             competitionLevel,
             competitionType,
+            competitionSponsors,
             competitionLevelList,
             competitionTypeList,
             rewardLevelList,
@@ -199,7 +203,7 @@ class CompetitionForm extends Component {
             "获奖等级": values.rewardLevel,
             "组别": values.group,
             "单项奖名称": values.dxjName,
-            "主办单位": values.zbdw && values.zbdw.join(','),
+            "主办单位": this.state.competitionSponsors,//values.zbdw && values.zbdw.join(','),
             "获奖时间year": values.yearMonth && values.yearMonth.format('YYYY'),
             "获奖时间month": values.yearMonth && values.yearMonth.format('MM'),
             "作品名称": values.works,
@@ -254,6 +258,7 @@ class CompetitionForm extends Component {
     onChangeBaseName = async value => {
         //const res = await getRealCompetitionNameList({ baseId: value })
         const realCompetitionNameList = await this.getNameList(value)
+        console.log(realCompetitionNameList)
         if (realCompetitionNameList) {
             this.formRef.current.setFieldsValue({ realCompetitionName: '' })
             this.setState({ realCompetitionNameList, noCompetitionName: true })
@@ -271,6 +276,7 @@ class CompetitionForm extends Component {
         if (realCompetition) {
             this.setState({
                 noCompetitionName: false,
+                competitionSponsors: realCompetition.Sponsor,
                 competitionLevel: this.getLevel(realCompetition.ComLevel),
                 competitionType: this.getType(realCompetition.Type)
             })
@@ -310,7 +316,7 @@ class CompetitionForm extends Component {
     }
 
     render() {
-        const { id, isModalVisible, isDXJ, competitionLevel, competitionType,
+        const { id, isModalVisible, isDXJ, competitionLevel, competitionType, competitionSponsors,
             noCompetitionName, baseCompetitionNameList, realCompetitionNameList,
             competitionLevelList, competitionTypeList, rewardLevelList, competition,
             rewardList, supportList, noticeList, clickDisabled } = this.state
@@ -375,12 +381,17 @@ class CompetitionForm extends Component {
                                 <Button type="link" onClick={this.applyCompetitionName} >申请实际竞赛名称</Button>
                             </Form.Item>
                             :
-                            <Form.Item label="竞赛等级、类别">
-                                <Input.Group>
-                                    <Input style={{ width: 100 }} readOnly value={competitionLevel} />
-                                    <Input style={{ width: 100 }} readOnly value={competitionType} />
-                                </Input.Group>
-                            </Form.Item>
+                            <>
+                                <Form.Item label="主办单位">
+                                    <Input readOnly value={competitionSponsors} />
+                                </Form.Item>
+                                <Form.Item label="竞赛等级、类别">
+                                    <Input.Group>
+                                        <Input style={{ width: 100 }} readOnly value={competitionLevel} />
+                                        <Input style={{ width: 100 }} readOnly value={competitionType} />
+                                    </Input.Group>
+                                </Form.Item>
+                            </>
                         }
                         <Form.Item
                             label="所在组别"
@@ -422,7 +433,7 @@ class CompetitionForm extends Component {
                                 </Form.Item>
                             )
                         }
-                        <Form.List
+                        {/* <Form.List
                             name="zbdw"
                             rules={[
                                 {
@@ -487,7 +498,8 @@ class CompetitionForm extends Component {
                                     </div>
                                 );
                             }}
-                        </Form.List>
+                        </Form.List> */}
+
                         <Form.Item
                             label="获奖时间"
                             name="yearMonth"

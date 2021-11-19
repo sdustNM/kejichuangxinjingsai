@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Table, Space, Button, Input, Modal, Popconfirm, message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { getRealNameList, deleteRealName } from '../../../../services/Achievements/competitionName'
+import { getRealNameList, getRealName, deleteRealName } from '../../../../services/Achievements/competitionName'
 import RealCompetitionEdit from '../Edit';
 
 export default class RealCompetitionManager extends Component {
@@ -75,11 +75,19 @@ export default class RealCompetitionManager extends Component {
         }
     }
     //编辑（添加、修改）指定记录
-    edit = record => {
-        this.setState({
-            visible: true,
-            record
-        })
+    edit = async id => {
+        const res = await getRealName({ id })
+        if (res.result) {
+            const record = JSON.parse(res.data)
+            console.log(record)
+            this.setState({
+                visible: true,
+                record
+            })
+        } else {
+            message.error(res.message, 1)
+        }
+        
     }
     //关闭编辑模态框
     hideModal = () => {
@@ -134,7 +142,7 @@ export default class RealCompetitionManager extends Component {
                             size='small'
                             shape='round'
                             onClick={() => {
-                                this.edit(record)
+                                this.edit(record.Id)
                             }}
                         >编辑</Button>
                         <Popconfirm

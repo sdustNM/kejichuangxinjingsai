@@ -11,8 +11,8 @@ export function setRealCompetition(params) {
 }
 
 //列举所有需要审核的实际比赛 /api/AchieveCommon/listNeedReviewRealCompetition
-export function getNeedReviewList() {
-  return get('/AchieveCommon/listNeedReviewRealCompetition')
+export function getNeedReviewList(params) {
+  return get('/AchieveCommon/listNeedReviewRealCompetition', params)
 }
 
 //审核：/api/AchieveCommon/reviewRealCompetition

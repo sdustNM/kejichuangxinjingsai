@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Form, Input, Button, Select, DatePicker, List, Space, Modal } from 'antd';
+import { Form, Input, Button, Select, DatePicker, List, Space, Modal, Popconfirm } from 'antd';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import moment from 'moment';
 import { getDDInfo } from '../../../../services/Achievements'
 import { reviewRealCompetition } from '../../../../services/Achievements/competitionName';
@@ -41,6 +42,7 @@ export default class ReviewRealCompetitionName extends Component {
         const initialValues = {
             realName: record.name,
             baseCompetitionName: record.baseCompetitionid,
+            sponsor: record.sponsor && record.sponsor.split(','),
             competitionType: record.type,
             competitionLevel: record.comLevel,
             year: !record.batch ? null : moment(record.batch, 'YYYY'),
@@ -53,13 +55,14 @@ export default class ReviewRealCompetitionName extends Component {
     handleReject = () => this.save(false)
 
     save = async valid => {
-        
+
         try {
             const values = await this.formRef.current.validateFields();
             const params = {
                 id: this.props.record.id,
                 name: values.realName,
                 type: values.competitionType,   //A,B,C类
+                sponsor: values.sponsor && values.sponsor.join(','),
                 baseCompetitionid: values.baseCompetitionName,   //固定比赛
                 batch: values.year && values.year.format('YYYY'), //年份
                 sessionNumber: values.session,  //届数
@@ -69,6 +72,7 @@ export default class ReviewRealCompetitionName extends Component {
 
             //console.log(values)
             //console.log(params)
+
             const res = await reviewRealCompetition(params)
             console.log(res)
             if (res.result) {
@@ -129,6 +133,72 @@ export default class ReviewRealCompetitionName extends Component {
                         {baseNameList.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
                     </Select>
                 </Form.Item>
+                <Form.List
+                    name="sponsor"
+                    rules={[
+                        {
+                            validator: async (_, depts) => {
+                                if (!depts || depts.length < 1) {
+                                    return Promise.reject('至少填入一个主办单位！')
+                                }
+                                else { return Promise.resolve() }
+                            },
+                        },
+                    ]}>
+                    {(fields, { add, remove }, { errors }) => {
+                        return (
+                            <div>
+                                {fields.map((field, index) => (
+                                    <Form.Item
+                                        {...(index === 0 ? layout : tailLayout)}
+                                        label={index === 0 ? '主办单位' : ''}
+                                        required={false}
+                                        key={field.key}
+                                    >
+                                        <Form.Item
+                                            {...field}
+                                            validateTrigger={['onChange', 'onBlur']}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    whitespace: true,
+                                                    message: "请输入主办单位或删除",
+                                                },
+                                            ]}
+                                            noStyle
+                                        >
+                                            <Input placeholder="请与证书落款完全一致" style={{ width: '60%' }} />
+                                        </Form.Item>
+                                        {fields.length > 0 ? (
+                                            <MinusCircleOutlined
+                                                className="dynamic-delete-button"
+                                                style={{ margin: '0 8px' }}
+                                                onClick={() => {
+                                                    remove(field.name);
+                                                }}
+                                            />
+                                        ) : null}
+                                    </Form.Item>
+                                ))}
+
+                                <Form.Item
+                                    {...tailLayout}
+                                >
+                                    <Button
+                                        type="dashed"
+                                        onClick={() => {
+                                            add();
+                                        }}
+                                        style={{ width: '60%' }}
+                                    >
+                                        <PlusOutlined /> <span>新增主办单位</span>
+                                    </Button>
+                                    <Form.ErrorList errors={errors} />
+                                </Form.Item>
+                            </div>
+                        );
+                    }}
+                </Form.List>
                 <Form.Item
                     label="竞赛类别"
                     name="competitionType"
@@ -200,9 +270,14 @@ export default class ReviewRealCompetitionName extends Component {
                         <Button key="approve" type="primary" onClick={this.handleApprove}>
                             通过
                         </Button>
-                        <Button key="reject" type="danger" onClick={this.handleReject}>
-                            拒绝
-                        </Button>
+                        <Popconfirm
+                            title={`拒绝后，此竞赛名称将不能再次申请，请再次确认！`}
+                            onConfirm={this.handleReject}
+                            okText="确认"
+                            cancelText="取消"
+                        >
+                            <Button key="reject" type="danger">拒绝</Button>
+                        </Popconfirm>
                     </Space>
                 </Form.Item>
             </Form>

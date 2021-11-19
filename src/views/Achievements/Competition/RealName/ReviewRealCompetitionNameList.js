@@ -13,9 +13,10 @@ export default class ReviewRealCompetitionNameList extends Component {
   }
 
   async componentDidMount() {
+    this.setState({ loading: true })
     const dataSource = await this.getData()
-    //console.log(dataSource)
-    this.setState({ dataSource })
+    console.log(dataSource)
+    this.setState({ dataSource, loading: false })
   }
 
   getData = async () => {
@@ -25,11 +26,17 @@ export default class ReviewRealCompetitionNameList extends Component {
     }
   }
 
-  checkDetail = record => {
-    this.setState({
-      record,
-      isModalVisible: true
-    })
+  checkDetail = async id => {
+    const res = await getNeedReviewList({id})
+    if (res.result) {
+      const record = JSON.parse(res.data)
+      console.log(record)
+      this.setState({
+        record,
+        isModalVisible: true
+      })
+    }
+    
   }
   handleCancel = async () => {
     const dataSource = await this.getData()
@@ -76,7 +83,7 @@ export default class ReviewRealCompetitionNameList extends Component {
             type='primary'
             //size='small'
             //shape='round'
-            onClick={() => this.checkDetail(record)}
+            onClick={() => this.checkDetail(record.id)}
           >查看</Button>
         ),
       },
