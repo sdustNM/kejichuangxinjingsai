@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Table, Button, Modal } from 'antd'
+import { Card, Table, Button, Modal, Space, Input } from 'antd'
 import { getNeedReviewList } from '../../../../services/Achievements/competitionName'
 import ReviewRealCompetitionName from './ReviewRealCompetitionName'
 
@@ -9,25 +9,35 @@ export default class ReviewRealCompetitionNameList extends Component {
     dataSource: [],
     loading: false,
     isModalVisible: false,
+    realName: '',
     record: {}
   }
 
   async componentDidMount() {
-    this.setState({ loading: true })
-    const dataSource = await this.getData()
-    console.log(dataSource)
-    this.setState({ dataSource, loading: false })
+    this.refresh()
   }
 
-  getData = async () => {
-    const res = await getNeedReviewList()
+  refresh = async () => {
+    this.setState({ loading: true })
+
+    const res = await getNeedReviewList({fuzzyName: this.state.realName})
     if (res.result) {
-      return JSON.parse(res.data)
+      const dataSource = JSON.parse(res.data)
+      console.log(dataSource)
+      this.setState({ dataSource, loading: false })
     }
+
   }
+
+  // getData = async () => {
+  //   const res = await getNeedReviewList()
+  //   if (res.result) {
+  //     return JSON.parse(res.data)
+  //   }
+  // }
 
   checkDetail = async id => {
-    const res = await getNeedReviewList({id})
+    const res = await getNeedReviewList({ id })
     if (res.result) {
       const record = JSON.parse(res.data)
       console.log(record)
@@ -36,19 +46,26 @@ export default class ReviewRealCompetitionNameList extends Component {
         isModalVisible: true
       })
     }
-    
   }
+
+  //搜索框内容更改
+  changeValue = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  //清空搜索框
+  reset = () => {
+    this.setState({ realName: '' }, this.refresh)
+  }
+
   handleCancel = async () => {
-    const dataSource = await this.getData()
     this.setState({
-      dataSource,
       record: {},
       isModalVisible: false
-    })
+    }, this.refresh)
   }
 
   render() {
-    const { dataSource, loading, isModalVisible, record } = this.state
+    const { dataSource, loading, isModalVisible, record, realName } = this.state
     const columns = [
       {
         title: '实际名称',
@@ -89,9 +106,16 @@ export default class ReviewRealCompetitionNameList extends Component {
       },
     ]
 
+    const title =
+      <Space>
+        <Input addonBefore='比赛名称' name='realName' onPressEnter={this.refresh} value={realName} onChange={this.changeValue} />
+        <Button type='primary' onClick={this.refresh}>搜索</Button>
+        <Button type='primary' onClick={this.reset}>重置</Button>
+      </Space>
+
     return (
       <>
-        <Card>
+        <Card title={title}>
           <Table
             dataSource={dataSource}
             columns={columns}

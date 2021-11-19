@@ -49,7 +49,8 @@ export default class RealCompetitionEdit extends Component {
             competitionType: record.type,
             competitionLevel: record.comLevel,
             year: !record.batch ? null : moment(record.batch, 'YYYY'),
-            session: record.sessionNumber
+            session: record.sessionNumber,
+            reviewer: `${record.reviewer}-${record.reviewerTime}`
         }
         this.formRef.current.setFieldsValue(initialValues)
     }
@@ -190,6 +191,12 @@ export default class RealCompetitionEdit extends Component {
                     label="证明材料"
                 >
                     {record.approveAppendix && record.approveAppendix.length > 0 ? <AppendixList fileList={record.approveAppendix} bordered={true} /> : '无'}
+                </Form.Item>
+                <Form.Item
+                    label="审核人"
+                    name="reviewer"
+                >
+                    <Input readOnly/>
                 </Form.Item>
                 <Form.Item
                     label="相似名称"

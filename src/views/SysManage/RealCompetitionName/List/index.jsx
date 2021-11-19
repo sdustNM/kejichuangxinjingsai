@@ -196,7 +196,7 @@ export default class RealCompetitionManager extends Component {
                     title='修改比赛信息'
                     visible={visible}
                     onCancel={this.hideModal}
-                    //destroyOnClose={true}
+                    destroyOnClose={true}
                     footer={null}
                 >
                     <RealCompetitionEdit record={record} hideModal={this.hideModal}></RealCompetitionEdit>
