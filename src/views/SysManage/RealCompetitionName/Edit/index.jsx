@@ -43,6 +43,7 @@ export default class RealCompetitionEdit extends Component {
         const initialValues = {
             id: record.id,
             sortid: record.sortid,
+            sponsor: record.sponsor,
             realName: record.name,
             baseCompetitionName: record.baseCompetitionid,
             competitionType: record.type,
@@ -57,6 +58,7 @@ export default class RealCompetitionEdit extends Component {
         const params = {
             id: values.id,
             sortid: values.sortid,
+            sponsor: values.sponsor,
             name: values.realName,
             type: values.competitionType,   //A,B,C类
             baseCompetitionid: values.baseCompetitionName,   //固定比赛
@@ -127,6 +129,12 @@ export default class RealCompetitionEdit extends Component {
                     >
                         {baseNameList.map(item => <Option key={item.Id} value={item.Id}>{item.Name}</Option>)}
                     </Select>
+                </Form.Item>
+                <Form.Item
+                    label="主办单位"
+                    name="sponsor"
+                >
+                    <Input />
                 </Form.Item>
                 <Form.Item
                     label="竞赛类别"
