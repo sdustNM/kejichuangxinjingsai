@@ -6,6 +6,7 @@ import { getDDInfo } from '../../../../services/Achievements'
 import { reviewRealCompetition } from '../../../../services/Achievements/competitionName';
 import AppendixList from '../../AppendixList';
 
+const { TextArea } = Input
 const { Option } = Select
 
 const layout = {
@@ -46,7 +47,8 @@ export default class ReviewRealCompetitionName extends Component {
             competitionType: record.type,
             competitionLevel: record.comLevel,
             year: !record.batch ? null : moment(record.batch, 'YYYY'),
-            session: record.sessionNumber
+            session: record.sessionNumber,
+            //advice: record.advice
         }
         this.formRef.current.setFieldsValue(initialValues)
     }
@@ -68,6 +70,7 @@ export default class ReviewRealCompetitionName extends Component {
                 sessionNumber: values.session,  //届数
                 comLevel: values.competitionLevel,
                 valid, //待审核
+                advice: values.advice
             }
 
             //console.log(values)
@@ -265,6 +268,16 @@ export default class ReviewRealCompetitionName extends Component {
                             renderItem={item => <List.Item>{item}</List.Item>}
                         />) : '无'}
                 </Form.Item>
+                <Form.Item
+                    label="审核意见"
+                    name="advice"
+                >
+                    <TextArea
+                        placeholder="请填写审核意见"
+                        autoSize={{ minRows: 3, maxRows: 5 }}
+                    />
+                </Form.Item>
+
                 <Form.Item {...tailLayout} >
                     <Space>
                         <Button key="approve" type="primary" onClick={this.handleApprove}>

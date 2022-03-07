@@ -51,7 +51,7 @@ export default class AchievementList extends Component {
         if (res.result) {
             let list = []
             const data = JSON.parse(res.data)
-            //console.log(data)
+            console.log(data)
             data.list.map(item =>
                 list.push({
                     key: item.type + '_' + item.id,

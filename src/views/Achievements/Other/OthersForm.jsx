@@ -173,9 +173,11 @@ class OthersForm extends Component {
         console.log(params)
         const res = await setOthersByID(params)
         if (res.result) {
+            this.setState({ clickDisabled: false })
             message.success('操作成功')
             this.back()
         }
+
         //this.setState({ clickDisabled: false })
     }
 
@@ -605,7 +607,7 @@ class OthersForm extends Component {
                     <Form.Item {...tailLayout}>
                         {this.state.isStudent ? (<Space>
                             <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
-                            <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>
+                            {/* <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button> */}
                             <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
                         </Space>) : (<Space>
                             <Button type="primary" onClick={this.adminSubmit} disabled={clickDisabled}>保存</Button>

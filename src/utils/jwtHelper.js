@@ -7,6 +7,7 @@ export const getJwt = () => {
   if(!myjwt || myjwt === "null" ) return null
   return 'bearer ' + sessionStorage.getItem('myjwt');
 };
+
 export const getJwtUser = () => {
 
     let jwtInfo = sessionStorage.getItem('myjwt');
@@ -61,7 +62,6 @@ export const getJwtUser = () => {
       return null;
     }
 };
-
 
 export const removeJwt = () => {
   sessionStorage.clear();

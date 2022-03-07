@@ -11,6 +11,7 @@ const layout = {
 const tailLayout = {
     wrapperCol: { offset: 8, span: 16 }
 }
+const { TextArea } = Input
 const { Option } = Select
 
 export default class RealCompetitionEdit extends Component {
@@ -50,7 +51,8 @@ export default class RealCompetitionEdit extends Component {
             competitionLevel: record.comLevel,
             year: !record.batch ? null : moment(record.batch, 'YYYY'),
             session: record.sessionNumber,
-            reviewer: `${record.reviewer}-${record.reviewerTime}`
+            reviewer: `${record.reviewer}-${record.reviewerTime}`,
+            advice: record.advice
         }
         this.formRef.current.setFieldsValue(initialValues)
     }
@@ -134,6 +136,12 @@ export default class RealCompetitionEdit extends Component {
                 <Form.Item
                     label="主办单位"
                     name="sponsor"
+                    rules={[
+                        {
+                            required: true,
+                            message: '主办单位不能为空!',
+                        },
+                    ]}
                 >
                     <Input />
                 </Form.Item>
@@ -196,7 +204,13 @@ export default class RealCompetitionEdit extends Component {
                     label="审核人"
                     name="reviewer"
                 >
-                    <Input readOnly/>
+                    <Input readOnly />
+                </Form.Item>
+                <Form.Item
+                    label="审核意见"
+                    name="advice"
+                >
+                    <TextArea autoSize={{ minRows: 3, maxRows: 5 }} readOnly />
                 </Form.Item>
                 <Form.Item
                     label="相似名称"

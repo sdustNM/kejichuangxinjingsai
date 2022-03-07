@@ -376,11 +376,11 @@ class CompetitionForm extends Component {
                             </Select>
                         </Form.Item>
                         {noCompetitionName ?
-                            // <Form.Item {...tailLayout}>
-                            //     <Text type="warning">若在下拉列表中找不到实际竞赛名称,请点击此处</Text>
-                            //     <Button type="link" onClick={this.applyCompetitionName} >申请实际竞赛名称</Button>
-                            // </Form.Item>
-                            ""
+                            <Form.Item {...tailLayout}>
+                                <Text type="warning">若在下拉列表中找不到实际竞赛名称,请点击此处</Text>
+                                <Button type="link" onClick={this.applyCompetitionName} >申请实际竞赛名称</Button>
+                            </Form.Item>
+                            //""
                             :
                             <>
                                 <Form.Item label="主办单位">
@@ -765,7 +765,7 @@ class CompetitionForm extends Component {
                             {this.state.isStudent ? (
                                 <Space>
                                     <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
-                                    <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>
+                                    {/* <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button> */}
                                     <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
                                 </Space>) : (<Space>
                                     <Button type="primary" onClick={this.adminSubmit} disabled={clickDisabled}>保存</Button>
