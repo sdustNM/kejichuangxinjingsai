@@ -8,6 +8,7 @@ import OthersInfo from './Other/OthersInfo';
 import { getArticleByID, getCompetitionByID, getPatentByID, getOthersByID } from '../../services/Achievements'
 import { isAdminister, isSuperAdminister, isStudent } from '../../utils/auth';
 import { setDepartmentReview, setSchoolReview } from '../../services/Achievements'
+import { IsValid } from '../../utils/config';
 
 const { TextArea } = Input
 const stateList = ['拒绝', '修改', '学院审核中', '学校审核中']
@@ -202,22 +203,24 @@ export default class AchievementInfo extends Component {
             </Space>
         ) :
             (
-                <Space size='large'>
-                    <Button type='primary' onClick={() => this.showModal(1)}>审核通过</Button>
-                    <Button type='primary' onClick={() => this.showModal(0)}>退回本人修改</Button>
-                    <Popconfirm
-                        title="终止后的项目，将不能再次修改提交，请确认！"
-                        onConfirm={() => this.showModal(-1)}
-                        okText="确认"
-                        cancelText="取消"
-                    >
-                        <Button type='danger'>终止</Button>
-                    </Popconfirm>
-                </Space>
+                 <Space size='large'>
+                {IsValid && <Button type='primary' onClick={() => this.showModal(1)}>审核通过</Button>}
+                <Button type='primary' onClick={() => this.showModal(0)}>退回本人修改</Button>
+                <Popconfirm
+                    title="终止后的项目，将不能再次修改提交，请确认！"
+                    onConfirm={() => this.showModal(-1)}
+                    okText="确认"
+                    cancelText="取消"
+                >
+                    <Button type='danger'>终止</Button>
+                </Popconfirm>
+            </Space>
             )
         const extra = (
             <Space>
-                {isStudent() || <Button type='link' onClick={this.handleEdit}><EditOutlined />修改</Button>}
+                {IsValid ? (isStudent() || <Button type='link' onClick={this.handleEdit}><EditOutlined />修改</Button>) 
+                :(isSuperAdminister() && <Button type='link' onClick={this.handleEdit}><EditOutlined />修改</Button>)
+                }
                 <Button onClick={this.backToList}><DoubleLeftOutlined />返回</Button>
             </Space>
         )

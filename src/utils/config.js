@@ -1,3 +1,4 @@
+export const IsValid = false;
 global.constants = {
     website:'http://www.baidu.com/',
     name:'百度',
@@ -25,3 +26,4 @@ global.constants = {
     ]
 
 };
+

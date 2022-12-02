@@ -9,6 +9,7 @@ import { setCompetitionByID, getCompetitionByID, getDDInfo, getRealCompetitionNa
 import SelectAllManComplete from '../../../components/SelectAllManComplete';
 import CompetitionNameForm from './RealName/CompetitionNameForm';
 ///import { template } from '@babel/core';
+import { IsValid } from '../../../utils/config';
 
 const { Option } = Select
 const { TextArea } = Input
@@ -765,7 +766,7 @@ class CompetitionForm extends Component {
                             {this.state.isStudent ? (
                                 <Space>
                                     <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
-                                    {/* <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button> */}
+                                    {IsValid && <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>}
                                     <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
                                 </Space>) : (<Space>
                                     <Button type="primary" onClick={this.adminSubmit} disabled={clickDisabled}>保存</Button>

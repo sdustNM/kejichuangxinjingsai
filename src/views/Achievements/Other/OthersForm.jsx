@@ -7,7 +7,7 @@ import SelectAllManComplete from '../../../components/SelectAllManComplete';
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
 import { setOthersByID, getOthersByID } from '../../../services/Achievements'
-
+import { IsValid } from '../../../utils/config';
 const { TextArea } = Input
 const { Option } = Select
 
@@ -607,7 +607,7 @@ class OthersForm extends Component {
                     <Form.Item {...tailLayout}>
                         {this.state.isStudent ? (<Space>
                             <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
-                            {/* <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button> */}
+                            {IsValid && <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button> }
                             <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
                         </Space>) : (<Space>
                             <Button type="primary" onClick={this.adminSubmit} disabled={clickDisabled}>保存</Button>
