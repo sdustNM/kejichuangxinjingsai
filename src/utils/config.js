@@ -1,4 +1,4 @@
-export const IsValid = false;
+export const IsValid = true;
 global.constants = {
     website:'http://www.baidu.com/',
     name:'百度',
