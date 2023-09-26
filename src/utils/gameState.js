@@ -1,0 +1,1 @@
+export const isGameStart = () => sessionStorage.getItem('gameState') == '1' ? true : false;

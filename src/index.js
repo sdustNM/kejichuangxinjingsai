@@ -48,7 +48,7 @@ import {getJwt} from './utils/jwtHelper'
 // })
 
 
- 
+ let global_gameState = true;
 
 ReactDOM.render(
     <Provider store={store}>

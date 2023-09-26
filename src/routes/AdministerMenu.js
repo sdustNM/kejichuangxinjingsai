@@ -12,32 +12,32 @@ import ProjectManager from '../views/SysManage/ProjectManager';
 
 
 export const administerMenus = [
-  // { //校级竞赛
-  //   component: null,
-  //   path: 'competitionsXiao',
-  //   isShow: true,
-  //   title: '校级竞赛',
-  //   icon: <HomeOutlined />,
-  //   yuanManager: true,
-  //   sub: [{
-  //     isShow: true,
-  //     title: '比赛列表',
-  //     path: '/administer/competitions/xiao',
-  //     icon: <SmileOutlined />,
-  //     yuanManager: true,
-  //   }, {
-  //     path: '/administer/recommendedProjects',
-  //     isShow: true,
-  //     title: '推荐作品',
-  //     icon: <SmileOutlined />
-  //   }, {
-  //     path: '/administer/projects',
-  //     isShow: true,
-  //     title: '全部作品',
-  //     icon: <SmileOutlined />,
-  //     yuanManager: true,
-  //   },]
-  // },
+  { //校级竞赛
+    component: null,
+    path: 'competitionsXiao',
+    isShow: true,
+    title: '校级竞赛',
+    icon: <HomeOutlined />,
+    yuanManager: true,
+    sub: [{
+      isShow: true,
+      title: '比赛列表',
+      path: '/administer/competitions/xiao',
+      icon: <SmileOutlined />,
+      yuanManager: true,
+    }, {
+      path: '/administer/recommendedProjects',
+      isShow: true,
+      title: '推荐作品',
+      icon: <SmileOutlined />
+    }, {
+      path: '/administer/projects',
+      isShow: true,
+      title: '全部作品',
+      icon: <SmileOutlined />,
+      yuanManager: true,
+    },]
+  },
   {   //成果申报
     component: null,
     path: '/administer/archievements/',
@@ -111,7 +111,13 @@ export const administerMenus = [
     title: '系统管理',
     icon: <HomeOutlined />,
     yuanManager: true,
-    sub: [{
+    sub: [
+      {
+        isShow: true,
+        title: '成果提交开关',
+        path: '/administer/state',
+        icon: <SmileOutlined />,
+      },{
       isShow: true,
       title: '竞赛名称审核',
       path: '/administer/reviewCompetitionName',
@@ -157,47 +163,47 @@ export const administerMenus = [
       path: '/administer/DDRealCompetitionList',
       icon: <SmileOutlined />,
     }]
-  }
-  // {
-  //   component: null,
-  //   path: 'competitionsYuan',
-  //   isShow: true,
-  //   title: '学院竞赛',
-  //   icon: <HomeOutlined />,
-  //   yuanManager: true,
-  //   sub: [{
-  //     isShow: true,
-  //     title: '比赛列表',
-  //     path: '/administer/competitions/yuan',
-  //     icon: <SmileOutlined />,
-  //     yuanManager: true,
-  //   }, {
-  //     path: '/administer/projects',
-  //     isShow: true,
-  //     title: '参赛作品',
-  //     icon: <SmileOutlined />,
-  //     yuanManager: true,
-  //   }]
-  // },
-  // {
-  //   component: null,
-  //   path: 'Announcemnet',
-  //   isShow: true,
-  //   title: '公告发布',
-  //   icon: <HomeOutlined />,
-  //   sub: [{
-  //     isShow: true,
-  //     title: '比赛通知',
-  //     path: '/administer/AnnouncementList',
-  //     icon: <SmileOutlined />
-  //   },
-  //     //{
-  //     //   path: '/administer/AnnouncementList1',
-  //     //   isShow: true,
-  //     //   title: '系统公告',
-  //     //   icon: <SmileOutlined />
-  //     //}
-  //   ]
-  // },
+  },
+  {
+    component: null,
+    path: 'competitionsYuan',
+    isShow: true,
+    title: '学院竞赛',
+    icon: <HomeOutlined />,
+    yuanManager: true,
+    sub: [{
+      isShow: true,
+      title: '比赛列表',
+      path: '/administer/competitions/yuan',
+      icon: <SmileOutlined />,
+      yuanManager: true,
+    }, {
+      path: '/administer/projects',
+      isShow: true,
+      title: '参赛作品',
+      icon: <SmileOutlined />,
+      yuanManager: true,
+    }]
+  },
+  {
+    component: null,
+    path: 'Announcemnet',
+    isShow: true,
+    title: '公告发布',
+    icon: <HomeOutlined />,
+    sub: [{
+      isShow: true,
+      title: '比赛通知',
+      path: '/administer/AnnouncementList',
+      icon: <SmileOutlined />
+    },
+      //{
+      //   path: '/administer/AnnouncementList1',
+      //   isShow: true,
+      //   title: '系统公告',
+      //   icon: <SmileOutlined />
+      //}
+    ]
+  },
 ]
 

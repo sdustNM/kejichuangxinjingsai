@@ -13,18 +13,18 @@ import {
 
 
 export const studentMenus = [
-  // {
-  //   path: '/student/competitionListXiao',
-  //   isShow: true,
-  //   title: '校级竞赛',
-  //   icon: <ProfileOutlined />,
-  // },
-  // {
-  //   path: '/student/projectList',
-  //   isShow: true,
-  //   title: '我的作品',
-  //   icon: <SmileOutlined />
-  // },
+  {
+    path: '/student/competitionListXiao',
+    isShow: true,
+    title: '校级竞赛',
+    icon: <ProfileOutlined />,
+  },
+  {
+    path: '/student/projectList',
+    isShow: true,
+    title: '我的作品',
+    icon: <SmileOutlined />
+  },
   {
     path: '/student/achievements',
     isShow: true,

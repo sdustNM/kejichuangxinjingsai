@@ -7,7 +7,9 @@ import SelectManComplete from '../../../components/SelectAllManComplete'
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
 import { setArticleByID, getArticleByID, getArticleDDInfo } from '../../../services/Achievements'
-import { IsValid } from '../../../utils/config';
+import { isGameStart } from '../../../utils/gameState';
+const IsValid = isGameStart();
+
 const { Option } = Select
 const { TextArea } = Input
 
@@ -44,7 +46,8 @@ class ThesisForm extends Component {
             rewardList: null,
             clickDisabled: false,
             state: 0,
-            isStudent: isStudent()
+            isStudent: isStudent(),
+            IsValid: isGameStart()
         }
         this.formRef = React.createRef()
         this.collectionList = []
@@ -224,7 +227,7 @@ class ThesisForm extends Component {
         //console.log(this.formRef)
         //console.log(this.formRef && this.formRef.current && this.formRef.current.getFieldInstance('article'))
         const { id, coverList, contentsList, articleList, yuanReview, xiaoReview, stateBz,
-            isIndex, indexList, rewardList, clickDisabled } = this.state
+            isIndex, indexList, rewardList, clickDisabled, IsValid } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>
@@ -505,7 +508,7 @@ class ThesisForm extends Component {
                     <Form.Item {...tailLayout}>
                         {this.state.isStudent ? (<Space>
                             <Button type="primary" onClick={this.submit} disabled={clickDisabled}>保存</Button>
-                            {IsValid && <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button> }
+                            {IsValid && <Button type="primary" htmlType="submit" disabled={clickDisabled}>保存并提交</Button>}
                             <Button type="primary" onClick={this.back} disabled={clickDisabled}>取消</Button>
                         </Space>) : (<Space>
                             <Button type="primary" onClick={this.adminSubmit} disabled={clickDisabled}>保存</Button>

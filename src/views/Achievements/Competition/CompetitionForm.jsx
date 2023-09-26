@@ -9,7 +9,7 @@ import { setCompetitionByID, getCompetitionByID, getDDInfo, getRealCompetitionNa
 import SelectAllManComplete from '../../../components/SelectAllManComplete';
 import CompetitionNameForm from './RealName/CompetitionNameForm';
 ///import { template } from '@babel/core';
-import { IsValid } from '../../../utils/config';
+import { isGameStart } from '../../../utils/gameState';
 
 const { Option } = Select
 const { TextArea } = Input
@@ -45,7 +45,8 @@ class CompetitionForm extends Component {
             noticeList: null,
             clickDisabled: false,
             isStudent: isStudent(),
-            isModalVisible: false //实际比赛名称申请模态框显示状态
+            isModalVisible: false, //实际比赛名称申请模态框显示状态
+            IsValid : isGameStart()
         }
         this.formRef = React.createRef();
     }
@@ -317,10 +318,12 @@ class CompetitionForm extends Component {
     }
 
     render() {
+        
+        //console.log(IsValid, typeof(IsValid))
         const { id, isModalVisible, isDXJ, competitionLevel, competitionType, competitionSponsors,
             noCompetitionName, baseCompetitionNameList, realCompetitionNameList,
             competitionLevelList, competitionTypeList, rewardLevelList, competition,
-            rewardList, supportList, noticeList, clickDisabled } = this.state
+            rewardList, supportList, noticeList, clickDisabled, IsValid } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>

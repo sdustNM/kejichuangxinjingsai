@@ -1,4 +1,5 @@
 import { getJwtUser } from "./jwtHelper"
+import { getGameState } from "../services/gameState"
 
 export const getRole = () => {
   return getJwtUser() === null ? "" : getJwtUser().role;
@@ -52,13 +53,23 @@ export const getPage = (jsonwebtoken, history) => {
   sessionStorage.setItem('myjwt', jsonwebtoken);
   //console.log("write jwtInfo:",jsonwebtoken);
   //console.log(getJwtUser(), getRoleName())
-    if (isStudent()) {
-      history.push('/student')
-    } else if (isExpert()) {
-      history.push('/Expert')
-    } else {
-      history.push('/administer')
-    }
+  setGameState()
+  
+  if (isStudent()) {
+    history.push('/student')
+  } else if (isExpert()) {
+    history.push('/Expert')
+  } else {
+    history.push('/administer')
+  }
 
 
+}
+
+const setGameState = async () => {
+  const res = await getGameState()
+  if (res.result) {
+    let data = JSON.parse(res.data)
+    sessionStorage.setItem('gameState', data)
+  }
 }

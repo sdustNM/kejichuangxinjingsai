@@ -7,7 +7,8 @@ import SelectManComplete from '../../../components/SelectAllManComplete'
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
 import { setPatentByID, getPatentByID } from '../../../services/Achievements'
-import { IsValid } from '../../../utils/config';
+import { isGameStart } from '../../../utils/gameState';
+
 const { TextArea } = Input
 
 const layout = {
@@ -38,6 +39,7 @@ class PatentForm extends Component {
             fileList: null,
             stateBz: '',
             clickDisabled: false,
+            IsValid : isGameStart(),
             state: 0
         }
         this.formRef = React.createRef();
@@ -182,7 +184,7 @@ class PatentForm extends Component {
     }
 
     render() {
-        const { id, type, fileList, yuanReview, xiaoReview, stateBz, clickDisabled } = this.state
+        const { id, type, fileList, yuanReview, xiaoReview, stateBz, clickDisabled, IsValid } = this.state
         const title = (
             <Space direction="vertical">
                 <h2>

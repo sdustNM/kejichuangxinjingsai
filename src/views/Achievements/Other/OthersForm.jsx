@@ -7,7 +7,8 @@ import SelectAllManComplete from '../../../components/SelectAllManComplete';
 import AchievementAppendixUpload from '../AchievementAppendixUpload'
 
 import { setOthersByID, getOthersByID } from '../../../services/Achievements'
-import { IsValid } from '../../../utils/config';
+import { isGameStart } from '../../../utils/gameState';
+
 const { TextArea } = Input
 const { Option } = Select
 
@@ -32,7 +33,8 @@ class OthersForm extends Component {
         moreList: null,
         clickDisabled: false,
         state: 0,
-        isStudent: isStudent()
+        isStudent: isStudent(),
+        IsValid : isGameStart()
     }
 
     async componentDidMount() {
@@ -203,7 +205,7 @@ class OthersForm extends Component {
 
     render() {
         const { id, item, noticeList, rewardList, supportList, moreList,
-            yuanReview, xiaoReview, stateBz, clickDisabled } = this.state
+            yuanReview, xiaoReview, stateBz, clickDisabled,IsValid } = this.state
         console.log(item)
         const title = (
             <Space direction="vertical">

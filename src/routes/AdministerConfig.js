@@ -3,7 +3,7 @@ import CompetitionEdit from '../views/Competition/CompetitionEdit'
 import ProjectDetail from '../views/SysManage/ProjectDetail'
 import DepartmentManager from '../views/SysManage/Department/DepartmentManager';
 import StudentList from '../views/SysManage/StudentList';
-//import CompetitionManagerXiao from '../views/Competition/CompetitionManagerXiao'
+import CompetitionManagerXiao from '../views/Competition/CompetitionManagerXiao'
 import ExpertManagerList from '../views/SysManage/Expert/ExpertManagerList';
 import ExpertManagerEdit from '../views/SysManage/Expert/ExpertManagerEdit';
 import DepartmentAdministerList from '../views/SysManage/DepartmentAdminister/DepartmentAdministerList'
@@ -22,26 +22,27 @@ import ReviewRealCompetitionNameList from '../views/Achievements/Competition/Rea
 import BaseCompetitionManager from '../views/SysManage/BaseCompetitionName/List';
 import RealCompetitionManager from '../views/SysManage/RealCompetitionName/List';
 import RepeatCompetitionManager from '../views/Achievements/Competition/CheckRepeat/List';
+import SetGameState from '../views/SetGameState';
 //import BatchManager from '../views/BatchManage';
 
 export const administerConfig = [
 
-  // {
-  //   path: '/administer/competitions/xiao',
-  //   component: CompetitionManagerXiao,
-  //   isShow: true,
-  //   title: '校级竞赛',
-  //   exact: true
-  // }, 
+  {
+    path: '/administer/competitions/xiao',
+    component: CompetitionManagerXiao,
+    isShow: true,
+    title: '校级竞赛',
+    exact: true
+  }, 
   {
     path: '/administer/',
     component: AchievementList,
     exact: true
   }, 
-  // {
-  //   path: '/administer/competitionEdit',
-  //   component: CompetitionEdit
-  // }, 
+  {
+    path: '/administer/competitionEdit',
+    component: CompetitionEdit
+  }, 
   {
     path: '/administer/recommendedProjects',
     component: ProjectList,
@@ -151,6 +152,11 @@ export const administerConfig = [
   {
     path: '/administer/filedAchievements',
     component: FiledAchieveList,
+    //exact: true,
+  },
+  {
+    path: '/administer/state',
+    component: SetGameState,
     //exact: true,
   },
 
