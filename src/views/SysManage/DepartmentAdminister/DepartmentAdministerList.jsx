@@ -109,7 +109,7 @@ class DepartmentAdministerList extends React.Component {
           pagination={{
             pageSize: pageSize,
             pageSizeOptions: ['5', '10', '20', '50'],
-            showSizeChanger: true,
+            //showSizeChanger: true,
             showQuickJumper: true,
             total: _total,
             showTotal: (total, range) => `第${range[0]}-${range[1]}条 共${total}条`,
